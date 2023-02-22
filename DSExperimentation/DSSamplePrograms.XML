@@ -1,0 +1,103 @@
+﻿<Program>
+	<GlobalVarDecs />
+	<Functions>
+		<DSFunction Identifier="Main" ReturnType="NUMBER">
+			<Parameters>
+				<Parameter Identifier="_CLAs" DataType="DSArray`1" />
+			</Parameters>
+			<Contents>
+				<VariableDeclaration DataType="STRING" Identifier="_Key">
+					<AssignmentExpr>
+						<FunctionCallExpr Identifier="Input">
+							<LiteralExpr LiteralType="STRING" LiteralValue="&quot;Argument Key:&quot;" />
+						</FunctionCallExpr>
+					</AssignmentExpr>
+				</VariableDeclaration>
+				<VariableDeclaration DataType="STRING" Identifier="_Value">
+					<AssignmentExpr>
+						<FunctionCallExpr Identifier="GetCLAValueFromKey">
+							<VariableExpr Identifier="_Key" />
+						</FunctionCallExpr>
+					</AssignmentExpr>
+				</VariableDeclaration>
+				<FunctionCall TargetFunction_Identifier="Output">
+					<Arguments>
+						<OperatorExpr OperatorChar="&amp;">
+							<LiteralExpr LiteralType="STRING" LiteralValue="&quot;Value: &quot;" />
+							<VariableExpr Identifier="_Value" />
+						</OperatorExpr>
+					</Arguments>
+				</FunctionCall>
+				<ReturnToCaller>
+					<ReturnValueExpr>
+						<LiteralExpr LiteralType="NUMBER" LiteralValue="0" />
+					</ReturnValueExpr>
+				</ReturnToCaller>
+			</Contents>
+		</DSFunction>
+		<DSFunction Identifier="GetCLAValueFromKey" ReturnType="STRING">
+			<Parameters>
+				<Parameter Identifier="_CLAs" DataType="DSArray`1" />
+				<Parameter Identifier="_Key" DataType="DSString" />
+			</Parameters>
+			<Contents>
+				<VariableDeclaration DataType="NUMBER" Identifier="_CurrentCLAIndex">
+					<AssignmentExpr>
+						<LiteralExpr LiteralType="NUMBER" LiteralValue="0" />
+					</AssignmentExpr>
+				</VariableDeclaration>
+				<WhileStatement>
+					<ConditionExpr>
+						<FunctionCallExpr Identifier="LessThan">
+							<VariableExpr Identifier="_CurrentCLAIndex" />
+							<OperatorExpr OperatorChar="+">
+								<FunctionCallExpr Identifier="Array_MaxIndex">
+									<VariableExpr Identifier="_CLAs" />
+								</FunctionCallExpr>
+								<LiteralExpr LiteralType="NUMBER" LiteralValue="1" />
+							</OperatorExpr>
+						</FunctionCallExpr>
+					</ConditionExpr>
+					<Contents>
+						<IfStatement>
+							<ConditionExpr>
+								<OperatorExpr OperatorChar="=">
+									<FunctionCallExpr Identifier="Array_At">
+										<VariableExpr Identifier="_CLAs" />
+										<VariableExpr Identifier="_CurrentCLAIndex" />
+									</FunctionCallExpr>
+									<OperatorExpr OperatorChar="&amp;">
+										<LiteralExpr LiteralType="STRING" LiteralValue="&quot;-&quot;" />
+										<VariableExpr Identifier="_Key" />
+									</OperatorExpr>
+								</OperatorExpr>
+							</ConditionExpr>
+							<Contents>
+								<ReturnToCaller>
+									<ReturnValueExpr>
+										<FunctionCallExpr Identifier="StringArray_At">
+											<VariableExpr Identifier="_CLAs" />
+											<OperatorExpr OperatorChar="+">
+												<VariableExpr Identifier="_CurrentCLAIndex" />
+												<LiteralExpr LiteralType="NUMBER" LiteralValue="1" />
+											</OperatorExpr>
+										</FunctionCallExpr>
+									</ReturnValueExpr>
+								</ReturnToCaller>
+							</Contents>
+							<ElseContents />
+						</IfStatement>
+						<VariableAssignment TargetVariable_Identifier="CurrentCLAIndex">
+							<AssignmentExpr>
+								<OperatorExpr OperatorChar="+">
+									<VariableExpr Identifier="CurrentCLAIndex" />
+									<LiteralExpr LiteralType="NUMBER" LiteralValue="1" />
+								</OperatorExpr>
+							</AssignmentExpr>
+						</VariableAssignment>
+					</Contents>
+				</WhileStatement>
+			</Contents>
+		</DSFunction>
+	</Functions>
+</Program>

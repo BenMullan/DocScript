@@ -1,0 +1,88 @@
+﻿<ExampleAPIResponses>
+
+	
+	<!-- New APIResponse Format 20122022 -->
+	<APIResponse>
+		<DataAboutResponse HTTPStatusCode="200/OK" ErrorMessage="NA" LongPollingTimedOut="False" />
+		<ResponseContent>
+			<ExprTreeRoot>
+				<OperatorExpr OperatorChar="-">
+					<LiteralExpr LiteralType="NUMBER" LiteralValue="77" />
+					<LiteralExpr LiteralType="NUMBER" LiteralValue="2" />
+				</OperatorExpr>
+			</ExprTreeRoot>
+		</ResponseContent>
+	</APIResponse>
+	
+	
+	
+	
+	
+	<!-- /API/Interactive/?Action=PrepareSession&ProgramName=HelloWorld.DS -->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent ESID="HELLO_AH42"/>
+	</APIResponse>
+	
+	<!-- /API/Interactive/?Action=PrepareSession&ProgramName=HelloWorld.DS -->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent ESID="HELLO_AH42"/>
+	</APIResponse>
+
+	<!-- /API/Interactive/?Action=GetSessionState&ESID=HELLO_AH42-->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent ESState="Ready"/>
+	</APIResponse>
+
+	<!-- /API/Interactive/?Action=AwaitSessionInitiation&ESID=HELLO_AH42-->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent RequestTimedOut="False" ESHasBegun="True"/>
+	</APIResponse>
+
+	<!-- /API/Interactive/?Action=InitiateSession&ESID=HELLO_AH42-->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent/>
+	</APIResponse>
+	
+	<!-- /API/Interactive/?Action=ListenForESEvents&ESID=HELLO_AH42&LogEventsCount=0&OutputEventsCount=0&InputEventsCount=0&CEPCount=0 -->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent ESState="Running" InputIsRequired="True" InputPrompt="Enter your Age:" InputEventID="2">
+			<MissingOutputEvents>
+				<OutputEvent TimeSubmitted="1:32:49 12-08-2022" Message="Hello, World!"/>
+			</MissingOutputEvents>
+			<MissingLogEvents>
+				<LogEvent TimeSubmitted="1:32:49 12-08-2022" Severity="Information" Category="Parsing" Message="Began Parsing..."/>
+			</MissingLogEvents>
+			<MissingInputEvents> <!-- These are the RespondedTo InputEvents ONLY... -->
+				<InputEvent TimeSubmitted="1:32:49 12-08-2022" InputPrompt="Enter your Name:" RespondedToTime="1:32:49 12-08-2022" InputResponse="Ben"/>
+			</MissingInputEvents>
+			<MissingCEPs>
+				<ClientExecutionPackage TimeSubmitted="1:32:49 12-08-2022" JavaScriptToRun="window.alert('From a CEP!');"/>
+			</MissingCEPs>
+		</ResponseContent>
+	</APIResponse>
+
+	<!-- /API/Interactive/?Action=ProvideInputResponse&ESID=HELLO_AH42&InputEventID=1&InputResponse=Ben -->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent ResponseWasAccepted="True"/>
+	</APIResponse>
+
+	<!-- /API/Interactive/?Action=ListenForInputInterrupts&ESID=HELLO_AH42&InputID=1 -->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent InputHasBeenRespondedTo="True"/>
+	</APIResponse>
+
+	<!-- /API/Interactive/?Action=SubmitCEP&ESID=HELLO_AH42&JavascriptToRun=alert(); -->
+	<APIResponse>
+		<DataAboutResponse WasValidRequest="True" UnhandledExceptionOccured="False" ErrorMessage="NA" LongPollingTimedOut="False"/>
+		<ResponseContent/>
+	</APIResponse>
+	
+</ExampleAPIResponses>

@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{C006B85E-5269-4137-8979-8AC99F19158A}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DocScript</RootNamespace>
+    <AssemblyName>DSIDE</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <MyType>Custom</MyType>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <IncrementalBuild>true</IncrementalBuild>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DSIDE.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <IncrementalBuild>false</IncrementalBuild>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DSIDE.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DSIDE.ICO</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>DocScript.Signing.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=4.3.1.9429, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\RibbonControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="Application.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="CLAManagment.VB" />
+    <Compile Include="DSIntelliSenseEntry.VB" />
+    <Compile Include="PredefinedSnippets.VB" />
+    <Compile Include="UtilityForms\BIFExplorerWindow.Designer.VB">
+      <DependentUpon>BIFExplorerWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\BIFExplorerWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityForms\ExeResExplorerWindow.Designer.VB">
+      <DependentUpon>ExeResExplorerWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\ExeResExplorerWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityForms\HelpWindow.Designer.VB">
+      <DependentUpon>HelpWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\HelpWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityForms\PictorialHelpWindow.Designer.VB">
+      <DependentUpon>PictorialHelpWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\PictorialHelpWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityForms\ProgramTreeViewer.Designer.vb">
+      <DependentUpon>ProgramTreeViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\ProgramTreeViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Application.xaml.vb">
+      <DependentUpon>Application.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UtilityForms\DSAboutBox.Designer.VB">
+      <DependentUpon>DSAboutBox.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\DSAboutBox.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.vb">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="DocScript" />
+    <Import Include="DocScript.CompilerExtentions" />
+    <Import Include="DocScript.Exceptions" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows" />
+    <Import Include="System.Windows.Controls" />
+    <Import Include="System.Windows.Data" />
+    <Import Include="System.Windows.Documents" />
+    <Import Include="System.Windows.Input" />
+    <Import Include="System.Windows.Shapes" />
+    <Import Include="System.Windows.Media" />
+    <Import Include="System.Windows.Media.Imaging" />
+    <Import Include="System.Windows.Navigation" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWpfExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.WPF.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="UtilityForms\BIFExplorerWindow.resx">
+      <DependentUpon>BIFExplorerWindow.VB</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\DSAboutBox.resx">
+      <DependentUpon>DSAboutBox.VB</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\ExeResExplorerWindow.resx">
+      <DependentUpon>ExeResExplorerWindow.VB</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\HelpWindow.resx">
+      <DependentUpon>HelpWindow.VB</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\PictorialHelpWindow.resx">
+      <DependentUpon>PictorialHelpWindow.VB</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\ProgramTreeViewer.resx">
+      <DependentUpon>ProgramTreeViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="DocScript.Signing.snk" />
+    <None Include="DocScript_SyntaxHighlighting.XSHD" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DSLibrary\DSLibrary.vbproj">
+      <Project>{E33A3AB7-446E-4B3D-BC56-DADC5EE97A99}</Project>
+      <Name>DSLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="DSIDESplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Run.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Parse.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Construct.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Execute.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Open.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ApplySyntaxHighlighting.PNG" />
+    <Resource Include="Images\Copy.PNG" />
+    <Resource Include="Images\Cut.PNG" />
+    <Resource Include="Images\InsertSnippet.PNG" />
+    <Resource Include="Images\New.PNG" />
+    <Resource Include="Images\Paste.PNG" />
+    <Resource Include="Images\Save.PNG" />
+    <Resource Include="Images\SaveAs.PNG" />
+    <Resource Include="Images\SymbolTables.PNG" />
+    <Resource Include="Images\ZoomIn.PNG" />
+    <Resource Include="Images\ZoomOut.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HereArror.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\About.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ProgramTree.ICO" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSExpr.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Undo.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Back.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Exit.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Home.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rotate.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Info32.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FullScreen.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UndoFullScreen.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DSIDE.ICO" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Write.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EditRedo.PNG" />
+    <Resource Include="Images\EditUndo.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BuiltInFunction.PNG" />
+    <Resource Include="Images\DataType.PNG" />
+    <Resource Include="Images\Keyword.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Help.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSFunction.PNG" />
+    <Resource Include="Images\Expression.PNG" />
+    <Resource Include="Images\FunctionCall.PNG" />
+    <Resource Include="Images\IfStatement.PNG" />
+    <Resource Include="Images\LoopStatement.PNG" />
+    <Resource Include="Images\ReturnToCaller.PNG" />
+    <Resource Include="Images\VariableAssignment.PNG" />
+    <Resource Include="Images\VariableDeclaration.PNG" />
+    <Resource Include="Images\WhileStatement.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".DS">
+      <Visible>False</Visible>
+      <Description>DocScript Source File</Description>
+      <Progid>DSIDE.EXE</Progid>
+      <DefaultIcon>DSIDE.ICO</DefaultIcon>
+    </FileAssociation>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSCLI.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Find.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\StartPictorialHelp.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\Operators.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\OperatorsInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\PossibleLineTypes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\ReservedChars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\TokenColours.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\_TitleSlide.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\DSArchitecture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\DSBinaries.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\DSInterpretation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\DS-TC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\DSTypeCoercion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\InstructionTypes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UtilityForms\PictorialHelp_Images\Keywords.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

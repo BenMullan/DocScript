@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{E33A3AB7-446E-4B3D-BC56-DADC5EE97A99}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DocScript</RootNamespace>
+    <AssemblyName>DocScript.Library</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DocScript.Library.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DocScript.Library.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Resources\DocScript.Signing.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="DocScript.CompilerExtentions" />
+    <Import Include="DocScript.Exceptions" />
+    <Import Include="DocScript.Logging" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DS.CompilerExtentions.VB" />
+    <Compile Include="DS.Exceptions.VB" />
+    <Compile Include="Language\DS.L.Constants.VB" />
+    <Compile Include="Language\Expressions\DS.L.Expressions.ExprUtilities.VB" />
+    <Compile Include="Language\Expressions\DS.L.Expressions.Operators.OperatorUtilities.VB" />
+    <Compile Include="Language\Expressions\DS.L.Expressions.Operators.VB" />
+    <Compile Include="Language\Expressions\DS.L.Expressions.VB" />
+    <Compile Include="Language\Instructions\DS.L.Instructions.FunctionCall.VB" />
+    <Compile Include="Language\Instructions\DS.L.Instructions.ReturnToCaller.VB" />
+    <Compile Include="Language\Instructions\DS.L.Instructions.VariableAssignment.VB" />
+    <Compile Include="Language\Instructions\DS.L.Instructions.VariableDeclaration.VB" />
+    <Compile Include="Language\Instructions\DS.L.Instructions.VB" />
+    <Compile Include="Language\Instructions\Statements\DS.L.Instructions.Statements.DSFunction.VB" />
+    <Compile Include="Language\Instructions\Statements\DS.L.Instructions.Statements.IfStatement.VB" />
+    <Compile Include="Language\Instructions\Statements\DS.L.Instructions.Statements.LoopStatement.VB" />
+    <Compile Include="Language\Instructions\Statements\DS.L.Instructions.Statements.VB" />
+    <Compile Include="Language\Instructions\Statements\DS.L.Instructions.Statements.WhileStatement.VB" />
+    <Compile Include="Language\Variables\DS.L.Variables.BasedNumberSupport.VB" />
+    <Compile Include="Language\Variables\DS.L.Variables.TypeCoercion.VB" />
+    <Compile Include="Language\Variables\DS.L.Variables.VariableUtilities.VB" />
+    <Compile Include="Language\Variables\DS.L.Variables.VB" />
+    <Compile Include="Logging\DS.Logging.LogWindow.Designer.VB">
+      <DependentUpon>DS.Logging.LogWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\DS.Logging.LogWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logging\DS.Logging.VB" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Runtime\DS.R.BuiltInFunction.VB" />
+    <Compile Include="Runtime\DS.R.Constants.VB" />
+    <Compile Include="Runtime\DS.R.ExecutionContext.VB" />
+    <Compile Include="Runtime\DS.R.Program.VB" />
+    <Compile Include="Runtime\DS.R.SymbolTable.VB" />
+    <Compile Include="Runtime\DS.R.SymbolTablesSnapshot.VB" />
+    <Compile Include="Runtime\DS.R.Token.VB" />
+    <Compile Include="Runtime\DS.R.Parser.VB" />
+    <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Debug.VB" />
+    <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Const.VB" />
+    <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.DS.VB" />
+    <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.File.VB" />
+    <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Maths.VB" />
+    <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.System.VB" />
+    <Compile Include="Runtime\SymbolTableExplorerWindow.Designer.VB">
+      <DependentUpon>SymbolTableExplorerWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="Runtime\SymbolTableExplorerWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\DS.Utilities.SQLQueryRunner.VB" />
+    <Compile Include="_DebugResources.VB" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Logging\DS.Logging.LogWindow.resx">
+      <DependentUpon>DS.Logging.LogWindow.VB</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Runtime\SymbolTableExplorerWindow.resx">
+      <DependentUpon>SymbolTableExplorerWindow.VB</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DocScript.Signing.snk" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Compile Include="Runtime\DS.R.TokenPatternValidators.VB" />
+    <Compile Include="Utilities\CLAManager\DS.Utilities.CLAManager.VB" />
+    <Compile Include="Utilities\DS.Utilities.KVPSerialisation.VB" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utilities\CLAManager\About.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

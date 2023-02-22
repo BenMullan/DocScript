@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="2f29bc0a-ed5c-4c2b-a508-227e0eb65239" name="ComponentDiagram" linkedPackageId="069a56cd-7e15-44d8-9ca8-8620d9d0c6b7" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="4eb21e34-8b4e-430a-9c59-079f0e3e320a">
+      <profileInstance Id="130f057d-b19c-4cb0-bfe1-42c78aff0ed3" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="e4b481d0-a237-436b-8532-b4ca24cc270b">
+      <profileInstance Id="30d59145-c513-48ce-8035-87f1f53ec48c" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <componentModelHasComponents>
+      <component Id="367e492a-e29f-49d3-92f2-0191765f24d5" name="EsecutionSession.ASPX" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7afdc0c6-475f-46a6-a2a0-2aef58734883" />
+        <ownedAttributesInternal>
+          <providedInterface Id="1443b5aa-b951-40dd-a56a-6bb6f8942dad" name="Port1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isService="false" isBehavior="false">
+            <elementDefinition Id="51b21aeb-bb52-4cfb-89ea-6d63a9815aa8" />
+            <type_NamedElement>
+              <interfaceMoniker Id="a157b2ce-52e3-422b-a849-1a93187ab4c2" LastKnownName="HTTP GET" />
+            </type_NamedElement>
+          </providedInterface>
+          <requiredInterface Id="ee5187a7-57f3-417d-8bd2-d931dbf078fa" name="Port2" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isService="false" isBehavior="false">
+            <elementDefinition Id="1e101ffa-08ac-4194-8bd6-efa78659cf79" />
+            <type_NamedElement>
+              <interfaceMoniker Id="ea2fd959-509e-4a15-bec8-8c5b00a6f2be" LastKnownName="HTTP POST" />
+            </type_NamedElement>
+          </requiredInterface>
+        </ownedAttributesInternal>
+      </component>
+    </componentModelHasComponents>
+    <modelContainsNamedElements>
+      <Interface Id="a157b2ce-52e3-422b-a849-1a93187ab4c2" name="HTTP GET" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="99ae2556-406f-47ec-b96f-4b4fcfbc6856" />
+      </Interface>
+    </modelContainsNamedElements>
+    <modelContainsNamedElements>
+      <Interface Id="ea2fd959-509e-4a15-bec8-8c5b00a6f2be" name="HTTP POST" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ab82bdea-b5e3-4668-a9b8-43f065e3076f" />
+      </Interface>
+    </modelContainsNamedElements>
+  </packagedElements>
+  <package Id="069a56cd-7e15-44d8-9ca8-8620d9d0c6b7" name="DSArchitecture">
+    <elementDefinition Id="b32f798e-9fe7-4f98-819c-cb4ba10dc950" />
+  </package>
+</componentModel>
