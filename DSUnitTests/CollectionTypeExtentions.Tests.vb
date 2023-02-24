@@ -1,30 +1,9 @@
-﻿Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports DocScript.CompilerExtentions
-
-
-
-'''<summary>
+﻿'''<summary>
 '''This is a test class for CollectionTypeExtentionsTests and is intended
 '''to contain all CollectionTypeExtentionsTests Unit Tests
 '''</summary>
-<TestClass()> _
-Public Class CollectionTypeExtentionsTests
-
-
-	Private testContextInstance As TestContext
-
-	'''<summary>
-	'''Gets or sets the test context which provides
-	'''information about and functionality for the current test run.
-	'''</summary>
-	Public Property TestContext() As TestContext
-		Get
-			Return testContextInstance
-		End Get
-		Set(ByVal value As TestContext)
-			testContextInstance = Value
-		End Set
-	End Property
+<TestClass()>
+Public Class CollectionTypeExtentions_Tests
 
 #Region "Additional test attributes"
 	'
@@ -52,17 +31,14 @@ Public Class CollectionTypeExtentionsTests
 	'
 #End Region
 
-
-	'''<summary>
-	'''A test for GenerateUniqueString()
-	'''</summary>
-	<TestMethod()> _
+	'''<summary>A test for GenerateUniqueString()</summary>
+	<TestMethod()>
 	Public Sub GenerateUniqueStringTest()
 
 		Dim _StringArray() As String = {"PROGRAM"}
 		Dim _Seed As String = "PROGRAM"
 		Dim expected As String = "PROGRA0"
-		Dim actual As String = _
+		Dim actual As String =
 		   DocScript.CompilerExtentions.CollectionTypeExtentions.GenerateUniqueString(_StringArray, _Seed)
 
 		Assert.AreEqual(expected, actual)

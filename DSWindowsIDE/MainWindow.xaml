@@ -1,6 +1,6 @@
-﻿<ribbon:RibbonWindow
+﻿<Window
 	x:Class="MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	x:Name="RibbonWindow" Title="DocScript IDE" Icon="/DSIDE;component/DSIDE.ico"
 	Width="800" Height="600" Background="LightGray"
 	WindowState="Normal" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
@@ -15,52 +15,58 @@
 		</Grid.RowDefinitions>
 
 		<!-- The Ribbon -->
-		<ribbon:Ribbon x:Name="TheRibbon" Grid.Row="0">
+		<Ribbon x:Name="TheRibbon" Grid.Row="0">
 
-			<ribbon:Ribbon.ApplicationMenu>
-				<ribbon:RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" SnapsToDevicePixels="False" Background="#FF0090FF">
-					<ribbon:RibbonApplicationMenuItem
+			<!-- The Help Button on the far right (like Nigel Farage) -->
+			<Ribbon.HelpPaneContent>
+				<RibbonButton SmallImageSource="/DSIDE;component/Images/Help.PNG" ToolTip="Help: Ctrl + H" KeyTip="H" />
+			</Ribbon.HelpPaneContent>
+
+			<!-- The drop-down "File" Menu -->
+			<Ribbon.ApplicationMenu>
+				<RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" SnapsToDevicePixels="False" Background="#FF0090FF" KeyTip="M">
+					<RibbonApplicationMenuItem
 					Header="About..."
 					x:Name="AboutMenuItem"
 					ImageSource="Images\About.PNG"
 				/>
-					<ribbon:RibbonApplicationMenuItem
+					<RibbonApplicationMenuItem
 					Header="Help!"
 					x:Name="HelpMenuItem"
 					ImageSource="Images\Help.PNG"
 					ToolTip="Ctrl + H (Ctrl + Shift + H for Pictorial-Help)"
 				/>
-					<ribbon:RibbonApplicationMenuItem
+					<RibbonApplicationMenuItem
 					Header="Exit"
 					x:Name="ExitMenuItem"
 					ImageSource="Images\Exit.PNG"
 					ToolTip="Esc"
 				/>
-				</ribbon:RibbonApplicationMenu>
-			</ribbon:Ribbon.ApplicationMenu>
+				</RibbonApplicationMenu>
+			</Ribbon.ApplicationMenu>
 
 			<!-- The Home RibbonTab -->
-			<ribbon:RibbonTab x:Name="HomeTab" Header="Home">
+			<RibbonTab x:Name="HomeTab" Header="Home">
 
 				<!-- File -->
-				<ribbon:RibbonGroup Header="File">
-					<ribbon:RibbonButton x:Name="NewButton" SmallImageSource="/DSIDE;component/Images/New.PNG" Label="New" ToolTip="Ctrl + N, or Ctrl + Shift + N for a new DSIDE Instance..." />
-					<ribbon:RibbonButton x:Name="OpenButton" SmallImageSource="/DSIDE;component/Images/Open.PNG" Label="Open..." ToolTip="Ctrl + O, or Ctrl + Shift + O to open the containing-folder of the current DocScript File..." />
-					<ribbon:RibbonButton x:Name="SaveAsButton" SmallImageSource="/DSIDE;component/Images/SaveAs.PNG" Label="Save As..." ToolTip="Ctrl + Shift + S" />
-					<ribbon:RibbonButton x:Name="SaveButton" LargeImageSource="/DSIDE;component/Images/Save.PNG" Label="Save" CanAddToQuickAccessToolBarDirectly="True" ToolTip="Ctrl + S" />
-				</ribbon:RibbonGroup>
+				<RibbonGroup Header="File">
+					<RibbonButton x:Name="NewButton" SmallImageSource="/DSIDE;component/Images/New.PNG" Label="New" ToolTip="Ctrl + N, or Ctrl + Shift + N for a new DSIDE Instance..." />
+					<RibbonButton x:Name="OpenButton" SmallImageSource="/DSIDE;component/Images/Open.PNG" Label="Open..." ToolTip="Ctrl + O, or Ctrl + Shift + O to open the containing-folder of the current DocScript File..." />
+					<RibbonButton x:Name="SaveAsButton" SmallImageSource="/DSIDE;component/Images/SaveAs.PNG" Label="Save As..." ToolTip="Ctrl + Shift + S" />
+					<RibbonButton x:Name="SaveButton" LargeImageSource="/DSIDE;component/Images/Save.PNG" Label="Save" CanAddToQuickAccessToolBarDirectly="True" ToolTip="Ctrl + S" />
+				</RibbonGroup>
 
 				<!-- Edit -->
-				<ribbon:RibbonGroup Header="Edit">
-					<ribbon:RibbonButton x:Name="CutButton" Command="Cut" SmallImageSource="/DSIDE;component/Images/Cut.PNG" Label="Cut" ToolTip="Ctrl + X" />
-					<ribbon:RibbonButton x:Name="CopyButton" Command="Copy" SmallImageSource="/DSIDE;component/Images/Copy.PNG" Label="Copy" ToolTip="Ctrl + C" />
-					<ribbon:RibbonButton x:Name="PasteButton" Command="Paste" SmallImageSource="/DSIDE;component/Images/Paste.PNG" Label="Paste" ToolTip="Ctrl + V" />
-					<ribbon:RibbonButton x:Name="UndoButton" Command="Undo" SmallImageSource="/DSIDE;component/Images/EditUndo.PNG" Label="Undo" ToolTip="Ctrl + Z" />
-					<ribbon:RibbonButton x:Name="RedoButton" Command="Redo" SmallImageSource="/DSIDE;component/Images/EditRedo.PNG" Label="Redo" ToolTip="Ctrl + Y" />
-					<ribbon:RibbonButton x:Name="FindButton" Command="Find" SmallImageSource="/DSIDE;component/Images/Find.PNG" Label="Find" ToolTip="Ctrl + F" />
+				<RibbonGroup Header="Edit">
+					<RibbonButton x:Name="CutButton" Command="Cut" SmallImageSource="/DSIDE;component/Images/Cut.PNG" Label="Cut" ToolTip="Ctrl + X" />
+					<RibbonButton x:Name="CopyButton" Command="Copy" SmallImageSource="/DSIDE;component/Images/Copy.PNG" Label="Copy" ToolTip="Ctrl + C" />
+					<RibbonButton x:Name="PasteButton" Command="Paste" SmallImageSource="/DSIDE;component/Images/Paste.PNG" Label="Paste" ToolTip="Ctrl + V" />
+					<RibbonButton x:Name="UndoButton" Command="Undo" SmallImageSource="/DSIDE;component/Images/EditUndo.PNG" Label="Undo" ToolTip="Ctrl + Z" />
+					<RibbonButton x:Name="RedoButton" Command="Redo" SmallImageSource="/DSIDE;component/Images/EditRedo.PNG" Label="Redo" ToolTip="Ctrl + Y" />
+					<RibbonButton x:Name="FindButton" Command="Find" SmallImageSource="/DSIDE;component/Images/Find.PNG" Label="Find" ToolTip="Ctrl + F" />
 
 					<!-- Insert Code Snippet... -->
-					<ribbon:RibbonMenuButton x:Name="DropDownInsertSnippetButton" LargeImageSource="/DSIDE;component/Images/InsertSnippet.PNG" Label="Insert Code Snippet..." ToolTipTitle="Insert DocScript Snippet" ToolTipDescription="Insert a default EntryPoint (Function Main), Statement Template (If, While, or Loop), or a sample DocScript Program." ToolTipFooterDescription="Use the subsequent Window to select a Snippet..." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG">
+					<RibbonMenuButton x:Name="DropDownInsertSnippetButton" LargeImageSource="/DSIDE;component/Images/InsertSnippet.PNG" Label="Insert Code Snippet..." ToolTipTitle="Insert DocScript Snippet" ToolTipDescription="Insert a default EntryPoint (Function Main), Statement Template (If, While, or Loop), or a sample DocScript Program." ToolTipFooterDescription="Use the subsequent Window to select a Snippet..." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG">
 
 						<MenuItem x:Name="Insert_SampleProgram_HelloWorld" Header="SampleProgram: Hello-World" Height="22">
 							<MenuItem.Icon>
@@ -122,93 +128,93 @@
 							</MenuItem.Icon>
 						</MenuItem>
 
-					</ribbon:RibbonMenuButton>
+					</RibbonMenuButton>
 
-				</ribbon:RibbonGroup>
+				</RibbonGroup>
 
 				<!-- Interpretation -->
-				<ribbon:RibbonGroup Header="Interpretation">
-					<ribbon:RibbonButton x:Name="RunButton" LargeImageSource="/DSIDE;component/Images/Run.PNG" Label="Run (F5)" ToolTipTitle="Begin Interpretation" ToolTipDescription="Runs the 3 stages of DocScript Interpretation, in a new thread." ToolTipFooterDescription="Use the seperate buttons to the side hereof to carry out each stage individually." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" CanAddToQuickAccessToolBarDirectly="True" />
-					<ribbon:RibbonButton x:Name="ParseButton" SmallImageSource="/DSIDE;component/Images/Parse.PNG" Label="Parse (F1)" ToolTip="Creates Tokens from the raw Source" />
-					<ribbon:RibbonButton x:Name="LexButton" SmallImageSource="/DSIDE;component/Images/Construct.PNG" Label="Construct (F2)" ToolTip="Constructs a New DocScript.Runtime.Program() from the parsed Tokens" IsEnabled="False" />
-					<ribbon:RibbonButton x:Name="ExecuteButton" SmallImageSource="/DSIDE;component/Images/Execute.PNG" Label="Execute (F3)" ToolTip="Executes the cached Program in a new thread, showing the ExitCode on completion." IsEnabled="False" />
-				</ribbon:RibbonGroup>
+				<RibbonGroup Header="Interpretation">
+					<RibbonButton x:Name="RunButton" LargeImageSource="/DSIDE;component/Images/Run.PNG" Label="Run (F5)" ToolTipTitle="Begin Interpretation" ToolTipDescription="Runs the 3 stages of DocScript Interpretation, in a new thread." ToolTipFooterDescription="Use the seperate buttons to the side hereof to carry out each stage individually." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" CanAddToQuickAccessToolBarDirectly="True" />
+					<RibbonButton x:Name="ParseButton" SmallImageSource="/DSIDE;component/Images/Parse.PNG" Label="Parse (F1)" ToolTip="Creates Tokens from the raw Source" />
+					<RibbonButton x:Name="LexButton" SmallImageSource="/DSIDE;component/Images/Construct.PNG" Label="Construct (F2)" ToolTip="Constructs a New DocScript.Runtime.Program() from the parsed Tokens" IsEnabled="False" />
+					<RibbonButton x:Name="ExecuteButton" SmallImageSource="/DSIDE;component/Images/Execute.PNG" Label="Execute (F3)" ToolTip="Executes the cached Program in a new thread, showing the ExitCode on completion." IsEnabled="False" />
+				</RibbonGroup>
 
 				<!-- View -->
-				<ribbon:RibbonGroup Header="View">
-					<ribbon:RibbonButton x:Name="ZoomInButton" SmallImageSource="/DSIDE;component/Images/ZoomIn.PNG" Label="Zoom In" />
-					<ribbon:RibbonButton x:Name="ZoomOutButton" SmallImageSource="/DSIDE;component/Images/ZoomOut.PNG" Label="Zoom Out" />
-					<ribbon:RibbonButton x:Name="FullScreenButton" SmallImageSource="/DSIDE;component/Images/FullScreen.PNG" Label="Full Screen" />
-				</ribbon:RibbonGroup>
+				<RibbonGroup Header="View">
+					<RibbonButton x:Name="ZoomInButton" SmallImageSource="/DSIDE;component/Images/ZoomIn.PNG" Label="Zoom In" />
+					<RibbonButton x:Name="ZoomOutButton" SmallImageSource="/DSIDE;component/Images/ZoomOut.PNG" Label="Zoom Out" />
+					<RibbonButton x:Name="FullScreenButton" SmallImageSource="/DSIDE;component/Images/FullScreen.PNG" Label="Full Screen" />
+				</RibbonGroup>
 
-			</ribbon:RibbonTab>
+			</RibbonTab>
 
 			<!-- The ViewPlus RibbonTab -->
-			<ribbon:RibbonTab Header="ViewPlus">
+			<RibbonTab Header="ViewPlus">
 
 				<!-- Reset All -->
-				<ribbon:RibbonGroup Header="Global">
-					<ribbon:RibbonButton x:Name="ResetAllTextTransformationsButton" LargeImageSource="/DSIDE;component/Images/Back.PNG" Label="Reset All" />
-				</ribbon:RibbonGroup>
+				<RibbonGroup Header="Global">
+					<RibbonButton x:Name="ResetAllTextTransformationsButton" LargeImageSource="/DSIDE;component/Images/Back.PNG" Label="Reset All" />
+				</RibbonGroup>
 
 				<!-- Zoom -->
-				<ribbon:RibbonGroup Header="Zoom">
+				<RibbonGroup Header="Zoom">
 					<TextBlock x:Name="ZoomValueText" Text="Zoom: (1)" Margin="2,2,0,15" />
 					<Slider x:Name="ZoomValueSlider" Minimum="0.5" Maximum="5" Value="1" Width="150" />
-				</ribbon:RibbonGroup>
+				</RibbonGroup>
 
 				<!-- Skew -->
-				<ribbon:RibbonGroup Header="Skew">
+				<RibbonGroup Header="Skew">
 					<TextBlock x:Name="SkewValueText" Text="Skew: (0)" Margin="2,2,0,15" />
 					<Slider x:Name="SkewValueSlider" Minimum="-50" Maximum="50" Value="0" Width="150" />
-				</ribbon:RibbonGroup>
+				</RibbonGroup>
 
 				<!-- Rotate -->
-				<ribbon:RibbonGroup Header="Rotate">
+				<RibbonGroup Header="Rotate">
 					<TextBlock x:Name="RotateValueText" Text="Rotate: (0)" Margin="2,2,0,15" />
 					<Slider x:Name="RotateValueSlider" Minimum="-90" Maximum="180" Value="0" Width="150" />
-					<ribbon:RibbonButton x:Name="AnimateTextRotationButton" LargeImageSource="/DSIDE;component/Images/Rotate.PNG" Label="Animate" ToolTipTitle="Rotation Animation" ToolTipDescription="Rotates the Source TextBox&#x0d;&#x0a;360* around and then stops." ToolTipFooterDescription="Ctrl + Click to animate forever..." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" />
-				</ribbon:RibbonGroup>
+					<RibbonButton x:Name="AnimateTextRotationButton" LargeImageSource="/DSIDE;component/Images/Rotate.PNG" Label="Animate" ToolTipTitle="Rotation Animation" ToolTipDescription="Rotates the Source TextBox&#x0d;&#x0a;360* around and then stops." ToolTipFooterDescription="Ctrl + Click to animate forever..." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" />
+				</RibbonGroup>
 
-			</ribbon:RibbonTab>
+			</RibbonTab>
 
 			<!-- The Program RibbonTab -->
-			<ribbon:RibbonTab x:Name="ProgramTab" Header="Program">
+			<RibbonTab x:Name="ProgramTab" Header="Program">
 
-				<ribbon:RibbonGroup x:Name="AnaylseGroup" Header="Analyse">
-					<ribbon:RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T" IsEnabled="False" />
-					<ribbon:RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R" IsEnabled="False" />
-				</ribbon:RibbonGroup>
+				<RibbonGroup x:Name="AnaylseGroup" Header="Analyse">
+					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T" IsEnabled="False" />
+					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R" IsEnabled="False" />
+				</RibbonGroup>
 
-				<ribbon:RibbonGroup x:Name="ExeCxtGroup" Header="ExecutionContext">
-					<ribbon:RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
-				</ribbon:RibbonGroup>
+				<RibbonGroup x:Name="ExeCxtGroup" Header="ExecutionContext">
+					<RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
+				</RibbonGroup>
 
-				<ribbon:RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">
+				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">
 					<Label Content="Command-line Arguments:"/>
 					<TextBox x:Name="ProgramCLAsTextBox" Width="200" />
-				</ribbon:RibbonGroup>
+				</RibbonGroup>
 
-			</ribbon:RibbonTab>
+			</RibbonTab>
 
 			<!-- The Debug RibbonTab -->
-			<ribbon:RibbonTab x:Name="DebugTab" Header="Debug">
+			<RibbonTab x:Name="DebugTab" Header="Debug">
 
-				<ribbon:RibbonGroup Header="Variables">
-					<ribbon:RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
-				</ribbon:RibbonGroup>
+				<RibbonGroup Header="Variables">
+					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
+				</RibbonGroup>
 
-				<ribbon:RibbonGroup Header="DocScript">
-					<ribbon:RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />
-					<ribbon:RibbonCheckBox Label="Process Debug Events" x:Name="ProcessDebugEventsCheckBox" />
-					<ribbon:RibbonCheckBox Label="Use MsgBox Logging" Name="UseMsgBoxLoggingCheckBox" />
-					<ribbon:RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
-					<ribbon:RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
-				</ribbon:RibbonGroup>
+				<RibbonGroup Header="DocScript">
+					<RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />
+					<RibbonCheckBox Label="Process Debug Events" x:Name="ProcessDebugEventsCheckBox" />
+					<RibbonCheckBox Label="Use MsgBox Logging" Name="UseMsgBoxLoggingCheckBox" />
+					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
+					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
+				</RibbonGroup>
 
-			</ribbon:RibbonTab>
+			</RibbonTab>
 
-		</ribbon:Ribbon>
+		</Ribbon>
 
 		<!-- The Source TextBox -->
 		<avalonEdit:TextEditor xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" Grid.Row="1"
@@ -284,4 +290,4 @@
 
 	</Grid>
 
-</ribbon:RibbonWindow>
+</Window>
