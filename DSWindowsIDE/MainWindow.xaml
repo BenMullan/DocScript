@@ -17,7 +17,7 @@
 		<!-- The Ribbon -->
 		<Ribbon x:Name="TheRibbon" Grid.Row="0">
 
-			<!-- The Help Button on the far right (like Nigel Farage) -->
+			<!-- The Help Button on the far right (...like Nigel Farage) -->
 			<Ribbon.HelpPaneContent>
 				<RibbonButton SmallImageSource="/DSIDE;component/Images/Help.PNG" ToolTip="Help: Ctrl + H" KeyTip="H" />
 			</Ribbon.HelpPaneContent>
