@@ -548,11 +548,11 @@
 	End Sub
 
 	Public Sub ShowAboutBox() Handles AboutMenuItem.Click
-		Dim _NewAboutBox As New DSAboutBox() : _NewAboutBox.ShowDialog()
+		Call (New DSAboutBox()).ShowDialog()
 	End Sub
 
-	Public Sub ShowHelpWindow() Handles HelpMenuItem.Click
-		Dim _NewHelpWindow As New HelpWindow() : _NewHelpWindow.Show()
+	Public Sub ShowHelpWindow() Handles HelpMenuItem.Click, PaneHelpButton.Click
+		Call (New HelpWindow()).Show()
 	End Sub
 
 	Public Sub ShowProgramTree_InNewWindow() Handles GenerateProgTreeButton.Click

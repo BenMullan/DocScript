@@ -421,15 +421,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{1E721880-1D5E-4815-97B3-B657CF3D5126}"
-        "PackageCode" = "8:{1400328B-70A8-440B-82F5-446F31A12670}"
+        "ProductCode" = "8:{D4C6AD74-4F14-49EA-A20D-441CC84BB64C}"
+        "PackageCode" = "8:{869BCBA6-8422-429A-936D-545875A7F30E}"
         "UpgradeCode" = "8:{1290F1CA-5A25-44B4-B3F6-CF384B244FFA}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.0.1"
+        "ProductVersion" = "8:2.1.02"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://BenM.eu5.org/"
@@ -985,7 +985,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2351DCD170EE4C788E505F216D8FAFB8"
             {
-            "SourcePath" = "8:..\\DSWindowsIDE\\obj\\x86\\Debug\\DSIDE.exe"
+            "SourcePath" = "8:..\\DSWindowsIDE\\obj\\x86\\Release\\DSIDE.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
@@ -1013,7 +1013,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_810849982C7846FD8829BCD18E62A99F"
             {
-            "SourcePath" = "8:..\\DSExprResolutionUtility\\obj\\x86\\Debug\\DSExpr.exe"
+            "SourcePath" = "8:..\\DSExprResolutionUtility\\obj\\x86\\Release\\DSExpr.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
@@ -1041,7 +1041,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BB8A82CAFED843588D464DBB1E40E2A9"
             {
-            "SourcePath" = "8:..\\DSCommandLineInterpreter\\obj\\x86\\Debug\\DSCLI.exe"
+            "SourcePath" = "8:..\\DSCommandLineInterpreter\\obj\\x86\\Release\\DSCLI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
