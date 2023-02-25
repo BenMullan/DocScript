@@ -68,6 +68,6 @@ Abbreviations:
 - TPV		Tokens to (Token)Patterns Validator (Lexing)
 - IR		Intermediate Representation (Lexing; the Instruction Tree)
 
-Did you really just make it all the way to the end of this README?
-Well done.
+Did you really just make it all the way to the end of this README?  
+Well done.  
 BM (c) 2023.
