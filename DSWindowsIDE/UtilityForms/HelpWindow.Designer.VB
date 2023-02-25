@@ -89,7 +89,7 @@ Partial Class HelpWindow
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(564, 412)
+		Me.ClientSize = New System.Drawing.Size(564, 411)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox1)
 		Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
