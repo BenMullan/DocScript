@@ -2,6 +2,8 @@
 A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases.
 (BM A-Level CS Coursework 2023)
 
+![DocScript Windows IDE Demonstration](https://github.com/BenMullan/DocScript/blob/master/DSIDE_Demo.png?raw=true)
+
 ### There are four key files to pay attention to:
 - DocScript.Library.dll		(Core Interpretation Logic)
 - DSCLI.EXE					(DS Command-Line Interpreter. Use the /? argument.)
