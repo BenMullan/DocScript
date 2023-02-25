@@ -98,17 +98,6 @@
 
 			Next
 
-			REM Show a ContextMenu on right-clicking an Item of the ListView
-			_Symbols_ListView.ContextMenu = New Windows.Forms.ContextMenu(menuItems:={New Windows.Forms.MenuItem("Copy", Sub() My.Computer.Clipboard.SetText(If(_Symbols_ListView.FocusedItem IsNot Nothing, _Symbols_ListView.FocusedItem.Text, "")))})
-			AddHandler _Symbols_ListView.MouseClick, _
-			Sub(_Sender As [Object], _MouseEventArgs As Windows.Forms.MouseEventArgs)
-
-				If _MouseEventArgs.Button = Windows.Forms.MouseButtons.Right AndAlso _
-				 (_Symbols_ListView.FocusedItem IsNot Nothing) AndAlso _Symbols_ListView.FocusedItem.Bounds.Contains(_MouseEventArgs.Location) _
-				Then _Symbols_ListView.ContextMenu.Show(Me, New Drawing.Point(x:=Windows.Forms.[Cursor].Position.X - 600, y:=Windows.Forms.[Cursor].Position.Y - 350))
-
-			End Sub
-
 			Return _Symbols_ListView
 
 		End Function
