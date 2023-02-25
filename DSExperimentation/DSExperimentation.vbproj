@@ -97,38 +97,38 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BIFExperiments.Designer.VB">
+    <Compile Include="Forms\BIFExperiments.Designer.VB">
       <DependentUpon>BIFExperiments.VB</DependentUpon>
     </Compile>
-    <Compile Include="BIFExperiments.VB">
+    <Compile Include="Forms\BIFExperiments.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DSE.OOPExperiments.VB" />
-    <Compile Include="DSECompilerExtentions.VB" />
+    <Compile Include="MiscSource\DSE.OOPExperiments.VB" />
+    <Compile Include="MiscSource\DSECompilerExtentions.VB" />
     <Compile Include="DSEFormChooser.Designer.VB">
       <DependentUpon>DSEFormChooser.VB</DependentUpon>
     </Compile>
     <Compile Include="DSEFormChooser.VB">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DSEUtilities.VB" />
-    <Compile Include="ExpressionExperiments.Designer.VB">
+    <Compile Include="MiscSource\DSEUtilities.VB" />
+    <Compile Include="Forms\ExpressionExperiments.Designer.VB">
       <DependentUpon>ExpressionExperiments.VB</DependentUpon>
     </Compile>
-    <Compile Include="ExpressionExperiments.VB">
+    <Compile Include="Forms\ExpressionExperiments.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GlobalConstants.VB" />
-    <Compile Include="InstructionTrees.Designer.VB">
+    <Compile Include="MiscSource\GlobalConstants.VB" />
+    <Compile Include="Forms\InstructionTrees.Designer.VB">
       <DependentUpon>InstructionTrees.VB</DependentUpon>
     </Compile>
-    <Compile Include="InstructionTrees.VB">
+    <Compile Include="Forms\InstructionTrees.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogWindow.Designer.VB">
+    <Compile Include="Forms\LogWindow.Designer.VB">
       <DependentUpon>LogWindow.VB</DependentUpon>
     </Compile>
-    <Compile Include="LogWindow.VB">
+    <Compile Include="Forms\LogWindow.VB">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -147,39 +147,39 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ParserExperiments.Designer.VB">
+    <Compile Include="Forms\ParserExperiments.Designer.VB">
       <DependentUpon>ParserExperiments.VB</DependentUpon>
     </Compile>
-    <Compile Include="ParserExperiments.VB">
+    <Compile Include="Forms\ParserExperiments.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProgramConstruction.Designer.VB">
+    <Compile Include="Forms\ProgramConstruction.Designer.VB">
       <DependentUpon>ProgramConstruction.VB</DependentUpon>
     </Compile>
-    <Compile Include="ProgramConstruction.VB">
+    <Compile Include="Forms\ProgramConstruction.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SQLExperiments.Designer.VB">
+    <Compile Include="Forms\SQLExperiments.Designer.VB">
       <DependentUpon>SQLExperiments.VB</DependentUpon>
     </Compile>
-    <Compile Include="SQLExperiments.VB">
+    <Compile Include="Forms\SQLExperiments.VB">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BIFExperiments.resx">
+    <EmbeddedResource Include="Forms\BIFExperiments.resx">
       <DependentUpon>BIFExperiments.VB</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DSEFormChooser.resx">
       <DependentUpon>DSEFormChooser.VB</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExpressionExperiments.resx">
+    <EmbeddedResource Include="Forms\ExpressionExperiments.resx">
       <DependentUpon>ExpressionExperiments.VB</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InstructionTrees.resx">
+    <EmbeddedResource Include="Forms\InstructionTrees.resx">
       <DependentUpon>InstructionTrees.VB</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogWindow.resx">
+    <EmbeddedResource Include="Forms\LogWindow.resx">
       <DependentUpon>LogWindow.VB</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -188,13 +188,13 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ParserExperiments.resx">
+    <EmbeddedResource Include="Forms\ParserExperiments.resx">
       <DependentUpon>ParserExperiments.VB</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProgramConstruction.resx">
+    <EmbeddedResource Include="Forms\ProgramConstruction.resx">
       <DependentUpon>ProgramConstruction.VB</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SQLExperiments.resx">
+    <EmbeddedResource Include="Forms\SQLExperiments.resx">
       <DependentUpon>SQLExperiments.VB</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -213,7 +213,7 @@
   <ItemGroup>
     <Content Include="Control.ICO" />
     <Content Include="DocScript.ICO" />
-    <Content Include="DSSamplePrograms.XML" />
+    <Content Include="MiscSource\DSSamplePrograms.XML" />
     <None Include="Resources\31082022_Example_ExprTree.png" />
   </ItemGroup>
   <ItemGroup>
