@@ -182,10 +182,10 @@ Namespace Runtime
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_If_Identifier_$)
 
 			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = If(
-			 _Arguments.ElementAt(0).Coerce(Of DSBoolean)().Value,
-			 _Arguments.ElementAt(1).Coerce(Of DSString)(),
-			 _Arguments.ElementAt(2).Coerce(Of DSString)()
-			)
+			  _Arguments.ElementAt(0).Coerce(Of DSBoolean)().Value,
+			  _Arguments.ElementAt(1).Coerce(Of DSString)(),
+			  _Arguments.ElementAt(2).Coerce(Of DSString)()
+			 )
 
 			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
@@ -277,7 +277,7 @@ Namespace Runtime
 #Region "DS_BooleanArray BIFs"
 
 		Private Const BIF_DS_BooleanArray_Length_Identifier_$ = DSBIFs_IdentifierStart_ & "BooleanArray_Length"
-		Private Shared ReadOnly BIF_DS_BooleanArray_Length_Repeat_ As New BuiltInFunction(BIF_DS_BooleanArray_Length_Identifier_$, {New DSFunction.Parameter("_BooleanArray", GetType(DSArray(Of DSBoolean)))}, GetType(DSNumber), New BuiltInFunctionDelegate(
+		Private Shared ReadOnly BIF_DS_BooleanArray_Length_ As New BuiltInFunction(BIF_DS_BooleanArray_Length_Identifier_$, {New DSFunction.Parameter("_BooleanArray", GetType(DSArray(Of DSBoolean)))}, GetType(DSNumber), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_Length_Identifier_$)
@@ -286,6 +286,23 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Returns the number of elements in the _BooleanArray"}
+
+		Private Const BIF_DS_BooleanArray_At_Identifier_$ = DSBIFs_IdentifierStart_ & "BooleanArray_At"
+		Private Shared ReadOnly BIF_DS_BooleanArray_At_ As New BuiltInFunction(BIF_DS_BooleanArray_At_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSBoolean))), New DSFunction.Parameter("_Index", GetType(DSNumber))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_At_Identifier_$)
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
+			_Arguments.ElementAt(0).Coerce(Of DSArray(Of DSBoolean))() _
+			.Elements.ElementAt(
+			 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+			 )
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the element at _Index in the _Array"}
 
 #Region "LINQ-Style Methods"
 
@@ -326,10 +343,69 @@ Namespace Runtime
 			 Next
 
 			 _ExeRes.Archived_SymbolTable = _Modified_SymTbls.Topmost
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_Modified_SymTbls.BottomStack) 'Don't return the SymTbl which was for _Item and _Index
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_Modified_SymTbls.BottomStack)	'Don't return the SymTbl which was for _Item and _Index
 
 		 End Function)
 		) With {.[Description] = "Interprets the _Action for each Element of the _Array. A new SymbolTable is created for _Item and _Index. Use ; for CrLf and ` for "". (i.e. DS Flattened Source is supported herein)"}
+
+		Private Const BIF_DS_BooleanArray_ReplaceAt_Identifier_$ = DSBIFs_IdentifierStart_ & "BooleanArray_ReplaceAt"
+		Private Shared ReadOnly BIF_DS_BooleanArray_ReplaceAt_ As New BuiltInFunction(BIF_DS_BooleanArray_ReplaceAt_Identifier_$, {New DSFunction.Parameter("_InputArray", GetType(DSArray(Of DSBoolean))), New DSFunction.Parameter("_Index", GetType(DSNumber)), New DSFunction.Parameter("_NewItem", GetType(DSBoolean))}, GetType(DSArray(Of DSBoolean)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_ReplaceAt_Identifier_$)
+
+			 Dim _InputArray As DSArray(Of DSBoolean) = _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSBoolean))()
+			 _InputArray.Elements.Item(index:=CInt(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)) = _Arguments.ElementAt(2).Coerce(Of DSBoolean)()
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _InputArray
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns a Boolean@, based off of the _InputArray, but where the Item at _Index is replaced with the _NewItem"}
+
+		Private Const BIF_DS_BooleanArray_SelectStrings_Identifier_$ = DSBIFs_IdentifierStart_ & "BooleanArray_SelectStrings"
+		Private Shared ReadOnly BIF_DS_BooleanArray_SelectStrings_ As New BuiltInFunction(BIF_DS_BooleanArray_SelectStrings_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSBoolean))), New DSFunction.Parameter("_SelectionExpr", GetType(DSString))}, GetType(DSArray(Of DSString)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_SelectStrings_Identifier_$)
+			 Dim _Modified_SymTbls As Runtime.SymbolTablesSnapshot = _SymTbls.SnapshotFrom_ThisAndTopmost(_NewTopmost:=New Runtime.SymbolTable("LambdaSelectString_PreIterations"))
+
+			 REM Parse and Lex the _SelectionExpr
+			 REM For Each element in _Array:
+			 REM	Define a new SymbolTable for _Item and _Index
+			 REM	Execute the Expression with the new SymTblsSnpSht
+			 REM		Add {the IDV produced from this resolution} to _SelectedDSStrings
+			 REM	Add as an upstairs ExeRes
+			 REM	Reapply the SymTbls
+			 REM Return WITHOUT the SymTbls which held _Item and _Index
+
+			 Dim _Array As DSArray(Of DSBoolean) = _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSBoolean))()
+			 Dim _SelectedDSStrings As New List(Of DSString)()
+
+			 Dim _Tokens As Runtime.Token() = Parser.GetTokensFromSource(Parser.UnflattenSource(_Arguments.ElementAt(1).Coerce(Of DSString)().Value))
+			 Dim _SelectionExpr As Language.Expressions.IExpression = Language.Expressions.ExprUtilities.ConstructExpressionFromTokens(_Tokens)
+
+			 For _Element_Index% = 0 To (_Array.Elements.Count - 1) Step +1
+
+				 'Set the Topmost SymTbl to have the _Item and _Index
+				 _Modified_SymTbls.Topmost = New Runtime.SymbolTable("LambdaSelectString_Iteration" & _Element_Index.ToString())
+				 _Modified_SymTbls.AddEntryToToTopmost("_Item", Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=_Array.Elements.ElementAt(_Element_Index).MustNotBeNothing("The Element at index " & _Element_Index.ToString() & " in _Array, was Nothing"), _NullValueType_IfInputIDVIsNothing:=Nothing))
+				 _Modified_SymTbls.AddEntryToToTopmost("_Index", Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=New DSNumber(_Element_Index), _NullValueType_IfInputIDVIsNothing:=Nothing))
+
+				 'Push the evaluation of the _SelectionExpr to the _SelectedDSStrings
+				 Dim _Expression_ExeRes As Language.Instructions.ExecutionResult = _SelectionExpr.Resolve(_Modified_SymTbls)
+				 _ExeRes.UpstairsExecutionResults.Add(New Tuple(Of String, ExecutionResult)("Iteration" & _Element_Index.ToString() & " SelectionExpression " & _SelectionExpr.GetType().Name.InBrackets(), _Expression_ExeRes))
+				 _Modified_SymTbls = _Expression_ExeRes.ResultantSymbolTablesState
+				 _SelectedDSStrings.Add(_Expression_ExeRes.ReturnStatus.IExpression_ResolutionResult.Coerce(Of DSString)())
+
+			 Next
+
+			 _ExeRes.Archived_SymbolTable = _Modified_SymTbls.Topmost
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSArray(Of DSString)(_SelectedDSStrings.ToArray())
+			 Return (_ExeRes.StopExecutionTimer_AndFinaliseObject(_Modified_SymTbls.BottomStack)) 'Don't return the SymTbl which was for _Item and _Index
+
+		 End Function)
+		) With {.[Description] = "Interprets the _SelectionExpr for each Element of the _Array, returning a String@ for the result of each Resolution of the _SelectionExpr. A new SymbolTable is created for _Item and _Index. Use ; for CrLf and ` for ""."}
 
 #End Region
 
@@ -344,9 +420,9 @@ Namespace Runtime
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_StringArray_Append_Identifier_$)
 
 			 Dim _ArrayToReturn As New DSArray(Of DSString)(
-				 _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))().Elements _
-				 .Concat({_Arguments.ElementAt(1).Coerce(Of DSString)()}) _
-				 .ToArray()
+			  _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))().Elements _
+			  .Concat({_Arguments.ElementAt(1).Coerce(Of DSString)()}) _
+			  .ToArray()
 			 )
 
 			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _ArrayToReturn
@@ -600,35 +676,38 @@ Namespace Runtime
 
 		''' <summary>DocScript Language Utilities</summary>
 		Public Shared ReadOnly DS As DocScript.Runtime.BuiltInFunction() = {
-			StandardBuiltInFunctions.BIF_DS_Sleep_,
-			StandardBuiltInFunctions.BIF_DS_ThrowError_,
-			StandardBuiltInFunctions.BIF_DS_Interpret_,
-			StandardBuiltInFunctions.BIF_DS_InterpretTry_,
-			StandardBuiltInFunctions.BIF_DS_InterpretProgram_,
-			StandardBuiltInFunctions.BIF_DS_String_Split_,
-			StandardBuiltInFunctions.BIF_DS_String_Length_,
-			StandardBuiltInFunctions.BIF_DS_String_At_,
-			StandardBuiltInFunctions.BIF_DS_String_Contains_,
-			StandardBuiltInFunctions.BIF_DS_String_If_,
-			StandardBuiltInFunctions.BIF_DS_String_GetRandom_,
-			StandardBuiltInFunctions.BIF_DS_Number_ToBase_,
-			StandardBuiltInFunctions.BIF_DS_Number_FromExprString_,
-			StandardBuiltInFunctions.BIF_DS_Number_GetRandom_,
-			StandardBuiltInFunctions.BIF_DS_Boolean_Repeat_,
-			StandardBuiltInFunctions.BIF_DS_BooleanArray_Length_Repeat_,
-			StandardBuiltInFunctions.BIF_DS_BooleanArray_ForEach_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_Append_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_At_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_Length_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_EachToNumber_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_Serialise_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_ForEach_,
-			StandardBuiltInFunctions.BIF_DS_StringArray_Where_,
-			StandardBuiltInFunctions.BIF_DS_NumberArray_Append_,
-			StandardBuiltInFunctions.BIF_DS_NumberArray_At_,
-			StandardBuiltInFunctions.BIF_DS_NumberArray_Length_,
-			StandardBuiltInFunctions.BIF_DS_NumberArray_Serialise_,
-			StandardBuiltInFunctions.BIF_DS_NumberArray_Last_
+		 StandardBuiltInFunctions.BIF_DS_Sleep_,
+		 StandardBuiltInFunctions.BIF_DS_ThrowError_,
+		 StandardBuiltInFunctions.BIF_DS_Interpret_,
+		 StandardBuiltInFunctions.BIF_DS_InterpretTry_,
+		 StandardBuiltInFunctions.BIF_DS_InterpretProgram_,
+		 StandardBuiltInFunctions.BIF_DS_String_Split_,
+		 StandardBuiltInFunctions.BIF_DS_String_Length_,
+		 StandardBuiltInFunctions.BIF_DS_String_At_,
+		 StandardBuiltInFunctions.BIF_DS_String_Contains_,
+		 StandardBuiltInFunctions.BIF_DS_String_If_,
+		 StandardBuiltInFunctions.BIF_DS_String_GetRandom_,
+		 StandardBuiltInFunctions.BIF_DS_Number_ToBase_,
+		 StandardBuiltInFunctions.BIF_DS_Number_FromExprString_,
+		 StandardBuiltInFunctions.BIF_DS_Number_GetRandom_,
+		 StandardBuiltInFunctions.BIF_DS_Boolean_Repeat_,
+		 StandardBuiltInFunctions.BIF_DS_BooleanArray_Length_,
+		 StandardBuiltInFunctions.BIF_DS_BooleanArray_At_,
+		 StandardBuiltInFunctions.BIF_DS_BooleanArray_ForEach_,
+		 StandardBuiltInFunctions.BIF_DS_BooleanArray_ReplaceAt_,
+		 StandardBuiltInFunctions.BIF_DS_BooleanArray_SelectStrings_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_Append_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_At_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_Length_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_EachToNumber_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_Serialise_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_ForEach_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_Where_,
+		 StandardBuiltInFunctions.BIF_DS_NumberArray_Append_,
+		 StandardBuiltInFunctions.BIF_DS_NumberArray_At_,
+		 StandardBuiltInFunctions.BIF_DS_NumberArray_Length_,
+		 StandardBuiltInFunctions.BIF_DS_NumberArray_Serialise_,
+		 StandardBuiltInFunctions.BIF_DS_NumberArray_Last_
 		}
 
 	End Class

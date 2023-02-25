@@ -74,17 +74,11 @@
     <Import Include="DocScript" />
     <Import Include="DocScript.CompilerExtentions" />
     <Import Include="DocScript.Exceptions" />
-    <Import Include="DocScript.Language" />
-    <Import Include="DocScript.Language.Expressions" />
-    <Import Include="DocScript.Language.Expressions.Operators" />
     <Import Include="DocScript.Language.Instructions" />
     <Import Include="DocScript.Language.Instructions.Statements" />
     <Import Include="DocScript.Language.Variables" />
     <Import Include="DocScript.Logging" />
-    <Import Include="DocScript.My" />
-    <Import Include="DocScript.My.Resources" />
     <Import Include="DocScript.Runtime" />
-    <Import Include="DocScript.Utilities" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />

@@ -31,7 +31,7 @@
 		Try
 
 			REM Pick-up on and Data passed through from the CLA-Manager
-			If CLAManagment.CLAPassthrough_CLAHelpDictionaryText <> Nothing Then Me.SourceTextEditor.Text = CLAManagment.CLAPassthrough_CLAHelpDictionaryText
+			If CLAManagment.CLAPassthrough_TextToInsertIntoTextEditor IsNot Nothing Then Me.SourceTextEditor.Text = CLAManagment.CLAPassthrough_TextToInsertIntoTextEditor
 			If CLAManagment.CLAPassthrough_RunWhenReady AndAlso (CLAManagment.CLAPassthrough_SourceFileToOpen Is Nothing) Then Throw New DSException("The /Run Argument is invalid, because no DocScript Program was specified the /OpenSourceFile Argument")
 			If CLAManagment.CLAPassthrough_SourceFileToOpen IsNot Nothing Then Me.OpenFile_FromCLAs(CLAManagment.CLAPassthrough_SourceFileToOpen, Sub() If CLAManagment.CLAPassthrough_RunWhenReady Then Me.RunCurrentSource())
 

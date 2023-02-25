@@ -1,39 +1,27 @@
 ﻿Public Class DSEFormChooser
 
 	Private Sub ExprExpButton_Click() Handles ExprExpButton.Click
-		With (New ExpressionExperiments())
-			.ShowDialog()
-		End With
+		Call (New ExpressionExperiments()).ShowDialog()
 	End Sub
 
 	Private Sub ParserExpButton_Click() Handles ParserExpButton.Click
-		With (New ParserExperiments())
-			.ShowDialog()
-		End With
+		Call (New ParserExperiments()).ShowDialog()
 	End Sub
 
 	Private Sub ProgConstructionButton_Click() Handles ProgConstructionButton.Click
-		With (New ProgramConstruction())
-			.ShowDialog()
-		End With
+		Call (New ProgramConstruction()).ShowDialog()
 	End Sub
 
 	Private Sub InstructionTreesButton_Click() Handles InstructionTreesButton.Click
-		With (New InstructionTrees())
-			.ShowDialog()
-		End With
+		Call (New InstructionTrees()).ShowDialog()
 	End Sub
 
 	Private Sub SQLExperimentsButton_Click() Handles SQLExperimentsButton.Click
-		With (New SQLExperiments())
-			.ShowDialog()
-		End With
+		Call (New SQLExperiments()).ShowDialog()
 	End Sub
 
 	Private Sub BIFExperimentsButton_Click() Handles BIFExperimentsButton.Click
-		With (New BIFExperiments())
-			.ShowDialog()
-		End With
+		Call (New BIFExperiments()).ShowDialog()
 	End Sub
 
 End Class
