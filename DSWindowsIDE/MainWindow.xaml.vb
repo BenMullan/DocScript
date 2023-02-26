@@ -713,7 +713,7 @@
 				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
 				 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
 				 : Me.InvokeIfRequired(Sub() Me.ExecuteButton.IsEnabled = True)	'Execution can occur, now that we have the Cached_Program
-				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Constructed Program with " & Me.Cached_Program.Functions.Count.ToString() & " Function(s) and " & Me.Cached_Program.GlobalVarDecs.Count.ToString() & "Global VarDec(s)")
+				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Constructed Program with " & Me.Cached_Program.Functions.Count.ToString() & " Function(s) and " & Me.Cached_Program.GlobalVarDecs.Count.ToString() & " Global VarDec(s)")
 			 End Sub
 			)
 		Catch _Ex As Exception
@@ -730,7 +730,7 @@
 			Sub()
 				Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
 				: Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
-				: Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Program finished in " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
+				: Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
 			End Sub
 			)
 		Catch _Ex As Exception
