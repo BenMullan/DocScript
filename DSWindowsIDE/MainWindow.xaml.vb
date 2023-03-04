@@ -574,7 +574,7 @@
 	End Sub
 
 	Public Sub ShowSymbolTableViewingMsgBox() Handles ViewSymTblButton.Click
-		MsgBox("This feature has been moved." & vbCrLf & vbCrLf & "Call ""Debug_ShowSymbolTables()"" from the DocScript Program, where you wish to inspect the Symbol-Tables' current states", MsgBoxStyle.Information, "DS-IDE")
+		MsgBox("This feature has been moved." & vbCrLf & vbCrLf & "Call ""Debug_ShowSymbolTables()"" from the DocScript Program, where you wish to inspect the Symbol-Tables' current states.", MsgBoxStyle.Information, "DS-IDE")
 	End Sub
 
 #Region "Window Closure Handling"
