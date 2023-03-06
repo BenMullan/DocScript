@@ -10,7 +10,7 @@
     <ProjectGuid>{E33A3AB7-446E-4B3D-BC56-DADC5EE97A99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>DocScript</RootNamespace>
-    <AssemblyName>DocScript.Library</AssemblyName>
+    <AssemblyName>DSCore</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>DocScript.Library.xml</DocumentationFile>
+    <DocumentationFile>DSCore.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <RegisterForComInterop>false</RegisterForComInterop>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -34,7 +34,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>DocScript.Library.xml</DocumentationFile>
+    <DocumentationFile>DSCore.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <RegisterForComInterop>false</RegisterForComInterop>
     <Prefer32Bit>false</Prefer32Bit>

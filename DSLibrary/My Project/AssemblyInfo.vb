@@ -10,12 +10,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("DocScript Library")> 
+<Assembly: AssemblyTitle("DocScript Core Interpretation Logic Library DLL")> 
 <Assembly: AssemblyDescription("DocScript Resources (Language, Runtime, and Utilities) DLL")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
-<Assembly: AssemblyProduct("DSLibrary (Signed DLL)")> 
+<Assembly: AssemblyProduct("DSCore (Signed DLL)")> 
 <Assembly: AssemblyCopyright("Copyright © Ben Mullan 2022")> 
-<Assembly: AssemblyTrademark("BenM (TM)")> 
+<Assembly: AssemblyTrademark("BenMullan")> 
 
 <Assembly: ComVisible(False)> 
 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.3.5.1")> 
-<Assembly: AssemblyFileVersion("1.3.5.1")> 
+<Assembly: AssemblyVersion("2.3.5.1")> 
+<Assembly: AssemblyFileVersion("2.3.5.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

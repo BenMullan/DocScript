@@ -12,7 +12,7 @@ Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=y
 3. **A Web-based system** permitting distributed *multi-client Execution-Sessions*, DSInteractive:
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" height="50%" width="50%" /><br/>
 
-**Note:** All three implementations rely on the Core Interpretation Logic within `DocScript.Library.dll`
+**Note:** All three implementations rely on the Core Interpretation Logic within `DSCore.dll`
 
 
 # Getting Started...
