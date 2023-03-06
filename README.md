@@ -1,10 +1,16 @@
-# DocScript
-A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases.
-BM A-Level CS Coursework 2023; see ["DocScript in 3 Minutes" Video](https://www.youtube.com/watch?v=ybl5pVSJOOk).
+﻿# DocScript!
+A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases. (BM A-Level CS Coursework 2023)  
+Watch the ["DocScript in 3 Minutes" Video](https://www.youtube.com/watch?v=ybl5pVSJOOk).
 
-![DocScript Windows IDE Demonstration](https://github.com/BenMullan/DocScript/blob/master/DSIDE_Demo.png?raw=true)
 
-### There are four key files to pay attention to:
+### There are four DocScript "Implementations":
+1. **A Command-line Interpreter**, `DSCLI.exe`
+	![DocScript Windows IDE Demonstration](https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSIDE_Demo.png?raw=true)
+2. **A Graphical IDE**, `DSIDE.exe`
+	![DocScript Command-line Demonstration](https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSCLI_Demo.png?raw=true)
+3. **A Web-based system** permitting distributed *multi-client Execution-Sessions*, DSInteractive
+	![DocScript Interactive Demonstration](https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true)
+**Note:** All three implementations rely on the Core Interpretation Logic contained in `DocScript.Library.dll`
 - DocScript.Library.dll		(Core Interpretation Logic)
 - DSCLI.EXE					(DS Command-Line Interpreter. Use the /? argument.)
 - DSIDE.EXE					(DS Windows GUI IDE)
@@ -13,27 +19,25 @@ BM A-Level CS Coursework 2023; see ["DocScript in 3 Minutes" Video](https://www.
 (Use Everything-Search to find said files in the solution)
 
 # Solution Conventions
-DocScript Solution Conventions and General Notes
-------------------------------------------------
+--------------------------------------------------
 
-
-Notation:
----------
-- No.			Number Of
-- UpToInc *		Up To and Including *
-- UpToExc *		Up To but Excluding *
-- <*>			Of the DataType * (DocScript Source)
-- _*			* is an Identifier for a Local Item
-- *_			* is an Identifier for a Private or Protected Item
-- *__			* is an identifier for a Friend Item
-- _*_			* is an Identifier for a Static Item (Not SHARED, but Static as in one instance of the object for all StackFrames of a Method)
-- T*			* is a Generic Type Specifier
-- I*			* is an Interface
-- Ensures *		Throws an Exception if * is not the case
-- DS*Exception	* is a DocScript DataType inheriting from System.Exception
-- [*]			WebParts: * will be returned by the API
-- [...*]		WebParts: * will be returned by the API, when Long-Polling ends
-- [<*>]			WebParts: * will be returned by the API, as an XML-Child of <ResponseContent>
+|Notation:		|Meaning:															|
+|---------------|-------------------------------------------------------------------|
+|No.			|Number Of															|
+|UpToInc *		|Up To and Including *												|
+|UpToExc *		|Up To but Excluding *												|
+|<*>			|Of the DataType * (DocScript Source)								|
+|_*				|* is an Identifier for a Local Item								|
+|*_				|* is an Identifier for a Private or Protected Item					|
+|*__			|* is an identifier for a Friend Item								|
+|_*_			|* is an Identifier for a Static (!= Shared) Item					|
+|T*				|* is a Generic Type Specifier										|
+|I*				|* is an Interface													|
+|Ensures *		|Throws an Exception if * is not the case							|
+|DS*Exception	|* inherits from System.Exception									|
+|[*]			|WebParts API: * will be returned, as an XML Attr.					|
+|[...*]			|WebParts API: * will be returned, when Long-Polling ends			|
+|[<*>]			|WebParts API: * will be returned, within &lt;ResponseContent&gt;	|
 
 
 General:

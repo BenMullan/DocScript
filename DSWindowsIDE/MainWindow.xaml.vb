@@ -26,7 +26,7 @@
 
 	End Sub
 
-	'WPF substitute for a Me.Shown Handler...
+	'WPF substitute for a "Me.Shown" Handler...
 	Public Sub ConfigureInstance_FromCLAs() Handles Me.ContentRendered
 		Try
 
@@ -40,6 +40,7 @@
 		End Try
 	End Sub
 
+	''' <summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
 	Public Sub HandleShortcutKey(ByVal _Sender As Object, ByVal _KeyEventArgs As KeyEventArgs) Handles Me.KeyDown
 
 		If (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F5) Then : MsgDebug("Ctrl+F5")		'Ctrl + F5
