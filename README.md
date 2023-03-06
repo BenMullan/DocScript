@@ -2,7 +2,7 @@
 A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases. (BM A-Level CS Coursework 2023)  
   
 Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
-
+[![DocScript in-3-Minutes](https://img.youtube.com/vi/ybl5pVSJOOk/0.jpg)](https://www.youtube.com/watch?v=ybl5pVSJOOk)
 
 ### There are four DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
@@ -20,5 +20,6 @@ Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=y
 - Launch DocScript IDE, and try a sample program from "Insert Code Snippet...". Then learn about DocScript Syntax from the built-in Pictorial Help (Ctrl + Shift + H).
 - ...Or, run `DSCLI.exe /?`
 - ...Or, read `\DSWebParts\(Source)\DatabaseResources\_CreateEntireDB.SQL` for DSInteractive Setup guidance.
+  
 
 Did you really just make it all the way to the end of this README? Well done!
