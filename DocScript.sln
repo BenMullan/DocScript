@@ -12,19 +12,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSExperimentation", "DSExperimentation\DSExperimentation.vbproj", "{774929EB-1250-4BBB-98A5-38ABCDBE1D0F}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSLibrary", "DSLibrary\DSLibrary.vbproj", "{E33A3AB7-446E-4B3D-BC56-DADC5EE97A99}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSWebParts", "DSWebParts\DSWebParts.vbproj", "{3CBBBCA7-DFC4-4826-9990-7DF7D50FB8BD}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSWindowsIDE", "DSWindowsIDE\DSWindowsIDE.vbproj", "{C006B85E-5269-4137-8979-8AC99F19158A}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSCommandLineInterpreter", "DSCommandLineInterpreter\DSCommandLineInterpreter.vbproj", "{D77A35C2-FE11-4206-9B6F-3D037620FF2B}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSWindowsIDE", "DSWindowsIDE\DSWindowsIDE.vbproj", "{C006B85E-5269-4137-8979-8AC99F19158A}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSWebParts", "DSWebParts\DSWebParts.vbproj", "{3CBBBCA7-DFC4-4826-9990-7DF7D50FB8BD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSLibrary", "DSLibrary\DSLibrary.vbproj", "{E33A3AB7-446E-4B3D-BC56-DADC5EE97A99}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSIExecutionSessionWorker", "DSIExecutionSessionWorker\DSIExecutionSessionWorker.vbproj", "{1DE7A26F-6C77-49EC-9C28-E55512C83BA2}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSExprResolutionUtility", "DSExprResolutionUtility\DSExprResolutionUtility.vbproj", "{DB86A4F8-E66B-42ED-B4E0-2BA6020CB1E8}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSIExecutionSessionWorker", "DSIExecutionSessionWorker\DSIExecutionSessionWorker.vbproj", "{1DE7A26F-6C77-49EC-9C28-E55512C83BA2}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSExperimentation", "DSExperimentation\DSExperimentation.vbproj", "{774929EB-1250-4BBB-98A5-38ABCDBE1D0F}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DSSetup", "DSSetup\DSSetup.vdproj", "{43D57956-89D5-42EC-957F-00C61BE321FC}"
 EndProject
