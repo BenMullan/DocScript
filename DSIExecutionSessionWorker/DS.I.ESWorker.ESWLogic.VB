@@ -1,4 +1,4 @@
-﻿Public Module ESWorker
+﻿Public Module ESWLogic
 
 	Public Sub HostExecutionSession(ByVal _ESID$)
 
@@ -22,14 +22,14 @@
 		Try
 
 			Dim _Source$ = WebParts.DatabaseInteraction.GetUploadedProgramFromESID(_ESID:=_ESID).@Source _
-			   .Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf) 'The JavaScript might not send the source to the API with all LineBreaks as CrLf
+			   .Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf)	'The JavaScript might not send the source to the API with all LineBreaks as CrLf
 
 			WebParts.DatabaseInteraction.SetExecutionSessionState_Running(_ESID)
 			WebParts.DatabaseInteraction.ResetExecutionSession(_ESID) 'Reset the ExeSes (Clear LogEvents, Outputs, and Inputs)
 
 			Dim _Program As New DocScript.Runtime.Program(
 			 _Tokens:=DocScript.Runtime.Parser.GetTokensFromSource(_RawSource:=_Source),
-			 _ExecutionContext:=ESWorkerExecutionContext_Resources.ESWorkerExecutionContext(_ESID)
+			 _ExecutionContext:=DocScript.Interactive.ESWorker.ExecutionContextResources.ESWorkerExecutionContext(_ESID)
 			)
 
 			Dim _Program_ExitCode As Int32 = _
@@ -62,7 +62,7 @@
 				WebParts.DatabaseInteraction.SetExecutionSessionState_Finished(
 				_ESID:=_ESID,
 				_ExitReason:=String.Join(" "c, WebParts.DBContent.ES_ExitReasonFlag_InterpretationFailure, WebParts.DBContent.ES_ExitReasonFlag_B64ExceptionEquals & _InterpretationException.Message.PlainText_ToBase64())
-			 )
+				)
 				UsefulMethods.ConsoleWriteLineInColour("Exiting with ExitCode 1. Exception: " & _InterpretationException.Message, ConsoleColor.Red)
 				Environment.Exit(exitCode:=1)
 			Catch _WriteExceptionToDB_Ex As Exception When True : Throw New DSException("The ESWorker encountered an Interpretation-Exception, but could not Log this into the DataBase. The Interpretation-Exception was: " & _InterpretationException.Message, _InterpretationException) : End Try
@@ -94,7 +94,7 @@
 
 		 REM We are now dealing with a non-[System], Info/Warn/Err; Log in in the LogEvents Table for this ExeSes
 		 IgnoreLogEvents_ = True
-		 WebParts.DatabaseInteraction.AddExecutionSessionLogEvent(_ESID:=EntryPoint.TargetExeSes_ESID, _LogEvent:=_LogEvent)
+		 WebParts.DatabaseInteraction.AddExecutionSessionLogEvent(_ESID:=DocScript.Interactive.ESWorker.EntryPoint.TargetExeSes_ESID, _LogEvent:=_LogEvent)
 		 IgnoreLogEvents_ = False
 
 	 End Sub

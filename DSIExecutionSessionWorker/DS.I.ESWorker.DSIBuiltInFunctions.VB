@@ -1,6 +1,6 @@
 ﻿Imports DocScript.Runtime.BuiltInFunction, DocScript.Language.Variables, DocScript.Language.Instructions, DocScript.Language.Instructions.Statements
 
-Public Module DSI_BuiltInFunctions
+Public Module DSIBuiltInFunctions
 
 	Private Const DSIBIFs_IdentifierStart_$ = "DSI_"
 
@@ -66,9 +66,9 @@ Public Module DSI_BuiltInFunctions
 	Public ReadOnly Property [All_DSI_BuiltInFunctions](ByVal _ESID$) As DocScript.Runtime.BuiltInFunction()
 		Get
 			Return {
-			 Global.DocScript.DSI_BuiltInFunctions.BIF_DSI_InjectCEP_(_ESID),
-			 Global.DocScript.DSI_BuiltInFunctions.BIF_DSI_GetCurrentESID_(_ESID),
-			 Global.DocScript.DSI_BuiltInFunctions.BIF_DSI_MsgBox_(_ESID)
+			 Global.DocScript.Interactive.ESWorker.DSIBuiltInFunctions.BIF_DSI_InjectCEP_(_ESID),
+			 Global.DocScript.Interactive.ESWorker.DSIBuiltInFunctions.BIF_DSI_GetCurrentESID_(_ESID),
+			 Global.DocScript.Interactive.ESWorker.DSIBuiltInFunctions.BIF_DSI_MsgBox_(_ESID)
 			}
 		End Get
 	End Property

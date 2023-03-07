@@ -1,10 +1,6 @@
 ﻿Module EntryPoint
 
-#Region "Instance-specific Data"
-
-	Public TargetExeSes_ESID$ = Nothing 'Initialised by the CLA-Manager
-
-#End Region
+	Public TargetExeSes_ESID$ = Nothing	'Initialised by the CLA-Manager
 
 	''' <summary>The EntryPoint to the Application</summary>
 	''' <param name="_CLAs">The Command-Line Arguments</param>
@@ -12,7 +8,7 @@
 	Public Function Main(ByVal _CLAs As String()) As Int32
 		Try
 
-			DocScript.Logging.LogUtilities.CurrentLogEventHandler = ESWorker.ESWorkerLogEventHandler
+			DocScript.Logging.LogUtilities.CurrentLogEventHandler = ESWLogic.ESWorkerLogEventHandler
 
 			REM Should be given an ESID like /ESID:"HELLO_AH47"
 			Dim _CLAManager As New DocScript.Utilities.CLAManager(
@@ -22,7 +18,7 @@
 			) : If _CLAManager.HelpDictionaryWasDisplayed Then End
 
 			REM Host the Interpretation of the ExecutionSession's Program
-			ESWorker.HostExecutionSession(_ESID:=EntryPoint.TargetExeSes_ESID)
+			DocScript.Interactive.ESWorker.ESWLogic.HostExecutionSession(_ESID:=EntryPoint.TargetExeSes_ESID)
 
 			'That HostExecutionSession() Method should Environment.Exit() with the correct ExitCode.
 			'Therefore, if we're here, then that hasn't happerened, so something's gone wrong.

@@ -150,16 +150,22 @@ Namespace Runtime
 		Private Shared ReadOnly BIF_DS_String_At_ As New BuiltInFunction(BIF_DS_String_At_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString)), New DSFunction.Parameter("_Index", GetType(DSNumber))}, GetType(DSString), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_At_Identifier_$)
+			 Try
 
-			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
-			 New DSString(
-			  _Arguments.ElementAt(0).Coerce(Of DSString)().Value.ToCharArray().ElementAt(
-			  Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
-			 ).ToString()
-			)
+				 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_At_Identifier_$)
 
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+				 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
+				 New DSString(
+				  _Arguments.ElementAt(0).Coerce(Of DSString)().Value.ToCharArray().ElementAt(
+				  Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+				 ).ToString()
+				)
+
+				 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+			 Catch _Ex As Exception
+				 Throw New DSException(_Ex.Message & " The _String Length was " & _Arguments.ElementAt(0).Coerce(Of DSString)().Value.Length.ToString().InSquares() & ", and the _Index was " & Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value).ToString().InSquares(), _Ex)
+			 End Try
 
 		 End Function)
 		) With {.[Description] = "Returns the Character at _Index in the _String"}
@@ -291,15 +297,21 @@ Namespace Runtime
 		Private Shared ReadOnly BIF_DS_BooleanArray_At_ As New BuiltInFunction(BIF_DS_BooleanArray_At_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSBoolean))), New DSFunction.Parameter("_Index", GetType(DSNumber))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_At_Identifier_$)
+			 Try
 
-			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
-			_Arguments.ElementAt(0).Coerce(Of DSArray(Of DSBoolean))() _
-			.Elements.ElementAt(
-			 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
-			 )
+				 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_At_Identifier_$)
 
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+				 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
+				_Arguments.ElementAt(0).Coerce(Of DSArray(Of DSBoolean))() _
+				.Elements.ElementAt(
+				 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+				 )
+
+				 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+			 Catch _Ex As Exception
+				 Throw New DSException(_Ex.Message & " The _Array Length was " & _Arguments.ElementAt(0).Coerce(Of DSString)().Value.Length.ToString().InSquares() & ", and the _Index was " & Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value).ToString().InSquares(), _Ex)
+			 End Try
 
 		 End Function)
 		) With {.[Description] = "Returns the element at _Index in the _Array"}
@@ -436,15 +448,21 @@ Namespace Runtime
 		Private Shared ReadOnly BIF_DS_StringArray_At_ As New BuiltInFunction(BIF_DS_StringArray_At_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSString))), New DSFunction.Parameter("_Index", GetType(DSNumber))}, GetType(DSString), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_StringArray_At_Identifier_$)
+			 Try
 
-			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
-			   _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))() _
-			   .Elements.ElementAt(
-			 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
-			 )
+				 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_StringArray_At_Identifier_$)
 
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+				 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
+				_Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))() _
+				.Elements.ElementAt(
+				 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+				 )
+
+				 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+			 Catch _Ex As Exception
+				 Throw New DSException(_Ex.Message & " The _Array Length was " & _Arguments.ElementAt(0).Coerce(Of DSString)().Value.Length.ToString().InSquares() & ", and the _Index was " & Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value).ToString().InSquares(), _Ex)
+			 End Try
 
 		 End Function)
 		) With {.[Description] = "Returns the element at _Index in the _Array"}
@@ -616,15 +634,21 @@ Namespace Runtime
 		Private Shared ReadOnly BIF_DS_NumberArray_At_ As New BuiltInFunction(BIF_DS_NumberArray_At_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSNumber))), New DSFunction.Parameter("_Index", GetType(DSNumber))}, GetType(DSNumber), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_NumberArray_At_Identifier_$)
+			 Try
 
-			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
-			_Arguments.ElementAt(0).Coerce(Of DSArray(Of DSNumber))() _
-			.Elements.ElementAt(
-			 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
-			 )
+				 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_NumberArray_At_Identifier_$)
 
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+				 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _
+				_Arguments.ElementAt(0).Coerce(Of DSArray(Of DSNumber))() _
+				.Elements.ElementAt(
+				 Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+				 )
+
+				 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+			 Catch _Ex As Exception
+				 Throw New DSException(_Ex.Message & " The _Array Length was " & _Arguments.ElementAt(0).Coerce(Of DSString)().Value.Length.ToString().InSquares() & ", and the _Index was " & Convert.ToInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value).ToString().InSquares(), _Ex)
+			 End Try
 
 		 End Function)
 		) With {.[Description] = "Returns the element at _Index in the _Array"}

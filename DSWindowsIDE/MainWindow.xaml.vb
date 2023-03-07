@@ -522,7 +522,7 @@
 	End Sub
 
 	Public Sub LaunchDSExpr() Handles OpenDSExprButton.Click
-		Dim _DSExpr_ExeFile As New IO.FileInfo("DSExpr.exe")
+		Dim _DSExpr_ExeFile As New IO.FileInfo((New System.IO.FileInfo(System.Environment.GetCommandLineArgs().ElementAt(0))).DirectoryName & "\DSExpr.exe") 'CLA[0] is the Full Path to the current Process's Binary Image.
 		Try
 			Process.Start(_DSExpr_ExeFile.FullName)
 		Catch _Ex As Exception
@@ -531,7 +531,7 @@
 	End Sub
 
 	Public Sub RunInDSCLI() Handles RunInDSCLIButton.Click
-		Dim _DSCLI_ExeFile As New IO.FileInfo("DSCLI.exe")
+		Dim _DSCLI_ExeFile As New IO.FileInfo((New System.IO.FileInfo(System.Environment.GetCommandLineArgs().ElementAt(0))).DirectoryName & "\DSCLI.exe") 'CLA[0] is the Full Path to the current Process's Binary Image.
 		Try
 
 			REM Ensure that we have a CurrentlyOpenFile

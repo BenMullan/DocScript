@@ -1,12 +1,12 @@
-﻿Friend Module ESWorkerExecutionContext_Resources
+﻿Friend Module ExecutionContextResources
 
 	Public ReadOnly Property ESWorkerExecutionContext(ByVal _ESID$) As DocScript.Runtime.ExecutionContext
 		Get
 			Return New DocScript.Runtime.ExecutionContext(
 			 _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
-			 _InputDelegate:=ESWorkerExecutionContext_Resources.ESWorkerInputDelegate,
-			 _OutputDelegate:=ESWorkerExecutionContext_Resources.ESWorkerOutputDelegate,
-			 _BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions.Concat(DSI_BuiltInFunctions.All_DSI_BuiltInFunctions(_ESID)).ToArray()
+			 _InputDelegate:=ExecutionContextResources.ESWorkerInputDelegate,
+			 _OutputDelegate:=ExecutionContextResources.ESWorkerOutputDelegate,
+			 _BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions.Concat(DSIBuiltInFunctions.All_DSI_BuiltInFunctions(_ESID)).ToArray()
 			)
 		End Get
 	End Property

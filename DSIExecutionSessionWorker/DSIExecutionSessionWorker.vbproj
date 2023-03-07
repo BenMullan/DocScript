@@ -9,8 +9,8 @@
     </SchemaVersion>
     <ProjectGuid>{1DE7A26F-6C77-49EC-9C28-E55512C83BA2}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>DocScript.EntryPoint</StartupObject>
-    <RootNamespace>DocScript</RootNamespace>
+    <StartupObject>DocScript.Interactive.ESWorker.EntryPoint</StartupObject>
+    <RootNamespace>DocScript.Interactive.ESWorker</RootNamespace>
     <AssemblyName>DSIExecutionSessionWorker</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -93,10 +93,10 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DSI_BIFs.VB" />
-    <Compile Include="EntryPoint.VB" />
-    <Compile Include="ESWorker.VB" />
-    <Compile Include="ESWorkerExecutionContext.VB" />
+    <Compile Include="DS.I.ESWorker.DSIBuiltInFunctions.VB" />
+    <Compile Include="DS.I.ESWorker.EntryPoint.VB" />
+    <Compile Include="DS.I.ESWorker.ExecutionContextResources.VB" />
+    <Compile Include="DS.I.ESWorker.ESWLogic.VB" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
