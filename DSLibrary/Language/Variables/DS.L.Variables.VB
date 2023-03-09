@@ -293,7 +293,7 @@
 
 		''' <summary>Returns a string to represent the DSArray in the format {Item1, Item2, Item3}</summary>
 		Public Overrides Function ToString() As String
-			Return String.Join(", ", Me.Elements.Select(Of String)(Function(_Element As TElement) _Element.ToString())).InCurlies()
+			Return "(Length: " & Me.Elements.Count.ToString() & ") " & String.Join(", ", Me.Elements.Select(Of String)(Function(_Element As TElement) _Element.ToString())).InCurlies()
 		End Function
 
 	End Class

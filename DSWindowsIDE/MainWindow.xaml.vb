@@ -659,7 +659,7 @@
 		If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
 
 		Dim _RawSourceText$ = Me.SourceTextEditor.Text
-		Dim _CLAs$() = Me.ProgramCLAsTextBox.Text.Split(" "c)
+		Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
 
 		'Exceptions hence ↓ are MsgBoxed out
 		Me.StartBackgroundWorker("Interpreting...",
@@ -725,8 +725,10 @@
 	''' <summary>Sets the Me.Cached_ProgramExeRes Member</summary>
 	Public Sub ExecuteCachedProgram() Handles ExecuteButton.Click
 		Try
+
 			Me.Cached_Program.MustNotBeNothing("There was no Cached Program. Parsing and Lexing must occur first")
-			Dim _CLAs$() = Me.ProgramCLAsTextBox.Text.Split(" "c)
+			Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox 'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
+
 			Me.StartBackgroundWorker("Executing...",
 			Sub()
 				Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
@@ -734,10 +736,23 @@
 				: Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
 			End Sub
 			)
+
 		Catch _Ex As Exception
 			MsgBox("On executing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : Me.LoadingUIComponents_Reset()
 		End Try
 	End Sub
+
+	Public ReadOnly Property DocScriptCLAs_FromTextbox As [String]()
+		Get
+
+			REM If the TextBox is empty, then return an Empty Array
+			If [String].IsNullOrEmpty(Me.ProgramCLAsTextBox.Text) Then Return (New [String](-1) {}) '(New List(Of [String])()).ToArray()
+
+			REM Otherwise, return the .Text, Split() by " "c
+			Return Me.ProgramCLAsTextBox.Text.Split(" "c)
+
+		End Get
+	End Property
 
 #End Region
 

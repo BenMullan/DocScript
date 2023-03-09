@@ -636,7 +636,7 @@ Namespace CompilerExtentions
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Function GetStandardArraySerialisation(Of _TElement)(ByVal _Array As _TElement(), Optional ByVal _Seperator$ = ", ") As String
 
-			Return String.Join(_Seperator, _Array.Select(Function(_Element As _TElement) _Element.ToString())).InCurlies()
+			Return String.Join(_Seperator, _Array.Select(Function(_Element As _TElement) If(_Element IsNot Nothing, _Element.ToString(), "(GetStandardArraySerialisation: Nothing)"))).InCurlies()
 
 		End Function
 
