@@ -403,5 +403,11 @@
   <ItemGroup>
     <None Include="UtilityForms\PictorialHelp_Images\Keywords.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSRemoting.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSCompilation.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -186,30 +186,32 @@
 					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R" IsEnabled="False" />
 				</RibbonGroup>
 
-				<RibbonGroup x:Name="ExeCxtGroup" Header="ExecutionContext">
-					<RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
-				</RibbonGroup>
-
 				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">
 					<Label Content="Command-line Arguments:"/>
 					<TextBox x:Name="ProgramCLAsTextBox" Width="200" />
 				</RibbonGroup>
-
-			</RibbonTab>
-
-			<!-- The Debug RibbonTab -->
-			<RibbonTab x:Name="DebugTab" Header="Debug">
-
-				<RibbonGroup Header="Variables">
+				
+				<RibbonGroup Header="Debug">
 					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
-				</RibbonGroup>
-
-				<RibbonGroup Header="DocScript">
 					<RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />
 					<RibbonCheckBox Label="Process Debug Events" x:Name="ProcessDebugEventsCheckBox" />
 					<RibbonCheckBox Label="Use MsgBox Logging" Name="UseMsgBoxLoggingCheckBox" />
-					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
 					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
+					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
+				</RibbonGroup>
+
+			</RibbonTab>
+
+			<!-- The DocScript RibbonTab -->
+			<RibbonTab x:Name="DocScriptTab" Header="DocScript">
+
+				<RibbonGroup x:Name="ExeCxtGroup" Header="ExecutionContext">
+					<RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
+				</RibbonGroup>
+
+				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
+					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." />
+					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." />
 				</RibbonGroup>
 
 			</RibbonTab>
