@@ -135,6 +135,25 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Splits the _String at each occurance of the _SplitAtSequence of chars, returning <String@>"}
 
+		Private Const BIF_DS_String_Replace_Identifier_$ = DSBIFs_IdentifierStart_ & "String_Replace"
+		Private Shared ReadOnly BIF_DS_String_Replace_ As New BuiltInFunction(BIF_DS_String_Replace_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString)), New DSFunction.Parameter("_SubstringToBeReplaced", GetType(DSString)), New DSFunction.Parameter("_Replacement", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_Replace_Identifier_$)
+
+			 Dim _ArrayToReturn As String() = _
+			 _Arguments.ElementAt(0).Coerce(Of DSString)().Value _
+			 .Split({_Arguments.ElementAt(1).Coerce(Of DSString)().Value}, Global.System.StringSplitOptions.None)
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(
+			  _Arguments.ElementAt(0).Coerce(Of DSString)().Value.Replace(oldValue:=_Arguments.ElementAt(1).Coerce(Of DSString)().Value, newValue:=_Arguments.ElementAt(2).Coerce(Of DSString)().Value)
+			 )
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Replaces all instances of the _SubstringToBeReplaced that occur within the _String, with the _Replacement"}
+
 		Private Const BIF_DS_String_Length_Identifier_$ = DSBIFs_IdentifierStart_ & "String_Length"
 		Private Shared ReadOnly BIF_DS_String_Length_ As New BuiltInFunction(BIF_DS_String_Length_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString))}, GetType(DSNumber), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -706,6 +725,7 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_DS_InterpretTry_,
 		 StandardBuiltInFunctions.BIF_DS_InterpretProgram_,
 		 StandardBuiltInFunctions.BIF_DS_String_Split_,
+		 StandardBuiltInFunctions.BIF_DS_String_Replace_,
 		 StandardBuiltInFunctions.BIF_DS_String_Length_,
 		 StandardBuiltInFunctions.BIF_DS_String_At_,
 		 StandardBuiltInFunctions.BIF_DS_String_Contains_,

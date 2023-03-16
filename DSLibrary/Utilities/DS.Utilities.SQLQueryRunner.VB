@@ -3,9 +3,9 @@
 	''' <summary>Runs a Query on an SQL Server, returning the DataTable resulting from the Query</summary>
 	Public Class SQLQueryRunner
 
-		Public Enum SQLServerAuthenticationType As Byte
-			WindowsAuthentication
-			SQLServerAuthentication
+		Public Enum SQLServerAuthenticationType As [Byte]
+			WindowsAuthentication = 0
+			SQLServerAuthentication = 1
 		End Enum
 
 		REM Misc. Constants
@@ -122,6 +122,8 @@
 			Catch _Ex As Exception : Throw New DSException("@SQLQueryRunner\ExecuteQuery: " & _Ex.Message & ". The Query was: " & _Query.InSquares(), _Ex) : End Try
 		End Function
 
+#Region "QueryWatch Logic - For detecting a change in the result of an SQL Query"
+
 		''' <summary>
 		''' Begins listening for a change in the Output of the specified _Query. When a change occurs, the QueryWatch_QueryOutputChanged Event is Raised.
 		''' 
@@ -202,6 +204,8 @@
 			Me.RegisterSQLDependency_()
 
 		End Sub
+
+#End Region
 
 	End Class
 
