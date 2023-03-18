@@ -94,9 +94,10 @@
 
 		Me.LoadingUIComponents_SetForTaskStart(_TaskStatusDescription)
 
-		Dim _BackgroundWorker As New System.ComponentModel.BackgroundWorker()
-
-		_BackgroundWorker.WorkerReportsProgress = False : _BackgroundWorker.WorkerSupportsCancellation = True
+		Dim _BackgroundWorker As New System.ComponentModel.BackgroundWorker() With {
+			.WorkerReportsProgress = False,
+			.WorkerSupportsCancellation = True
+		}
 
 		REM If the Abort link is pressed, cancel the task
 		Dim _CancelBackgroundWorker_Action As New Windows.Input.MouseButtonEventHandler(
@@ -415,6 +416,10 @@
 #End Region
 
 #Region "Misc. Control Event Handlers"
+
+	Public Sub LaunchDSCompilationWindow() Handles DSCompilationButton.Click
+		Call (New DSCompilationWindow()).ShowDialog()
+	End Sub
 
 	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()
 	Public Sub InsertTextAtCursor(ByVal _Text$)

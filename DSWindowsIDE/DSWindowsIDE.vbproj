@@ -108,10 +108,10 @@
     <Compile Include="UtilityForms\BIFExplorerWindow.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilityForms\DSCompilation.Designer.VB">
-      <DependentUpon>DSCompilation.VB</DependentUpon>
+    <Compile Include="UtilityForms\DSCompilationWindow.Designer.VB">
+      <DependentUpon>DSCompilationWindow.VB</DependentUpon>
     </Compile>
-    <Compile Include="UtilityForms\DSCompilation.VB">
+    <Compile Include="UtilityForms\DSCompilationWindow.VB">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UtilityForms\ExeResExplorerWindow.Designer.VB">
@@ -208,8 +208,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UtilityForms\DSCompilation.resx">
-      <DependentUpon>DSCompilation.VB</DependentUpon>
+    <EmbeddedResource Include="UtilityForms\DSCompilationWindow.resx">
+      <DependentUpon>DSCompilationWindow.VB</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\ExeResExplorerWindow.resx">
       <DependentUpon>ExeResExplorerWindow.VB</DependentUpon>

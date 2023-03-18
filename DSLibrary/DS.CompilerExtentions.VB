@@ -1095,7 +1095,7 @@ Namespace CompilerExtentions
 
 		''' <summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a SaveFileDialog, and returns the Selected File, or NOTHING.</summary>
 		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
-		Public Function RequestFolderPath(ByVal _FileDialog_Title$, ByVal ParamArray _TargetFileExtentions As Tuple(Of String, String)()) As IO.FileInfo
+		Public Function RequestFilePath_WithSaveFileDialog(ByVal _FileDialog_Title$, ByVal ParamArray _TargetFileExtentions As Tuple(Of String, String)()) As IO.FileInfo
 			Try
 
 				Dim _ProvidedFilePath As [String] = Nothing
@@ -1117,10 +1117,19 @@ Namespace CompilerExtentions
 				_STAThread.SetApartmentState(Threading.ApartmentState.STA)
 				_STAThread.Start()
 				_STAThread.Join()
-				
+
 				Return If(_ProvidedFilePath = Nothing, Nothing, New IO.FileInfo(_ProvidedFilePath))
 
 			Catch _Ex As Exception : Throw New DSException("@RequestFolderPath: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>(MullNet UsefulMethod) Returns the directory of the current exe</summary>
+		Public Function GetExecutingAssemblyDirectory() As IO.DirectoryInfo
+
+			Dim _CodeBase$ = System.Reflection.Assembly.GetExecutingAssembly().CodeBase 'Looks like: "file:///C:/Windows/assembly/GAC_MSIL/Microsoft.VisualStudio.HostingProcess.Utilities/10.0.0.0__b03f5f7f11d50a3a/Microsoft.VisualStudio.HostingProcess.Utilities.dll"
+			Dim _UriBuilder As New UriBuilder(_CodeBase)
+			Return New IO.DirectoryInfo(IO.Path.GetDirectoryName(Uri.UnescapeDataString(_UriBuilder.Path)))
+
 		End Function
 
 	End Module
