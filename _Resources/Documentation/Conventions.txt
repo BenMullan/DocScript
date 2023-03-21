@@ -51,3 +51,39 @@ Abbreviations:
 - CEP		Client Execution Package (DocScript Interactive)
 - TPV		Tokens to (Token)Patterns Validator (Lexing)
 - IR		Intermediate Representation (Lexing; the Instruction Tree)
+
+
+DocScript Compilation - Planning
+- EXE Options
+	- Compile as either a Windows Program or Console Program
+
+- Process:
+	- Locate MSBuild.exe: Framework64\> dir /s /b MSBuild.exe
+	- Create VBProj?
+	- Perhaps:	MSBuild /property:Configuration=Release MyFile.vbproj
+	- Possibly:	vbc -reference:Microsoft.VisualBasic.dll File.vb
+	- Try:		vbc -target:library -ref:.\debug\bin\ref\file.dll File.vb
+
+What about:
+- Package the DocScript Source and DSCore.dll, inside a single .exe
+- Would need compile an EXE File like this:
+		
+		Public Module [DSProgram]
+			
+			Public Function [Main](ByVal [_CLAs] As [String]()) As [Int32]
+				
+				Dim [_ExeCxtToUse] As [ExecutionContext] = [ExecutionContext].[CLIDefault]
+
+				Dim [_Program] As [Program] = _
+					[Program].[FromSource]([_Source]:=[DSProgram].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])
+
+				Return [_Program].[Run](My.Application.CommandLineArguments).[ReturnStatus].[Program_ExitCode]
+				
+			End Function
+			
+			Public [DSSource] As [String] = _
+				"Function <Void> Main ()" & vbcrlf & _
+					"Return" & vbcrlf & _
+				"EndFunction"
+
+		End Module

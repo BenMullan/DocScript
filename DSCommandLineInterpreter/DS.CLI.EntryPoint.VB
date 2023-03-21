@@ -116,12 +116,10 @@
 		End Try
 
 		REM PromptBeforeExit if needed
-		If EntryPoint.PromptBeforeExit Then
-			UsefulMethods.ConsoleWriteInColour("Press [Enter] to continue...", _ForegroundColour:=ConsoleColor.Magenta, _BackgroundColour:=ConsoleColor.Gray) : Console.ReadLine()
-		End If
+		If EntryPoint.PromptBeforeExit Then : UsefulMethods.ConsoleWriteInColour("Press [Enter] to continue...", _ForegroundColour:=ConsoleColor.Magenta, _BackgroundColour:=ConsoleColor.Gray) : Console.ReadLine() : End If
 
 		REM Exit this DSCLI instance
-		Return _ExitCode
+		Return [_ExitCode]
 
 	End Function
 

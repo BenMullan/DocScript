@@ -47,6 +47,8 @@ Partial Class DSCompilationWindow
 		Me.TextBox5 = New System.Windows.Forms.TextBox()
 		Me.TextBox3 = New System.Windows.Forms.TextBox()
 		Me.TextBox4 = New System.Windows.Forms.TextBox()
+		Me.Label7 = New System.Windows.Forms.Label()
+		Me.ComboBox1 = New System.Windows.Forms.ComboBox()
 		Me.GroupBox1.SuspendLayout()
 		CType(Me.IconPreview_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox2.SuspendLayout()
@@ -55,7 +57,7 @@ Partial Class DSCompilationWindow
 		'
 		'Button1
 		'
-		Me.Button1.Location = New System.Drawing.Point(197, 308)
+		Me.Button1.Location = New System.Drawing.Point(197, 345)
 		Me.Button1.Name = "Button1"
 		Me.Button1.Size = New System.Drawing.Size(75, 23)
 		Me.Button1.TabIndex = 1
@@ -64,11 +66,13 @@ Partial Class DSCompilationWindow
 		'
 		'GroupBox1
 		'
+		Me.GroupBox1.Controls.Add(Me.ComboBox1)
 		Me.GroupBox1.Controls.Add(Me.ShowAdditionalOptions_LinkLabel)
 		Me.GroupBox1.Controls.Add(Me.IconPreviewError_Label)
 		Me.GroupBox1.Controls.Add(Me.IconPreview_PictureBox)
 		Me.GroupBox1.Controls.Add(Me.Button3)
 		Me.GroupBox1.Controls.Add(Me.Button2)
+		Me.GroupBox1.Controls.Add(Me.Label7)
 		Me.GroupBox1.Controls.Add(Me.Label2)
 		Me.GroupBox1.Controls.Add(Me.Label1)
 		Me.GroupBox1.Controls.Add(Me.IconFilePath_TextBox)
@@ -76,7 +80,7 @@ Partial Class DSCompilationWindow
 		Me.GroupBox1.Controls.Add(Me.Label6)
 		Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
 		Me.GroupBox1.Name = "GroupBox1"
-		Me.GroupBox1.Size = New System.Drawing.Size(446, 185)
+		Me.GroupBox1.Size = New System.Drawing.Size(446, 219)
 		Me.GroupBox1.TabIndex = 2
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "EXE Options"
@@ -84,7 +88,7 @@ Partial Class DSCompilationWindow
 		'ShowAdditionalOptions_LinkLabel
 		'
 		Me.ShowAdditionalOptions_LinkLabel.AutoSize = True
-		Me.ShowAdditionalOptions_LinkLabel.Location = New System.Drawing.Point(303, 162)
+		Me.ShowAdditionalOptions_LinkLabel.Location = New System.Drawing.Point(306, 193)
 		Me.ShowAdditionalOptions_LinkLabel.Name = "ShowAdditionalOptions_LinkLabel"
 		Me.ShowAdditionalOptions_LinkLabel.Size = New System.Drawing.Size(134, 13)
 		Me.ShowAdditionalOptions_LinkLabel.TabIndex = 4
@@ -104,7 +108,7 @@ Partial Class DSCompilationWindow
 		'IconPreview_PictureBox
 		'
 		Me.IconPreview_PictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-		Me.IconPreview_PictureBox.Location = New System.Drawing.Point(67, 102)
+		Me.IconPreview_PictureBox.Location = New System.Drawing.Point(67, 134)
 		Me.IconPreview_PictureBox.Name = "IconPreview_PictureBox"
 		Me.IconPreview_PictureBox.Size = New System.Drawing.Size(100, 72)
 		Me.IconPreview_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
@@ -166,11 +170,11 @@ Partial Class DSCompilationWindow
 		'
 		Me.Label6.AutoSize = True
 		Me.Label6.BackColor = System.Drawing.Color.Transparent
-		Me.Label6.Location = New System.Drawing.Point(96, 87)
+		Me.Label6.Location = New System.Drawing.Point(82, 119)
 		Me.Label6.Name = "Label6"
-		Me.Label6.Size = New System.Drawing.Size(48, 13)
+		Me.Label6.Size = New System.Drawing.Size(72, 13)
 		Me.Label6.TabIndex = 7
-		Me.Label6.Text = "Preview:"
+		Me.Label6.Text = "Icon Preview:"
 		'
 		'GroupBox2
 		'
@@ -178,9 +182,9 @@ Partial Class DSCompilationWindow
 		Me.GroupBox2.Controls.Add(Me.UseCustomVBCPath_CheckBox)
 		Me.GroupBox2.Controls.Add(Me.CheckBox1)
 		Me.GroupBox2.Controls.Add(Me.BrowseForCustomVBCPath_Button)
-		Me.GroupBox2.Location = New System.Drawing.Point(12, 203)
+		Me.GroupBox2.Location = New System.Drawing.Point(12, 237)
 		Me.GroupBox2.Name = "GroupBox2"
-		Me.GroupBox2.Size = New System.Drawing.Size(446, 88)
+		Me.GroupBox2.Size = New System.Drawing.Size(446, 91)
 		Me.GroupBox2.TabIndex = 3
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Compilation Options"
@@ -289,12 +293,31 @@ Partial Class DSCompilationWindow
 		Me.TextBox4.TabIndex = 0
 		Me.TextBox4.Text = "DocScript-Compiled Program"
 		'
+		'Label7
+		'
+		Me.Label7.AutoSize = True
+		Me.Label7.Location = New System.Drawing.Point(6, 86)
+		Me.Label7.Name = "Label7"
+		Me.Label7.Size = New System.Drawing.Size(34, 13)
+		Me.Label7.TabIndex = 6
+		Me.Label7.Text = "Type:"
+		'
+		'ComboBox1
+		'
+		Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.ComboBox1.FormattingEnabled = True
+		Me.ComboBox1.Items.AddRange(New Object() {"Windows Application", "Console Application"})
+		Me.ComboBox1.Location = New System.Drawing.Point(67, 83)
+		Me.ComboBox1.Name = "ComboBox1"
+		Me.ComboBox1.Size = New System.Drawing.Size(282, 21)
+		Me.ComboBox1.TabIndex = 9
+		'
 		'DSCompilationWindow
 		'
 		Me.AcceptButton = Me.Button1
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(468, 342)
+		Me.ClientSize = New System.Drawing.Size(468, 380)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox1)
@@ -340,4 +363,6 @@ Partial Class DSCompilationWindow
 	Friend WithEvents UseCustomVBCPath_CheckBox As System.Windows.Forms.CheckBox
 	Friend WithEvents CustomVBCPath_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents BrowseForCustomVBCPath_Button As System.Windows.Forms.Button
+	Friend WithEvents Label7 As System.Windows.Forms.Label
+	Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
 End Class
