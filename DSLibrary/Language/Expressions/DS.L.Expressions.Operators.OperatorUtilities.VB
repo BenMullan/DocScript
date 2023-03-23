@@ -26,7 +26,7 @@ Namespace Language.Expressions.Operators
 
 #Region "Misc. DSOperators"
 
-		Private DSOperator_EqualityComparrison_ As New BinaryOperator(_FriendlyName:="Equality Comparison", _Precedence:=1,
+		Private ReadOnly DSOperator_EqualityComparrison_ As New BinaryOperator(_FriendlyName:="Equality Comparison", _Precedence:=1,
 		_Operation:=
 		Function(_A As IDataValue, _B As IDataValue)
 			LogExecutionMessage("Equality Comparrison Operator: Comparing " & _A.Coerce(Of DSString)().Value.InSquares() & " to " & _B.Coerce(Of DSString)().Value.InSquares() & ". Result: " & (_A.Coerce(Of DSString)().Value = _B.Coerce(Of DSString)().Value).ToString() & ". DSBoolean threrfor Value: " & (New DSBoolean(_A.Coerce(Of DSString)().Value = _B.Coerce(Of DSString)().Value).Value).ToString(), LogEvent.DSEventSeverity.Debug)
@@ -38,7 +38,7 @@ Namespace Language.Expressions.Operators
 
 #Region "String* DSOperators"
 
-		Private DSOperator_StringConcatenation_ As New BinaryOperator(_FriendlyName:="String Concatenation", _Precedence:=2,
+		Private ReadOnly DSOperator_StringConcatenation_ As New BinaryOperator(_FriendlyName:="String Concatenation", _Precedence:=2,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSString(_A.Coerce(Of DSString)().Value & _B.Coerce(Of DSString)().Value)
 		)
 
@@ -46,19 +46,19 @@ Namespace Language.Expressions.Operators
 
 #Region "Logical* DSOperators"
 
-		Private DSOperator_LogicalNot_ As New UnaryOperator(_FriendlyName:="Logical Not", _Precedence:=8,
+		Private ReadOnly DSOperator_LogicalNot_ As New UnaryOperator(_FriendlyName:="Logical Not", _Precedence:=8,
 		_Operation:=Function(_A As IDataValue) New DSBoolean(Not _A.Coerce(Of DSBoolean)().Value)
 		)
 
-		Private DSOperator_LogicalAnd_ As New BinaryOperator(_FriendlyName:="Logical And", _Precedence:=7,
+		Private ReadOnly DSOperator_LogicalAnd_ As New BinaryOperator(_FriendlyName:="Logical And", _Precedence:=7,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSBoolean(_A.Coerce(Of DSBoolean)().Value AndAlso _B.Coerce(Of DSBoolean)().Value)
 		)
 
-		Private DSOperator_LogicalOr_ As New BinaryOperator(_FriendlyName:="Logical Or", _Precedence:=5,
+		Private ReadOnly DSOperator_LogicalOr_ As New BinaryOperator(_FriendlyName:="Logical Or", _Precedence:=5,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSBoolean(_A.Coerce(Of DSBoolean)().Value OrElse _B.Coerce(Of DSBoolean)().Value)
 		)
 
-		Private DSOperator_LogicalXOr_ As New BinaryOperator(_FriendlyName:="Logical XOr", _Precedence:=6,
+		Private ReadOnly DSOperator_LogicalXOr_ As New BinaryOperator(_FriendlyName:="Logical XOr", _Precedence:=6,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSBoolean(_A.Coerce(Of DSBoolean)().Value Xor _B.Coerce(Of DSBoolean)().Value)
 		)
 
@@ -66,31 +66,31 @@ Namespace Language.Expressions.Operators
 
 #Region "Numerical* DSOperators"
 
-		Private DSOperator_NumericalAddition_ As New BinaryOperator(_FriendlyName:="Numerical Addition", _Precedence:=4,
+		Private ReadOnly DSOperator_NumericalAddition_ As New BinaryOperator(_FriendlyName:="Numerical Addition", _Precedence:=4,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSNumber(_A.Coerce(Of DSNumber)().Value + _B.Coerce(Of DSNumber)().Value)
 		)
 
-		Private DSOperator_NumericalSubtraction_ As New BinaryOperator(_FriendlyName:="Numerical Subtraction", _Precedence:=4,
+		Private ReadOnly DSOperator_NumericalSubtraction_ As New BinaryOperator(_FriendlyName:="Numerical Subtraction", _Precedence:=4,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSNumber(_A.Coerce(Of DSNumber)().Value - _B.Coerce(Of DSNumber)().Value)
 		)
 
-		Private DSOperator_NumericalMultiplication_ As New BinaryOperator(_FriendlyName:="Numerical Multiplication", _Precedence:=3,
+		Private ReadOnly DSOperator_NumericalMultiplication_ As New BinaryOperator(_FriendlyName:="Numerical Multiplication", _Precedence:=3,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSNumber(_A.Coerce(Of DSNumber)().Value * _B.Coerce(Of DSNumber)().Value)
 		)
 
-		Private DSOperator_NumericalDivision_ As New BinaryOperator(_FriendlyName:="Numerical Division", _Precedence:=3,
+		Private ReadOnly DSOperator_NumericalDivision_ As New BinaryOperator(_FriendlyName:="Numerical Division", _Precedence:=3,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSNumber(_A.Coerce(Of DSNumber)().Value / _B.Coerce(Of DSNumber)().Value)
 		)
 
-		Private DSOperator_NumericalExponentiation_ As New BinaryOperator(_FriendlyName:="Numerical Exponentiation", _Precedence:=3,
+		Private ReadOnly DSOperator_NumericalExponentiation_ As New BinaryOperator(_FriendlyName:="Numerical Exponentiation", _Precedence:=3,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSNumber(_A.Coerce(Of DSNumber)().Value ^ _B.Coerce(Of DSNumber)().Value)
 		)
 
-		Private DSOperator_NumericalModulo_ As New BinaryOperator(_FriendlyName:="Numerical Modulo", _Precedence:=3,
+		Private ReadOnly DSOperator_NumericalModulo_ As New BinaryOperator(_FriendlyName:="Numerical Modulo", _Precedence:=3,
 		_Operation:=Function(_A As IDataValue, _B As IDataValue) New DSNumber(_A.Coerce(Of DSNumber)().Value Mod _B.Coerce(Of DSNumber)().Value)
 		)
 
-		Private DSOperator_NumericalInvertPolarity_ As New UnaryOperator(_FriendlyName:="Numerical Invert Polarity", _Precedence:=8,
+		Private ReadOnly DSOperator_NumericalInvertPolarity_ As New UnaryOperator(_FriendlyName:="Numerical Invert Polarity", _Precedence:=8,
 		_Operation:=Function(_A As IDataValue) New DSNumber(-_A.Coerce(Of DSNumber)().Value)
 		)
 

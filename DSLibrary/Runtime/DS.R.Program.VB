@@ -4,12 +4,14 @@
 	Public Class Program
 
 		''' <summary>The plain EntryPoint with no Input or Output. Used by Program.IsEntryPointFunctionSignature()</summary>
-		Public Shared ReadOnly ValidEntryPointFunction_Signature_Unadorned As Language.Instructions.Statements.DSFunction.Signature = _
-		 New Language.Instructions.Statements.DSFunction.Signature(Runtime.Constants.EntryPointFunction_Identifier, {}, GetType(Language.Variables.Void))
+		Public Shared ReadOnly ValidEntryPointFunction_Signature_Unadorned As New Language.Instructions.Statements.DSFunction.Signature(
+			Runtime.Constants.EntryPointFunction_Identifier, {}, GetType(Language.Variables.Void)
+		)
 
 		''' <summary>The EntryPoint for OperatingSystem-Interoperability. Used by Program.IsEntryPointFunctionSignature()</summary>
-		Public Shared ReadOnly ValidEntryPointFunction_Signature_OSInterop As Language.Instructions.Statements.DSFunction.Signature = _
-		  New Language.Instructions.Statements.DSFunction.Signature(Runtime.Constants.EntryPointFunction_Identifier, {GetType(Language.Variables.DSArray(Of Language.Variables.DSString))}, GetType(Language.Variables.DSNumber))
+		Public Shared ReadOnly ValidEntryPointFunction_Signature_OSInterop As New Language.Instructions.Statements.DSFunction.Signature(
+			Runtime.Constants.EntryPointFunction_Identifier, {GetType(Language.Variables.DSArray(Of Language.Variables.DSString))}, GetType(Language.Variables.DSNumber)
+		)
 
 #Region "Instance Properties"
 

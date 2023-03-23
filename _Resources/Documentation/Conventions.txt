@@ -67,23 +67,31 @@ DocScript Compilation - Planning
 What about:
 - Package the DocScript Source and DSCore.dll, inside a single .exe
 - Would need compile an EXE File like this:
+
+REM H:\Windows\Microsoft.NET\Framework64\v4.0.30319\vbc.exe DSPackage.VB /out:DSPackage.exe /target:exe /win32icon:DocScriptFile.ICO /reference:DSCore.dll
+REM D:\MullNet\exePrograms\_ProgrammingAndDevelopmentUtilities\ILMerge\ILMerge.exe DSPackage.exe DSCore.dll /out:ILM_DSPackage.exe
+REM ShowExitCode ILM_DSPackage.exe
+
+REM All-In-One:
+REM H:\Windows\Microsoft.NET\Framework64\v4.0.30319\vbc.exe DSPackage.VB /out:DSPackage.exe /target:exe /win32icon:DocScriptFile.ICO /reference:DSCore.dll && D:\MullNet\exePrograms\_ProgrammingAndDevelopmentUtilities\ILMerge\ILMerge.exe DSPackage.exe DSCore.dll /out:ILM_DSPackage.exe && ShowExitCode ILM_DSPackage.exe
+
+Public Module [DSPackage]
+			
+	Public Function [Main](ByVal [_CLAs] As [System].[String]()) As [System].[Int32]
 		
-		Public Module [DSProgram]
-			
-			Public Function [Main](ByVal [_CLAs] As [String]()) As [Int32]
-				
-				Dim [_ExeCxtToUse] As [ExecutionContext] = [ExecutionContext].[CLIDefault]
+		Dim [_ExeCxtToUse] As [DocScript].[Runtime].[ExecutionContext] = [DocScript].[Runtime].[ExecutionContext].[GUIDefault]
 
-				Dim [_Program] As [Program] = _
-					[Program].[FromSource]([_Source]:=[DSProgram].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])
+		Dim [_Program] As [DocScript].[Runtime].[Program] = _
+			[DocScript].[Runtime].[Program].[FromSource]([_Source]:=[DSPackage].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])
 
-				Return [_Program].[Run](My.Application.CommandLineArguments).[ReturnStatus].[Program_ExitCode]
-				
-			End Function
-			
-			Public [DSSource] As [String] = _
-				"Function <Void> Main ()" & vbcrlf & _
-					"Return" & vbcrlf & _
-				"EndFunction"
+		Return [_Program].[Run]([_CLAs]).[ReturnStatus].[Program_ExitCode]
 
-		End Module
+	End Function
+	
+	Public [DSSource] As [String] = _
+		"Function <Number> Main (<String@> _CLAs)" & vbcrlf & _
+			"Output(""DocScript CLAs: "" & _CLAs)" & vbcrlf & _
+			"Return 24" & vbcrlf & _
+		"EndFunction"
+
+End Module

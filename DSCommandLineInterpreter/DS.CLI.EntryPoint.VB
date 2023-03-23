@@ -7,18 +7,18 @@
 		EnterDSLiveSession = 3
 	End Enum
 
-	Dim DSLive_StartupText$ = _
-	  vbCrLf & _
-	  "┌───────────────────────────────────────┐ " & vbCrLf & _
-	  "│            ╔═══╗  DocScript           │▒" & vbCrLf & _
-	  "│            ╚═╦═╝   /Live              │▒" & vbCrLf & _
-	  "└───────────────────────────────────────┘▒" & vbCrLf & _
-	  " ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒" & vbCrLf & _
-	  vbCrLf & _
-	  " Only use Statement-Contents Instructions (no Function declarations)" & vbCrLf & _
-	  " Exit with !Exit (or Ctrl + C) - learn more with !Help" & vbCrLf & _
-	  " Use ? to Resolve an Expression e.g. ?14 + 33" & vbCrLf & _
-	  " Use ; for NewLine" & _
+	Public Const DSLive_StartupText$ =
+	  vbCrLf &
+	  "┌───────────────────────────────────────┐ " & vbCrLf &
+	  "│            ╔═══╗  DocScript           │▒" & vbCrLf &
+	  "│            ╚═╦═╝   /Live              │▒" & vbCrLf &
+	  "└───────────────────────────────────────┘▒" & vbCrLf &
+	  " ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒" & vbCrLf &
+	  vbCrLf &
+	  " Only use Statement-Contents Instructions (no Function declarations)" & vbCrLf &
+	  " Exit with !Exit (or Ctrl + C) - learn more with !Help" & vbCrLf &
+	  " Use ? to Resolve an Expression e.g. ?14 + 33" & vbCrLf &
+	  " Use ; for NewLine" &
 	  vbCrLf
 
 	Public Const DSLive_HelpMetaCommandText$ = _

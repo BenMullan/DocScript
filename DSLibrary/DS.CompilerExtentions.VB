@@ -36,7 +36,7 @@ Namespace CompilerExtentions
 		''' <summary>(MullNet CompilerExtention) Runs the ToString() of the _Object through the specified _Action</summary>
 		<System.Runtime.CompilerServices.Extension()>
 		Public Function Output(Of _TInput)(ByVal _Object As _TInput, ByVal _Action As Action(Of String), Optional ByVal _MsgBefore$ = "") As _TInput
-			If Not (_MsgBefore = "") Then _MsgBefore = (_MsgBefore & " "c)
+			If Not (_MsgBefore = "") Then _MsgBefore &= " "c
 			_Action.Invoke(_MsgBefore & _Object.ToString())
 			Return _Object
 		End Function

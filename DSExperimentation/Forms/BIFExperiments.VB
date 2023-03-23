@@ -63,7 +63,7 @@ Public Class BIFExperiments
 
 
 
-		Dim _LambdaBIF2 As BuiltInFunction = New BuiltInFunction(
+		Dim _LambdaBIF2 As New BuiltInFunction(
 		 _Identifier:="TMaths_Round",
 		 _ExpectedParameters:={New DSFunction.Parameter("T_Input", GetType(DSNumber))},
 		 _ReturnType:=GetType(DSNumber),

@@ -183,7 +183,7 @@
 			'ASP .NET for some reason decides to keep this Object shared and alive for all requests,
 			'Which causes the previous RC XML Children to be added too.
 
-			Dim _APIResponseXML As XElement = New XElement(EmptyAPIResponseXML)
+			Dim _APIResponseXML As New XElement(EmptyAPIResponseXML)
 
 			_APIResponseXML.<DataAboutResponse>.@ErrorMessage = Me.DAR_ErrorMessage
 			_APIResponseXML.<DataAboutResponse>.@HTTPStatusCode = (Convert.ToInt32(Me.DAR_HTTPStatusCode).ToString() & "/"c & Me.DAR_HTTPStatusCode.ToString("G")) 'E.g. 200/OK
