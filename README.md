@@ -4,8 +4,8 @@ A simple, procedural programming language, supporting real-time, multi-client Ex
 Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!<br/>
 
 ### Example Source
-Here's an example DocScript Program. It solves [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
-<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" height="60%" width="60%" /><br/>
+Here's an example DocScript Program to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
+<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" height="100%" width="100%" /><br/>
 
 ### There are four DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
