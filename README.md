@@ -3,6 +3,9 @@ A simple, procedural programming language, supporting real-time, multi-client Ex
   
 Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!<br/>
 
+# Example Source
+Here's an example DocScript Program. It solves [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
+<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" height="60%" width="60%" /><br/>
 
 ### There are four DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
@@ -22,3 +25,4 @@ Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=y
 - ...Or, read `\DSWebParts\(Source)\DatabaseResources\_CreateEntireDB.SQL` for DSInteractive Setup guidance.
 
 <br/><br/>Did you really just make it all the way to the end of this README? Well done!
+<br/>Perhaps you can be bothered to read the [DocScript Planning and Documentation...](https://github.com/BenMullan/DocScript/raw/master/_Resources/Documentation/FinalRC0_04032023_BenMullan_ALevelCS_ProgrammingProject_WriteUp.pdf)
