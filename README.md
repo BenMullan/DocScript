@@ -3,7 +3,7 @@ A simple, procedural programming language, supporting real-time, multi-client Ex
   
 Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!<br/>
 
-# Example Source
+### Example Source
 Here's an example DocScript Program. It solves [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
 <br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" height="60%" width="60%" /><br/>
 
