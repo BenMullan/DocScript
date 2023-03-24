@@ -1,11 +1,23 @@
 ﻿Public Class DSCompilationWindow
 
 	Public Const Placeholder_DSIDE_Dir$ = "$(DSIDE_Dir)"
+	Public ProgramToCompile As DocScript.Runtime.Program
+
+	Public Sub New(ByVal _Program As DocScript.Runtime.Program)
+
+		' This call is required by the designer.
+		InitializeComponent()
+
+		' Add any initialization after the InitializeComponent() call.
+		Me.ProgramToCompile = _Program
+
+	End Sub
 
 	Public Sub InitialiseUI() Handles Me.Shown
 
 		REM Attempt to get the Default ICON Loaded: $(DSIDE_Dir)\DocScriptFile.ICO
 		Me.LoadSpecifiedICO_IntoPreviewPictureBox()
+		Me.ExeType_ComboBox.SelectedIndex = 0
 
 	End Sub
 
@@ -19,6 +31,7 @@
 			Me.IconPreviewError_Label.Text = [String].[Empty]
 		Catch _Ex As Exception
 			Me.IconPreviewError_Label.Text = ("Could not load Icon Preview: " & _Ex.Message).ToCharArray().Intersperse(vbCrLf.ToCharArray(), 40)
+			Me.IconPreview_PictureBox.Image = Nothing
 		End Try
 	End Sub
 
@@ -46,6 +59,50 @@
 	Sub Toggle_CustomVBCPathControls_Enabledness() Handles UseCustomVBCPath_CheckBox.CheckedChanged
 		Me.CustomVBCPath_TextBox.Enabled = Me.UseCustomVBCPath_CheckBox.Checked
 		Me.BrowseForCustomVBCPath_Button.Enabled = Not Me.UseCustomVBCPath_CheckBox.Checked
+	End Sub
+
+	Public Sub RunCompilation() Handles CompileButton.Click
+		Try
+
+			REM ILMerge.exe, System.Compiler.dll, and DSCore.dll should exist in the same directory as DSCLI.exe
+			If Not {"ILMerge.exe", "System.Compiler.dll", "DSCore.dll"}.All(
+				Function(ByVal _FileName$) IO.File.Exists(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, _FileName))
+			) Then Throw New DSException("A copy of ILMerge.exe, System.Compiler.dll, and DSCore.dll must exist in the same directory as DSCLI.exe, in order for DSCompilation to function.")
+
+			REM Determine the ExeCxt to use, from the ComboBox
+			Select Case Me.ExeType_ComboBox.Text
+				Case "Windows Application" : Me.ProgramToCompile.ExecutionContext = Runtime.ExecutionContext.GUIDefault
+				Case "Console Application" : Me.ProgramToCompile.ExecutionContext = Runtime.ExecutionContext.CLIDefault
+				Case Else : Throw New DSValidationException("The Target Exe Type was unaccounted-for. Only Windows or Console Applications are valid.", Me.ExeType_ComboBox.Text)
+			End Select
+
+			REM Apply the MetaData to the Program
+			With Me.ProgramToCompile
+				.Name = Me.MetaData_ProductName_TextBox.Text
+				.Author = Me.MetaData_Author_TextBox.Text
+				.Description = Me.MetaData_Description_TextBox.Text
+				.Version = Me.MetaData_Version_TextBox.Text
+				.CopyrightMessage = Me.MetaData_Copyright_TextBox.Text
+			End With
+
+			REM CompileToExe()
+			Me.ProgramToCompile _
+			.MustNotBeNothing() _
+			.CompileToEXE(
+				_OutputDirectory:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Directory,
+				_FinalExeFile_NameOnly:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Name,
+				_VBCExe:=If(Me.UseCustomVBCPath_CheckBox.Checked, New IO.FileInfo(Me.CustomVBCPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)), Runtime.Program.DefaultVbcExe_ForCurrentSystem),
+				_ILMergeExe:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
+				_DSCoreDll:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
+				_IcoFile_ForExe:=New IO.FileInfo(Me.IconFilePath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)),
+				_DeleteIntermediateFiles:=Not Me.DoNotDeleteIntermediateFiles_CheckBox.Checked
+			)
+
+			REM Provide Feedback, and open the exe in explorer
+			MsgBox("The DocScript Program compiled successfully", MsgBoxStyle.Information)
+			Process.Start("Explorer.exe", "/select,""" & OutputEXE_FullPath_TextBox.Text & """"c)
+
+		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
 	End Sub
 
 End Class

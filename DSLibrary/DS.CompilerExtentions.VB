@@ -747,6 +747,17 @@ Namespace CompilerExtentions
 			Catch _Ex As Exception : Throw New DSException("@EachToUpper (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the _Array</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function RemoveFromEnd(Of _TElement)(ByVal _Array As _TElement(), ByVal _NumElementsToRemoveFromEnd As UInt32) As _TElement()
+			Try
+
+				If _NumElementsToRemoveFromEnd > _Array.Length Then Throw New DSException("The Number-of-elements-to-remove-from-the-end-of-the-array " & _NumElementsToRemoveFromEnd.ToString().InBrackets() & " cannot be greater than the number of elements in the array " & _Array.Length.ToString().InBrackets())
+				Return _Array.Take(CInt(_Array.Length - _NumElementsToRemoveFromEnd)).ToArray()
+
+			Catch _Ex As Exception : Throw New DSException("@RemoveFromEnd (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
+
 	End Module
 
 	REM There exists also the HTTPObjectExtentions Module in WebParts
@@ -1130,6 +1141,61 @@ Namespace CompilerExtentions
 			Dim _UriBuilder As New UriBuilder(_CodeBase)
 			Return New IO.DirectoryInfo(IO.Path.GetDirectoryName(Uri.UnescapeDataString(_UriBuilder.Path)))
 
+		End Function
+
+		''' <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. Returns both the STDOUT and STDERR.</summary>
+		Public Function RunProcess_AndReturnCommandLineOutput(ByVal _ProcessImageFile As IO.FileInfo, Optional ByVal _Process_CLAs$ = "") As String
+			Try
+				With New System.Diagnostics.Process()
+
+					.StartInfo.UseShellExecute = False
+					.StartInfo.FileName = _ProcessImageFile.FullName
+					.StartInfo.Arguments = _Process_CLAs
+					.StartInfo.RedirectStandardOutput = True
+					.StartInfo.RedirectStandardError = True
+
+					.Start()
+					Dim _ProcessOutput$ = .StandardOutput.ReadToEnd()
+					Dim _ErrorOutput$ = .StandardError.ReadToEnd()
+					.WaitForExit()
+
+					If String.IsNullOrEmpty(_ProcessOutput) AndAlso (Not String.IsNullOrEmpty(_ErrorOutput)) Then : Return _ErrorOutput
+					ElseIf String.IsNullOrEmpty(_ErrorOutput) AndAlso (Not String.IsNullOrEmpty(_ProcessOutput)) Then : Return _ProcessOutput
+					ElseIf (Not String.IsNullOrEmpty(_ErrorOutput)) AndAlso (Not String.IsNullOrEmpty(_ProcessOutput)) Then : Return _ProcessOutput & vbCrLf & _ErrorOutput
+					ElseIf String.IsNullOrEmpty(_ErrorOutput) AndAlso String.IsNullOrEmpty(_ProcessOutput) Then : Return String.Empty
+					Else : Throw New Exception("Unaccounted-for Process Error/Output eventuality")
+					End If
+
+				End With
+			Catch _Ex As Exception : Throw New DSException("@RunProcess_AndReturnCommandLineOutput: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object.</summary>
+		Public Function RunProcess_AndReturnCommandLineOutput(ByRef _InputProcess As Process) As [String]
+			Try
+				With _InputProcess
+
+					.StartInfo.UseShellExecute = False
+					.StartInfo.RedirectStandardOutput = True
+					.StartInfo.RedirectStandardError = True
+
+					.Start()
+					Dim _ProcessOutput$ = .StandardOutput.ReadToEnd()
+					Dim _ErrorOutput$ = .StandardError.ReadToEnd()
+					.WaitForExit()
+
+					Dim _Process_StdOut_AndStdErr$
+					If String.IsNullOrEmpty(_ProcessOutput) AndAlso (Not String.IsNullOrEmpty(_ErrorOutput)) Then : _Process_StdOut_AndStdErr$ = _ErrorOutput
+					ElseIf String.IsNullOrEmpty(_ErrorOutput) AndAlso (Not String.IsNullOrEmpty(_ProcessOutput)) Then : _Process_StdOut_AndStdErr$ = _ProcessOutput
+					ElseIf (Not String.IsNullOrEmpty(_ErrorOutput)) AndAlso (Not String.IsNullOrEmpty(_ProcessOutput)) Then : _Process_StdOut_AndStdErr$ = _ProcessOutput & vbCrLf & _ErrorOutput
+					ElseIf String.IsNullOrEmpty(_ErrorOutput) AndAlso String.IsNullOrEmpty(_ProcessOutput) Then : _Process_StdOut_AndStdErr$ = String.Empty
+					Else : Throw New Exception("Unaccounted-for Process Error/Output eventuality")
+					End If
+
+					Return _Process_StdOut_AndStdErr
+
+				End With
+			Catch _Ex As Exception : Throw New DSException("@RunProcess_AndReturnCommandLineOutput: " & _Ex.Message, _Ex) : End Try
 		End Function
 
 	End Module

@@ -418,7 +418,10 @@
 #Region "Misc. Control Event Handlers"
 
 	Public Sub LaunchDSCompilationWindow() Handles DSCompilationButton.Click
-		Call (New DSCompilationWindow()).ShowDialog()
+		Try
+			Dim _Program As DocScript.Runtime.Program = Runtime.Program.FromSource(Me.SourceTextEditor.Text, Runtime.ExecutionContext.GUIDefault)
+			Call (New DSCompilationWindow(_Program)).ShowDialog()
+		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
 	End Sub
 
 	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()

@@ -5,6 +5,9 @@
 
 #Region "ExeCxt \ Propities"
 
+		'''' <summary>Should be unique for each type of ExecutionContext (e.g. a GUI one vs a CLI one). Used when comparing several delegates.</summary>
+		Public ReadOnly ID As String
+
 		REM Can be set automatically via System.IO.Path.GetDirectoryName(Application.ExecutablePath)
 		Public ReadOnly RootFolder As IO.DirectoryInfo
 
@@ -38,7 +41,7 @@
 
 #End Region
 
-		Public Sub New(ByVal _RootFolder As IO.DirectoryInfo, ByVal _InputDelegate As Func(Of String, String), ByVal _OutputDelegate As Action(Of String), ByVal _BuiltInFunctions As BuiltInFunction())
+		Public Sub New(ByVal _ID$, ByVal _RootFolder As IO.DirectoryInfo, ByVal _InputDelegate As Func(Of String, String), ByVal _OutputDelegate As Action(Of String), ByVal _BuiltInFunctions As BuiltInFunction())
 
 			LogExecutionMessage(String.Format("Constructing an ExecutionContext with {0} BuitInFunctions and a RootFoler of {1}", _BuiltInFunctions.Length.ToString(), _RootFolder.FullName.InSquares()))
 
@@ -47,6 +50,7 @@
 			 .Concat({Runtime.Constants.InputFunction_Identifier.ToUpper(), Runtime.Constants.OutputFunction_Identifier.ToUpper()}) _
 			 .ToArray().AllElementsAreUnique() Then Throw New DSValidationException("ExeCxt: Each BuiltInFunction must have a unique Identifier", "The BIF Identifiers were: " & _BuiltInFunctions.Select(Of String)(Function(_BIF As Runtime.BuiltInFunction) _BIF.Identifier.ToUpper()).Concat({Runtime.Constants.InputFunction_Identifier.ToUpper(), Runtime.Constants.OutputFunction_Identifier.ToUpper()}).ToArray().GetStandardArraySerialisation())
 
+			Me.ID = _ID
 			Me.RootFolder = _RootFolder
 			Me.InputDelegate = _InputDelegate : Me.OutputDelegate = _OutputDelegate
 			Me.BuiltInFunctions_WithoutIOBIFs_ = _BuiltInFunctions
@@ -121,10 +125,11 @@
 				 AddressOf Console.WriteLine
 
 				Return New ExecutionContext(
-				  _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
-				  _InputDelegate:=_CLIDefault_InputDelegate_,
-				  _OutputDelegate:=_CLIDefault_OutputDelegate_,
-				  _BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
+					_ID:="DS_BuiltInExeCxt_CLIDefault",
+					_RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
+					_InputDelegate:=_CLIDefault_InputDelegate_,
+					_OutputDelegate:=_CLIDefault_OutputDelegate_,
+					_BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
 				)
 
 			End Get
@@ -143,10 +148,11 @@
 				 Sub(_Message$) Global.Microsoft.VisualBasic.MsgBox(_Message, MsgBoxStyle.Information, "DocScript: Output")
 
 				Return New ExecutionContext(
-				  _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
-				  _InputDelegate:=_GUIDefault_InputDelegate_,
-				  _OutputDelegate:=_GUIDefault_OutputDelegate_,
-				  _BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
+					_ID:="DS_BuiltInExeCxt_GUIDefault",
+					_RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
+					_InputDelegate:=_GUIDefault_InputDelegate_,
+					_OutputDelegate:=_GUIDefault_OutputDelegate_,
+					_BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
 				)
 
 			End Get
@@ -171,6 +177,23 @@
 		Public Overrides Function ToString() As String
 			Return DocScript.Utilities.KVPSerialisation.GetKVPString({"BIFCount", Me.BuiltInFunctions.Count.ToString()}, {"RootFolder", Me.RootFolder.FullName})
 		End Function
+
+		Public Shared Operator <>(ByVal _A As ExecutionContext, ByVal _B As ExecutionContext) As Boolean
+			Return Not (_A = _B)
+		End Operator
+
+		Public Shared Operator =(ByVal _A As ExecutionContext, ByVal _B As ExecutionContext) As Boolean
+
+			Return (_A.ID = _B.ID)
+
+			'Return (
+			'	(_A.RootFolder.FullName = _B.RootFolder.FullName) AndAlso
+			'	(_A.InputDelegate = _B.InputDelegate) AndAlso
+			'	(_A.OutputDelegate = _B.OutputDelegate) AndAlso
+			'	(_A.BuiltInFunctions_WithoutIOBIFs_.Length = _B.BuiltInFunctions_WithoutIOBIFs_.Length)
+			')
+
+		End Operator
 
 	End Class
 

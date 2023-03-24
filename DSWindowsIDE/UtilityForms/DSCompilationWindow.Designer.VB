@@ -23,50 +23,54 @@ Partial Class DSCompilationWindow
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DSCompilationWindow))
-		Me.Button1 = New System.Windows.Forms.Button()
+		Me.CompileButton = New System.Windows.Forms.Button()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.ExeType_ComboBox = New System.Windows.Forms.ComboBox()
 		Me.ShowAdditionalOptions_LinkLabel = New System.Windows.Forms.LinkLabel()
 		Me.IconPreviewError_Label = New System.Windows.Forms.Label()
 		Me.IconPreview_PictureBox = New System.Windows.Forms.PictureBox()
 		Me.Button3 = New System.Windows.Forms.Button()
 		Me.Button2 = New System.Windows.Forms.Button()
+		Me.Label7 = New System.Windows.Forms.Label()
 		Me.Label2 = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.IconFilePath_TextBox = New System.Windows.Forms.TextBox()
-		Me.TextBox1 = New System.Windows.Forms.TextBox()
+		Me.OutputEXE_FullPath_TextBox = New System.Windows.Forms.TextBox()
 		Me.Label6 = New System.Windows.Forms.Label()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
 		Me.CustomVBCPath_TextBox = New System.Windows.Forms.TextBox()
 		Me.UseCustomVBCPath_CheckBox = New System.Windows.Forms.CheckBox()
-		Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+		Me.DoNotDeleteIntermediateFiles_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.BrowseForCustomVBCPath_Button = New System.Windows.Forms.Button()
 		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+		Me.Label9 = New System.Windows.Forms.Label()
+		Me.Label8 = New System.Windows.Forms.Label()
 		Me.Label5 = New System.Windows.Forms.Label()
 		Me.Label3 = New System.Windows.Forms.Label()
 		Me.Label4 = New System.Windows.Forms.Label()
-		Me.TextBox5 = New System.Windows.Forms.TextBox()
-		Me.TextBox3 = New System.Windows.Forms.TextBox()
-		Me.TextBox4 = New System.Windows.Forms.TextBox()
-		Me.Label7 = New System.Windows.Forms.Label()
-		Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+		Me.MetaData_Copyright_TextBox = New System.Windows.Forms.TextBox()
+		Me.MetaData_Description_TextBox = New System.Windows.Forms.TextBox()
+		Me.MetaData_Version_TextBox = New System.Windows.Forms.TextBox()
+		Me.MetaData_Author_TextBox = New System.Windows.Forms.TextBox()
+		Me.MetaData_ProductName_TextBox = New System.Windows.Forms.TextBox()
 		Me.GroupBox1.SuspendLayout()
 		CType(Me.IconPreview_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
 		Me.SuspendLayout()
 		'
-		'Button1
+		'CompileButton
 		'
-		Me.Button1.Location = New System.Drawing.Point(197, 345)
-		Me.Button1.Name = "Button1"
-		Me.Button1.Size = New System.Drawing.Size(75, 23)
-		Me.Button1.TabIndex = 1
-		Me.Button1.Text = "Compile..."
-		Me.Button1.UseVisualStyleBackColor = True
+		Me.CompileButton.Location = New System.Drawing.Point(197, 345)
+		Me.CompileButton.Name = "CompileButton"
+		Me.CompileButton.Size = New System.Drawing.Size(75, 23)
+		Me.CompileButton.TabIndex = 3
+		Me.CompileButton.Text = "Compile..."
+		Me.CompileButton.UseVisualStyleBackColor = True
 		'
 		'GroupBox1
 		'
-		Me.GroupBox1.Controls.Add(Me.ComboBox1)
+		Me.GroupBox1.Controls.Add(Me.ExeType_ComboBox)
 		Me.GroupBox1.Controls.Add(Me.ShowAdditionalOptions_LinkLabel)
 		Me.GroupBox1.Controls.Add(Me.IconPreviewError_Label)
 		Me.GroupBox1.Controls.Add(Me.IconPreview_PictureBox)
@@ -76,14 +80,24 @@ Partial Class DSCompilationWindow
 		Me.GroupBox1.Controls.Add(Me.Label2)
 		Me.GroupBox1.Controls.Add(Me.Label1)
 		Me.GroupBox1.Controls.Add(Me.IconFilePath_TextBox)
-		Me.GroupBox1.Controls.Add(Me.TextBox1)
+		Me.GroupBox1.Controls.Add(Me.OutputEXE_FullPath_TextBox)
 		Me.GroupBox1.Controls.Add(Me.Label6)
 		Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.Size = New System.Drawing.Size(446, 219)
-		Me.GroupBox1.TabIndex = 2
+		Me.GroupBox1.TabIndex = 0
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "EXE Options"
+		'
+		'ExeType_ComboBox
+		'
+		Me.ExeType_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.ExeType_ComboBox.FormattingEnabled = True
+		Me.ExeType_ComboBox.Items.AddRange(New Object() {"Windows Application", "Console Application"})
+		Me.ExeType_ComboBox.Location = New System.Drawing.Point(67, 83)
+		Me.ExeType_ComboBox.Name = "ExeType_ComboBox"
+		Me.ExeType_ComboBox.Size = New System.Drawing.Size(282, 21)
+		Me.ExeType_ComboBox.TabIndex = 9
 		'
 		'ShowAdditionalOptions_LinkLabel
 		'
@@ -91,7 +105,7 @@ Partial Class DSCompilationWindow
 		Me.ShowAdditionalOptions_LinkLabel.Location = New System.Drawing.Point(306, 193)
 		Me.ShowAdditionalOptions_LinkLabel.Name = "ShowAdditionalOptions_LinkLabel"
 		Me.ShowAdditionalOptions_LinkLabel.Size = New System.Drawing.Size(134, 13)
-		Me.ShowAdditionalOptions_LinkLabel.TabIndex = 4
+		Me.ShowAdditionalOptions_LinkLabel.TabIndex = 10
 		Me.ShowAdditionalOptions_LinkLabel.TabStop = True
 		Me.ShowAdditionalOptions_LinkLabel.Text = "Show Advanced Options..."
 		'
@@ -100,15 +114,15 @@ Partial Class DSCompilationWindow
 		Me.IconPreviewError_Label.AutoSize = True
 		Me.IconPreviewError_Label.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.IconPreviewError_Label.ForeColor = System.Drawing.Color.Red
-		Me.IconPreviewError_Label.Location = New System.Drawing.Point(173, 102)
+		Me.IconPreviewError_Label.Location = New System.Drawing.Point(190, 119)
 		Me.IconPreviewError_Label.Name = "IconPreviewError_Label"
 		Me.IconPreviewError_Label.Size = New System.Drawing.Size(0, 13)
-		Me.IconPreviewError_Label.TabIndex = 8
+		Me.IconPreviewError_Label.TabIndex = 4
 		'
 		'IconPreview_PictureBox
 		'
 		Me.IconPreview_PictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-		Me.IconPreview_PictureBox.Location = New System.Drawing.Point(67, 134)
+		Me.IconPreview_PictureBox.Location = New System.Drawing.Point(67, 132)
 		Me.IconPreview_PictureBox.Name = "IconPreview_PictureBox"
 		Me.IconPreview_PictureBox.Size = New System.Drawing.Size(100, 72)
 		Me.IconPreview_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
@@ -120,7 +134,7 @@ Partial Class DSCompilationWindow
 		Me.Button3.Location = New System.Drawing.Point(355, 55)
 		Me.Button3.Name = "Button3"
 		Me.Button3.Size = New System.Drawing.Size(60, 23)
-		Me.Button3.TabIndex = 3
+		Me.Button3.TabIndex = 8
 		Me.Button3.Text = "Browse..."
 		Me.Button3.UseVisualStyleBackColor = True
 		'
@@ -129,9 +143,18 @@ Partial Class DSCompilationWindow
 		Me.Button2.Location = New System.Drawing.Point(355, 29)
 		Me.Button2.Name = "Button2"
 		Me.Button2.Size = New System.Drawing.Size(60, 23)
-		Me.Button2.TabIndex = 1
+		Me.Button2.TabIndex = 6
 		Me.Button2.Text = "Browse..."
 		Me.Button2.UseVisualStyleBackColor = True
+		'
+		'Label7
+		'
+		Me.Label7.AutoSize = True
+		Me.Label7.Location = New System.Drawing.Point(6, 86)
+		Me.Label7.Name = "Label7"
+		Me.Label7.Size = New System.Drawing.Size(34, 13)
+		Me.Label7.TabIndex = 2
+		Me.Label7.Text = "Type:"
 		'
 		'Label2
 		'
@@ -139,7 +162,7 @@ Partial Class DSCompilationWindow
 		Me.Label2.Location = New System.Drawing.Point(6, 60)
 		Me.Label2.Name = "Label2"
 		Me.Label2.Size = New System.Drawing.Size(31, 13)
-		Me.Label2.TabIndex = 6
+		Me.Label2.TabIndex = 1
 		Me.Label2.Text = "Icon:"
 		'
 		'Label1
@@ -148,7 +171,7 @@ Partial Class DSCompilationWindow
 		Me.Label1.Location = New System.Drawing.Point(6, 34)
 		Me.Label1.Name = "Label1"
 		Me.Label1.Size = New System.Drawing.Size(55, 13)
-		Me.Label1.TabIndex = 5
+		Me.Label1.TabIndex = 0
 		Me.Label1.Text = "File name:"
 		'
 		'IconFilePath_TextBox
@@ -156,36 +179,36 @@ Partial Class DSCompilationWindow
 		Me.IconFilePath_TextBox.Location = New System.Drawing.Point(67, 57)
 		Me.IconFilePath_TextBox.Name = "IconFilePath_TextBox"
 		Me.IconFilePath_TextBox.Size = New System.Drawing.Size(282, 20)
-		Me.IconFilePath_TextBox.TabIndex = 2
+		Me.IconFilePath_TextBox.TabIndex = 7
 		Me.IconFilePath_TextBox.Text = "$(DSIDE_Dir)\DocScriptFile.ICO"
 		'
-		'TextBox1
+		'OutputEXE_FullPath_TextBox
 		'
-		Me.TextBox1.Location = New System.Drawing.Point(67, 31)
-		Me.TextBox1.Name = "TextBox1"
-		Me.TextBox1.Size = New System.Drawing.Size(282, 20)
-		Me.TextBox1.TabIndex = 0
+		Me.OutputEXE_FullPath_TextBox.Location = New System.Drawing.Point(67, 31)
+		Me.OutputEXE_FullPath_TextBox.Name = "OutputEXE_FullPath_TextBox"
+		Me.OutputEXE_FullPath_TextBox.Size = New System.Drawing.Size(282, 20)
+		Me.OutputEXE_FullPath_TextBox.TabIndex = 5
 		'
 		'Label6
 		'
 		Me.Label6.AutoSize = True
 		Me.Label6.BackColor = System.Drawing.Color.Transparent
-		Me.Label6.Location = New System.Drawing.Point(82, 119)
+		Me.Label6.Location = New System.Drawing.Point(82, 117)
 		Me.Label6.Name = "Label6"
 		Me.Label6.Size = New System.Drawing.Size(72, 13)
-		Me.Label6.TabIndex = 7
+		Me.Label6.TabIndex = 3
 		Me.Label6.Text = "Icon Preview:"
 		'
 		'GroupBox2
 		'
 		Me.GroupBox2.Controls.Add(Me.CustomVBCPath_TextBox)
 		Me.GroupBox2.Controls.Add(Me.UseCustomVBCPath_CheckBox)
-		Me.GroupBox2.Controls.Add(Me.CheckBox1)
+		Me.GroupBox2.Controls.Add(Me.DoNotDeleteIntermediateFiles_CheckBox)
 		Me.GroupBox2.Controls.Add(Me.BrowseForCustomVBCPath_Button)
 		Me.GroupBox2.Location = New System.Drawing.Point(12, 237)
 		Me.GroupBox2.Name = "GroupBox2"
 		Me.GroupBox2.Size = New System.Drawing.Size(446, 91)
-		Me.GroupBox2.TabIndex = 3
+		Me.GroupBox2.TabIndex = 1
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Compilation Options"
 		'
@@ -195,7 +218,7 @@ Partial Class DSCompilationWindow
 		Me.CustomVBCPath_TextBox.Location = New System.Drawing.Point(227, 46)
 		Me.CustomVBCPath_TextBox.Name = "CustomVBCPath_TextBox"
 		Me.CustomVBCPath_TextBox.Size = New System.Drawing.Size(122, 20)
-		Me.CustomVBCPath_TextBox.TabIndex = 2
+		Me.CustomVBCPath_TextBox.TabIndex = 0
 		'
 		'UseCustomVBCPath_CheckBox
 		'
@@ -203,19 +226,19 @@ Partial Class DSCompilationWindow
 		Me.UseCustomVBCPath_CheckBox.Location = New System.Drawing.Point(8, 48)
 		Me.UseCustomVBCPath_CheckBox.Name = "UseCustomVBCPath_CheckBox"
 		Me.UseCustomVBCPath_CheckBox.Size = New System.Drawing.Size(222, 17)
-		Me.UseCustomVBCPath_CheckBox.TabIndex = 1
+		Me.UseCustomVBCPath_CheckBox.TabIndex = 3
 		Me.UseCustomVBCPath_CheckBox.Text = "Do not auto-detect vbc.exe; use this one:"
 		Me.UseCustomVBCPath_CheckBox.UseVisualStyleBackColor = True
 		'
-		'CheckBox1
+		'DoNotDeleteIntermediateFiles_CheckBox
 		'
-		Me.CheckBox1.AutoSize = True
-		Me.CheckBox1.Location = New System.Drawing.Point(8, 25)
-		Me.CheckBox1.Name = "CheckBox1"
-		Me.CheckBox1.Size = New System.Drawing.Size(186, 17)
-		Me.CheckBox1.TabIndex = 0
-		Me.CheckBox1.Text = "Do not delete intermediate .VB file"
-		Me.CheckBox1.UseVisualStyleBackColor = True
+		Me.DoNotDeleteIntermediateFiles_CheckBox.AutoSize = True
+		Me.DoNotDeleteIntermediateFiles_CheckBox.Location = New System.Drawing.Point(8, 25)
+		Me.DoNotDeleteIntermediateFiles_CheckBox.Name = "DoNotDeleteIntermediateFiles_CheckBox"
+		Me.DoNotDeleteIntermediateFiles_CheckBox.Size = New System.Drawing.Size(186, 17)
+		Me.DoNotDeleteIntermediateFiles_CheckBox.TabIndex = 2
+		Me.DoNotDeleteIntermediateFiles_CheckBox.Text = "Do not delete intermediate .VB file"
+		Me.DoNotDeleteIntermediateFiles_CheckBox.UseVisualStyleBackColor = True
 		'
 		'BrowseForCustomVBCPath_Button
 		'
@@ -223,24 +246,46 @@ Partial Class DSCompilationWindow
 		Me.BrowseForCustomVBCPath_Button.Location = New System.Drawing.Point(355, 44)
 		Me.BrowseForCustomVBCPath_Button.Name = "BrowseForCustomVBCPath_Button"
 		Me.BrowseForCustomVBCPath_Button.Size = New System.Drawing.Size(60, 23)
-		Me.BrowseForCustomVBCPath_Button.TabIndex = 3
+		Me.BrowseForCustomVBCPath_Button.TabIndex = 1
 		Me.BrowseForCustomVBCPath_Button.Text = "Browse..."
 		Me.BrowseForCustomVBCPath_Button.UseVisualStyleBackColor = True
 		'
 		'GroupBox3
 		'
+		Me.GroupBox3.Controls.Add(Me.Label9)
+		Me.GroupBox3.Controls.Add(Me.Label8)
 		Me.GroupBox3.Controls.Add(Me.Label5)
 		Me.GroupBox3.Controls.Add(Me.Label3)
 		Me.GroupBox3.Controls.Add(Me.Label4)
-		Me.GroupBox3.Controls.Add(Me.TextBox5)
-		Me.GroupBox3.Controls.Add(Me.TextBox3)
-		Me.GroupBox3.Controls.Add(Me.TextBox4)
+		Me.GroupBox3.Controls.Add(Me.MetaData_Copyright_TextBox)
+		Me.GroupBox3.Controls.Add(Me.MetaData_Description_TextBox)
+		Me.GroupBox3.Controls.Add(Me.MetaData_Version_TextBox)
+		Me.GroupBox3.Controls.Add(Me.MetaData_Author_TextBox)
+		Me.GroupBox3.Controls.Add(Me.MetaData_ProductName_TextBox)
 		Me.GroupBox3.Location = New System.Drawing.Point(470, 12)
 		Me.GroupBox3.Name = "GroupBox3"
 		Me.GroupBox3.Size = New System.Drawing.Size(362, 185)
-		Me.GroupBox3.TabIndex = 0
+		Me.GroupBox3.TabIndex = 2
 		Me.GroupBox3.TabStop = False
 		Me.GroupBox3.Text = "EXE MetaData"
+		'
+		'Label9
+		'
+		Me.Label9.AutoSize = True
+		Me.Label9.Location = New System.Drawing.Point(6, 138)
+		Me.Label9.Name = "Label9"
+		Me.Label9.Size = New System.Drawing.Size(54, 13)
+		Me.Label9.TabIndex = 4
+		Me.Label9.Text = "Copyright:"
+		'
+		'Label8
+		'
+		Me.Label8.AutoSize = True
+		Me.Label8.Location = New System.Drawing.Point(6, 112)
+		Me.Label8.Name = "Label8"
+		Me.Label8.Size = New System.Drawing.Size(63, 13)
+		Me.Label8.TabIndex = 3
+		Me.Label8.Text = "Description:"
 		'
 		'Label5
 		'
@@ -248,7 +293,7 @@ Partial Class DSCompilationWindow
 		Me.Label5.Location = New System.Drawing.Point(6, 86)
 		Me.Label5.Name = "Label5"
 		Me.Label5.Size = New System.Drawing.Size(45, 13)
-		Me.Label5.TabIndex = 5
+		Me.Label5.TabIndex = 2
 		Me.Label5.Text = "Version:"
 		'
 		'Label3
@@ -257,7 +302,7 @@ Partial Class DSCompilationWindow
 		Me.Label3.Location = New System.Drawing.Point(6, 60)
 		Me.Label3.Name = "Label3"
 		Me.Label3.Size = New System.Drawing.Size(41, 13)
-		Me.Label3.TabIndex = 4
+		Me.Label3.TabIndex = 1
 		Me.Label3.Text = "Author:"
 		'
 		'Label4
@@ -266,65 +311,64 @@ Partial Class DSCompilationWindow
 		Me.Label4.Location = New System.Drawing.Point(6, 34)
 		Me.Label4.Name = "Label4"
 		Me.Label4.Size = New System.Drawing.Size(78, 13)
-		Me.Label4.TabIndex = 3
+		Me.Label4.TabIndex = 0
 		Me.Label4.Text = "Product Name:"
 		'
-		'TextBox5
+		'MetaData_Copyright_TextBox
 		'
-		Me.TextBox5.Location = New System.Drawing.Point(90, 83)
-		Me.TextBox5.Name = "TextBox5"
-		Me.TextBox5.Size = New System.Drawing.Size(259, 20)
-		Me.TextBox5.TabIndex = 2
-		Me.TextBox5.Text = "1.0.0.0"
+		Me.MetaData_Copyright_TextBox.Location = New System.Drawing.Point(90, 135)
+		Me.MetaData_Copyright_TextBox.Name = "MetaData_Copyright_TextBox"
+		Me.MetaData_Copyright_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Copyright_TextBox.TabIndex = 9
+		Me.MetaData_Copyright_TextBox.Text = "DS (c) 2023"
 		'
-		'TextBox3
+		'MetaData_Description_TextBox
 		'
-		Me.TextBox3.Location = New System.Drawing.Point(90, 57)
-		Me.TextBox3.Name = "TextBox3"
-		Me.TextBox3.Size = New System.Drawing.Size(259, 20)
-		Me.TextBox3.TabIndex = 1
-		Me.TextBox3.Text = "DocScript Programmer"
+		Me.MetaData_Description_TextBox.Location = New System.Drawing.Point(90, 109)
+		Me.MetaData_Description_TextBox.Name = "MetaData_Description_TextBox"
+		Me.MetaData_Description_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Description_TextBox.TabIndex = 8
+		Me.MetaData_Description_TextBox.Text = "Compiled DS Program"
 		'
-		'TextBox4
+		'MetaData_Version_TextBox
 		'
-		Me.TextBox4.Location = New System.Drawing.Point(90, 31)
-		Me.TextBox4.Name = "TextBox4"
-		Me.TextBox4.Size = New System.Drawing.Size(259, 20)
-		Me.TextBox4.TabIndex = 0
-		Me.TextBox4.Text = "DocScript-Compiled Program"
+		Me.MetaData_Version_TextBox.Location = New System.Drawing.Point(90, 83)
+		Me.MetaData_Version_TextBox.Name = "MetaData_Version_TextBox"
+		Me.MetaData_Version_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Version_TextBox.TabIndex = 7
+		Me.MetaData_Version_TextBox.Text = "1.0.0.0"
 		'
-		'Label7
+		'MetaData_Author_TextBox
 		'
-		Me.Label7.AutoSize = True
-		Me.Label7.Location = New System.Drawing.Point(6, 86)
-		Me.Label7.Name = "Label7"
-		Me.Label7.Size = New System.Drawing.Size(34, 13)
-		Me.Label7.TabIndex = 6
-		Me.Label7.Text = "Type:"
+		Me.MetaData_Author_TextBox.Location = New System.Drawing.Point(90, 57)
+		Me.MetaData_Author_TextBox.Name = "MetaData_Author_TextBox"
+		Me.MetaData_Author_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Author_TextBox.TabIndex = 6
+		Me.MetaData_Author_TextBox.Text = "DocScript Programmer"
 		'
-		'ComboBox1
+		'MetaData_ProductName_TextBox
 		'
-		Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-		Me.ComboBox1.FormattingEnabled = True
-		Me.ComboBox1.Items.AddRange(New Object() {"Windows Application", "Console Application"})
-		Me.ComboBox1.Location = New System.Drawing.Point(67, 83)
-		Me.ComboBox1.Name = "ComboBox1"
-		Me.ComboBox1.Size = New System.Drawing.Size(282, 21)
-		Me.ComboBox1.TabIndex = 9
+		Me.MetaData_ProductName_TextBox.Location = New System.Drawing.Point(90, 31)
+		Me.MetaData_ProductName_TextBox.Name = "MetaData_ProductName_TextBox"
+		Me.MetaData_ProductName_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_ProductName_TextBox.TabIndex = 5
+		Me.MetaData_ProductName_TextBox.Text = "DocScript-Compiled Program"
 		'
 		'DSCompilationWindow
 		'
-		Me.AcceptButton = Me.Button1
+		Me.AcceptButton = Me.CompileButton
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(468, 380)
+		Me.ClientSize = New System.Drawing.Size(469, 381)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox1)
-		Me.Controls.Add(Me.Button1)
+		Me.Controls.Add(Me.CompileButton)
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
 		Me.MaximizeBox = False
+		Me.MaximumSize = New System.Drawing.Size(860, 420)
 		Me.MinimizeBox = False
+		Me.MinimumSize = New System.Drawing.Size(485, 420)
 		Me.Name = "DSCompilationWindow"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
 		Me.Text = "DocScript Compilation"
@@ -339,12 +383,12 @@ Partial Class DSCompilationWindow
 
 	End Sub
 
-	Friend WithEvents Button1 As Forms.Button
+	Friend WithEvents CompileButton As Forms.Button
 	Friend WithEvents GroupBox1 As Forms.GroupBox
 	Friend WithEvents Label1 As System.Windows.Forms.Label
-	Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+	Friend WithEvents OutputEXE_FullPath_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-	Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+	Friend WithEvents DoNotDeleteIntermediateFiles_CheckBox As System.Windows.Forms.CheckBox
 	Friend WithEvents Label2 As System.Windows.Forms.Label
 	Friend WithEvents IconFilePath_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents Button3 As System.Windows.Forms.Button
@@ -353,10 +397,10 @@ Partial Class DSCompilationWindow
 	Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
 	Friend WithEvents Label3 As System.Windows.Forms.Label
 	Friend WithEvents Label4 As System.Windows.Forms.Label
-	Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
-	Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
+	Friend WithEvents MetaData_Author_TextBox As System.Windows.Forms.TextBox
+	Friend WithEvents MetaData_ProductName_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents Label5 As System.Windows.Forms.Label
-	Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
+	Friend WithEvents MetaData_Version_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents Label6 As System.Windows.Forms.Label
 	Friend WithEvents ShowAdditionalOptions_LinkLabel As System.Windows.Forms.LinkLabel
 	Friend WithEvents IconPreviewError_Label As System.Windows.Forms.Label
@@ -364,5 +408,9 @@ Partial Class DSCompilationWindow
 	Friend WithEvents CustomVBCPath_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents BrowseForCustomVBCPath_Button As System.Windows.Forms.Button
 	Friend WithEvents Label7 As System.Windows.Forms.Label
-	Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
+	Friend WithEvents ExeType_ComboBox As System.Windows.Forms.ComboBox
+	Friend WithEvents Label9 As Forms.Label
+	Friend WithEvents Label8 As Forms.Label
+	Friend WithEvents MetaData_Copyright_TextBox As Forms.TextBox
+	Friend WithEvents MetaData_Description_TextBox As Forms.TextBox
 End Class

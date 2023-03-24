@@ -3,6 +3,7 @@
 	Public ReadOnly Property ESWorkerExecutionContext(ByVal _ESID$) As DocScript.Runtime.ExecutionContext
 		Get
 			Return New DocScript.Runtime.ExecutionContext(
+				_ID:="DS_Interactive_ESWorkerExeCxt",
 			 _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
 			 _InputDelegate:=ExecutionContextResources.ESWorkerInputDelegate,
 			 _OutputDelegate:=ExecutionContextResources.ESWorkerOutputDelegate,

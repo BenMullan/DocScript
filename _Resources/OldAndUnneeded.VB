@@ -641,4 +641,14 @@ Console.WriteLine(WebParts.DatabaseInteraction.GetUploadedProgramFromESID(EntryP
 
 
 
+
+
+
+
+		
+				'Copy 
+				If Not _DSCoreDll.Name = _DSCoreDll_FileName Then Throw New DSValidationException("The pointed-to instance of DSCore.dll must be called " & _DSCoreDll_FileName & ", because this name is releid upon in subsequent stages of DSCompilation", _DSCoreDll.Name)
+				If Not _DSCoreDll.Exists Then Throw New IO.FileNotFoundException("The pointed-to instance of DSCore.dll was not found", _DSCoreDll.FullName)
+
+
 #End If
