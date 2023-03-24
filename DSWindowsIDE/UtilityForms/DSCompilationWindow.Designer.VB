@@ -29,8 +29,8 @@ Partial Class DSCompilationWindow
 		Me.ShowAdditionalOptions_LinkLabel = New System.Windows.Forms.LinkLabel()
 		Me.IconPreviewError_Label = New System.Windows.Forms.Label()
 		Me.IconPreview_PictureBox = New System.Windows.Forms.PictureBox()
-		Me.Button3 = New System.Windows.Forms.Button()
-		Me.Button2 = New System.Windows.Forms.Button()
+		Me.BrowseForIconFilePath_Button = New System.Windows.Forms.Button()
+		Me.BrowseForEXEOutputFilePath_Button = New System.Windows.Forms.Button()
 		Me.Label7 = New System.Windows.Forms.Label()
 		Me.Label2 = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
@@ -65,7 +65,7 @@ Partial Class DSCompilationWindow
 		Me.CompileButton.Name = "CompileButton"
 		Me.CompileButton.Size = New System.Drawing.Size(75, 23)
 		Me.CompileButton.TabIndex = 3
-		Me.CompileButton.Text = "Compile..."
+		Me.CompileButton.Text = "&Compile..."
 		Me.CompileButton.UseVisualStyleBackColor = True
 		'
 		'GroupBox1
@@ -74,8 +74,8 @@ Partial Class DSCompilationWindow
 		Me.GroupBox1.Controls.Add(Me.ShowAdditionalOptions_LinkLabel)
 		Me.GroupBox1.Controls.Add(Me.IconPreviewError_Label)
 		Me.GroupBox1.Controls.Add(Me.IconPreview_PictureBox)
-		Me.GroupBox1.Controls.Add(Me.Button3)
-		Me.GroupBox1.Controls.Add(Me.Button2)
+		Me.GroupBox1.Controls.Add(Me.BrowseForIconFilePath_Button)
+		Me.GroupBox1.Controls.Add(Me.BrowseForEXEOutputFilePath_Button)
 		Me.GroupBox1.Controls.Add(Me.Label7)
 		Me.GroupBox1.Controls.Add(Me.Label2)
 		Me.GroupBox1.Controls.Add(Me.Label1)
@@ -129,23 +129,23 @@ Partial Class DSCompilationWindow
 		Me.IconPreview_PictureBox.TabIndex = 2
 		Me.IconPreview_PictureBox.TabStop = False
 		'
-		'Button3
+		'BrowseForIconFilePath_Button
 		'
-		Me.Button3.Location = New System.Drawing.Point(355, 55)
-		Me.Button3.Name = "Button3"
-		Me.Button3.Size = New System.Drawing.Size(60, 23)
-		Me.Button3.TabIndex = 8
-		Me.Button3.Text = "Browse..."
-		Me.Button3.UseVisualStyleBackColor = True
+		Me.BrowseForIconFilePath_Button.Location = New System.Drawing.Point(355, 55)
+		Me.BrowseForIconFilePath_Button.Name = "BrowseForIconFilePath_Button"
+		Me.BrowseForIconFilePath_Button.Size = New System.Drawing.Size(60, 23)
+		Me.BrowseForIconFilePath_Button.TabIndex = 8
+		Me.BrowseForIconFilePath_Button.Text = "Browse..."
+		Me.BrowseForIconFilePath_Button.UseVisualStyleBackColor = True
 		'
-		'Button2
+		'BrowseForEXEOutputFilePath_Button
 		'
-		Me.Button2.Location = New System.Drawing.Point(355, 29)
-		Me.Button2.Name = "Button2"
-		Me.Button2.Size = New System.Drawing.Size(60, 23)
-		Me.Button2.TabIndex = 6
-		Me.Button2.Text = "Browse..."
-		Me.Button2.UseVisualStyleBackColor = True
+		Me.BrowseForEXEOutputFilePath_Button.Location = New System.Drawing.Point(355, 29)
+		Me.BrowseForEXEOutputFilePath_Button.Name = "BrowseForEXEOutputFilePath_Button"
+		Me.BrowseForEXEOutputFilePath_Button.Size = New System.Drawing.Size(60, 23)
+		Me.BrowseForEXEOutputFilePath_Button.TabIndex = 6
+		Me.BrowseForEXEOutputFilePath_Button.Text = "Browse..."
+		Me.BrowseForEXEOutputFilePath_Button.UseVisualStyleBackColor = True
 		'
 		'Label7
 		'
@@ -391,8 +391,8 @@ Partial Class DSCompilationWindow
 	Friend WithEvents DoNotDeleteIntermediateFiles_CheckBox As System.Windows.Forms.CheckBox
 	Friend WithEvents Label2 As System.Windows.Forms.Label
 	Friend WithEvents IconFilePath_TextBox As System.Windows.Forms.TextBox
-	Friend WithEvents Button3 As System.Windows.Forms.Button
-	Friend WithEvents Button2 As System.Windows.Forms.Button
+	Friend WithEvents BrowseForIconFilePath_Button As System.Windows.Forms.Button
+	Friend WithEvents BrowseForEXEOutputFilePath_Button As System.Windows.Forms.Button
 	Friend WithEvents IconPreview_PictureBox As System.Windows.Forms.PictureBox
 	Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
 	Friend WithEvents Label3 As System.Windows.Forms.Label

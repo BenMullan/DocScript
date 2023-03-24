@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DSIExecutionSessionWorker
+</name>
+</assembly>
+<members>
+<member name="P:DocScript.Interactive.ESWorker.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:DocScript.Interactive.ESWorker.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:DocScript.Interactive.ESWorker.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:DocScript.Interactive.ESWorker.EntryPoint.Main(System.String[])">
+	<summary>The EntryPoint to the Application</summary>
+	<param name="_CLAs">The Command-Line Arguments</param>
+	<returns>0=AllWasFine; 1=ExceptionWasThrown</returns>
+</member><member name="P:DocScript.Interactive.ESWorker.DSIBuiltInFunctions.All_DSI_BuiltInFunctions(System.String)">
+	<summary>DocScript Interactive BIFs - accessible via calling DSI_Name()</summary>
+</member><member name="F:DocScript.Interactive.ESWorker.ESWLogic.IgnoreLogEvents_">
+	<summary>
+ Indicates that LogEvents should not be processed for the time-being, because they are only being caused as a result of attempting to Log a previous Event.
+ This prevents the infinite loop of [Log an Event] → [Log the fact that you're logging an Event] → ...
+ </summary>
+</member>
+</members>
+</doc>

@@ -440,15 +440,21 @@
 					"Public Module [DSPackage]" & vbCrLf &
 					vbCrLf &
 					vbTab & "Public Function [Main](ByVal [_CLAs] As [System].[String]()) As [System].[Int32]" & vbCrLf &
+					vbTab & vbTab & "Try" & vbCrLf &
 					vbCrLf &
-					vbTab & vbTab & "Dim [_ExeCxtToUse] As [DocScript].[Runtime].[ExecutionContext] = _" & vbCrLf &
-					vbTab & vbTab & vbTab & "[DocScript].[Runtime].[ExecutionContext].[" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "GUI", "CLI") & "Default]" & vbCrLf &
+					vbTab & vbTab & vbTab & "Dim [_ExeCxtToUse] As [DocScript].[Runtime].[ExecutionContext] = _" & vbCrLf &
+					vbTab & vbTab & vbTab & vbTab & "[DocScript].[Runtime].[ExecutionContext].[" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "GUI", "CLI") & "Default]" & vbCrLf &
 					vbCrLf &
-					vbTab & vbTab & "Dim [_Program] As [DocScript].[Runtime].[Program] = _" & vbCrLf &
-					vbTab & vbTab & vbTab & "[DocScript].[Runtime].[Program].[FromSource]([_Source]:=[DSPackage].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])" & vbCrLf &
+					vbTab & vbTab & vbTab & "Dim [_Program] As [DocScript].[Runtime].[Program] = _" & vbCrLf &
+					vbTab & vbTab & vbTab & vbTab & "[DocScript].[Runtime].[Program].[FromSource]([_Source]:=[DSPackage].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])" & vbCrLf &
 					vbCrLf &
-					vbTab & vbTab & "Return [_Program].[Run]([_CLAs]).[ReturnStatus].[Program_ExitCode]" & vbCrLf &
+					vbTab & vbTab & vbTab & "Return [_Program].[Run]([_CLAs]).[ReturnStatus].[Program_ExitCode]" & vbCrLf &
 					vbCrLf &
+					vbTab & vbTab & "Catch [_DSRuntimeEx] As [System].[Exception]" & vbCrLf &
+					vbTab & vbTab & vbTab & "Dim [_ErrorMsg] As [System].[String] = ""A Runtime Error has occured in the compiled DocScript Program:"" & [vbCrLf] & [_DSRuntimeEx].Message" & vbCrLf &
+					vbTab & vbTab & vbTab & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "[Microsoft].[VisualBasic].[Interaction].[MsgBox]([_ErrorMsg], [Microsoft].[VisualBasic].[MsgBoxStyle].[Critical])", "[DocScript].[CompilerExtentions].[UsefulMethods].[ConsoleWriteInColour]([_ErrorMsg], [ConsoleColor].[Red])") & vbCrLf &
+					vbTab & vbTab & vbTab & "Return -1" & vbCrLf &
+					vbTab & vbTab & "End Try" & vbCrLf &
 					vbTab & "End Function" & vbCrLf &
 					vbCrLf &
 					vbTab & "Public [DSSource] As [String] = _" & vbCrLf &

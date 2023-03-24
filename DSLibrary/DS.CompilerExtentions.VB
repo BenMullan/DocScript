@@ -988,6 +988,7 @@ Namespace CompilerExtentions
 		End Sub
 
 		''' <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour, without a LineBreak on the end</summary>
+		''' <remarks>DSCompilation's DSPackage.VB mechanism releis on this method!</remarks>
 		Public Sub ConsoleWriteInColour(ByVal _Text$, ByVal _ConsoleColour As ConsoleColor)
 
 			Dim _PreviousConsoleColour As ConsoleColor = Console.ForegroundColor

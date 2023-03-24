@@ -10,6 +10,11 @@
 
 		' Add any initialization after the InitializeComponent() call.
 		Me.ProgramToCompile = _Program
+		Try : If IO.File.Exists(_Program.Name) Then
+				Me.OutputEXE_FullPath_TextBox.Text = IO.Path.Combine((New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, IO.Path.GetFileNameWithoutExtension(Me.ProgramToCompile.Name)) & ".exe"
+				Me.MetaData_ProductName_TextBox.Text = IO.Path.GetFileNameWithoutExtension(Me.ProgramToCompile.Name)
+			End If
+		Catch : End Try
 
 	End Sub
 
@@ -18,6 +23,24 @@
 		REM Attempt to get the Default ICON Loaded: $(DSIDE_Dir)\DocScriptFile.ICO
 		Me.LoadSpecifiedICO_IntoPreviewPictureBox()
 		Me.ExeType_ComboBox.SelectedIndex = 0
+
+		AddHandler Me.BrowseForEXEOutputFilePath_Button.Click,
+			Sub()
+				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", New Tuple(Of String, String)("PE Binary Executables", "EXE"))
+				Me.OutputEXE_FullPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+			End Sub
+
+		AddHandler Me.BrowseForIconFilePath_Button.Click,
+			Sub()
+				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Icon...", New Tuple(Of String, String)("Windows Icons", "ICO"))
+				Me.IconFilePath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+			End Sub
+
+		AddHandler Me.BrowseForCustomVBCPath_Button.Click,
+			Sub()
+				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for custom VBC File...", New Tuple(Of String, String)("PE Binary Executables", "EXE"))
+				Me.CustomVBCPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+			End Sub
 
 	End Sub
 
@@ -58,7 +81,7 @@
 
 	Sub Toggle_CustomVBCPathControls_Enabledness() Handles UseCustomVBCPath_CheckBox.CheckedChanged
 		Me.CustomVBCPath_TextBox.Enabled = Me.UseCustomVBCPath_CheckBox.Checked
-		Me.BrowseForCustomVBCPath_Button.Enabled = Not Me.UseCustomVBCPath_CheckBox.Checked
+		Me.BrowseForCustomVBCPath_Button.Enabled = Me.UseCustomVBCPath_CheckBox.Checked
 	End Sub
 
 	Public Sub RunCompilation() Handles CompileButton.Click

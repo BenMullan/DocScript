@@ -1,0 +1,98 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DocScript.Experimentation
+</name>
+</assembly>
+<members>
+<member name="T:DSExperimentation.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:DSExperimentation.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:DSExperimentation.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:DSExperimentation.My.Resources.Resources._31082022_Example_ExprTree">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.SplitAtWithoutRemoving(System.String,System.Char[])">
+ <summary>
+ (MullNet CompilerExtention) Splits the String whenever one of the _CharsAtWhichToSplitString occours, but the _CharAtWhichToSplitString stays in each New String
+ <example>
+ "Hello, World; Today" and {","c, ";"c} Becomes {"Hello", ", World", "; Today"}
+ </example>
+ </summary>
+ <returns>The _InputString split at each occourance of a _CharAtWhichToSplitString</returns>
+ <remarks></remarks>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.WithLeadingWhiteSpaceRemoved(System.String)">
+ <summary>
+ (MullNet CompilerExtention) Returns a version of the string with any Spaces, Tabs, or LineBreak Characters which appear at the start of the String removed.
+ </summary>
+ <param name="_InputString">The String which may contain Leading Whitespace Characters</param>
+ <returns>The String without the Leading (preceding) WhiteSpace Characters</returns>
+ <remarks>Only returns the resultant output; does not modify the Input String. Chars removed (ASCII): 09, 10, 11, 12, 13, 32</remarks>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.WithTrailingWhiteSpaceRemoved(System.String)">
+ <summary>
+ (MullNet CompilerExtention) Returns a version of the string with any Spaces, Tabs, or LineBreak Characters which appear at the end of the String removed.
+ </summary>
+ <param name="_InputString">The String which may contain Trailing Whitespace Characters</param>
+ <returns>The String without the Trailing (following) WhiteSpace Characters</returns>
+ <remarks>Only returns the resultant output; does not modify the Input String. Chars removed (ASCII): 09, 10, 11, 12, 13, 32</remarks>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.RemoveFirstCharacter(System.String@)">
+ <summary>
+ (MullNet CompilerExtention) Removes the First Character from the String
+ </summary>
+ <param name="_InputString"></param>
+ <returns></returns>
+ <remarks>Both Modifies the Parameter, and returns the post-computation Result</remarks>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.RemoveLastCharacter(System.String@)">
+ <summary>
+ (MullNet CompilerExtention) Removes the Last Character from the String
+ </summary>
+ <param name="_InputString"></param>
+ <returns></returns>
+ <remarks>Both Modifies the Parameter, and returns the post-computation Result</remarks>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.IsEmpty(System.String)">
+ <summary>
+ (MullNet CompilerExtention) Evaluates weather or not the String is Empty. (WhiteSpace does not count as Empty)
+ </summary>
+ <param name="_InputString"></param>
+ <returns>Retruns True if the String is Empty</returns>
+ <remarks></remarks>
+</member>
+<member name="M:DSExperimentation.DSECompilerExtentions.MatchesRegEx(System.String,System.String)">
+ <summary>
+ (MullNet CompilerExtention) Matches a String against a Regular Expression
+ </summary>
+ <param name="_StringToValidate"></param>
+ <param name="_RegExPattern">The pattern to satisfy</param>
+ <returns>Returns True if the RegExp is satisfied by the Input String.</returns>
+ <remarks></remarks>
+</member>
+<member name="M:DSExperimentation.DSEExpressions.Node.ToString">
+ <summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
+</member>
+<member name="T:DSExperimentation.Token.TokenLocation">
+ <summary>
+ Represents the origional location of a Token in the Source
+ </summary>
+</member>
+</members>
+</doc>

@@ -420,6 +420,7 @@
 	Public Sub LaunchDSCompilationWindow() Handles DSCompilationButton.Click
 		Try
 			Dim _Program As DocScript.Runtime.Program = Runtime.Program.FromSource(Me.SourceTextEditor.Text, Runtime.ExecutionContext.GUIDefault)
+			If Me.CurrentlyOpenFile IsNot Nothing Then _Program.Name = Me.CurrentlyOpenFile.FullName
 			Call (New DSCompilationWindow(_Program)).ShowDialog()
 		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
 	End Sub

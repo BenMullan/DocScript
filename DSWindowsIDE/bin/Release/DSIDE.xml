@@ -1,0 +1,150 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DSIDE
+</name>
+</assembly>
+<members>
+<member name="M:DocScript.Application.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="M:DocScript.Application.Main">
+	<summary>
+Application Entry Point.
+</summary>
+</member><member name="T:DocScript.Application">
+	<summary>
+Application
+</summary>
+</member><member name="M:DocScript.MainWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:DocScript.MainWindow">
+	<summary>
+MainWindow
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__1_Title">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__2_DSArchitecture">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__3_DSInterpretation">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__4_Keywords">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__5_ReservedChars">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__6_InstructionTypes">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__7_PossibleLineTypes">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__8_Operators">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__9_OperatorsInfo">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__A_DSTypeCoercion">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__B_DS_TC">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__C_DSBinaries">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.__D_TokenColours">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.DocScript_SyntaxHighlighting">
+	<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.StartPictorialHelp">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:DocScript.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="P:DocScript.My.MyWpfExtension.Application">
+	<summary>
+ Returns the application object for the running application
+ </summary>
+</member><member name="P:DocScript.My.MyWpfExtension.Computer">
+	<summary>
+ Returns information about the host computer.
+ </summary>
+</member><member name="P:DocScript.My.MyWpfExtension.User">
+	<summary>
+ Returns information for the current user.  If you wish to run the application with the current 
+ Windows user credentials, call My.User.InitializeWithWindowsUser().
+ </summary>
+</member><member name="P:DocScript.My.MyWpfExtension.Log">
+	<summary>
+ Returns the application log. The listeners can be configured by the application's configuration file.
+ </summary>
+</member><member name="P:DocScript.My.MyWpfExtension.Windows">
+	<summary>
+ Returns the collection of Windows defined in the project.
+ </summary>
+</member><member name="T:DocScript.My.MyWpfExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for WPF
+ </summary>
+	<remarks></remarks>
+</member><member name="M:DocScript.MainWindow.HandleShortcutKey(System.Object,System.Windows.Input.KeyEventArgs)">
+	<summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
+</member><member name="M:DocScript.MainWindow.StartBackgroundWorker(System.String,System.Action)">
+	<summary>
+ Starts the Task, then Returns. When finished, the UI is reset to the Idle state.
+ Exceptions hence ↓ are MsgBoxed out
+ </summary>
+	<param name="_TaskStatusDescription"></param>
+	<param name="_Action">This MUST NOT Access UI Components without Me.InvokeIfRequired()</param>
+	<remarks></remarks>
+</member><member name="P:DocScript.MainWindow.CurrentSource_IsSaved">
+	<summary>Automatically adjusts the Window Title</summary>
+</member><member name="M:DocScript.MainWindow.RunCurrentSource">
+	<summary>Calls the ParseCurrentSource(), LexCachedTokens(), and ExecuteCachedProgram() Methods</summary>
+</member><member name="M:DocScript.MainWindow.ParseCurrentSource">
+	<summary>Sets the Me.Cached_Tokens Member, and Applies SyntaxHighlighting</summary>
+</member><member name="M:DocScript.MainWindow.LexCachedTokens">
+	<summary>Sets the Me.Cached_Program Member</summary>
+</member><member name="M:DocScript.MainWindow.ExecuteCachedProgram">
+	<summary>Sets the Me.Cached_ProgramExeRes Member</summary>
+</member>
+</members>
+</doc>
