@@ -442,7 +442,7 @@
 					vbTab & "Public Function [Main](ByVal [_CLAs] As [System].[String]()) As [System].[Int32]" & vbCrLf &
 					vbCrLf &
 					vbTab & vbTab & "Dim [_ExeCxtToUse] As [DocScript].[Runtime].[ExecutionContext] = _" & vbCrLf &
-					vbTab & vbTab & vbTab & "[DocScript].[Runtime].[ExecutionContext].[" & If(Me.ExecutionContext.Equals(Runtime.ExecutionContext.GUIDefault), "GUI", "CLI") & "Default]" & vbCrLf &
+					vbTab & vbTab & vbTab & "[DocScript].[Runtime].[ExecutionContext].[" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "GUI", "CLI") & "Default]" & vbCrLf &
 					vbCrLf &
 					vbTab & vbTab & "Dim [_Program] As [DocScript].[Runtime].[Program] = _" & vbCrLf &
 					vbTab & vbTab & vbTab & "[DocScript].[Runtime].[Program].[FromSource]([_Source]:=[DSPackage].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])" & vbCrLf &
@@ -463,7 +463,7 @@
 				If Not _VBCExe.Exists Then Throw New IO.FileNotFoundException("The copy of vbc.exe does not exist", _VBCExe.FullName)
 				Dim _VBCProcess As New Process() : With _VBCProcess
 					.StartInfo.FileName = _VBCExe.FullName
-					.StartInfo.Arguments = """"c & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageVB_FileName) & """ /out:""" & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageExe_FileName) & """ /target:" & If(Me.ExecutionContext.Equals(Runtime.ExecutionContext.GUIDefault), "winexe", "exe") & " /win32icon:""" & _IcoFile_ForExe.FullName & """ /reference:""" & _DSCoreDll.FullName & """"c
+					.StartInfo.Arguments = """"c & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageVB_FileName) & """ /out:""" & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageExe_FileName) & """ /target:" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "winexe", "exe") & " /win32icon:""" & _IcoFile_ForExe.FullName & """ /reference:""" & _DSCoreDll.FullName & """"c
 				End With
 				Dim _VBCOutput As String = UsefulMethods.RunProcess_AndReturnCommandLineOutput(_VBCProcess)
 				If Not (_VBCProcess.ExitCode = 0) Then Throw New DSException("The VBC.exe Process returned a non-zero ExitCode of " & _VBCProcess.ExitCode & ". Its output was: " & vbCrLf & _VBCOutput)

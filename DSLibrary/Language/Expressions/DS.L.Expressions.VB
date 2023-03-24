@@ -405,14 +405,16 @@
 
 		''' <summary>Returns what the Expression would have looked like in the Source</summary>
 		Public Overrides Function ToString() As String
+
 			If Operators.OperatorUtilities.IsBinaryOperator(Me.OperatorChar) Then
-				'Operand0 * Operand1
-				Return Me.SubExpressions(0).ToString() & Language.Constants.Space & Me.OperatorChar & Language.Constants.Space & Me.SubExpressions(1).ToString()
+				'[Operand0 * Operand1]
+				Return Language.Constants.OpeningExpressionBracket & Me.SubExpressions(0).ToString() & Language.Constants.Space & Me.OperatorChar & Language.Constants.Space & Me.SubExpressions(1).ToString() & Language.Constants.ClosingExpressionBracket
 			ElseIf Operators.OperatorUtilities.IsUnaryOperator(Me.OperatorChar) Then
-				'~ Operand0
-				Return Me.OperatorChar & Language.Constants.Space & Me.SubExpressions(0).ToString()
+				'[~ Operand0]
+				Return Language.Constants.OpeningExpressionBracket & Me.OperatorChar & Language.Constants.Space & Me.SubExpressions(0).ToString() & Language.Constants.ClosingExpressionBracket
 			Else : Throw New DSException("The OperatorExpr was neither a Unary or Binary Operator. The OperatorChar was: " & Me.OperatorChar.ToString().InSquares())
 			End If
+
 		End Function
 
 		''' <summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
