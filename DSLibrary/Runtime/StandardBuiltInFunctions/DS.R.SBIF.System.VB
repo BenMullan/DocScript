@@ -103,6 +103,19 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Downloads and returns the plain-text content at _URL"}
 
+		Private Const BIF_System_Ping_Identifier_$ = SystemBIFs_IdentifierStart_ & "Ping"
+		Private Shared ReadOnly BIF_System_Ping_ As New BuiltInFunction(BIF_System_Ping_Identifier_$, {New DSFunction.Parameter("_HostnameOrIP", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_Ping_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(
+				My.Computer.Network.Ping(_Arguments.First().Coerce(Of DSString)().Value)
+			 )
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Attempts to ping the _HostnameOrIP. Returns True if this was successful, and otherwise, False."}
+
 #End Region
 
 		''' <summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
@@ -114,7 +127,8 @@ Namespace Runtime
 			StandardBuiltInFunctions.BIF_System_PlayWav_,
 			StandardBuiltInFunctions.BIF_System_Run_,
 			StandardBuiltInFunctions.BIF_System_OpenFile_,
-			StandardBuiltInFunctions.BIF_System_Curl_
+			StandardBuiltInFunctions.BIF_System_Curl_,
+			StandardBuiltInFunctions.BIF_System_Ping_
 		}
 
 	End Class

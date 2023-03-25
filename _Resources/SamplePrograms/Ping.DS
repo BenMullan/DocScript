@@ -1,0 +1,5 @@
+﻿#Ping.DS
+Function <Number> Main (<String@> _CLAs)
+	Output( System_Ping("192.168.1.1") )
+	Return 0
+EndFunction
