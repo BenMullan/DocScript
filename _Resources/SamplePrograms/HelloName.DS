@@ -1,0 +1,5 @@
+﻿#HelloName.DS
+Function <Void> Main ()
+	<String> _Name : Input("Enter your name:")
+	Output("Hello, " & _Name)
+EndFunction

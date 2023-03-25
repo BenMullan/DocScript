@@ -7,17 +7,18 @@
 	Public Sub ExamineCLAs_And_SetPassthroughVariables()
 		Try
 
-			Dim _InstanceCLAs$() = Environment.GetCommandLineArgs() 'Includes the path to the binary at [0]
+			REM ↓ Includes the path to the binary at [0]
+			Dim _InstanceCLAs$() = Environment.GetCommandLineArgs()
 
-			REM If we have just been passed one file as a CLA, then just open it, instead of bothering with the CLAManager at all...
-			If (_InstanceCLAs.Length = 2) AndAlso (New IO.FileInfo(_InstanceCLAs.ElementAt(1))).Exists Then
+			REM ↓ If we have just been passed one file as a CLA, then just open it, instead of bothering with the CLAManager at all...
+			If (_InstanceCLAs.Length = 2) AndAlso [UsefulMethods].Result_OrFalseOnException(Function() (New IO.FileInfo(_InstanceCLAs.ElementAt(1))).Exists) Then
 				CLAManagment.CLAPassthrough_SourceFileToOpen = New IO.FileInfo(_InstanceCLAs.ElementAt(1))
 				Return
 			End If
 
-			REM We could be given a Source-File like /OpenSourceFile:"X:\HelloWorld.DS"
+			REM ↓ We could be given a Source-File like /OpenSourceFile:"X:\HelloWorld.DS"
 			Dim _CLAManager As New DocScript.Utilities.CLAManager(
-			_InstanceCLAs, "DocScript Windows Integrated-Development-Environment. Create, Execute, and Analyse DocScript Programs.",
+			_InstanceCLAs, "DocScript Windows Integrated-Development-Environment. Create, Execute, and Analyse DocScript Programs. Note that for compatibility reasons, source files can be passed to DSIDE.exe in the form DSIDE.exe {PathToSourceFile}. However, the /Key:Value CLAs provide more options.",
 			{"DSIDE.exe /OpenSourceFile:""X:\HelloWorld.DS"""}, Sub(_Msg$) CLAManagment.CLAPassthrough_TextToInsertIntoTextEditor = _Msg, False,
 			  New Utilities.CLAManager.CLADatum("OpenSourceFile", "[Datum] A path (relative or absolute) to a DocScript Source-File", False, True, Sub(_Value$) CLAManagment.CLAPassthrough_SourceFileToOpen = New IO.FileInfo(_Value)),
 			  New Utilities.CLAManager.CLADatum("Run", "[Action] Specifies that the DocScript Program in the file from /OpenSourceFile:<value> should be Run immediately.", False, False, Sub(_Value$) CLAManagment.CLAPassthrough_RunWhenReady = True)

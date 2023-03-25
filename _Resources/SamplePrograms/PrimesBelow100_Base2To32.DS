@@ -1,0 +1,70 @@
+﻿# "A user wishes list the prime numbers below 100, in each base from 2 (Binary) to 32 (Duotrigesimal)"
+
+# This script saves the bases to a file called PrimesBelow100_Base2To32.CSV
+# Open this in Excel and apply some conditional formatting for some cool results!
+
+Function <Number> Main (<String@> _CLAs)
+
+	#To be saved to an Output File:
+	<String> _AllPrimes_InAllBases
+	
+	#Up to 97:
+	<Number@> _Primes : GetPrimesBelow(100)
+
+	#For each Base {2...32}
+	<Number> _HighestBase : 32_10
+	<Number> _CurrentBase : 2_10
+	While ( Maths_LessThan(_CurrentBase, _HighestBase + 1) )
+		
+		_AllPrimes_InAllBases : _AllPrimes_InAllBases & "Base=" & _CurrentBase & ","
+		
+		#For each PrimeTerm {0...100}
+		<Number> _HighestPrimeTerm : DS_NumberArray_Length(_Primes)
+		<Number> _CurrentPrimeTerm : 0
+		While ( Maths_LessThan(_CurrentPrimeTerm, _HighestPrimeTerm) )
+			#Output e.g.	"2,"
+			_AllPrimes_InAllBases : _AllPrimes_InAllBases & [DS_Number_ToBase(DS_NumberArray_At(_Primes, _CurrentPrimeTerm), _CurrentBase) & ","]
+			_CurrentPrimeTerm : _CurrentPrimeTerm + 1
+		EndWhile
+		
+		_AllPrimes_InAllBases : _AllPrimes_InAllBases & Const_CrLf()
+		_CurrentBase : _CurrentBase + 1
+	EndWhile
+	
+	File_WriteText("PrimesBelow100_Base2To32.CSV", _AllPrimes_InAllBases, False)
+	System_OpenFile("PrimesBelow100_Base2To32.CSV")
+	Return 0
+
+EndFunction
+
+Function <Number@> GetPrimesBelow (<Number> _NumberOfPrimes)
+	
+	#A prime number is: a whole number [greater than 1] whose only factors are [1 and itself]
+	<Number@> _CollectedPrimes
+	
+	<Number> _IterationsToPerform : _NumberOfPrimes
+	<Number> _CurrentIteration : 2
+	While ( Maths_LessThan(_CurrentIteration, _IterationsToPerform + 1) )
+		If ( IsAPrime(_CurrentIteration) )
+			_CollectedPrimes : DS_NumberArray_Append(_CollectedPrimes, _CurrentIteration)
+		EndIf
+		_CurrentIteration : _CurrentIteration + 1
+	EndWhile
+	
+	Return _CollectedPrimes
+	
+EndFunction
+
+Function <Boolean> IsAPrime (<Number> _Test)
+
+	<Number> _I : 2
+	While ( Maths_LessThan(_I * _I, _Test) | [[_I * _I] = _Test] )
+		If ([_Test % _I] = 0)
+			Return False
+		EndIf
+		_I : _I + 1
+	EndWhile
+	
+	Return True
+	
+EndFunction

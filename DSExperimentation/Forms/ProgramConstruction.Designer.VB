@@ -42,6 +42,7 @@ Partial Class ProgramConstruction
 		Me.IOLWButton = New System.Windows.Forms.Button()
 		Me.TheDseFormChooser = New DSExperimentation.DSEFormChooser()
 		Me.SSFRTButton = New System.Windows.Forms.Button()
+		Me.Button4 = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'SourceTextBox
@@ -56,8 +57,8 @@ Partial Class ProgramConstruction
 		Me.SourceTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
 		Me.SourceTextBox.Size = New System.Drawing.Size(533, 146)
 		Me.SourceTextBox.TabIndex = 0
-		Me.SourceTextBox.Text = "#TestProgram.DS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<String> Name : ""Ben"" & "" "" & ""Mullan""" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<Number@> Ages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Functi" & _
-		 "on <String> GetName ()" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "EndFunction"
+		Me.SourceTextBox.Text = "#TestProgram.DS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<String> Name : ""Ben"" & "" "" & ""Mullan""" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<Number@> Ages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Functi" &
+	"on <String> GetName ()" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "EndFunction"
 		'
 		'Label1
 		'
@@ -233,12 +234,22 @@ Partial Class ProgramConstruction
 		Me.SSFRTButton.Text = "SubStaFromRemaining"
 		Me.SSFRTButton.UseVisualStyleBackColor = True
 		'
+		'Button4
+		'
+		Me.Button4.Location = New System.Drawing.Point(662, 301)
+		Me.Button4.Name = "Button4"
+		Me.Button4.Size = New System.Drawing.Size(47, 23)
+		Me.Button4.TabIndex = 15
+		Me.Button4.Text = "Dialog"
+		Me.Button4.UseVisualStyleBackColor = True
+		'
 		'ProgramConstruction
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(721, 486)
 		Me.Controls.Add(Me.SSFRTButton)
+		Me.Controls.Add(Me.Button4)
 		Me.Controls.Add(Me.IOLWButton)
 		Me.Controls.Add(Me.FCButton)
 		Me.Controls.Add(Me.RTCButton)
@@ -278,4 +289,5 @@ Partial Class ProgramConstruction
 	Friend WithEvents FCButton As System.Windows.Forms.Button
 	Friend WithEvents IOLWButton As System.Windows.Forms.Button
 	Friend WithEvents SSFRTButton As System.Windows.Forms.Button
+	Friend WithEvents Button4 As Button
 End Class

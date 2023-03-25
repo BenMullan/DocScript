@@ -1,0 +1,9 @@
+﻿#Curl.DS - Downloads a Server-Response from a URL
+
+Function <Void> Main ()
+	
+	<String> _HTML : System_Curl("http://BenM.eu5.org/")
+	
+	Output("Webpage Source:" & Const_CrLf() & _HTML)
+	
+EndFunction

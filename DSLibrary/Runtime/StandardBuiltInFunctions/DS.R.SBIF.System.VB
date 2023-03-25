@@ -79,16 +79,42 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Executes the _Command in the Shell"}
 
+		Private Const BIF_System_OpenFile_Identifier_$ = SystemBIFs_IdentifierStart_ & "OpenFile"
+		Private Shared ReadOnly BIF_System_OpenFile_ As New BuiltInFunction(BIF_System_OpenFile_Identifier_$, {New DSFunction.Parameter("_FilePath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_OpenFile_Identifier_$)
+			 Global.System.Diagnostics.Process.Start(_Arguments.First().Coerce(Of DSString)().Value)
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Launches the _FilePath via the Shell"}
+
+		Private Const BIF_System_Curl_Identifier_$ = SystemBIFs_IdentifierStart_ & "Curl"
+		Private Shared ReadOnly BIF_System_Curl_ As New BuiltInFunction(BIF_System_Curl_Identifier_$, {New DSFunction.Parameter("_URL", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_Curl_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(
+				(New Net.WebClient()).DownloadString(_Arguments.First().Coerce(Of DSString)().Value)
+			 )
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Downloads and returns the plain-text content at _URL"}
+
 #End Region
 
 		''' <summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
 		Public Shared ReadOnly System As DocScript.Runtime.BuiltInFunction() = {
-		 StandardBuiltInFunctions.BIF_System_GetTime_,
-		 StandardBuiltInFunctions.BIF_System_GetHostname_,
-		 StandardBuiltInFunctions.BIF_System_GetUsername_,
-		 StandardBuiltInFunctions.BIF_System_Beep_,
-		 StandardBuiltInFunctions.BIF_System_PlayWav_,
-		 StandardBuiltInFunctions.BIF_System_Run_
+			StandardBuiltInFunctions.BIF_System_GetTime_,
+			StandardBuiltInFunctions.BIF_System_GetHostname_,
+			StandardBuiltInFunctions.BIF_System_GetUsername_,
+			StandardBuiltInFunctions.BIF_System_Beep_,
+			StandardBuiltInFunctions.BIF_System_PlayWav_,
+			StandardBuiltInFunctions.BIF_System_Run_,
+			StandardBuiltInFunctions.BIF_System_OpenFile_,
+			StandardBuiltInFunctions.BIF_System_Curl_
 		}
 
 	End Class

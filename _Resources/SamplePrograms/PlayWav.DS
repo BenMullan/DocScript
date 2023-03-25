@@ -1,0 +1,14 @@
+﻿#PlayWav.DS - DocScript MULTIMEDIA features demonstration
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#Ensure a WAS file has been specified as the first Command-Line Argument
+	If (¬ [DS_StringArray_Length(_CLAs) = 1])
+		DS_ThrowError("Specify the path to a .WAV file in the Command-line Arguments!")
+	EndIf
+	
+	#Play
+	System_PlayWav( DS_StringArray_At(_CLAs, 0) )
+	
+	Return 0
+EndFunction

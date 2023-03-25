@@ -1,0 +1,11 @@
+﻿#ShowSymbolTables.DS - Debugging Example
+
+Function <Number> Main (<String@> _CLAs)
+	
+	While (True)
+		<Number> _ChangeValue : DS_Number_GetRandom(0, 100)
+		Debug_ShowSymbolTables()
+	EndWhile
+	
+	Return 0
+EndFunction

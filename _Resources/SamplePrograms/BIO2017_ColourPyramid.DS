@@ -1,0 +1,70 @@
+﻿#BIO 2017 Question 1(a)
+#Ben Mullan (c) 2022
+#https://www.olympiad.org.uk/papers/2017/bio/bio17-exam.pdf
+#https://www.olympiad.org.uk/papers/2017/bio/bio17-marks.pdf
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#	RGGBRR
+	#	BGRGR
+	#	RBBB
+	#	GBB
+	#	RB
+	#	G
+	
+	#Output(GetRowBelow("RGGBRR"))
+	#Output(GetChild(Input("ParentOne"), Input("ParentTwo")))
+	
+	If (¬[DS_StringArray_Length(_CLAs) = 1])
+		DS_ThrowError("Specify the Top row as a _CLA")
+	EndIf
+	
+	<String> _Row : DS_StringArray_At(_CLAs, 0)
+	
+	While (¬[DS_String_Length(_Row) = 1])
+		_Row : GetRowBelow(_Row)
+	EndWhile
+	
+	Output(_Row)
+	Return 0
+	
+EndFunction
+
+Function <String> GetRowBelow (<String> _TopRow)
+	
+	<String> _RowBelow : ""
+
+	<Number> _IterationsToPerform : DS_String_Length(_TopRow) - 2
+	<Number> _CurrentIteration : 0
+	
+	While ( Maths_LessThan(_CurrentIteration, _IterationsToPerform + 1) )
+				
+		_RowBelow : _RowBelow & GetChild( DS_String_At(_TopRow, _CurrentIteration), DS_String_At(_TopRow, _CurrentIteration + 1) )
+		
+		_CurrentIteration : _CurrentIteration + 1
+	EndWhile
+
+	Return _RowBelow
+
+EndFunction
+
+Function <String> GetChild (<String> _ParentOne, <String> _ParentTwo)
+
+	If (_ParentOne = _ParentTwo)
+		Return _ParentOne
+	Else
+		<String> _BothParents : [_ParentOne & _ParentTwo]
+		If (DS_String_Contains(_BothParents, "R") ' DS_String_Contains(_BothParents, "B"))
+			Return "G"
+		EndIf
+		If (DS_String_Contains(_BothParents, "R") ' DS_String_Contains(_BothParents, "G"))
+			Return "B"
+		EndIf
+		If (DS_String_Contains(_BothParents, "G") ' DS_String_Contains(_BothParents, "B"))
+			Return "R"
+		EndIf
+	EndIf
+	
+	DS_ThrowError("No Match was found for " & _ParentOne & " and " & _ParentTwo)
+
+EndFunction

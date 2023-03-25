@@ -15,7 +15,7 @@
 		System.Windows.Forms.Application.EnableVisualStyles()
 
 		Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
-		DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll	'TextFile(New IO.FileInfo("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Resources\DocScript.Log"))
+		DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll 'TextFile(New IO.FileInfo("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Resources\DocScript.Log"))
 		Me.CurrentExecutionContext = DocScript.Runtime.ExecutionContext.GUIDefault
 
 		RegisterCodeSnippetInsertion_EventHandlers_()
@@ -535,7 +535,7 @@
 		Try
 			Process.Start(_DSExpr_ExeFile.FullName)
 		Catch _Ex As Exception
-			MsgBox("On attempting to launch " & _DSExpr_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+			MsgBox("On attempting to launch " & _DSExpr_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message & vbCrLf & vbCrLf & "Note that the [Launch DSExpr] feature is designed only to work when the DocScript binaries exist within the same directory, such as when DocScript has been installed via the .msi setup program.", MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
 	End Sub
 
@@ -548,12 +548,12 @@
 
 			REM Run DSCLI.EXE
 			Process.Start(
-			 _DSCLI_ExeFile.FullName,
-			 String.Format("/PromptBeforeExit /Run /SourceFile:""{0}"" {1}", Me.CurrentlyOpenFile.FullName, If(String.IsNullOrEmpty(Me.ProgramCLAsTextBox.Text), String.Empty, "/DocScriptCLAs:""" & Me.ProgramCLAsTextBox.Text & """"))
+				_DSCLI_ExeFile.FullName,
+				String.Format("/PromptBeforeExit /Run /SourceFile:""{0}"" {1}", Me.CurrentlyOpenFile.FullName, If(String.IsNullOrEmpty(Me.ProgramCLAsTextBox.Text), String.Empty, "/DocScriptCLAs:""" & Me.ProgramCLAsTextBox.Text & """"))
 			)
 
 		Catch _Ex As Exception
-			MsgBox("On attempting to launch " & _DSCLI_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+			MsgBox("On attempting to launch " & _DSCLI_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message & vbCrLf & vbCrLf & "Note that the [Run in DSCLI] feature is designed only to work when the DocScript binaries exist within the same directory, such as when DocScript has been installed via the .msi setup program.", MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
 	End Sub
 

@@ -1,0 +1,21 @@
+﻿#TheLightswitchProblem.DS
+#See: https://www.youtube.com/watch?v=-UBDRX6bk-A
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#Declare the Lights
+	<Boolean@> _Lights : DS_Boolean_Repeat(False, 100)
+	
+	#Invert the correct Lights
+	<Number> _SkipThisMany : 0
+	While ( ¬[_SkipThisMany = DS_BooleanArray_Length(_Lights)] )
+		DS_BooleanArray_ForEach(_Lights, "If ([_Index % _SkipThisMany] = 0); _Lights : DS_BooleanArray_ReplaceAt(_Lights, _Index, ¬DS_BooleanArray_At(_Lights, _Index)); EndIf")
+		_SkipThisMany : _SkipThisMany + 1
+	EndWhile
+	
+	#Serialise the output
+	<String@> _ResultantLightStates : DS_BooleanArray_SelectStrings(_Lights, "DS_String_If(_Item, _Index, ``)")
+	Output("The Lights left on at the end are: " & Const_CrLf() & DS_StringArray_Serialise(DS_StringArray_Where(_ResultantLightStates, "¬[_Item = ``]"), ", "))
+	
+	Return 0
+EndFunction

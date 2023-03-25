@@ -1,0 +1,9 @@
+﻿#LambdaWhere.DS - DocScript LINQ-like abilities demonstration
+
+Function <Void> Main ()
+
+	#Outputs the Elements which start with "B"
+	<String@> Names : DS_String_Split("Ben,Ryan,Ollie,Billy", ",")
+	Output( DS_StringArray_Where(Names, "DS_String_At(_Item, 0)=`B`") )
+	
+EndFunction

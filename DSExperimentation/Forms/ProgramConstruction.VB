@@ -163,4 +163,21 @@
 
 	End Sub
 
+	Private Sub IOLWButton_Click(sender As Object, e As EventArgs) Handles IOLWButton.Click, Button4.Click
+		Dim _Dialog As New NewDialog()
+		_Dialog.ShowDialog()
+	End Sub
+
+	Public Class NewDialog : Inherits CommonDialog
+
+		Public Overrides Sub Reset()
+
+		End Sub
+
+		Protected Overrides Function RunDialog(hwndOwner As IntPtr) As Boolean
+			Return False
+		End Function
+
+	End Class
+
 End Class

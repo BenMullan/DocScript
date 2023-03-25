@@ -1,0 +1,8 @@
+﻿#InterpretTry.DS - Demonstrates nested interpretation, handling a troublesome statment
+Function <Number> Main (<String@> _CLAs)
+	
+	<Boolean> _Result : DS_InterpretTry(Input("DocScript Source to run:"))
+	Output("Interpretation Success: " & _Result)
+	
+	Return 0
+EndFunction

@@ -1,0 +1,20 @@
+﻿#IsAPrime.DS (Does what it says on the tin)
+
+Function <Void> Main ()
+	<Number> _Test : Input("Enter Test Number")
+	Output(_Test & " is a Prime: " & IsAPrime(_Test))
+EndFunction
+
+Function <Boolean> IsAPrime (<Number> _Test)
+
+	<Number> _I : 2
+	While ( Maths_LessThan(_I * _I, _Test) | [[_I * _I] = _Test] )
+		If ([_Test % _I] = 0)
+			Return False
+		EndIf
+		_I : _I + 1
+	EndWhile
+	
+	Return True
+	
+EndFunction

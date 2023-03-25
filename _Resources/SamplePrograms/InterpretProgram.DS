@@ -1,0 +1,7 @@
+﻿#InterpretProgram.DS - Demonstrates nested interpretation
+Function <Void> Main ()
+	
+	#The call to DS_InterpretProgram returns the exit-code of the sub-program
+	Output( DS_InterpretProgram("function <void> main (); output(`Inner`); endfunction", "", "GUI") )
+	
+EndFunction

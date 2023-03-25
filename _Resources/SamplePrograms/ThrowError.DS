@@ -1,0 +1,6 @@
+﻿#ThrowError.DS
+#Running this program will cause the DocScript Runtime to crash
+
+Function <Void> Main ()
+	DS_ThrowError("This is the Error Msg from DocScript!")
+EndFunction

@@ -336,6 +336,7 @@ DSCore
 </member>
 <member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleWriteInColour(System.String,System.ConsoleColor)">
  <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour, without a LineBreak on the end</summary>
+ <remarks>DSCompilation's DSPackage.VB mechanism releis on this method!</remarks>
 </member>
 <member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleWriteInColour(System.String,System.ConsoleColor,System.ConsoleColor)">
  <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ForegroundColour (without a LineBreak on the end), and using the specified _BackgroundColour</summary>
@@ -381,6 +382,9 @@ DSCore
 </member>
 <member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.Diagnostics.Process@)">
  <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object.</summary>
+</member>
+<member name="M:DocScript.CompilerExtentions.UsefulMethods.Result_OrFalseOnException(System.Func{System.Boolean}@)">
+ <summary>(MullNet UsefulMethod) Attempts to resolve the Function to a value of type Boolean, but returns False if an Exception is Thrown whilst attempting to perform this resolution</summary>
 </member>
 <member name="T:DocScript.Exceptions.DSException">
  <summary>The Base Execption Class whence all other DocScript Exceptions derive.</summary>

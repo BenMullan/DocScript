@@ -1,0 +1,16 @@
+﻿#5Iterations.DS - Waits for a second between each loop
+Function <Number> Main (<String@> _CLAs)
+	
+	<Number> _IterationsToPerform : 5
+	<Number> _CurrentIteration : 1
+	
+	While ( Maths_LessThan(_CurrentIteration, _IterationsToPerform + 1) )
+		Output("This is Iteration " & _CurrentIteration & " of " & _IterationsToPerform)
+		DS_Sleep(1000)
+		_CurrentIteration : _CurrentIteration + 1
+	EndWhile
+	
+	Output("All Iterations complete; Exiting...")
+	
+	Return 44
+EndFunction

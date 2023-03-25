@@ -1,0 +1,38 @@
+﻿#PrimesBelow100.DS
+#Run with e.g. DSCLI.exe /Run /SourceFile:"PrimesBelow100.DS"
+
+Function <Void> Main ()
+	Output("Primes below 100:" & Const_CrLf() & GetPrimesBelow(100))
+EndFunction
+
+Function <Number@> GetPrimesBelow (<Number> _NumberOfPrimes)
+	
+	#A prime number is: a whole number [greater than 1] whose only factors are [1 and itself]
+	<Number@> _CollectedPrimes
+	
+	<Number> _IterationsToPerform : _NumberOfPrimes
+	<Number> _CurrentIteration : 2
+	While ( Maths_LessThan(_CurrentIteration, _IterationsToPerform + 1) )
+		If ( IsAPrime(_CurrentIteration) )
+			_CollectedPrimes : DS_NumberArray_Append(_CollectedPrimes, _CurrentIteration)
+		EndIf
+		_CurrentIteration : _CurrentIteration + 1
+	EndWhile
+	
+	Return _CollectedPrimes
+	
+EndFunction
+
+Function <Boolean> IsAPrime (<Number> _Test)
+
+	<Number> _I : 2
+	While ( Maths_LessThan(_I * _I, _Test) | [[_I * _I] = _Test] )
+		If ([_Test % _I] = 0)
+			Return False
+		EndIf
+		_I : _I + 1
+	EndWhile
+	
+	Return True
+	
+EndFunction

@@ -1,0 +1,176 @@
+﻿#BIO 2023 Question 1
+#Ben Mullan 2022
+
+#Run using e.g. DSCLI.exe /Run /SourceFile:"BIO_2023_Q1.DS" /DocScriptCLAs:100					(Where 100 is the Input)
+
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#Output( GetNthFib(DS_StringArray_At(_CLAs, 0)) )
+	#Output( GenerateNFibs(DS_StringArray_At(_CLAs, 0)) )
+	#Output( GetLargestFittingFib(DS_StringArray_At(_CLAs, 0)) )
+	#ComputeLargestSingleZeckendorfer()
+	#Return ~1
+	
+	<Number@> ZeckendorfRepresentation : GetZeckendorfRepresentation(DS_StringArray_At(_CLAs, 0))
+	Output( Const_CrLf() & DS_NumberArray_Serialise(ZeckendorfRepresentation, " ") )
+	Return 0
+
+EndFunction
+
+
+
+#E.g. Takes in 100 and outputs {89, 8, 3}
+Function <Number@> GetZeckendorfRepresentation (<Number> _NumberToRepresent)
+
+	#Reduced by each just-added FibTerm
+	<Number> _LeftToRepresent : _NumberToRepresent
+	
+	<Number@> ZeckendorfRepresentation
+	
+	#As long as there's still a left-over amount of the origional _NumberToRepresent...
+	While (¬[_LeftToRepresent = 0])
+		
+		<Number> _LargestFittingFib : GetLargestFittingFib(_LeftToRepresent)
+		ZeckendorfRepresentation : DS_NumberArray_Append(ZeckendorfRepresentation, _LargestFittingFib)
+		
+		_LeftToRepresent : _LeftToRepresent - _LargestFittingFib
+		
+	EndWhile
+	
+	Return ZeckendorfRepresentation
+
+EndFunction
+
+
+
+#Gets the largest Fib which isn't GREATER THAN _MaxPossibleValue
+Function <Number> GetLargestFittingFib (<Number> _MaxPossibleValue)
+	
+	#There's no Term before 1, so account for this edge-case
+	If (_MaxPossibleValue = 1)
+		Return 1
+	EndIf
+	
+	#At this point, only generate the first two Terms;
+	#Then, after each iteration, Append the next Term
+	<Number@> _FibSequence : GenerateNFibs(2)
+		
+	# ↓ Looking at 2 as the 2nd (Index-1) Term
+	<Number> _CurrentFibTermIndex : 1
+	
+	#Go through all Generated Fibs, from the front, until we find one which is GreaterThan the _MaxPossibleValue;
+	#At this point, Return the Fib Below the too-large one.
+	While (True)
+		
+		#Once the current Fib Term is GreaterThan the _MaxPossibleValue, then Return the previous Fib Term...
+		If ( Maths_GreaterThan(DS_NumberArray_At(_FibSequence, _CurrentFibTermIndex), _MaxPossibleValue) )
+			Return DS_NumberArray_At(_FibSequence, _CurrentFibTermIndex - 1)
+		EndIf
+		
+		#...Else, Generate and look at the next Fib Term
+		_CurrentFibTermIndex : _CurrentFibTermIndex + 1
+		_FibSequence : DS_NumberArray_Append(_FibSequence, GetNthFib(_CurrentFibTermIndex))
+		
+	EndWhile
+	
+EndFunction
+
+
+
+#Generates _NumTerms Terms of the Fibbonnacci Sequence
+Function <Number@> GenerateNFibs (<Number> _NumTerms)
+
+	<Number@> _FibsToReturn
+	
+	<Number> _IterationsToPerform : _NumTerms
+	<Number> _CurrentIteration : 1
+	
+	While ( Maths_LessThan(_CurrentIteration, _IterationsToPerform + 1) )
+		
+		#Add the Nth Fib to the list to return
+		_FibsToReturn : DS_NumberArray_Append(_FibsToReturn, GetNthFib(_CurrentIteration))
+		
+		_CurrentIteration : _CurrentIteration + 1
+	EndWhile
+	
+	Return _FibsToReturn
+	
+EndFunction
+
+
+
+#Gets the _N th Term of the Fibbonnacci Sequence
+Function <Number> GetNthFib (<Number> _N)
+
+	#Non-recursive version:
+	If (_N = 1)
+		Return 1
+	EndIf
+	
+	<Number> _A : 1
+	<Number> _B : 2
+	
+	<Number@> _GeneratedSoFar
+	_GeneratedSoFar : DS_NumberArray_Append(_GeneratedSoFar, _A)
+	_GeneratedSoFar : DS_NumberArray_Append(_GeneratedSoFar, _B)
+	
+	While ( ¬[DS_NumberArray_Length(_GeneratedSoFar) = _N] )
+		
+		_GeneratedSoFar : DS_NumberArray_Append(_GeneratedSoFar, _A + _B)
+		
+		<Number> _A_OldValue : _A
+		_A : _B
+		_B : _A_OldValue + _B
+	
+	EndWhile
+	
+	Return DS_NumberArray_Last(_GeneratedSoFar)
+	
+EndFunction
+
+
+
+
+
+
+
+
+
+
+
+
+#	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#		Functions used for other questions
+#	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+Function <Void> ComputeLargestSingleZeckendorfer ()
+	
+	<Number> _FinalValue			: 1
+	<Number> _CurrentIteration		: 1000000
+	
+	While ( Maths_GreaterThan(_CurrentIteration, _FinalValue) )
+		
+		If ( DS_NumberArray_Length(GetZeckendorfRepresentation(_CurrentIteration)) = 1 )
+			Output("Largest Single ZeckendorfRepresentation was for: " & _CurrentIteration)
+			Return
+		EndIf
+		
+		Output("Largest Single ZeckendorfRepresentation wasn't for: " & _CurrentIteration)
+		_CurrentIteration : _CurrentIteration - 1
+	EndWhile
+	
+EndFunction
+
+#	#Recursive version:
+#	#1 → 1; 2 → 2
+#	If ([_N = 1] | [_N = 2])
+#		Return _N
+#	Else
+#		Return GetNthFib(_N - 1) + GetNthFib(_N - 2)
+#	EndIf
+
+#Output( Const_CrLf() & "{ " & DS_NumberArray_Serialise(ZeckendorfRepresentation, ", ") & " }" )

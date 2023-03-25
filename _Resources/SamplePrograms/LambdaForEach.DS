@@ -1,0 +1,12 @@
+﻿#LambdaForEach.DS - DocScript has Lambda Expressions. Sort of.
+
+Function <Void> Main ()
+
+	<String@> Names : DS_String_Split("Ben-Ryan-Ollie", "-")
+	DS_StringArray_ForEach(Names, "ProcessElement(_Item, _Index)")
+	
+EndFunction
+
+Function <Void> ProcessElement (<String> _Item, <Number> _Index)
+	Output(_Item & " at " & _Index)
+EndFunction

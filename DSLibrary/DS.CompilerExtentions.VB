@@ -917,9 +917,9 @@ Namespace CompilerExtentions
 			Try
 
 				Return (
-				 "Raw: """ & String.Join("", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) _Token.Value)) _
-				 & _
-				""", WithLocations: " & String.Join(", ", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) (""""c & _Token.Value & """ (@" & _Token.LocationInSource.ToShortString() & ")"c).InSquares())).InCurlies() _
+					"Raw: """ & String.Join("", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) _Token.Value)) _
+					&
+					""", WithLocations: " & String.Join(", ", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) (""""c & _Token.Value & """ (@" & _Token.LocationInSource.ToShortString() & ")"c).InSquares())).InCurlies()
 				 ).InSquares().Replace(vbCrLf, "{LineEnd}")
 
 			Catch _Ex As Exception : Throw New DSException("@GetValuesAndLocationsString (CompilerExtention): " & _Ex.Message, _Ex) : End Try
@@ -1197,6 +1197,16 @@ Namespace CompilerExtentions
 
 				End With
 			Catch _Ex As Exception : Throw New DSException("@RunProcess_AndReturnCommandLineOutput: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>(MullNet UsefulMethod) Attempts to resolve the Function to a value of type Boolean, but returns False if an Exception is Thrown whilst attempting to perform this resolution</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function Result_OrFalseOnException(ByRef _Function As Func(Of [Boolean])) As [Boolean]
+
+			Try : Return _Function.Invoke()
+			Catch : Return False
+			End Try
+
 		End Function
 
 	End Module

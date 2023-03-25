@@ -250,6 +250,9 @@ DSCore
 <member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.EachToUpper(System.String[]@)">
  <summary>(MullNet CompilerExtention) Returns each String, in a ToUpper()-ed state</summary>
 </member>
+<member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.RemoveFromEnd``1(``0[],System.UInt32)">
+ <summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the _Array</summary>
+</member>
 <member name="M:DocScript.CompilerExtentions.WebObjectExtentions.WriteAndEnd(System.Web.HttpResponse@,System.String)">
  <summary>
  (MullNet CompilerExtention) Writes to, and then Ends the Response Stream
@@ -333,6 +336,7 @@ DSCore
 </member>
 <member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleWriteInColour(System.String,System.ConsoleColor)">
  <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour, without a LineBreak on the end</summary>
+ <remarks>DSCompilation's DSPackage.VB mechanism releis on this method!</remarks>
 </member>
 <member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleWriteInColour(System.String,System.ConsoleColor,System.ConsoleColor)">
  <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ForegroundColour (without a LineBreak on the end), and using the specified _BackgroundColour</summary>
@@ -372,6 +376,15 @@ DSCore
 </member>
 <member name="M:DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory">
  <summary>(MullNet UsefulMethod) Returns the directory of the current exe</summary>
+</member>
+<member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.IO.FileInfo,System.String)">
+ <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. Returns both the STDOUT and STDERR.</summary>
+</member>
+<member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.Diagnostics.Process@)">
+ <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object.</summary>
+</member>
+<member name="M:DocScript.CompilerExtentions.UsefulMethods.Result_OrFalseOnException(System.Func{System.Boolean}@)">
+ <summary>(MullNet UsefulMethod) Attempts to resolve the Function to a value of type Boolean, but returns False if an Exception is Thrown whilst attempting to perform this resolution</summary>
 </member>
 <member name="T:DocScript.Exceptions.DSException">
  <summary>The Base Execption Class whence all other DocScript Exceptions derive.</summary>
@@ -1096,6 +1109,21 @@ DSCore
 <member name="P:DocScript.Runtime.Program.GlobalVarDecs">
  <summary>The Global VariableDeclarations from the DocScript Source</summary>
 </member>
+<member name="F:DocScript.Runtime.Program.Name">
+ <summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member>
+<member name="F:DocScript.Runtime.Program.Description">
+ <summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member>
+<member name="F:DocScript.Runtime.Program.Version">
+ <summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member>
+<member name="F:DocScript.Runtime.Program.CopyrightMessage">
+ <summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member>
+<member name="F:DocScript.Runtime.Program.Author">
+ <summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member>
 <member name="M:DocScript.Runtime.Program.#ctor(DocScript.Runtime.Token[],DocScript.Runtime.ExecutionContext)">
  <summary>Instanciates a New DocScript Program from Tokens</summary>
  <param name="_ExecutionContext">
@@ -1116,7 +1144,10 @@ DSCore
  This datum is wrapped up inside the ExecutionResult
  </summary>
 </member>
-<member name="M:DocScript.Runtime.Program.CompileToEXE(System.IO.DirectoryInfo,System.String,System.IO.FileInfo,System.IO.FileInfo,System.IO.FileInfo,System.Boolean)">
+<member name="P:DocScript.Runtime.Program.DefaultVbcExe_ForCurrentSystem">
+ <summary>Accounts for differences in System Drive letters and WinDir locations, and then looks in %WINDIR%\Microsoft.NET\Framework64\v4.0.30319\vbc.exe</summary>
+</member>
+<member name="M:DocScript.Runtime.Program.CompileToEXE(System.IO.DirectoryInfo,System.String,System.IO.FileInfo,System.IO.FileInfo,System.IO.FileInfo,System.IO.FileInfo,System.Boolean)">
  <summary>Packages up the DocScript Program, and all required Runtime Resources, into a standalone .exe file, which needs only the .NET Framework present on the client.</summary>
 </member>
 <member name="M:DocScript.Runtime.Program.ToString">
