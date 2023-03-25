@@ -7,7 +7,7 @@ Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=y
 Here's an example of a DocScript Program to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
 <br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" height="100%" width="100%" /><br/>
 
-### There are four DocScript *Implementations*...
+### There are three DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSIDE_Demo.png?raw=true" height="50%" width="50%" /><br/>
 2. **A Command-line Interpreter**, `DSCLI.exe`:
