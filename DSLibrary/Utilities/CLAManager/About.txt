@@ -2,6 +2,8 @@
 ---------------------------------------
 (Manages Command-Line Arguments)
 
+NOTE: The latest version of the *Utilities\CLAManager is now in the MullNet.Utilities Solution
+
 Features:
 	- Handles [/Key:Value] and [/Key] Pairs with [Action(Of String)]s
 	- Automatically recognises the /? switch and displays a CLA Help Dictionary automatically

@@ -168,8 +168,10 @@
 			Catch _Ex As System.Web.HttpException
 				REM Ignore the following errors...
 				If {
-					"Der Server kann den Inhaltstyp nicht festlegen, nachdem HTTP-Header gesendet wurden",
-					"Der Server kann den Status nicht festlegen, nachdem HTTP-Header gesendet wurden"
+				 "Der Server kann den Inhaltstyp nicht festlegen, nachdem HTTP-Header gesendet wurden",
+				 "Der Server kann den Status nicht festlegen, nachdem HTTP-Header gesendet wurden",
+				 "Server cannot set content type after HTTP headers have been sent",
+				 "Server cannot set status after HTTP headers have been sent"
 				}.Any(AddressOf _Ex.Message.StartsWith) Then : Debug.WriteLine("API Response HttpException: " & _Ex.Message)
 				Else : Throw _Ex
 				End If

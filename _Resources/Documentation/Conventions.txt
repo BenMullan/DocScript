@@ -64,6 +64,15 @@ Notes:
 	- Upload.ASPX has its request filtering and validation turned off, so as to be able to handle HTML-like DS Source POST Data
 
 
+DS.R.TextInputWindow.VB - Planning:
+-----------------------------------
+	- Windows 7 question mark icon
+	- Options to input text via:
+		- Typing it in
+		- Multiline typing
+		- Selecting a text-based file
+
+
 DocScript Compilation - Planning:
 --------------------------------
 - EXE Options

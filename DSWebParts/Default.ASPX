@@ -49,7 +49,7 @@
 			
 			<p class="py-4">
 				<b>DSI enables the execution of DocScript Programs in Real-Time, Multi-Client, Execution-Sessions.</b>
-				<br/>
+				<br/><br/>
 				Participants of an Execution-Session have one of three possible roles; Observer, Responder, or Controller.<br/>
 				Observers, can watch the Session's Events occur.<br/>
 				Responders, can also respond to Input-Requests from the Program (caused by the DS Input() Function).<br/>

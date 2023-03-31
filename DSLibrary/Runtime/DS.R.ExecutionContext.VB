@@ -141,7 +141,7 @@
 
 				Static _GUIDefault_InputDelegate_ As Func(Of String, String) = _
 				 Function(_Prompt$) As String
-					 Return Global.Microsoft.VisualBasic.InputBox(_Prompt, "DocScript: Input")
+					 Return Global.Microsoft.VisualBasic.Interaction.InputBox(_Prompt, "DocScript: Input")
 				 End Function
 
 				Static _GUIDefault_OutputDelegate_ As Action(Of String) = _

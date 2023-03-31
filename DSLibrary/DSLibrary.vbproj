@@ -143,10 +143,10 @@
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.File.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Maths.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.System.VB" />
-    <Compile Include="Runtime\SymbolTableExplorerWindow.Designer.VB">
-      <DependentUpon>SymbolTableExplorerWindow.VB</DependentUpon>
+    <Compile Include="Runtime\DS.R.SymbolTableExplorerWindow.Designer.VB">
+      <DependentUpon>DS.R.SymbolTableExplorerWindow.VB</DependentUpon>
     </Compile>
-    <Compile Include="Runtime\SymbolTableExplorerWindow.VB">
+    <Compile Include="Runtime\DS.R.SymbolTableExplorerWindow.VB">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utilities\DS.Utilities.SQLQueryRunner.VB" />
@@ -163,8 +163,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Runtime\SymbolTableExplorerWindow.resx">
-      <DependentUpon>SymbolTableExplorerWindow.VB</DependentUpon>
+    <EmbeddedResource Include="Runtime\DS.R.SymbolTableExplorerWindow.resx">
+      <DependentUpon>DS.R.SymbolTableExplorerWindow.VB</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
