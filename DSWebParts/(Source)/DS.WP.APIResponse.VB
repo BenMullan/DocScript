@@ -1,9 +1,6 @@
 ﻿Namespace WebParts
 
-	''' <summary>
-	''' Respresents a DocScript API Response. Can be serialised to XML to be sent off to the Client.
-	''' </summary>
-	''' <remarks></remarks>
+	''' <summary>Respresents a DocScript API Response. Can be serialised to XML to be sent off to the Client.</summary>
 	Public Class APIResponse
 
 		Public Const XML_MIMEType$ = "application/xml"
@@ -142,31 +139,41 @@
 
 		''' <summary>Clears the Response, then writes the APIResponse to the _HTTPResponseStream after setting the HTTP Status Code and MIME Type. The Response is then Ended.</summary>
 		Public Sub Send(ByRef _HTTPResponseStream As System.Web.HttpResponse)
+			Try
 
-			REM Don't send any Response Bytes back until the entire response is ready
-			_HTTPResponseStream.BufferOutput = True
-			_HTTPResponseStream.Buffer = True
+				REM Don't send any Response Bytes back until the entire response is ready
+				_HTTPResponseStream.BufferOutput = True
+				_HTTPResponseStream.Buffer = True
 
-			REM Set the Response Status Code
-			REM Set the Response MIME Type
-			REM Set the Response Text
+				REM Set the Response Status Code
+				REM Set the Response MIME Type
+				REM Set the Response Text
 
-			_HTTPResponseStream.Clear()
-			'_HTTPResponseStream.ClearHeaders()
+				_HTTPResponseStream.Clear()
+				'_HTTPResponseStream.ClearHeaders()
 
-			_HTTPResponseStream.ContentType = APIResponse.XML_MIMEType
-			_HTTPResponseStream.StatusCode = Me.DAR_HTTPStatusCode
+				_HTTPResponseStream.ContentType = APIResponse.XML_MIMEType
+				_HTTPResponseStream.StatusCode = Me.DAR_HTTPStatusCode
 
-			_HTTPResponseStream.Write(Me.ToString())
+				_HTTPResponseStream.Write(Me.ToString())
 
-			'_HTTPResponseStream.Flush()
-			'_HTTPResponseStream.Close()
-			_HTTPResponseStream.SafelyEnd()
-			_HTTPResponseStream.End()
+				'_HTTPResponseStream.Flush()
+				'_HTTPResponseStream.Close()
+				_HTTPResponseStream.SafelyEnd()
+				_HTTPResponseStream.End()
 
-			'Return
-			'_HTTPResponseStream.ClearAndWriteAndEnd(Me.ToString())
+				'Return
+				'_HTTPResponseStream.ClearAndWriteAndEnd(Me.ToString())
 
+			Catch _Ex As System.Web.HttpException
+				REM Ignore the following errors...
+				If {
+					"Der Server kann den Inhaltstyp nicht festlegen, nachdem HTTP-Header gesendet wurden",
+					"Der Server kann den Status nicht festlegen, nachdem HTTP-Header gesendet wurden"
+				}.Any(AddressOf _Ex.Message.StartsWith) Then : Debug.WriteLine("API Response HttpException: " & _Ex.Message)
+				Else : Throw _Ex
+				End If
+			End Try
 		End Sub
 
 		''' <summary>

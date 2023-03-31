@@ -7,10 +7,10 @@ Namespace My
     ''' <remarks></remarks>
     <Global.Microsoft.VisualBasic.HideModuleName()> _
     Module MyWebExtension
-        Private s_Computer As New ThreadSafeObjectProvider(Of Global.Microsoft.VisualBasic.Devices.ServerComputer)
-        Private s_User As New ThreadSafeObjectProvider(Of Global.Microsoft.VisualBasic.ApplicationServices.WebUser)
-        Private s_Log As New ThreadSafeObjectProvider(Of Global.Microsoft.VisualBasic.Logging.AspLog)
-        Private s_Application As New ThreadSafeObjectProvider(Of MyApplication)
+        Private ReadOnly s_Computer As New ThreadSafeObjectProvider(Of Global.Microsoft.VisualBasic.Devices.ServerComputer)
+        Private ReadOnly s_User As New ThreadSafeObjectProvider(Of Global.Microsoft.VisualBasic.ApplicationServices.WebUser)
+        Private ReadOnly s_Log As New ThreadSafeObjectProvider(Of Global.Microsoft.VisualBasic.Logging.AspLog)
+        Private ReadOnly s_Application As New ThreadSafeObjectProvider(Of MyApplication)
 
         ''' <summary>
         ''' Returns information about the current application.

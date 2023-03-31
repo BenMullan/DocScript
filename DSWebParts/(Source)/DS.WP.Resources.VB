@@ -4,12 +4,12 @@
 
 		Public ReadOnly LongPollingRequests_MaxLifetime As TimeSpan = TimeSpan.FromSeconds(60)						'1 Min		60s
 		Public ReadOnly LongPollingRequests_IntervalCheckingDelay As TimeSpan = TimeSpan.FromMilliseconds(100)		'1 Second	1000ms
-		Public ReadOnly ESWorker_InputRequest_MaxLifetime As TimeSpan = TimeSpan.FromSeconds(480)					'8 Mins		480s
+		Public ReadOnly ESWorker_InputRequest_MaxLifetime As TimeSpan = TimeSpan.FromSeconds(480)                   '8 Mins		480s
 
-		Public ReadOnly ESParticipant_ValidRoles$() = {"OBSERVER", "RESPONDER", "CONTROLLER"}
 		Public Const ESParticipant_Role_Observer$ = "OBSERVER"
 		Public Const ESParticipant_Role_Responder$ = "RESPONDER"
 		Public Const ESParticipant_Role_Controller$ = "CONTROLLER"
+		Public ReadOnly ESParticipant_ValidRoles$() = {ESParticipant_Role_Observer, ESParticipant_Role_Responder, ESParticipant_Role_Controller}
 
 		''' <summary>Prepares the LogEventHandler</summary>
 		Public Sub InitialiseWebExecutionEnvironment(ByVal _IncommingURL$)

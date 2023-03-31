@@ -83,33 +83,46 @@
 
 				<div class="h3 ds-heading"><center>ES-Events</center></div><hr/>
 				
-				<!-- Outputs Table -->
-				<div class="h4 m-2 ds-heading"><b>Output Events</b></div>
-				<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="OutputEventsTable">
-					<thead>
-						<tr style="background-color: #F3F3F3;">
-							<th scope="col">ID</th>
-							<th scope="col">Time Submitted</th>
-							<th scope="col">Message</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
+				<!-- Side-by-side Container for Inputs & Outputs -->
+				<div class="container-fluid">
+					 <div class="row">
+
+						<!-- Outputs Table -->
+						<div class="col p-2">
+							<div class="h4 m-2 ds-heading"><b>Output Events</b></div>
+							<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="OutputEventsTable">
+								<thead>
+									<tr style="background-color: #F3F3F3;">
+										<th scope="col">ID</th>
+										<th scope="col">Time Submitted</th>
+										<th scope="col">Message</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
 				
-				<!-- Inputs Table -->
-				<div class="h4 m-2 ds-heading"><b>Input Events</b></div>
-				<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="InputEventsTable">
-					<thead>
-						<tr style="background-color: #F3F3F3;">
-							<th scope="col">ID</th>
-							<th scope="col">Time Submitted</th>
-							<th scope="col">Prompt</th>
-							<th scope="col">Response</th>
-							<th scope="col">Responded-to Time</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
+						<!-- Inputs Table -->
+						<div class="col p-2">
+							<div class="h4 m-2 ds-heading"><b>Input Events</b></div>
+							<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="InputEventsTable">
+								<thead>
+									<tr style="background-color: #F3F3F3;">
+										<th scope="col">ID</th>
+										<th scope="col">Time Submitted</th>
+										<th scope="col">Prompt</th>
+										<th scope="col">Response</th>
+										<th scope="col">Responded-to Time</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+
+				<hr/>
 
 				<!-- LogEvents Table -->
 				<div class="h4 m-2 ds-heading">
@@ -129,6 +142,8 @@
 					</thead>
 					<tbody></tbody>
 				</table>
+
+				<hr/>
 				
 				<!-- CEPs Table -->
 				<div class="h4 m-2 ds-heading"><b>Injected CLient-Execution-Packages</b></div>

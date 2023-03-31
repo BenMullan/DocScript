@@ -1,6 +1,7 @@
 ﻿/*
 	General.JS
-	Functions herein ought to be standalone, but don't have to be.
+	Functions herein ought to be standalone and usable on multiple pages, but don't have to be.
+	(Incidentially, as of 31032023, none of them are actually standalone)
 */
 
 /* Constants */
@@ -512,15 +513,33 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 	/* Missing-LogEvents */
 	$(_ResponseContent).find("ResponseContent > MissingLogEvents > LogEvent").each(
 		function () {
-			$("#LogEventsTable > tbody").append(
-				"<tr>" +
-					"<th scope='row'>" + $(this).attr("ID") + "</th>" +
-					"<td>" + $(this).attr("TimeSubmitted") + "</td>" +
-					"<td>" + window.Utilities.EscapeXMLChars($(this).attr("Message")) + "</td>" +
-					"<td>" + $(this).attr("Severity") + "</td>" +
-					"<td>" + $(this).attr("Category") + "</td>" +
-				"</tr>\r\n"
-			);
+
+			/*
+				If the previous Event is identical to the one currently being added,
+				(or at least, its Message string is) then
+				append the [Time Submitted] value of the current Event, to the [Time Submitted]
+				field of the most-recent entry in the table.
+
+				If, on the other hand, this is this message is different from the most-recent
+				event in the table, then append() it in.
+			 */
+			if (
+				($("#LogEventsTable > tbody > tr").length > 0)
+				&&
+				($("#LogEventsTable > tbody > tr").last().find("td")[1].innerText == window.Utilities.EscapeXMLChars($(this).attr("Message")))
+			) {
+				$("#LogEventsTable > tbody > tr").last().find("td")[0].innerText += (",\r\n" + $(this).attr("TimeSubmitted"));
+			} else {
+				$("#LogEventsTable > tbody").append(
+					"<tr>" +
+						"<th scope='row'  class='text-muted'>" + $(this).attr("ID") + "</th>" +
+						"<td class='text-muted'>" + $(this).attr("TimeSubmitted") + "</td>" +
+						"<td class='" + (($(this).attr("Severity").toUpperCase() == "ERROR") ? "text-danger" : "") + "'>" + window.Utilities.EscapeXMLChars($(this).attr("Message")) + "</td>" +
+						"<td class='" + (($(this).attr("Severity").toUpperCase() == "ERROR") ? "text-danger" : "text-muted") + "'>" + $(this).attr("Severity") + "</td>" +
+						"<td class='text-muted'>" + $(this).attr("Category") + "</td>" +
+					"</tr>\r\n"
+				);
+			}
 		}
 	);
 
@@ -529,9 +548,9 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 		function () {
 			$("#OutputEventsTable > tbody").append(
 				"<tr>" +
-					"<th scope='row'>" + $(this).attr("ID") + "</th>" +
-					"<td>" + $(this).attr("TimeSubmitted") + "</td>" +
-					"<td>" + window.Utilities.EscapeXMLChars($(this).attr("OutputMessage")) + "</td>" +
+					"<th scope='row' class='text-muted'>" + $(this).attr("ID") + "</th>" +
+					"<td class='text-muted'>" + $(this).attr("TimeSubmitted") + "</td>" +
+					"<td><b>" + window.Utilities.EscapeXMLChars($(this).attr("OutputMessage")) + "</b></td>" +
 				"</tr>\r\n"
 			);
 		}
@@ -542,11 +561,11 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 		function () {
 			$("#InputEventsTable > tbody").append(
 				"<tr>" +
-					"<th scope='row'>" + $(this).attr("ID") + "</th>" +
-					"<td>" + $(this).attr("TimeSubmitted") + "</td>" +
-					"<td>" + window.Utilities.EscapeXMLChars($(this).attr("InputPrompt")) + "</td>" +
+					"<th scope='row' class='text-muted'>" + $(this).attr("ID") + "</th>" +
+					"<td class='text-muted'>" + $(this).attr("TimeSubmitted") + "</td>" +
+					"<td class='text-muted'>" + window.Utilities.EscapeXMLChars($(this).attr("InputPrompt")) + "</td>" +
 					"<td><b>" + window.Utilities.EscapeXMLChars($(this).attr("InputResponse")) + "</b></td>" +
-					"<td>" + $(this).attr("RespondedToTime") + "</td>" +
+					"<td class='text-muted'>" + $(this).attr("RespondedToTime") + "</td>" +
 				"</tr>\r\n"
 			);
 		}
@@ -557,8 +576,8 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 		function () {
 			$("#CEPsTable > tbody").append(
 				"<tr>" +
-					"<th scope='row'>" + $(this).attr("ID") + "</th>" +
-					"<td>" + $(this).attr("TimeSubmitted") + "</td>" +
+					"<th scope='row' class='text-muted'>" + $(this).attr("ID") + "</th>" +
+					"<td class='text-muted'>" + $(this).attr("TimeSubmitted") + "</td>" +
 					"<td>" +
 						window.Utilities.EscapeXMLChars($(this).attr("JavaScriptToRun")) +
 						"<button class='btn btn-secondary ms-4 me-1 px-2 py-0 bi-play-fill' onclick='" + window.Utilities.EscapeXMLChars($(this).attr("JavaScriptToRun")) + "'> Execute Again</button>" +
@@ -870,6 +889,7 @@ function LoadExistingPrograms() {
 
 }
 
+/* Specific to UploadProgram.ASPX */
 function FillProgramPreviewCanvas(_ProgramName) {
 
 	/*

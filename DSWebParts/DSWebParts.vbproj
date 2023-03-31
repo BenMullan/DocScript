@@ -197,11 +197,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="API\Interactive\Web.config" />
+    <Content Include="API\DSInteractive.config" />
     <None Include="ClientPages\Resources\Stylesheets\Fonts\bootstrap-icons.woff" />
     <None Include="ClientPages\Resources\Stylesheets\Fonts\bootstrap-icons.woff2" />
-    <Content Include="DSInteractive.config">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="DocScript.Signing.snk" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
