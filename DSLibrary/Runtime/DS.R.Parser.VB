@@ -9,13 +9,18 @@
 		Private Const SLIT_PlaceholderPattern_$ = "$SLIT_{Number}$"	'{Number} is later String.Replace()'d
 		Private Const SLIT_RegExp_$ = "\$SLIT_\d{1,5}\$"
 		Private Const StringLiteral_RegExp_$ = """[^""]*"""
-		Private Const LineEnd_TokenTypeValue_$ = [vbCrLf]
+		Private Const LineEnd_TokenTypeValue_$ = Language.Constants.LineBreak
 
 		Private Const ValidIdentifierChars_$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_"
 		Private Const ValidNumericChars_$ = "0123456789." 'This isn't refering to NumericLiterals
 		Private Const ValidOperatorChars_$ = ":=&¬'|¦+-*/^%~"
 		Private Const ValidGrammarChars_$ = "()[]<>,"
 		Private Const ValidSLITStageTokenChars_$ = (ValidIdentifierChars_ & ValidOperatorChars_ & ValidGrammarChars_ & ValidNumericChars_ & LineEnd_TokenTypeValue_$ & "$@")
+
+		'↓ These are checked-for AFTER SLIT-Insertion; DS String Literals CAN contain these chars
+		Private ReadOnly ProblematicChars_ForAutomaticRemoval_$ = {
+		 0, 160, 173, 847, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202, 8203, 8204, 8205, 8206, 8207, 8239, 8287, 8288, 8289, 8290, 8291, 8292, 65279
+		}.Select(Of [Char])(AddressOf ChrW).ToArray()
 
 		REM A Token should be ToUpper()ed before being checked against these
 		Private ReadOnly TokenRegExpToTokenType_Table_ As New Dictionary(Of String, Token.TokenType)() From {
@@ -54,12 +59,13 @@
 				'		- Load in Lines of Source
 
 				REM 2) Segmentation
-				'		- Blank out any #Comments or Whitespace Lines
+				'		- Blank out any #Comment or Whitespace Lines
 				'		- Ensure nothing already exists in the Source which matches the SLIT RegExp
-				'		- Replace StringLiterals with SLITs e.g. $SLIT_0$
+				'		- Substitute StringLiterals with SLITs e.g. $SLIT_0$
 				'		- Generate Segmented Tokens:
 				'			- (For Each Line, and For Each Character thereof, evaluate if it's a WordChar or SplitAtChar...)
 				'		- Remove any Null Tokens (Whitespace, etc...) (...Except from LineEnd Tokens)
+				'		- Check for, and automatically remove, any remaining problematic characters (E.g. zero-width no-break spaces)
 				'		- Ensure all remaining characters are valid (E.g. No SpeechMarks) (Best to do this now as we have the [TokenLocation]s)
 				'		- Replace any SLITs with their original StringLiterals
 
@@ -68,7 +74,7 @@
 				'		- Ensure all Bracket usage is balenced (Best to do this now as we have the TokenTypes for easy GrammarChar filtering)
 				'		- Ensure all Statement Openings and Closings are balenced (Function to EndFunction, etc...)
 
-				REM		[_RawSourceLines] → [_CleanSourceLines]		→	 [_SegmentedTokens] → [_NonNullTokens] → [_TokensWithStringLiterals] → [_ClassifiedTokens]
+				REM		[_RawSourceLines] → [_CleanSourceLines]		→	 [_SegmentedTokens] → [_NonNullTokens] → [_CleansedTokens] → [_TokensWithStringLiterals] → [_ClassifiedTokens]
 
 				If Not AllLineBreaksAreValid_(_RawSource) Then Throw New DSValidationException("At least one LineBreak in the Source was invalid. All LineBreaks in a DocScript Program must be [CrLf].", "(The Unprocessed Source)")
 
@@ -98,47 +104,28 @@
 				(From _Token As Token In _SegmentedTokens Where ((_Token.Type = Token.TokenType.LineEnd) OrElse (Not _Token.Value.WithLeadingWhiteSpaceRemoved().IsEmpty())) Select _Token).ToList()
 				LogParsingMessage("Ignored " & (_SegmentedTokens.Count - _NonNullTokens.Count).ToString() & " Null Token(s)")
 
-				REM Ensure all remaining characters are valid
-				LogParsingMessage("Checking that all Characters in the SLIT-Stage Tokens are valid...")
-				For Each _Token As Token In _NonNullTokens
-					If Not _Token.Value.ToCharArray().All(Function(_Char As Char) Parser.ValidSLITStageTokenChars_.ToCharArray().Contains(_Char)) Then _
-					 Throw New DSValidationException("An Invalid Character was found in the Source within a Token located at " & _Token.LocationInSource.ToString(), _Token.Value)
-				Next
+				REM Check for, and automatically remove, any remaining problematic characters. Then, ensure all remaining chars are valid.
+				Dim _CleansedTokens As List(Of Token) = Parser.RemoveProblematicChars_(_NonNullTokens)
 
 				REM Replace any SLITs with their origional Values
-				Dim _TokensWithStringLiterals As List(Of Token) = Parser.ReplaceSLITsWithStringLiterals_(_NonNullTokens, _ExtractedStringLiterals)
+				Dim _TokensWithStringLiterals As List(Of Token) = Parser.ReplaceSLITsWithStringLiterals_(_CleansedTokens, _ExtractedStringLiterals)
 
 				REM Now that the Segmentation has occoured, we have a series of Tokens with Unresolved TokenTypes.
 				REM Next, we must therefore Resolve the TokenTypes...
-
 				Dim _ClassifiedTokens As Token() = Parser.GetTypedTokensFromUnclassifiedOnes_(_TokensWithStringLiterals)
 
-				REM Ensure that all brackets () [] and <> are balenced and legally-ordered
-				If Not DocScript.CompilerExtentions.UsefulMethods.ContainsWellBalencedPairs(Of Char)(
-				 (From _Token As Runtime.Token In _ClassifiedTokens Select _Token.Value.ToCharArray().First()).ToArray(),
-				 New Tuple(Of Char, Char)(Language.Constants.OpeningFunctionBracket, Language.Constants.ClosingFunctionBracket),
-				 New Tuple(Of Char, Char)(Language.Constants.OpeningExpressionBracket, Language.Constants.ClosingExpressionBracket),
-				 New Tuple(Of Char, Char)(Language.Constants.OpeningDataTypeBracket, Language.Constants.ClosingDataTypeBracket)
-				) Then Throw New DSValidationException("The Brackets were not balenced and legally-ordered in the Classified Tokens", "_ClassifiedTokens")
-
-				REM Ensure all StatementOpenings (Function, If, Etc...) and StatementClosings (EndFunction, EndIf, Etc...) are balenced and legally-ordered
-				LogLexingMessage("Ensuring that all Statements Opened are Closed in the correct order")
-				If Not DocScript.CompilerExtentions.UsefulMethods.ContainsWellBalencedPairs(Of String)(
-				 (From _Token As Runtime.Token In _ClassifiedTokens Where (BuiltInTPVs.StatementOpening_TPV.IsSatisfiedBy(_Token) OrElse BuiltInTPVs.StatementClosing_TPV.IsSatisfiedBy(_Token)) Select _Token.Value.ToUpper()).ToArray(),
-				 New Tuple(Of String, String)(Language.Constants.Keyword_Function, Language.Constants.StatementEnd_Function),
-				 New Tuple(Of String, String)(Language.Constants.Keyword_If, Language.Constants.StatementEnd_If),
-				 New Tuple(Of String, String)(Language.Constants.Keyword_Loop, Language.Constants.StatementEnd_Loop),
-				 New Tuple(Of String, String)(Language.Constants.Keyword_While, Language.Constants.StatementEnd_While)
-				) Then Throw New DSValidationException("The StatementOpenings (Function, If, While, Loop) were not well-balenced with the StatementClosings (EndFunction, EndIf, EndWhile, EndLoop)", "(Source Tokens)") 'I know that I should have used the Language.Constants.* instead of the Keyword and StatementEnds here. Get over it.
+				REM Ensure that brackets and statements are well-balenced in their opening- and closing-components
+				Parser.EnsurePairedComponentsAreWellBalenced_(_ClassifiedTokens)
 
 				_ClassifiedTokens.ToList().ForEach(Sub(_Token As Runtime.Token) LogDebugMessage("Parser Final Classified Token: " & _Token.ToString(), LogEvent.DSEventCatagory.Parsing))
 				LogParsingMessage("...Finished Parsing; Returning " & _ClassifiedTokens.Count.ToString() & " Classified Token(s)", LogEvent.DSEventSeverity.Infomation)
+
 				Return _ClassifiedTokens
 
 			Catch _Ex As Exception : Throw New DSException("@GetTokensFromSource: " & _Ex.Message, _Ex) : End Try
 		End Function
 
-#Region "(Private) Parser Utility Methods"
+#Region "(Private) Parser Internal Utility Methods"
 
 		''' <summary>This function attempts to proove that only Proper CrLf LineBreaks have been used</summary>
 		Private ReadOnly Property AllLineBreaksAreValid_(ByVal _RawSource$) As Boolean
@@ -248,20 +235,20 @@
 				'End-Function
 
 				REM In order to accurately report the Token Locations, we must calcuate the Column reletave to the length of the strings represented by the SLITs, instead of the SLITs themselves
-				Dim _WordLengthEvaluator As Func(Of String, UInt16) = _
-				Function(_Word$) As UInt16
-					Try
-						'If the _Word is a SLIT, extract the {Number} from the SLIT, and return SLIT_Table.Item({Number}).Length
-						'Otherwise, just return the _Word.Length
+				Dim _WordLengthEvaluator As Func(Of [String], UInt16) = _
+				   Function(_Word$) As UInt16
+					   Try
+						   'If the _Word is a SLIT, extract the {Number} from the SLIT, and return SLIT_Table.Item({Number}).Length
+						   'Otherwise, just return the _Word.Length
 
-						If _Word.MatchesRegEx(Parser.SLIT_RegExp_) Then
-							Return Convert.ToUInt16(_ExtractedStringLiterals(Convert.ToInt32(_Word.GetDigitChars())).Length)
-						Else
-							Return Convert.ToUInt16(_Word.Length)
-						End If
+						   If _Word.MatchesRegEx(Parser.SLIT_RegExp_) Then
+							   Return Convert.ToUInt16(_ExtractedStringLiterals(Convert.ToInt32(_Word.GetDigitChars())).Length)
+						   Else
+							   Return Convert.ToUInt16(_Word.Length)
+						   End If
 
-					Catch _Ex As Exception : Throw New DSException("@_WordLengthEvaluator: " & _Ex.Message, _Ex) : End Try
-				End Function
+					   Catch _Ex As Exception : Throw New DSException("@_WordLengthEvaluator: " & _Ex.Message, _Ex) : End Try
+				   End Function
 
 				Dim _DerivedTokensToReturn As New List(Of Token)()
 				Dim _WordAccumulator$ = String.Empty
@@ -269,7 +256,7 @@
 				For _LineNumber As UInt16 = 1 To CUShort(_CleanSourceLines.Length) Step +1
 
 					REM Every time after a Token is added, this is incremented by the length of that token. It is needed because the length of a SLIT is different to the length of the string represented by the SLIT.
-					Dim _PreviousTokenFinishedOnColumn As UInt16 = 1US
+					Dim _PreviousToken_FinishedOnColumn As UInt16 = 1US
 
 					For _ColumnNumber As UInt16 = 1 To CUShort(_CleanSourceLines(_LineNumber - 1).Length) Step +1
 
@@ -288,33 +275,33 @@
 							'We need to Split at the end of each line too, in case the last Char of the line isn't a non-WordChar. Otherwise, a line ending in a WordChar followed by a Line starting with a WordChar will cause no Split to occour. E.g. You'd get "ReturnEnd" From a "Return" followed by an "End-Function" on the next line.
 							If (_ColumnNumber = (_CleanSourceLines(_LineNumber - 1).Length)) Then
 
-								_DerivedTokensToReturn.Add(New Token(_WordAccumulator, Token.TokenType.Unresolved, _LineNumber, _PreviousTokenFinishedOnColumn))
-								_PreviousTokenFinishedOnColumn += _WordLengthEvaluator.Invoke(_WordAccumulator)
+								_DerivedTokensToReturn.Add(New Token(_WordAccumulator, Token.TokenType.Unresolved, _LineNumber, _PreviousToken_FinishedOnColumn))
+								_PreviousToken_FinishedOnColumn += _WordLengthEvaluator.Invoke(_WordAccumulator)
 								_WordAccumulator = String.Empty
 
 
 								'We also need to add a LineEnd Token
-								_DerivedTokensToReturn.Add(New Token(Parser.LineEnd_TokenTypeValue_$, Token.TokenType.LineEnd, _LineNumber, _PreviousTokenFinishedOnColumn))
-								_PreviousTokenFinishedOnColumn += 1US 'Don't actually need this line because nothing should come after the LineEnd
+								_DerivedTokensToReturn.Add(New Token(Parser.LineEnd_TokenTypeValue_$, Token.TokenType.LineEnd, _LineNumber, _PreviousToken_FinishedOnColumn))
+								_PreviousToken_FinishedOnColumn += 1US 'Don't actually need this line because nothing should come after the LineEnd
 
 							End If
 
 						Else
 							'We've just hit a non-WordChar; Empty the collected Word out as a Token...
 							If Not _WordAccumulator.IsEmpty() Then
-								_DerivedTokensToReturn.Add(New Token(_WordAccumulator, Token.TokenType.Unresolved, _LineNumber, _PreviousTokenFinishedOnColumn))
-								_PreviousTokenFinishedOnColumn += _WordLengthEvaluator.Invoke(_WordAccumulator)
+								_DerivedTokensToReturn.Add(New Token(_WordAccumulator, Token.TokenType.Unresolved, _LineNumber, _PreviousToken_FinishedOnColumn))
+								_PreviousToken_FinishedOnColumn += _WordLengthEvaluator.Invoke(_WordAccumulator)
 								_WordAccumulator = String.Empty
 							End If
 
 							'...And Add() the non-WordChar as a Token of it's own too:
-							_DerivedTokensToReturn.Add(New Token(_CurrentCharacter.ToString(), Token.TokenType.Unresolved, _LineNumber, _PreviousTokenFinishedOnColumn))
-							_PreviousTokenFinishedOnColumn += 1US 'Because the _CurrentCharacter is always 1 in length
+							_DerivedTokensToReturn.Add(New Token(_CurrentCharacter.ToString(), Token.TokenType.Unresolved, _LineNumber, _PreviousToken_FinishedOnColumn))
+							_PreviousToken_FinishedOnColumn += 1US 'Because the _CurrentCharacter is always 1 in length
 
 							'We may also need to add a LineEnd Token
 							If (_ColumnNumber = (_CleanSourceLines(_LineNumber - 1).Length)) Then
-								_DerivedTokensToReturn.Add(New Token(Parser.LineEnd_TokenTypeValue_$, Token.TokenType.LineEnd, _LineNumber, _PreviousTokenFinishedOnColumn))
-								_PreviousTokenFinishedOnColumn += 1US 'Don't actually need this line because nothing should come after the LineEnd
+								_DerivedTokensToReturn.Add(New Token(Parser.LineEnd_TokenTypeValue_$, Token.TokenType.LineEnd, _LineNumber, _PreviousToken_FinishedOnColumn))
+								_PreviousToken_FinishedOnColumn += 1US 'Don't actually need this line because nothing should come after the LineEnd
 							End If
 
 						End If
@@ -326,6 +313,88 @@
 				Return _DerivedTokensToReturn.ToArray()
 
 			Catch _Ex As Exception : Throw New DSException("@SegmentCleanSourceIntoTokens_: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>
+		''' Takes in Tokens which may Problematic chars in their values, and removes these chars.
+		''' Then, removes any tokens which are part of newly-visable #Comment lines (which were previously undetected, because of a leading problematic-char).
+		''' Then, ensures that all remaining characters in all Tokens' Values are valid.
+		''' </summary>
+		Private Function RemoveProblematicChars_(ByRef _TokensWithSLITs As List(Of Token)) As List(Of Token)
+			Try
+
+				REM Check for, and automatically remove, any remaining problematic characters
+				LogParsingMessage("Checking if there are any problematic characters, which can be automatically removed")
+				Dim _InerrantTokens As List(Of Token) = _TokensWithSLITs.Select(Of Token)(
+				 Function(_Token As Token) As Token
+
+					 'The character must be removed, and not just replaced with a space. This is because spaces are already entirely gone at this point; they were used for the segmentation, but no Tokens have spaces in their values at this point.
+					 Dim _CleansedTokenValue$ = String.Join("",
+					 _Token.Value.ToCharArray().Select(Of [String])(AddressOf Char.ToString).ToArray().ReplaceWhere(AddressOf Parser.ProblematicChars_ForAutomaticRemoval_.Contains, "")
+					 )
+
+					 'If there were some replaced chars, then this deserves attention
+					 If (_CleansedTokenValue <> _Token.Value) Then LogParsingMessage("The DS-Source contained a problematic (illegal) character within the token at location " & _Token.LocationInSource.ToString() & ". The Parser has automatically removed this character.", LogEvent.DSEventSeverity.Warning)
+
+					 'Change only the .Value
+					 Return New Token(
+					   _Value:=_CleansedTokenValue$,
+					   _Type:=_Token.Type, _LocationLine:=_Token.LocationInSource.Line, _LocationColumn:=_Token.LocationInSource.Column
+					 )
+
+				 End Function
+				).ToList()
+
+				REM At this point, there could be Tokens within _InerrantTokens, which have a .[Value] of an empty string.
+				REM This is because the Value would have comprised EXCLUSIVELY ProblematicChars, which were all removed.
+				REM Therefore, we should remove any Tokens whose values are "".
+				_InerrantTokens = _
+				  (From [_Token] As Token In _InerrantTokens Where ((_Token.Type = Token.TokenType.LineEnd) OrElse (Not _Token.Value.WithLeadingWhiteSpaceRemoved().IsEmpty())) Select [_Token]).ToList()
+
+				REM At this point, a problematic char could just have been removed from the start of a #Comment line.
+				REM This would now expose the #Comment line, and the # (0x23) would be detected as an illegal char in the following Parser stages.
+				REM Therefore, we need to remove any token-sequences starting with a [{LineEnd}][#], up to the next [{LineEnd}].
+				REM The reason there must be a [{LineEnd}] at the start, is because we would otherwise also be removing comments that start mid-way through a line, which isn't valid in DocScript.
+				REM For this reason ↑, we also need to add a [{LineEnd}] onto the start, in case the first char is a [#].
+				_InerrantTokens = {New Token(Parser.LineEnd_TokenTypeValue_, Token.TokenType.LineEnd, 0, 0)}.Concat(_InerrantTokens).ToList()
+				Dim _NonCommentLineTokens As New List(Of Token)()
+				For _TokenIndex% = 0 To (_InerrantTokens.Count - 1) Step +1
+
+					'If we're currently looking at a [#]...
+					If _InerrantTokens.ElementAt(_TokenIndex).Value.StartsWith(Language.Constants.CommentCharacter) AndAlso (_InerrantTokens.ElementAt(_TokenIndex - 1).Type = Token.TokenType.LineEnd) Then
+
+						'...Then find the Index of the very next [{LineEnd}] after the [#]...
+						Dim _IndexOf_NextLineEnd As Int32 = _TokenIndex + _InerrantTokens.Skip(_TokenIndex).ToArray().IndexOfFirstWhere(Function(_Token As Token) (_Token.Type = Token.TokenType.LineEnd) AndAlso (_Token.Value = Parser.LineEnd_TokenTypeValue_))
+						'(The LineEnds do have their TokenTypes at this point, because of SegmentCleanSourceIntoTokens_()) ↑
+						'(We have to Skip() _TokenIndex, so that we only find {LineEnd}s AFTER the [#]...) ↑
+						'(...But we have to add it back on, because otherwise, we'd have an incorrect index relative to the whole _InerrantTokens array) ↑
+
+						'...And skip reading the tokens herebetween
+						_TokenIndex = _IndexOf_NextLineEnd
+
+					Else
+
+						'Here, we're not looking at a [#]; treat the Token as a lexically-significant one
+						_NonCommentLineTokens.Add(_InerrantTokens.ElementAt(_TokenIndex))
+
+					End If
+
+				Next
+
+				REM Now remove the [{LineEnd}] from earlier
+				If Not _NonCommentLineTokens.First().Type = Token.TokenType.LineEnd Then Throw New DSException("The first non-comment-line Token did not have a value of {LineEnd}. It was: " & _NonCommentLineTokens.First().ToString())
+				_NonCommentLineTokens = _NonCommentLineTokens.Skip(1).ToList()
+
+				REM Ensure all remaining characters - accross ALL Tokens' Values - are valid...
+				LogParsingMessage("Checking that all Characters in the post-SLIT-stage non-comment-line Tokens are valid")
+				For Each _Token As Token In _NonCommentLineTokens
+					If Not _Token.Value.ToCharArray().All(Function(_Char As Char) Parser.ValidSLITStageTokenChars_.ToCharArray().Contains(_Char)) Then _
+					 Throw New DSValidationException("An Invalid Character was found in the Source within a Token located at " & _Token.LocationInSource.ToString() & ". Character codes: " & _Token.Value.ToCharArray().Select(Of Int32)(AddressOf AscW).ToArray().GetStandardArraySerialisation() & vbCrLf & "Note that some invalid characters are invisible such as a zero width no-break space. Use a UniCode Loopup website to determine what the errant character is, from the character code.", _Token.Value)
+				Next
+
+				Return _NonCommentLineTokens
+
+			Catch _Ex As Exception : Throw New DSException("@RemoveProblematicChars_: " & _Ex.Message, _Ex) : End Try
 		End Function
 
 		''' <summary>Takes in some Tokens which may have SLITs in them, and returns a version of that List(Of Token) which has the origional StringLiterals again</summary>
@@ -420,6 +489,32 @@
 
 			Catch _Ex As Exception : Throw New DSException("@GetTypedTokensFromUnclassifiedOnes_: " & _Ex.Message, _Ex) : End Try
 		End Function
+
+		''' <summary>Ensures that all brackets () [] and &lt;&gt;, and statements (Function, If, Etc...) and are well-balenced</summary>
+		Private Sub EnsurePairedComponentsAreWellBalenced_(ByRef _ClassifiedTokens As Token())
+			Try
+
+				REM Ensure that all brackets () [] and <> are balenced legally-ordered
+				LogLexingMessage("Ensuring that all Brackets Opened, are Closed in the correct order")
+				If Not DocScript.CompilerExtentions.UsefulMethods.ContainsWellBalencedPairs(Of Char)(
+				 (From _Token As Runtime.Token In _ClassifiedTokens Select _Token.Value.ToCharArray().First()).ToArray(),
+				 New Tuple(Of Char, Char)(Language.Constants.OpeningFunctionBracket, Language.Constants.ClosingFunctionBracket),
+				 New Tuple(Of Char, Char)(Language.Constants.OpeningExpressionBracket, Language.Constants.ClosingExpressionBracket),
+				 New Tuple(Of Char, Char)(Language.Constants.OpeningDataTypeBracket, Language.Constants.ClosingDataTypeBracket)
+				) Then Throw New DSValidationException("The Brackets were not balenced and legally-ordered in the Classified Tokens", "_ClassifiedTokens")
+
+				REM Ensure all StatementOpenings (Function, If, Etc...) and StatementClosings (EndFunction, EndIf, Etc...) are balenced and legally-ordered
+				LogLexingMessage("Ensuring that all Statements Opened, are Closed in the correct order")
+				If Not DocScript.CompilerExtentions.UsefulMethods.ContainsWellBalencedPairs(Of String)(
+				 (From _Token As Runtime.Token In _ClassifiedTokens Where (BuiltInTPVs.StatementOpening_TPV.IsSatisfiedBy(_Token) OrElse BuiltInTPVs.StatementClosing_TPV.IsSatisfiedBy(_Token)) Select _Token.Value.ToUpper()).ToArray(),
+				 New Tuple(Of String, String)(Language.Constants.Keyword_Function, Language.Constants.StatementEnd_Function),
+				 New Tuple(Of String, String)(Language.Constants.Keyword_If, Language.Constants.StatementEnd_If),
+				 New Tuple(Of String, String)(Language.Constants.Keyword_Loop, Language.Constants.StatementEnd_Loop),
+				 New Tuple(Of String, String)(Language.Constants.Keyword_While, Language.Constants.StatementEnd_While)
+				) Then Throw New DSValidationException("The StatementOpenings (Function, If, While, Loop) were not well-balenced with the StatementClosings (EndFunction, EndIf, EndWhile, EndLoop)", "(Source Tokens)") 'I know that I should have used the Language.Constants.* instead of the Keyword and StatementEnds in this Exception-Message-String. Get over it.
+
+			Catch _Ex As Exception : Throw New DSException("@EnsurePairedComponentsAreWellBalenced_: " & _Ex.Message, _Ex) : End Try
+		End Sub
 
 #End Region
 

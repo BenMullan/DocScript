@@ -11,7 +11,7 @@
 		Public Const CommentCharacter As Char = "#"c									'Only valid at the start of a line
 		Public Const AssignmentOperator As Char = ":"c									'Not valid as an Expr. Operator
 		Public Const Space As Char = " "c
-		Public Const LineBreak As String = vbCrLf
+		Public Const LineBreak As String = [vbCrLf]
 		Public Const LineBreak_SubstitutionChar_ForFlattenedSource As Char = ";"c		'Used by Parser.FlattenSource
 
 		REM GrammarChars

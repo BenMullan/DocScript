@@ -45,12 +45,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_58AD70BFBC1C4EBE910D7AC5CEF9FBE7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6779BBF64B26AD86C8379EA7505EFC60"
         "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
         "MsmSig" = "8:_UNDEFINED"
@@ -106,18 +100,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_58AD70BFBC1C4EBE910D7AC5CEF9FBE7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_764A664958FC42AE866B5FA25D1F57C1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_BE2EDD7C04F5FAD74C4E7EFA3B8340E1"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -125,6 +107,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B62ED4B93A5B948D521765FC9D737871"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_764A664958FC42AE866B5FA25D1F57C1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -291,37 +279,6 @@
             {
             "SourcePath" = "8:_AddDSAppPathsToRegistry.VBS"
             "TargetName" = "8:_AddDSAppPathsToRegistry.VBS"
-            "Tag" = "8:"
-            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_58AD70BFBC1C4EBE910D7AC5CEF9FBE7"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Compiler, Version=3.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_58AD70BFBC1C4EBE910D7AC5CEF9FBE7"
-                    {
-                    "Name" = "8:System.Compiler.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.Compiler.dll"
-            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
             "Condition" = "8:"
@@ -593,7 +550,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
         "ProductCode" = "8:{7E525AD9-19D3-4489-9143-E676106B46D7}"
-        "PackageCode" = "8:{19407EE7-3402-464B-8723-697BF43BBEB8}"
+        "PackageCode" = "8:{02D5A7FB-6103-432C-8142-731D339B1535}"
         "UpgradeCode" = "8:{1290F1CA-5A25-44B4-B3F6-CF384B244FFA}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -1156,7 +1113,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2351DCD170EE4C788E505F216D8FAFB8"
             {
-            "SourcePath" = "8:..\\DSWindowsIDE\\obj\\x86\\Debug\\DSIDE.exe"
+            "SourcePath" = "8:..\\DSWindowsIDE\\obj\\x86\\Release\\DSIDE.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
@@ -1184,7 +1141,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_810849982C7846FD8829BCD18E62A99F"
             {
-            "SourcePath" = "8:..\\DSExprResolutionUtility\\obj\\x86\\Debug\\DSExpr.exe"
+            "SourcePath" = "8:..\\DSExprResolutionUtility\\obj\\x86\\Release\\DSExpr.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
@@ -1212,7 +1169,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BB8A82CAFED843588D464DBB1E40E2A9"
             {
-            "SourcePath" = "8:..\\DSCommandLineInterpreter\\obj\\x86\\Debug\\DSCLI.exe"
+            "SourcePath" = "8:..\\DSCommandLineInterpreter\\obj\\x86\\Release\\DSCLI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"

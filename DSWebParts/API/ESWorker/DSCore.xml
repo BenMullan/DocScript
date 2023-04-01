@@ -498,10 +498,18 @@ DSCore
 	<returns>Returns the SLITs Array</returns>
 </member><member name="M:DocScript.Runtime.Parser.SegmentCleanSourceIntoTokens_(System.String[],System.String[])">
 	<summary>Splits the _CleanSourceLines up into Tokens, each of which leave this Function with an "Unresolved" TokenType</summary>
+</member><member name="M:DocScript.Runtime.Parser.RemoveProblematicChars_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
+	<summary>
+ Takes in Tokens which may Problematic chars in their values, and removes these chars.
+ Then, removes any tokens which are part of newly-visable #Comment lines (which were previously undetected, because of a leading problematic-char).
+ Then, ensures that all remaining characters in all Tokens' Values are valid.
+ </summary>
 </member><member name="M:DocScript.Runtime.Parser.ReplaceSLITsWithStringLiterals_(System.Collections.Generic.List{DocScript.Runtime.Token}@,System.String[])">
 	<summary>Takes in some Tokens which may have SLITs in them, and returns a version of that List(Of Token) which has the origional StringLiterals again</summary>
 </member><member name="M:DocScript.Runtime.Parser.GetTypedTokensFromUnclassifiedOnes_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
 	<summary>Takes in the Tokens where [Type = Unresolved] and classifies the Tokens with the RegExpToTokenType_Table</summary>
+</member><member name="M:DocScript.Runtime.Parser.EnsurePairedComponentsAreWellBalenced_(DocScript.Runtime.Token[]@)">
+	<summary>Ensures that all brackets () [] and &lt;&gt;, and statements (Function, If, Etc...) and are well-balenced</summary>
 </member><member name="M:DocScript.Runtime.Parser.FlattenSource(System.String)">
 	<summary>
  Makes the source valid for within a single line or inside string literal; replaces [LineBreaks (CrLf)] with [;], and replaces ["] with [`].
