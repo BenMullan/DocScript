@@ -47,7 +47,7 @@
 			<!-- NavigationBar -->
 			<div class="container justify-content-center">
 				<a class="px-4 justify-content-center" href="/ClientPages/UploadProgram.ASPX" target="_self">Upload Program</a>
-				<a class="px-4 justify-content-center" href="javascript: window.location.href = ('/ClientPages/Interactive/ESParticipant.ASPX?Role=Observer&ESID=' + encodeURIComponent(window.prompt(`\r\nExecution-Sessions can be created and managed via &quot;Manage Sessions&quot;.\r\nEach Session has a unique ID called an ESID.\r\n\r\nEnter an Execution-Session-ID...`)));" target="_self">Join Session</a>
+				<a class="px-4 justify-content-center" href="javascript: var _ESID = window.prompt(`\r\nExecution-Sessions can be created and managed via &quot;Manage Sessions&quot;.\r\nEach Session has a unique ID called an ESID.\r\n\r\nEnter an Execution-Session-ID...`); if (_ESID) { window.location.href = ('/ClientPages/Interactive/ESParticipant.ASPX?Role=Observer&ESID=' + encodeURIComponent(_ESID)); }" target="_self">Join Session</a>
 				<a class="px-4 justify-content-center" href="/ClientPages/Interactive/ESManager.ASPX" target="_self">Manage Sessions</a>
 				<a class="px-4 justify-content-center" href="/" target="_self">Help!</a>
 			</div>
@@ -87,24 +87,9 @@
 				<div class="container-fluid">
 					 <div class="row">
 
-						<!-- Outputs Table -->
-						<div class="col p-2">
-							<div class="h4 m-2 ds-heading"><b>Output Events</b></div>
-							<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="OutputEventsTable">
-								<thead>
-									<tr style="background-color: #F3F3F3;">
-										<th scope="col">ID</th>
-										<th scope="col">Time Submitted</th>
-										<th scope="col">Message</th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-						</div>
-				
 						<!-- Inputs Table -->
 						<div class="col p-2">
-							<div class="h4 m-2 ds-heading"><b>Input Events</b></div>
+							<div class="h4 m-2 ds-heading"><b id="InputEventsTableTitle">Input Events</b></div>
 							<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="InputEventsTable">
 								<thead>
 									<tr style="background-color: #F3F3F3;">
@@ -119,6 +104,21 @@
 							</table>
 						</div>
 
+						<!-- Outputs Table -->
+						<div class="col p-2">
+							<div class="h4 m-2 ds-heading"><b id="OutputEventsTableTitle">Output Events</b></div>
+							<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="OutputEventsTable">
+								<thead>
+									<tr style="background-color: #F3F3F3;">
+										<th scope="col">ID(s)</th>
+										<th scope="col">Time(s) Submitted</th>
+										<th scope="col">Message</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+						
 					</div>
 				</div>
 
@@ -126,15 +126,15 @@
 
 				<!-- LogEvents Table -->
 				<div class="h4 m-2 ds-heading">
-					<b>Log Events</b>
+					<b id="LogEventsTableTitle">Log Events</b>
 					<!-- Button to Expand the collapsed-by-default LogEvents Table -->
 					<button class="btn btn-secondary m-1 px-2 py-0 bi-chevron-double-down" style="display: inline-block;" type="button" data-bs-toggle="collapse" data-bs-target="#LogEventsTable" aria-expanded="false" aria-controls="LogEventsTable" title="Show/Hide LogEvents received from the DSI Server..."> Expand</button>
 				</div>
 				<table class="table table-sm container border rounded mb-4 collapse" style="background-color: #DEF7FF;" id="LogEventsTable">
 					<thead>
 						<tr style="background-color: #F3F3F3;">
-							<th scope="col">ID</th>
-							<th scope="col">Time Submitted</th>
+							<th scope="col">ID(s)</th>
+							<th scope="col">Time(s) Submitted</th>
 							<th scope="col">Message</th>
 							<th scope="col">Severity</th>
 							<th scope="col">Category</th>
@@ -146,7 +146,7 @@
 				<hr/>
 				
 				<!-- CEPs Table -->
-				<div class="h4 m-2 ds-heading"><b>Injected CLient-Execution-Packages</b></div>
+				<div class="h4 m-2 ds-heading"><b id="CEPsTableTitle">Injected CLient-Execution-Packages</b></div>
 				<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="CEPsTable">
 					<thead>
 						<tr style="background-color: #F3F3F3;">
@@ -165,6 +165,7 @@
 				<div class="h3 ds-heading"><center>Inject Client-Execution-Package</center></div><hr/>
 				<label for="SourceTextArea">JavaScript to run:</label>
 				<textarea class="form-control" id="CEPJavaScriptTextArea" rows="4">DSI.MsgBox("Hello!");</textarea>
+				<p class="text-muted">If the session is currently [Running], all clients will instantly execute the CEP. If the session is [Ready] or [Finished], then the CEP will be executed by all clients who ever participate in the session thenceforth. Useful CEPs can be found <a href="/ClientPages/Useful_CEPs.JS">here</a>.</p>
 				<button class="btn btn-primary bi-box-arrow-in-right m-3" onclick="InjectExecutionSessionCEP('<%= Request.QueryString!ESID %>', $('#CEPJavaScriptTextArea').val());" title="Submit the CEP to immediately be executed on all ES-Participants..."> Inject CEP</button>
 			</div>
 								

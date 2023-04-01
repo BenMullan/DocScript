@@ -27,7 +27,7 @@
 			Try
 
 				LogExecutionMessage("Coercing IDataValue of type " & VariableUtilities.GetDataTypeString_FromDSVariableType(_InputIDV.GetType()) & " to type " & VariableUtilities.GetDataTypeString_FromDSVariableType(GetType(_TSoughtIDV)), LogEvent.DSEventSeverity.Verbose)
-				If Not (_InputIDV.GetType() = GetType(_TSoughtIDV)) Then LogExecutionMessage("Implicitly coercing IDataValue of type " & VariableUtilities.GetDataTypeString_FromDSVariableType(_InputIDV.GetType()) & " to type " & VariableUtilities.GetDataTypeString_FromDSVariableType(GetType(_TSoughtIDV)) & ". It would be better practice to use the relevant Type Conversion Function explicitly within the DocScript source.", LogEvent.DSEventSeverity.Warning)
+				If Not (_InputIDV.GetType() = GetType(_TSoughtIDV)) Then LogExecutionMessage("Attempting implicit coercion for value currently of type " & VariableUtilities.GetDataTypeString_FromDSVariableType(_InputIDV.GetType()) & ", into target type " & VariableUtilities.GetDataTypeString_FromDSVariableType(GetType(_TSoughtIDV)) & "."c, LogEvent.DSEventSeverity.Warning)
 
 				REM	"What is the desired Type for the Output IDV?"
 				Select Case GetType(_TSoughtIDV)

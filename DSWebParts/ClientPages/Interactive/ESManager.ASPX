@@ -27,7 +27,7 @@
 			<!-- NavigationBar -->
 			<div class="container justify-content-center">
 				<a class="px-4 justify-content-center" href="/ClientPages/UploadProgram.ASPX" target="_self">Upload Program</a>
-				<a class="px-4 justify-content-center" href="javascript: window.location.href = ('/ClientPages/Interactive/ESParticipant.ASPX?Role=Observer&ESID=' + encodeURIComponent(window.prompt(`\r\nExecution-Sessions can be created and managed via &quot;Manage Sessions&quot;.\r\nEach Session has a unique ID called an ESID.\r\n\r\nEnter an Execution-Session-ID...`)));" target="_self">Join Session</a>
+				<a class="px-4 justify-content-center" href="javascript: var _ESID = window.prompt(`\r\nExecution-Sessions can be created and managed via &quot;Manage Sessions&quot;.\r\nEach Session has a unique ID called an ESID.\r\n\r\nEnter an Execution-Session-ID...`); if (_ESID) { window.location.href = ('/ClientPages/Interactive/ESParticipant.ASPX?Role=Observer&ESID=' + encodeURIComponent(_ESID)); }" target="_self">Join Session</a>
 				<a class="px-4 justify-content-center" href="/ClientPages/Interactive/ESManager.ASPX" target="_self">Manage Sessions</a>
 				<a class="px-4 justify-content-center" href="/" target="_self">Help!</a>
 			</div>
@@ -40,7 +40,7 @@
 		<main role="main" class="container">
 
 			<!-- Page Heading -->
-			<div class="h2 ds-heading p-0 m-0">Manage Execution-Sessions</div>
+			<div class="h2 ds-heading p-0 m-0">Manage Execution-Sessions on <%= Request.ServerVariables.Item("SERVER_NAME") %></div>
 			<div id="ExecutionSessionsCountLabel" class="mb-5 text-muted">(Execution-Sessions not loaded...)</div>
 			
 			<!-- [+New] Button -->
