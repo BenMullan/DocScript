@@ -228,7 +228,7 @@ function LoadExistingExecutionSessions() {
 										"<li class='list-group-item border-0'>[" + _Index.toString() + "] ESID ↓<br/><h4 class='ds-heading'>" + $(this).attr("ESID") + "</h4></li>" +
 										"<li class='list-group-item border-0'><img src='/ClientPages/Resources/Images/ExecutionSession.PNG' style='display: block; max-width: 200px; max-height:100px; width: auto; height: auto;' /></li>" +
 										"<li class='list-group-item border-0'><ul class='list-group list-group-horizontal'>" +
-											"<li class='list-group-item col-sm'><b>Program:</b> <a href='/API/Get.ASPX?Item=ProgramSource&ProgramName=" + encodeURIComponent($(this).attr("ProgramName")) + "' target='_blank' title='View the (raw) Program-Source in a new Tab...'>" + $(this).attr("ProgramName") + "</a></li>" +
+											"<li class='list-group-item col-sm' style='max-width: 300px; word-wrap: break-word;'><b>Program:</b> <a href='/API/Get.ASPX?Item=ProgramSource&ProgramName=" + encodeURIComponent($(this).attr("ProgramName")) + "' target='_blank' title='View the (raw) Program-Source in a new Tab...'>" + $(this).attr("ProgramName") + "</a></li>" +
 											"<li class='list-group-item col-sm'><b>State:</b> <div style='display: inline-block; color: #0094FF;'>" + $(this).attr("State") + "</div></li>" +
 											"<li class='list-group-item col-sm'><b>Started:</b> " + $(this).attr("TimeStarted") + "</li>" +
 											"<li class='list-group-item col-sm'><b>Ended:</b> " + $(this).attr("TimeEnded") + "</li>" +
