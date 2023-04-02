@@ -10,6 +10,11 @@
 		<meta name="author" content="Ben Mullan" />
 		<meta name="viewport" content="width=device-width, initial-scale=0.9" />
 		
+		<!-- ACE Editor Scripts; for in-browser syntax-highlighting -->
+		<script src="/ClientPages/Resources/Scripts/AceEditor/ace.js"				type="text/javascript" charset="utf-8"></script>
+		<script src="/ClientPages/Resources/Scripts/AceEditor/theme-sqlserver.js"	type="text/javascript" charset="utf-8"></script>
+		<script src="/ClientPages/Resources/Scripts/AceEditor/mode-tcl.js"			type="text/javascript" charset="utf-8"></script>
+
 <%= Response.GetScriptAndCSSImports().TabbedInBy(2) %>
 		
 	</head>
@@ -58,8 +63,8 @@
 				<!-- Source Input -->
 				<div class="form-group mb-4">
 					<label for="SourceTextArea">Source</label>
-					<textarea class="form-control" id="SourceTextArea" rows="10" aria-describedby="SourceTextAreaInfoText" required="true"></textarea>
-					<small id="SourceTextAreaInfoText" class="form-text text-muted">Type out a DocScript Program, or <u>drag</u> a DocScript File onto this WebPage</small>
+					<div id="DSSourceEditor" class="DSAceEditor" aria-describedby="SourceTextAreaInfoText"></div>
+					<small id="SourceTextAreaInfoText" class="form-text text-muted">Type out a DocScript Program, or <u>drag</u> a DocScript File onto this WebPage, outside of the text-editor...</small>
 				</div>
 			
 				<button class="btn btn-primary mx-2 bi-upload" onclick="ValidateForm_AndUploadProgram();" title="Only Uploads the Program; doesn't create an Execution-Session for it..."> Upload</button>

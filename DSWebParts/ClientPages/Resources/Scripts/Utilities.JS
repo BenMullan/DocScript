@@ -128,20 +128,20 @@
 	},
 
 	/*
-	Handles console-logging, DataAboutResponse-And-ResponseContent-Seperation, and AJAX Long-Polling re-requests.
-	Example call: window.Utilities.SendAJAXRequest("/API/Get.ASPX?Item=Source", function (_ResponseContentXML) {}, function (_ErrorMessage) {});
+		Handles console-logging, DataAboutResponse-And-ResponseContent-Seperation, and AJAX Long-Polling re-requests.
+		Example call: window.Utilities.SendAJAXRequest("/API/Get.ASPX?Item=Source", function (_ResponseContentXML) {}, function (_ErrorMessage) {});
 	*/
 	SendAJAXRequest: function (_RequestURL, _SuccessCallback, _FailureCallback) {
 
 		/*
-		_RequestURL			E.g. "/API/Get.ASPX?Item=Source"
-		_SuccessCallback	Must accept the ResponseContent XMLDocument as a parameter
-		_FailureCallback	Must accept the ErrorMessage String as a parameter
+			_RequestURL			E.g. "/API/Get.ASPX?Item=Source"
+			_SuccessCallback	Must accept the ResponseContent XMLDocument as a parameter
+			_FailureCallback	Must accept the ErrorMessage String as a parameter
 		*/
 
 		/* Start to time how long this AJAX Request takes */
 		window.AJAXRequestStartTime = performance.now();
-		console.group();
+		console.group("AJAX Request to " + _RequestURL);
 		window.Utilities.LogDebug("Making AJAX Request to [" + _RequestURL + "]...");
 
 		/* Handle an unsuccessfull AJAX Request */
@@ -225,16 +225,16 @@
 	},
 
 	/*
-	Handles console-logging, DataAboutResponse-And-ResponseContent-Seperation, BUT NOT AJAX Long-Polling re-requests.
-	Example call: window.Utilities.SendAJAXPostRequest("/API/Upload.ASPX?Item=Program", { ProgramSource : "SomeValueHere" }, function (_ResponseContentXML) {}, function (_ErrorMessage) {});
+		Handles console-logging, DataAboutResponse-And-ResponseContent-Seperation, BUT NOT AJAX Long-Polling re-requests.
+		Example call: window.Utilities.SendAJAXPostRequest("/API/Upload.ASPX?Item=Program", { ProgramSource : "SomeValueHere" }, function (_ResponseContentXML) {}, function (_ErrorMessage) {});
 	*/
 	SendAJAXPostRequest: function (_RequestURL, _POSTData, _SuccessCallback, _FailureCallback) {
 
 		/*
-		_RequestURL			E.g. "/API/Get.ASPX?Item=Source"
-		_POSTData			E.g. { ProgramSource : "SomeValueHere" }
-		_SuccessCallback	Must accept the ResponseContent XMLDocument as a parameter
-		_FailureCallback	Must accept the ErrorMessage String as a parameter
+			_RequestURL			E.g. "/API/Get.ASPX?Item=Source"
+			_POSTData			E.g. { ProgramSource : "SomeValueHere" }
+			_SuccessCallback	Must accept the ResponseContent XMLDocument as a parameter
+			_FailureCallback	Must accept the ErrorMessage String as a parameter
 		*/
 
 		/* Start to time how long this AJAX Request takes */

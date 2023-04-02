@@ -72,6 +72,7 @@
 				</div>
 				<div class="h6 m-2">ES-Event-Listening Responses received: <div id="ESEventListeningResponsesReceivedLabel" style="display: inline-block;">(0)</div></div>
 				<div class="h6 m-2" style="display: none; color: #3AEF27;" id="ESTimeEndedLabelOuterText"><b>The Execution-Session ended at: <span id="ESTimeEndedLabel">(ES not finished...)</span></b></div>
+				<div class="h6 m-2" style="display: none; color: #FF1B1B;" id="ESErrorAlertLabel"><b>The Execution-Session encountered an Error during interpretation; regard the Log Events...</b></div>
 				<!-- ↓ ES-Re; only for ?Role=Controller. Made visible by the Client, when the ES is [Finished] -->
 				<div style="display: none; text-align: center;" id="ESStateControllerOptions">
 					<button class="btn btn-primary m-1 py-1 px-3 bi-arrow-repeat" type="button" onclick="ResetES_ThenInitiateES_ThenReJoinES($('#ParticipantInstanceData').attr('data-esid'));" title="Reset and Re-Initiate Session"> Run again...</button>
@@ -163,7 +164,7 @@
 			<!-- CEP Insertion; only for ?Role=Controller -->
 			<div class="container border shadow rounded mb-5 mt-2 p-2" style="<%= If((Request.QueryString!Role.ToUpper() <>  DocScript.WebParts.Resources.ESParticipant_Role_Controller), "display: none;", "") %>">
 				<div class="h3 ds-heading"><center>Inject Client-Execution-Package</center></div><hr/>
-				<label for="SourceTextArea">JavaScript to run:</label>
+				<label for="CEPJavaScriptTextArea">JavaScript to run:</label>
 				<textarea class="form-control" id="CEPJavaScriptTextArea" rows="4">DSI.MsgBox("Hello!");</textarea>
 				<p class="text-muted">If the session is currently [Running], all clients will instantly execute the CEP. If the session is [Ready] or [Finished], then the CEP will be executed by all clients who ever participate in the session thenceforth. Useful CEPs can be found <a href="/ClientPages/Useful_CEPs.JS">here</a>.</p>
 				<button class="btn btn-primary bi-box-arrow-in-right m-3" onclick="InjectExecutionSessionCEP('<%= Request.QueryString!ESID %>', $('#CEPJavaScriptTextArea').val());" title="Submit the CEP to immediately be executed on all ES-Participants..."> Inject CEP</button>

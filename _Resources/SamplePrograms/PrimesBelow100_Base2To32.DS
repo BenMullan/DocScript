@@ -55,6 +55,7 @@ Function <Number@> GetPrimesBelow (<Number> _NumberOfPrimes)
 	
 EndFunction
 
+# Determines if _Test is a Prime Number or not
 Function <Boolean> IsAPrime (<Number> _Test)
 
 	<Number> _I : 2

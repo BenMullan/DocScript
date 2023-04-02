@@ -17,13 +17,19 @@ window.NullValue_Placeholder = "$__NULL__$";
 
 /* Specific to UploadProgram.ASPX */
 function ValidateForm_AndUploadProgram() {
-	if ( ($("#ProgramNameInput").val().trim() != "") && ($("#SourceTextArea").val().trim() != "") ) {
+	
+	/*
+		Validate the Form
+		Make request: /API/Upload.ASPX?Item=Program&ProgramName=*
+	*/
+
+	if (($("#ProgramNameInput").val().trim() != "") && (window.DSSourceEditor_Object.getValue().trim() != "")) {
 
 		window.UI.ShowBlockingLoadingMessage("Uploading the Program to a DocScript Interactive Server...");
 
 		window.Utilities.SendAJAXPostRequest(
 			("/API/Upload.ASPX?Item=Program&ProgramName=" + encodeURIComponent($("#ProgramNameInput").val().trim() + ".DS")),
-			{ SourceText: $("#SourceTextArea").val().trim() },
+			{ SourceText : window.DSSourceEditor_Object.getValue().trim() },
 			function (_ResponseContent) {
 				window.UI.DismissBlockingLoadingMessage();
 				Swal.fire({
@@ -58,6 +64,7 @@ function ValidateForm_AndUploadProgram() {
 			footer: "<a href='/'>Reload DocScript Interactive...</a>"
 		});
 	}
+
 }
 
 /* Specific to UploadProgram.ASPX */
@@ -71,13 +78,13 @@ function UploadProgram_ThenCreateES_ThenInitiateES_ThenJoinES() {
 		4) Redirect the current Tab to /ClientPages/Interactive/ESParticipant.ASPX?Role=Controller&ESID=*
 	*/
 
-	if (($("#ProgramNameInput").val().trim() != "") && ($("#SourceTextArea").val().trim() != "")) {
+	if (($("#ProgramNameInput").val().trim() != "") && (window.DSSourceEditor_Object.getValue().trim() != "")) {
 
 		/* 1) Make request: /API/Upload.ASPX?Item=Program&ProgramName=* */
 		window.UI.ShowBlockingLoadingMessage("Uploading Program...");
 		window.Utilities.SendAJAXPostRequest(
 			("/API/Upload.ASPX?Item=Program&ProgramName=" + encodeURIComponent($("#ProgramNameInput").val().trim() + ".DS")),
-			{ SourceText: $("#SourceTextArea").val().trim() },
+			{ SourceText : window.DSSourceEditor_Object.getValue().trim() },
 			function (_ProgramUpload_ResponseContent) {
 
 				/* 2) Make request: /API/Interactive/?Action=CreateES&... */
@@ -415,7 +422,7 @@ function AwaitSessionInitiation_AndThenJoinES() {
 			window.UI.DismissBlockingLoadingMessage();
 			Swal.fire({
 				icon: "error",
-				title: "DSI could not wait for the Execution-Session to start",
+				title: (_ErrorMessage.includes("There was not exactly-one ExecutionSession for the specified ESID") ? "The Execution-Session doesn't exist" : "DSI could not wait for the Execution-Session to start"),
 				html: "Ensure the provided ESID is correct; regard ?ESID= in the URL.<br/><br/>" + window.Utilities.EscapeXMLChars(_ErrorMessage) + "<br/><br/>This DSI Client may be corrupted and cannot continue.",
 				footer: "<a href='/'>Reload DocScript Interactive...</a>",
 				showConfirmButton: false,
@@ -529,6 +536,7 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 				&&
 				($("#LogEventsTable > tbody > tr").last().find("td")[1].innerText == window.Utilities.EscapeXMLChars($(this).attr("Message")))
 			) {
+				
 				/*
 					Because $.each() may run several instances of this lambda expression currently, we must ensure that we don't add the same event in twice.
 					Therefore, ensure that the ID of the event-being-added isn't already in the most-recent event's ID(s) field.
@@ -537,8 +545,11 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 					$("#LogEventsTable > tbody > tr").last().find("th")[0].innerText += (", " + $(this).attr("ID"));
 					$("#LogEventsTable > tbody > tr").last().find("td")[0].innerText += (", " + $(this).attr("TimeSubmitted"));
 				}
+
 			} else {
+				
 				var _SeverityToClass_Dictionary = { "ERROR":"text-danger", "WARNING":"text-warning", "INFOMATION":"text-body", "VERBOSE":"text-muted", "DEBUG":"text-info" };
+
 				$("#LogEventsTable > tbody").append(
 					"<tr>" +
 						"<th scope='row'  class='text-muted'>" + $(this).attr("ID") + "</th>" +
@@ -548,6 +559,13 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 						"<td class='text-muted'>" + $(this).attr("Category") + "</td>" +
 					"</tr>\r\n"
 				);
+
+				/* If the event is an Error, then make the "Log Events (*)" text RED */
+				if ($(this).attr("Severity").toUpperCase() == "ERROR") {
+					$("#LogEventsTableTitle").addClass("text-danger");
+					$("#ESErrorAlertLabel").show();
+				}
+
 			}
 
 			/*
@@ -589,6 +607,7 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 				&&
 				($("#OutputEventsTable > tbody > tr").last().find("td")[1].innerText == window.Utilities.EscapeXMLChars($(this).attr("OutputMessage")))
 			) {
+				
 				/*
 					Because $.each() may run several instances of this lambda expression currently, we must ensure that we don't add the same event in twice.
 					Therefore, ensure that the ID of the event-being-added isn't already in the most-recent event's ID(s) field.
@@ -597,7 +616,9 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 					$("#OutputEventsTable > tbody > tr").last().find("th")[0].innerText += (", " + $(this).attr("ID"));
 					$("#OutputEventsTable > tbody > tr").last().find("td")[0].innerText += (", " + $(this).attr("TimeSubmitted"));
 				}
+
 			} else {
+
 				$("#OutputEventsTable > tbody").append(
 					"<tr>" +
 						"<th scope='row' class='text-muted'>" + $(this).attr("ID") + "</th>" +
@@ -605,6 +626,7 @@ function ProcessListenForESEventsResponse(_ResponseContent, _ESID) {
 						"<td><b>" + window.Utilities.EscapeXMLChars($(this).attr("OutputMessage")) + "</b></td>" +
 					"</tr>\r\n"
 				);
+
 			}
 
 			/* Update the number of Events of this type in (Brackets) */

@@ -22,3 +22,10 @@ a { color: #0080FF; }
 
 /* Make Text Fields slightly yellow */
 .form-control { background: #FFFFD5; }
+
+/* For the ACE Editor with Syntax-Highlighting */
+.DSAceEditor {
+	height: 30%;
+	border-radius: 6px;
+	border: 1px solid #CED4DA;
+}

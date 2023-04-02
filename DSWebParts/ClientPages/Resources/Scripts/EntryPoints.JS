@@ -1,7 +1,7 @@
 ﻿/* Contains functions invoked by onload attributes */
 
 /* Console-Banner */
-console.group(); console.info("%cDocScript:\r\n%c\tInteractive!", "font-size: 800%; font-family: Inconsolata Variable Weight,Consolas,Courier New; color: #585858; font-weight: bold;", "font-size: 400%; font-family: Inconsolata Variable Weight,Consolas,Courier New; color: #0D6EFD; font-weight: bold;"); console.groupEnd();
+console.group("Console Banner"); console.info("%cDocScript:\r\n%c\tInteractive!", "font-size: 800%; font-family: Inconsolata Variable Weight,Consolas,Courier New; color: #585858; font-weight: bold;", "font-size: 400%; font-family: Inconsolata Variable Weight,Consolas,Courier New; color: #0D6EFD; font-weight: bold;"); console.groupEnd();
 
 function EntryPointFor_UploadProgram() {
 
@@ -23,7 +23,7 @@ function EntryPointFor_UploadProgram() {
 					e.dataTransfer.files[0],
 					function (_Text) {
 						window.Utilities.LogDebug("First 500 chars of file text:\r\n\r\n" + _Text.slice(0, 500));
-						$("#SourceTextArea").val(_Text);
+						window.DSSourceEditor_Object.setValue(_Text);
 						setTimeout(window.UI.DismissBlockingLoadingMessage, 800);
 					},
 					function () {
@@ -48,6 +48,9 @@ function EntryPointFor_UploadProgram() {
 
 		}
 	);
+
+	/* Initialise the #DSSourceEditor. REQUIRES THE ACE SCRIPTS IN AceEditor\ */
+	InitialiseACEEditor("DSSourceEditor");
 
 	/* Load in the Existing-Programs */
 	LoadExistingPrograms();

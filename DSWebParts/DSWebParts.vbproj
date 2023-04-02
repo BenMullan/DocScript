@@ -130,6 +130,9 @@
     <Content Include="API\Interactive\ExecutionSession.ASPX" />
     <Content Include="ClientPages\Interactive\ESParticipant.ASPX" />
     <Content Include="ClientPages\Interactive\ESManager.ASPX" />
+    <Content Include="ClientPages\Resources\Scripts\AceEditor\ace.js" />
+    <Content Include="ClientPages\Resources\Scripts\AceEditor\mode-tcl.js" />
+    <Content Include="ClientPages\Resources\Scripts\AceEditor\theme-sqlserver.js" />
     <Content Include="ClientPages\Resources\Scripts\AJAX.JS" />
     <Content Include="ClientPages\Resources\Scripts\DSI.JS" />
     <Content Include="ClientPages\Resources\Scripts\UserInterface.JS" />

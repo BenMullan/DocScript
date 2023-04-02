@@ -1,8 +1,9 @@
 ﻿/*
 	UserInterface.JS
-	Contains functions for the UI
+	Contains Functions and Objects for the UI
 */
 
+/* The Window.UI object definition */
 window.UI = {
 
 	ShowBlockingLoadingMessage: function (_Message) {
@@ -23,10 +24,27 @@ window.UI = {
 
 };
 
+/* A utility function for the ACE in-browser syntax highlighting */
+function InitialiseACEEditor(_EditorDivID) {
+	
+	/* REQUIRES THE ACE SCRIPTS IN AceEditor\ */
+	window.DSSourceEditor_Object = ace.edit(_EditorDivID);
+	window.DSSourceEditor_Object.setTheme("ace/theme/sqlserver");
+	var _TCLMode = ace.require("ace/mode/tcl").Mode;
+	window.DSSourceEditor_Object.session.setMode(new _TCLMode());
+	window.DSSourceEditor_Object.setShowPrintMargin(false);
+	
+	window.DSSourceEditor_Object.setOptions({
+		fontFamily : "Inconsolata Variable Weight,Consolas,Courier New",
+		fontSize : "16pt",
+		autoScrollEditorIntoView : true,
+		copyWithEmptySelection : true
+	});
 
-Element.prototype.remove = function() {
-	this.parentElement.removeChild(this);
 }
+
+/* Extention Methods for removing HTML Elements from the DOM */
+Element.prototype.remove = function() { this.parentElement.removeChild(this); }
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
 	for(var i = this.length - 1; i >= 0; i--) {
 		if(this[i] && this[i].parentElement) {
@@ -37,6 +55,7 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
 
 
 /*
+	The rest of this file is...
 	Canvas2image - A tool of saving or converting canvas to images
 	https://github.com/hongru/canvas2image
 */
