@@ -422,7 +422,15 @@
 			Dim _Program As DocScript.Runtime.Program = Runtime.Program.FromSource(Me.SourceTextEditor.Text, Runtime.ExecutionContext.GUIDefault)
 			If Me.CurrentlyOpenFile IsNot Nothing Then _Program.Name = Me.CurrentlyOpenFile.FullName
 			Call (New DSCompilationWindow(_Program)).ShowDialog()
-		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+		Catch _Ex As Exception : MsgBox("The DocScript Source could not be constructed for Compilation. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+	End Sub
+
+	Public Sub LaunchDSRemotingWindow() Handles DSRemotingButton.Click
+		Try
+			Dim _Program As DocScript.Runtime.Program = Runtime.Program.FromSource(Me.SourceTextEditor.Text, Nothing)
+			If Me.CurrentlyOpenFile IsNot Nothing Then _Program.Name = Me.CurrentlyOpenFile.FullName
+			Call (New DSRemotingWindow(_Program)).ShowDialog()
+		Catch _Ex As Exception : MsgBox("The DocScript Source in the Text Editor could not be constructed, for Remote Execution. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
 	End Sub
 
 	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()

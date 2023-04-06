@@ -118,49 +118,73 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DocScript_SyntaxHighlighting" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DocScript_SyntaxHighlighting.XSHD;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="StartPictorialHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\StartPictorialHelp.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__1_Title" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\_TitleSlide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__2_DSArchitecture" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\DSArchitecture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__3_DSInterpretation" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\DSInterpretation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__4_Keywords" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\Keywords.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__5_ReservedChars" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\ReservedChars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__6_InstructionTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\InstructionTypes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__7_PossibleLineTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\PossibleLineTypes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__8_Operators" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\Operators.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="__9_OperatorsInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\OperatorsInfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="__B_DS_TC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\DS-TC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="__A_DSTypeCoercion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\UtilityForms\PictorialHelp_Images\DSTypeCoercion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="__B_DS_TC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\DS-TC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DSR_ShellMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\DSR_ShellMode.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__D_TokenColours" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\TokenColours.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__9_OperatorsInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\OperatorsInfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__1_Title" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\_TitleSlide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Computer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Computer.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DocScript_SyntaxHighlighting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DocScript_SyntaxHighlighting.XSHD;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="__5_ReservedChars" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\ReservedChars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="__C_DSBinaries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\UtilityForms\PictorialHelp_Images\DSBinaries.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="__D_TokenColours" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\UtilityForms\PictorialHelp_Images\TokenColours.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DSRemotingBanner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\DSRemotingBanner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__8_Operators" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\Operators.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TargetOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\TargetOptions.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__6_InstructionTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\InstructionTypes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__4_Keywords" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\Keywords.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__2_DSArchitecture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\DSArchitecture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DSR_InteractiveMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\DSR_InteractiveMode.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DSR_HeadlessMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\DSR_HeadlessMode.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Desktop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Desktop.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__7_PossibleLineTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\PossibleLineTypes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StartPictorialHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\StartPictorialHelp.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="__3_DSInterpretation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UtilityForms\PictorialHelp_Images\DSInterpretation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PsExec_NotActuallyTheLogoForItButStill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\PsExec_NotActuallyTheLogoForItButStill.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

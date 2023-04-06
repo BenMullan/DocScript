@@ -24,4 +24,8 @@
 		Call (New BIFExperiments()).ShowDialog()
 	End Sub
 
+	Private Sub DSRemotingButton_Click(sender As System.Object, e As System.EventArgs) Handles DSRemotingButton.Click
+		Call (New RemotingExperiments()).ShowDialog()
+	End Sub
+
 End Class

@@ -29,6 +29,7 @@ Partial Class DSEFormChooser
 		Me.InstructionTreesButton = New System.Windows.Forms.Button()
 		Me.SQLExperimentsButton = New System.Windows.Forms.Button()
 		Me.BIFExperimentsButton = New System.Windows.Forms.Button()
+		Me.DSRemotingButton = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'ExprExpButton
@@ -125,6 +126,20 @@ Partial Class DSEFormChooser
 		Me.BIFExperimentsButton.Text = "BIF Experiments"
 		Me.BIFExperimentsButton.UseVisualStyleBackColor = False
 		'
+		'DSRemotingButton
+		'
+		Me.DSRemotingButton.BackColor = System.Drawing.Color.LightGray
+		Me.DSRemotingButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaptionText
+		Me.DSRemotingButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ButtonShadow
+		Me.DSRemotingButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Highlight
+		Me.DSRemotingButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.DSRemotingButton.Location = New System.Drawing.Point(8, 207)
+		Me.DSRemotingButton.Name = "DSRemotingButton"
+		Me.DSRemotingButton.Size = New System.Drawing.Size(131, 23)
+		Me.DSRemotingButton.TabIndex = 6
+		Me.DSRemotingButton.Text = "DS Remoting"
+		Me.DSRemotingButton.UseVisualStyleBackColor = False
+		'
 		'DSEFormChooser
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -132,6 +147,7 @@ Partial Class DSEFormChooser
 		Me.AutoScroll = True
 		Me.BackColor = System.Drawing.SystemColors.GradientInactiveCaption
 		Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+		Me.Controls.Add(Me.DSRemotingButton)
 		Me.Controls.Add(Me.BIFExperimentsButton)
 		Me.Controls.Add(Me.SQLExperimentsButton)
 		Me.Controls.Add(Me.InstructionTreesButton)
@@ -152,5 +168,6 @@ Partial Class DSEFormChooser
 	Friend WithEvents InstructionTreesButton As System.Windows.Forms.Button
 	Friend WithEvents SQLExperimentsButton As System.Windows.Forms.Button
 	Friend WithEvents BIFExperimentsButton As System.Windows.Forms.Button
+	Friend WithEvents DSRemotingButton As System.Windows.Forms.Button
 
 End Class

@@ -527,7 +527,7 @@
 			End Get
 		End Property
 
-		''' <summary>Reconstructs a DocScript-Source versino of the Program, by recursively serialising each Instruction</summary>
+		''' <summary>Reconstructs a DocScript-Source version of the Program, by recursively serialising each Instruction</summary>
 		Public ReadOnly Property ReconstructedSource As [String]
 			Get
 				Try

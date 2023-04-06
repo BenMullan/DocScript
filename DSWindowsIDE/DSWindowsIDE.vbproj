@@ -102,6 +102,12 @@
     <Compile Include="CLAManagment.VB" />
     <Compile Include="DSIntelliSenseEntry.VB" />
     <Compile Include="PredefinedSnippets.VB" />
+    <Compile Include="UtilityForms\ActionInProgressDialog.Designer.VB">
+      <DependentUpon>ActionInProgressDialog.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\ActionInProgressDialog.VB">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UtilityForms\BIFExplorerWindow.Designer.VB">
       <DependentUpon>BIFExplorerWindow.VB</DependentUpon>
     </Compile>
@@ -112,6 +118,12 @@
       <DependentUpon>DSCompilationWindow.VB</DependentUpon>
     </Compile>
     <Compile Include="UtilityForms\DSCompilationWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityForms\DSRemotingWindow.Designer.VB">
+      <DependentUpon>DSRemotingWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\DSRemotingWindow.VB">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UtilityForms\ExeResExplorerWindow.Designer.VB">
@@ -196,6 +208,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="UtilityForms\ActionInProgressDialog.resx">
+      <DependentUpon>ActionInProgressDialog.VB</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\BIFExplorerWindow.resx">
       <DependentUpon>BIFExplorerWindow.VB</DependentUpon>
     </EmbeddedResource>
@@ -210,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\DSCompilationWindow.resx">
       <DependentUpon>DSCompilationWindow.VB</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\DSRemotingWindow.resx">
+      <DependentUpon>DSRemotingWindow.VB</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\ExeResExplorerWindow.resx">
       <DependentUpon>ExeResExplorerWindow.VB</DependentUpon>
@@ -417,6 +435,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\DSCompilation.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\DSRemotingBanner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\DSR_HeadlessMode.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\DSR_ShellMode.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\DSR_InteractiveMode.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Computer.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\TargetOptions.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Desktop.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\PsExec_NotActuallyTheLogoForItButStill.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

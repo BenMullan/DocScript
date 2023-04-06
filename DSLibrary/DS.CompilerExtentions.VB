@@ -192,9 +192,6 @@ Namespace CompilerExtentions
 		''' (MullNet CompilerExtention) Removes the First Character from the String.
 		''' Only returns the post-computation Result; does NOT modify the input.
 		''' </summary>
-		''' <param name="_InputString"></param>
-		''' <returns></returns>
-		''' <remarks>Both Modifies the Parameter, and returns the post-computation Result</remarks>
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Function WithFirstCharacterRemoved$(ByVal _InputString$)
 
@@ -220,6 +217,19 @@ Namespace CompilerExtentions
 			'If we've gotten to here, the String must have at least 1 Character, so Remove the LastChar
 			_InputString = _InputString.Remove(_InputString.Length - 1, 1I)
 			Return _InputString
+
+		End Function
+
+		''' <summary>
+		''' (MullNet CompilerExtention) Removes the Last Character from the String.
+		''' Only returns the post-computation Result; does NOT modify the input.
+		''' </summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function WithLastCharacterRemoved$(ByRef _InputString$)
+
+			'If the String is Empty, we wouldn't be able to Remove the LastChar
+			If _InputString.IsEmpty() Then Throw New Exception("The Last Character could not be removed from the String, because the String is empty.")
+			Return _InputString.Remove(_InputString.Length - 1, 1I)
 
 		End Function
 
@@ -346,6 +356,18 @@ Namespace CompilerExtentions
 			Try
 				Return UInt32.Parse(_String.OnlyAllowTheseChars("0123456789".ToCharArray()))
 			Catch _Ex As Exception : Throw New DSException("@Extract_UInt32 (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string without this.</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function WithoutBackslashOnEnd$(ByVal _String$)
+			Return If(_String.EndsWith("\"c), _String.WithLastCharacterRemoved(), _String)
+		End Function
+
+		''' <summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string, otherwise returns the string concatenated with a [\].</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function WithBackslashOnEnd$(ByVal _String$)
+			Return If(_String.EndsWith("\"c), _String, _String & "\"c)
 		End Function
 
 	End Module

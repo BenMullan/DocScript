@@ -63,6 +63,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -137,6 +138,7 @@
     <Compile Include="Runtime\DS.R.SymbolTablesSnapshot.VB" />
     <Compile Include="Runtime\DS.R.Token.VB" />
     <Compile Include="Runtime\DS.R.Parser.VB" />
+    <Compile Include="Runtime\Remoting\DS.R.Remoting.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Debug.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Const.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.DS.VB" />

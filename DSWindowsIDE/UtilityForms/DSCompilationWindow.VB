@@ -1,12 +1,12 @@
 ﻿Public Class DSCompilationWindow
 
 	Public Const Placeholder_DSIDE_Dir$ = "$(DSIDE_Dir)"
-	Public ProgramToCompile As DocScript.Runtime.Program
+	Public ReadOnly ProgramToCompile As DocScript.Runtime.Program
 
 	Public Sub New(ByVal _Program As DocScript.Runtime.Program)
 
 		' This call is required by the designer.
-		InitializeComponent()
+		Me.InitializeComponent()
 
 		' Add any initialization after the InitializeComponent() call.
 		Me.ProgramToCompile = _Program

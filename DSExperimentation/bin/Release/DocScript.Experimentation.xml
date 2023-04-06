@@ -8,6 +8,24 @@ DocScript.Experimentation
 <members>
 <member name="M:DSExperimentation.DSEExpressions.Node.ToString">
 	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
+</member><member name="M:DSExperimentation.RemotingExperiments.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
+	<summary>
+ Uses WMI to run the specified command line on the remote Windows(TM) computer.
+ </summary>
+	<param name="_TargetPC_HostnameOrIP">E.g. "192.168.1.85"</param>
+	<param name="_Username_ForTargetPC">E.g. ".\Administrator"</param>
+	<param name="_Password_ForTargetPC">E.g. "Pass!123"</param>
+	<param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
+	<remarks></remarks>
+</member><member name="M:DSExperimentation.RemotingExperiments.CopyFiles_ToRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.IO.FileInfo[])">
+	<summary>
+ Copies each of the _FilesToCopyThither into the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\"</param>
+	<param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
+	<remarks></remarks>
 </member><member name="T:DSExperimentation.Token.TokenLocation">
 	<summary>
  Represents the origional location of a Token in the Source

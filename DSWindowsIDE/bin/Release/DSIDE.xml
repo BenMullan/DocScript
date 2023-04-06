@@ -87,11 +87,43 @@ MainWindow
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:DocScript.My.Resources.Resources.Computer">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.Desktop">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:DocScript.My.Resources.Resources.DocScript_SyntaxHighlighting">
 	<summary>
   Looks up a localized resource of type System.Byte[].
 </summary>
+</member><member name="P:DocScript.My.Resources.Resources.DSR_HeadlessMode">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.DSR_InteractiveMode">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.DSR_ShellMode">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.DSRemotingBanner">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:DocScript.My.Resources.Resources.StartPictorialHelp">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.TargetOptions">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

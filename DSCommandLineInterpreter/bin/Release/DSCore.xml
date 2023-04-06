@@ -6,7 +6,36 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="T:DocScript.Language.Expressions.IExpression">
+<member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
+	<summary>
+ Uses WMI to run the specified command line on the remote Windows(TM) computer.
+ </summary>
+	<param name="_TargetPC_HostnameOrIP">E.g. "192.168.1.85"</param>
+	<param name="_Username_ForTargetPC">E.g. ".\Administrator"</param>
+	<param name="_Password_ForTargetPC">E.g. "Pass!123"</param>
+	<param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.IO.FileInfo[])">
+	<summary>
+ Copies each of the _FilesToCopyThither into the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+	<param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.String[])">
+	<summary>
+ Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
+	<remarks></remarks>
+</member><member name="T:DocScript.Runtime.Remoting">
+	<summary>Contains resources for executing DocScript programs on remote computers</summary>
+</member><member name="T:DocScript.Language.Expressions.IExpression">
 	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
 </member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
 	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
@@ -752,9 +781,6 @@ DSCore
  (MullNet CompilerExtention) Removes the First Character from the String.
  Only returns the post-computation Result; does NOT modify the input.
  </summary>
-	<param name="_InputString"></param>
-	<returns></returns>
-	<remarks>Both Modifies the Parameter, and returns the post-computation Result</remarks>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.RemoveLastCharacter(System.String@)">
 	<summary>
  (MullNet CompilerExtention) Removes the Last Character from the String.
@@ -763,6 +789,11 @@ DSCore
 	<param name="_InputString"></param>
 	<returns></returns>
 	<remarks>Both Modifies the Parameter, and returns the post-computation Result</remarks>
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithLastCharacterRemoved(System.String@)">
+	<summary>
+ (MullNet CompilerExtention) Removes the Last Character from the String.
+ Only returns the post-computation Result; does NOT modify the input.
+ </summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.IsEmpty(System.String)">
 	<summary>
  (MullNet CompilerExtention) Evaluates weather or not the String is Empty. (WhiteSpace does not count as Empty)
@@ -802,6 +833,10 @@ DSCore
 	<summary>(MullNet CompilerExtention) Computes and Returns the PlainText, from a Base64-Encoded _InputString</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.Extract_UInt32(System.String)">
 	<summary>(MullNet CompilerExtention) Filters for digit-chars, then attempts to parse an UInt32</summary>
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithoutBackslashOnEnd(System.String)">
+	<summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string without this.</summary>
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithBackslashOnEnd(System.String)">
+	<summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string, otherwise returns the string concatenated with a [\].</summary>
 </member><member name="M:DocScript.CompilerExtentions.DateTimeExtentions.GetLogSerialisation(System.DateTime@)">
 	<summary>(MullNet CompilerExtention) Gets a short Date and Time String suitable for Logs, in the form "21-07 12:00:08.625"</summary>
 </member><member name="M:DocScript.CompilerExtentions.ControlExtentions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
@@ -1130,7 +1165,7 @@ DSCore
 </member><member name="P:DocScript.Runtime.Program.ProgramTreeXML">
 	<summary>Gets the XML form of the DocScript Program, including all Global Variable Declarations, and Functions with their XML Contents.</summary>
 </member><member name="P:DocScript.Runtime.Program.ReconstructedSource">
-	<summary>Reconstructs a DocScript-Source versino of the Program, by recursively serialising each Instruction</summary>
+	<summary>Reconstructs a DocScript-Source version of the Program, by recursively serialising each Instruction</summary>
 </member><member name="T:DocScript.Runtime.Program">
 	<summary>Represents a collection of Functions (imperatively including an EntryPoint Main()) and any Global Variable Declarations, from a source file</summary>
 </member><member name="M:DocScript.Language.Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(System.String)">

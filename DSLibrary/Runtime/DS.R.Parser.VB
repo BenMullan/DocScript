@@ -55,6 +55,7 @@
 				REM ╚═════════════════════════════════════════════╝
 
 				REM 1) Initialisation
+				'		- Attempt to automatically homogenise all LineBreaks to [CrLf]
 				'		- Ensure all LineBreaks are valid (CrLf)
 				'		- Load in Lines of Source
 
@@ -74,12 +75,14 @@
 				'		- Ensure all Bracket usage is balenced (Best to do this now as we have the TokenTypes for easy GrammarChar filtering)
 				'		- Ensure all Statement Openings and Closings are balenced (Function to EndFunction, etc...)
 
-				REM		[_RawSourceLines] → [_CleanSourceLines]		→	 [_SegmentedTokens] → [_NonNullTokens] → [_CleansedTokens] → [_TokensWithStringLiterals] → [_ClassifiedTokens]
+				REM		[_RawSource] → [_LinebreakHomogenisedSource] → [_RawSourceLines] → [_CleanSourceLines]		→	 [_SegmentedTokens] → [_NonNullTokens] → [_CleansedTokens] → [_TokensWithStringLiterals] → [_ClassifiedTokens]
 
-				If Not AllLineBreaksAreValid_(_RawSource) Then Throw New DSValidationException("At least one LineBreak in the Source was invalid. All LineBreaks in a DocScript Program must be [CrLf].", "(The Unprocessed Source)")
+				'Attempt automatic LineBreak Homogenisation: CrLf→Cr; Lf→Cr; Cr→CrLf
+				Dim _LinebreakHomogenisedSource$ = _RawSource.Replace(vbCrLf, vbCr).Replace(vbLf, vbCr).Replace(vbCr, vbCrLf)
+				If Not AllLineBreaksAreValid_(_LinebreakHomogenisedSource) Then Throw New DSValidationException("Despite attempts to automatically homogenise the LineBreaks, at least one LineBreak in the Source was invalid. All LineBreaks in a DocScript Program must be [CrLf].", "(The Unprocessed Source)")
 
 				'The unprocessed Lines from the Source:
-				Dim _RawSourceLines As String() = _RawSource.Split({vbCrLf}, StringSplitOptions.None).ToArray()
+				Dim _RawSourceLines As String() = _LinebreakHomogenisedSource.Split({DocScript.Language.Constants.LineBreak}, StringSplitOptions.None).ToArray()
 				LogParsingMessage("Loaded in " & _RawSourceLines.Length.ToString() & " Line(s) from Source")
 
 				Dim _CleanSourceLines As String() = Parser.BlankOutUnnecessarySourceLines_(_RawSourceLines)
@@ -88,7 +91,7 @@
 				REM This is needed so that we can still accurately report the Line and Column Location of the Tokens.
 				REM Next, StringLiterals will be replaced with StringLiteral Indication Tokens (SLITs)
 
-				Dim _SLITMatches As Text.RegularExpressions.MatchCollection = (New System.Text.RegularExpressions.Regex(Parser.SLIT_RegExp_)).Matches(String.Join(vbCrLf, _CleanSourceLines))
+				Dim _SLITMatches As Text.RegularExpressions.MatchCollection = (New System.Text.RegularExpressions.Regex(Parser.SLIT_RegExp_)).Matches(String.Join(Language.Constants.LineBreak, _CleanSourceLines))
 				LogParsingMessage("Detected " & _SLITMatches.Count.ToString() & " prematurely-present SLIT(s) in Source")
 				If _SLITMatches.Count > 0 Then Throw New DSValidationException("At least one instance of a SLIT Placeholder appeared in the Source before any had been inserted by the Parser. This is not permitted.", _SLITMatches.Item(0).Value)
 
@@ -523,20 +526,28 @@
 		''' <summary>
 		''' Makes the source valid for within a single line or inside string literal; replaces [LineBreaks (CrLf)] with [;], and replaces ["] with [`].
 		''' </summary>
-		Public Function FlattenSource(ByVal _Source_ContainingLineBreaksAndQuotes$) As [String]
+		Public Function FlattenSource$(ByVal _Source_ContainingLineBreaksAndQuotes$)
+
+			REM If the _Source_ContainingLineBreaksAndQuotes$ already contains [;] or [`], then it will not be unflattened correctly on the other side
+			If {Language.Constants.LineBreak_SubstitutionChar_ForFlattenedSource, Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar}.Any(AddressOf _Source_ContainingLineBreaksAndQuotes.Contains) Then _
+			 Throw New DSValidationException("The specified DocScript Source cannot be flattened, because it already contains a SemiColon [;] or BackTick [`].", "Source: " & _Source_ContainingLineBreaksAndQuotes)
+
 			Return _Source_ContainingLineBreaksAndQuotes _
 			 .Replace(Language.Constants.LineBreak, Language.Constants.LineBreak_SubstitutionChar_ForFlattenedSource) _
 			 .Replace(Language.Constants.StringLiteralStartEndChar, Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar)
+
 		End Function
 
 		''' <summary>
 		''' Takes in flattened source, and expands it; replaces [;] with [LineBreaks (CrLf)], and replaces [`] with ["].
 		''' For example, DocScript-Live uses this method, so the line [Output("Ben");Output("Ryan")] becomes two seperate lines.
 		''' </summary>
-		Public Function UnflattenSource(ByVal _Source_ContainingSemiColonsAndTicks$) As [String]
+		Public Function UnflattenSource$(ByVal _Source_ContainingSemiColonsAndTicks$)
+
 			Return _Source_ContainingSemiColonsAndTicks _
 			 .Replace(Language.Constants.LineBreak_SubstitutionChar_ForFlattenedSource, Language.Constants.LineBreak) _
 			 .Replace(Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar, Language.Constants.StringLiteralStartEndChar)
+
 		End Function
 
 #End Region
