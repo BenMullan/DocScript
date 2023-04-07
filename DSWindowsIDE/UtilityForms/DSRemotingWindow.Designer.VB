@@ -37,6 +37,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SelectModeLabel = New System.Windows.Forms.Label()
 		Me.Target_TabPage = New System.Windows.Forms.TabPage()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.PictureBox5 = New System.Windows.Forms.PictureBox()
 		Me.DocScriptCLAs_TextBox = New System.Windows.Forms.TextBox()
 		Me.Label8 = New System.Windows.Forms.Label()
@@ -76,7 +77,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_ComputerTextBox = New System.Windows.Forms.TextBox()
 		Me.SimpleMode_ComputerLabel = New System.Windows.Forms.Label()
 		Me.SimpleMode_InfoLabel = New System.Windows.Forms.Label()
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.TheTabControl.SuspendLayout()
 		Me.Mode_TabPage.SuspendLayout()
 		CType(Me.InteractiveIcon_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -260,6 +260,16 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.GroupBox1.TabIndex = 1
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "Options"
+		'
+		'DeleteDSFilesFromRemoteAtEnd_CheckBox
+		'
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.AutoSize = True
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Location = New System.Drawing.Point(60, 81)
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Name = "DeleteDSFilesFromRemoteAtEnd_CheckBox"
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Size = New System.Drawing.Size(266, 17)
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.TabIndex = 4
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Text = "Delete DocScript files from remote computer at end"
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.UseVisualStyleBackColor = True
 		'
 		'PictureBox5
 		'
@@ -643,16 +653,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_InfoLabel.Text = "You will be asked for credentials when you connect." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "DSR will use the ""Interactiv" & _
 		  "e"" mode, with the Console session."
 		'
-		'DeleteDSFilesFromRemoteAtEnd_CheckBox
-		'
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.AutoSize = True
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Location = New System.Drawing.Point(60, 81)
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Name = "DeleteDSFilesFromRemoteAtEnd_CheckBox"
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Size = New System.Drawing.Size(266, 17)
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.TabIndex = 4
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Text = "Delete DocScript files from remote computer at end"
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.UseVisualStyleBackColor = True
-		'
 		'DSRemotingWindow
 		'
 		Me.AcceptButton = Me.ConnectButton
@@ -672,7 +672,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.MinimizeBox = False
 		Me.Name = "DSRemotingWindow"
 		Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
-		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
 		Me.Text = "DocScript Remoting"
 		Me.TheTabControl.ResumeLayout(False)
 		Me.Mode_TabPage.ResumeLayout(False)

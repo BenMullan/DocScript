@@ -176,7 +176,7 @@
 
 				REM Perform the correct Advanced-Mode Operation
 				If Me.ShellMode_RadioButton.Checked Then
-				ElseIf Me.InteractiveMode_RadioButton.Checked Then
+				ElseIf Me.InteractiveMode_RadioButton.Checked Then : Me.InteractiveMode_LaunchRemoteProcess()
 				ElseIf Me.HeadlessMode_RadioButton.Checked Then : Me.HeadlessMode_CreateRemoteProcess()
 				Else : Throw New Exception("The selected DSRemoting Mode was unrecognised")
 				End If
@@ -202,7 +202,7 @@
 			End If
 
 		Catch _DSR_Exception As Exception When True
-			MsgBox("The DS-Remoting operation failed. Reason: " & vbCrLf & vbCrLf & _DSR_Exception.Message & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer. Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain.", ""), MsgBoxStyle.Critical, "DS-Remoting")
+			MsgBox("The DS-Remoting operation failed. Reason: " & vbCrLf & vbCrLf & _DSR_Exception.Message & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer. Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain.", If(_DSR_Exception.Message.Contains("Could not find file"), vbCrLf & "Ensure that there is a copy of DSCLI.ILM.exe in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.", "")), MsgBoxStyle.Critical, "DS-Remoting")
 		Finally
 
 			REM Attempt to delete the tempoary local session-specific Script file
@@ -287,7 +287,19 @@
 		'		- E.g. CopyFiles_ToRemoteComputer("\\192.168.1.85\C$\Windows\DSRemoting\", "User", "Pass", {"DSCLI.ILM.exe", "...ScriptAK47.DS"})
 		'		- E.g. PsExec.exe \\192.168.1.85 -u Administrator -p Logon#123 -i -d C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /GUI /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
 
-		Throw New NotImplementedException("Interactive Mode has not been implemented yet")
+		Dim _UsernameToUse$, _PasswordToUse$
+
+		If Not Me.IsCurrentlyInAdvancedMode Then
+
+			REM Prompt for Credentials first
+			Dim _SpecifiedCredentials As Tuple(Of String, String) = EnterCredentialsDialog.Show_AndGetCredentials()
+			_UsernameToUse = _SpecifiedCredentials.Item1 : _PasswordToUse = _SpecifiedCredentials.Item2
+
+		Else
+
+			REM Use the Credentials from the Form
+
+		End If
 
 	End Sub
 
