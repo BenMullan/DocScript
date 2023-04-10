@@ -39,7 +39,7 @@ Partial Class EnterCredentialsDialog
 		Me.Label1.Location = New System.Drawing.Point(85, 38)
 		Me.Label1.Name = "Label1"
 		Me.Label1.Size = New System.Drawing.Size(58, 13)
-		Me.Label1.TabIndex = 0
+		Me.Label1.TabIndex = 1
 		Me.Label1.Text = "Username:"
 		'
 		'UsernameTextBox
@@ -47,14 +47,14 @@ Partial Class EnterCredentialsDialog
 		Me.UsernameTextBox.Location = New System.Drawing.Point(149, 35)
 		Me.UsernameTextBox.Name = "UsernameTextBox"
 		Me.UsernameTextBox.Size = New System.Drawing.Size(244, 20)
-		Me.UsernameTextBox.TabIndex = 1
+		Me.UsernameTextBox.TabIndex = 3
 		'
 		'OkButton
 		'
 		Me.OkButton.Location = New System.Drawing.Point(170, 99)
 		Me.OkButton.Name = "OkButton"
 		Me.OkButton.Size = New System.Drawing.Size(75, 23)
-		Me.OkButton.TabIndex = 2
+		Me.OkButton.TabIndex = 5
 		Me.OkButton.Text = "&Ok"
 		Me.OkButton.UseVisualStyleBackColor = True
 		'
@@ -64,7 +64,7 @@ Partial Class EnterCredentialsDialog
 		Me.Label2.Location = New System.Drawing.Point(85, 67)
 		Me.Label2.Name = "Label2"
 		Me.Label2.Size = New System.Drawing.Size(56, 13)
-		Me.Label2.TabIndex = 0
+		Me.Label2.TabIndex = 2
 		Me.Label2.Text = "Password:"
 		'
 		'PasswordTextBox
@@ -72,7 +72,7 @@ Partial Class EnterCredentialsDialog
 		Me.PasswordTextBox.Location = New System.Drawing.Point(149, 64)
 		Me.PasswordTextBox.Name = "PasswordTextBox"
 		Me.PasswordTextBox.Size = New System.Drawing.Size(244, 20)
-		Me.PasswordTextBox.TabIndex = 1
+		Me.PasswordTextBox.TabIndex = 4
 		'
 		'PictureBox1
 		'
@@ -89,9 +89,9 @@ Partial Class EnterCredentialsDialog
 		Me.Label3.AutoSize = True
 		Me.Label3.Location = New System.Drawing.Point(12, 8)
 		Me.Label3.Name = "Label3"
-		Me.Label3.Size = New System.Drawing.Size(326, 13)
+		Me.Label3.Size = New System.Drawing.Size(308, 13)
 		Me.Label3.TabIndex = 0
-		Me.Label3.Text = "Specify the credentials with which to make the remote connection..."
+		Me.Label3.Text = "Specify credentials with which to make the remote connection..."
 		'
 		'EnterCredentialsDialog
 		'

@@ -55,20 +55,18 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
 		Me.ShellMode_CustomPSEXECPATH_TextBox = New System.Windows.Forms.TextBox()
 		Me.Button3 = New System.Windows.Forms.Button()
-		Me.CheckBox2 = New System.Windows.Forms.CheckBox()
 		Me.PictureBox8 = New System.Windows.Forms.PictureBox()
 		Me.Interactive_TabPage = New System.Windows.Forms.TabPage()
 		Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-		Me.InteractiveSession_NumericUpDown = New System.Windows.Forms.NumericUpDown()
-		Me.RadioButton5 = New System.Windows.Forms.RadioButton()
-		Me.RadioButton4 = New System.Windows.Forms.RadioButton()
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown = New System.Windows.Forms.NumericUpDown()
+		Me.InteractiveMode_UseCustomSession_RadioButton = New System.Windows.Forms.RadioButton()
+		Me.InteractiveMode_UseConsoleSession_RadioButton = New System.Windows.Forms.RadioButton()
 		Me.Label6 = New System.Windows.Forms.Label()
 		Me.PictureBox6 = New System.Windows.Forms.PictureBox()
-		Me.CheckBox4 = New System.Windows.Forms.CheckBox()
+		Me.InteractiveMode_UseGUIExecution_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox = New System.Windows.Forms.TextBox()
 		Me.Button2 = New System.Windows.Forms.Button()
-		Me.CheckBox3 = New System.Windows.Forms.CheckBox()
 		Me.PictureBox7 = New System.Windows.Forms.PictureBox()
 		Me.ConnectButton = New System.Windows.Forms.Button()
 		Me.ShowHideOptionsButton = New System.Windows.Forms.Button()
@@ -77,6 +75,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_ComputerTextBox = New System.Windows.Forms.TextBox()
 		Me.SimpleMode_ComputerLabel = New System.Windows.Forms.Label()
 		Me.SimpleMode_InfoLabel = New System.Windows.Forms.Label()
+		Me.Label9 = New System.Windows.Forms.Label()
+		Me.Label10 = New System.Windows.Forms.Label()
 		Me.TheTabControl.SuspendLayout()
 		Me.Mode_TabPage.SuspendLayout()
 		CType(Me.InteractiveIcon_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,7 +92,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.Interactive_TabPage.SuspendLayout()
 		Me.GroupBox4.SuspendLayout()
-		CType(Me.InteractiveSession_NumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.InteractiveMode_CustomSessionNumber_NumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox2.SuspendLayout()
 		CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -312,7 +312,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.TargetUNCDirectory_TextBox.Name = "TargetUNCDirectory_TextBox"
 		Me.TargetUNCDirectory_TextBox.Size = New System.Drawing.Size(195, 20)
 		Me.TargetUNCDirectory_TextBox.TabIndex = 3
-		Me.TargetUNCDirectory_TextBox.Text = "C$\Windows\DSRemoting\"
+		Me.TargetUNCDirectory_TextBox.Text = "{Set at Runtime}"
 		'
 		'HostGroupBox
 		'
@@ -401,9 +401,9 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'GroupBox3
 		'
+		Me.GroupBox3.Controls.Add(Me.Label9)
 		Me.GroupBox3.Controls.Add(Me.ShellMode_CustomPSEXECPATH_TextBox)
 		Me.GroupBox3.Controls.Add(Me.Button3)
-		Me.GroupBox3.Controls.Add(Me.CheckBox2)
 		Me.GroupBox3.Controls.Add(Me.PictureBox8)
 		Me.GroupBox3.Location = New System.Drawing.Point(6, 6)
 		Me.GroupBox3.Name = "GroupBox3"
@@ -414,12 +414,11 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'ShellMode_CustomPSEXECPATH_TextBox
 		'
-		Me.ShellMode_CustomPSEXECPATH_TextBox.Enabled = False
 		Me.ShellMode_CustomPSEXECPATH_TextBox.Location = New System.Drawing.Point(57, 43)
 		Me.ShellMode_CustomPSEXECPATH_TextBox.Name = "ShellMode_CustomPSEXECPATH_TextBox"
 		Me.ShellMode_CustomPSEXECPATH_TextBox.Size = New System.Drawing.Size(266, 20)
 		Me.ShellMode_CustomPSEXECPATH_TextBox.TabIndex = 1
-		Me.ShellMode_CustomPSEXECPATH_TextBox.Text = "$(DSIDE_Dir)\PsExec.exe"
+		Me.ShellMode_CustomPSEXECPATH_TextBox.Text = "{Set at Runtime}"
 		'
 		'Button3
 		'
@@ -430,16 +429,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Button3.TabIndex = 2
 		Me.Button3.Text = "..."
 		Me.Button3.UseVisualStyleBackColor = True
-		'
-		'CheckBox2
-		'
-		Me.CheckBox2.AutoSize = True
-		Me.CheckBox2.Location = New System.Drawing.Point(57, 19)
-		Me.CheckBox2.Name = "CheckBox2"
-		Me.CheckBox2.Size = New System.Drawing.Size(144, 17)
-		Me.CheckBox2.TabIndex = 0
-		Me.CheckBox2.Text = "Use custom PsExec exe:"
-		Me.CheckBox2.UseVisualStyleBackColor = True
 		'
 		'PictureBox8
 		'
@@ -465,12 +454,12 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'GroupBox4
 		'
-		Me.GroupBox4.Controls.Add(Me.InteractiveSession_NumericUpDown)
-		Me.GroupBox4.Controls.Add(Me.RadioButton5)
-		Me.GroupBox4.Controls.Add(Me.RadioButton4)
+		Me.GroupBox4.Controls.Add(Me.InteractiveMode_CustomSessionNumber_NumericUpDown)
+		Me.GroupBox4.Controls.Add(Me.InteractiveMode_UseCustomSession_RadioButton)
+		Me.GroupBox4.Controls.Add(Me.InteractiveMode_UseConsoleSession_RadioButton)
 		Me.GroupBox4.Controls.Add(Me.Label6)
 		Me.GroupBox4.Controls.Add(Me.PictureBox6)
-		Me.GroupBox4.Controls.Add(Me.CheckBox4)
+		Me.GroupBox4.Controls.Add(Me.InteractiveMode_UseGUIExecution_CheckBox)
 		Me.GroupBox4.Location = New System.Drawing.Point(6, 90)
 		Me.GroupBox4.Name = "GroupBox4"
 		Me.GroupBox4.Size = New System.Drawing.Size(360, 120)
@@ -478,36 +467,36 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.GroupBox4.TabStop = False
 		Me.GroupBox4.Text = "Options"
 		'
-		'InteractiveSession_NumericUpDown
+		'InteractiveMode_CustomSessionNumber_NumericUpDown
 		'
-		Me.InteractiveSession_NumericUpDown.Enabled = False
-		Me.InteractiveSession_NumericUpDown.Location = New System.Drawing.Point(164, 85)
-		Me.InteractiveSession_NumericUpDown.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-		Me.InteractiveSession_NumericUpDown.Name = "InteractiveSession_NumericUpDown"
-		Me.InteractiveSession_NumericUpDown.Size = New System.Drawing.Size(70, 20)
-		Me.InteractiveSession_NumericUpDown.TabIndex = 4
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Enabled = False
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Location = New System.Drawing.Point(164, 85)
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Name = "InteractiveMode_CustomSessionNumber_NumericUpDown"
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Size = New System.Drawing.Size(70, 20)
+		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.TabIndex = 4
 		'
-		'RadioButton5
+		'InteractiveMode_UseCustomSession_RadioButton
 		'
-		Me.RadioButton5.AutoSize = True
-		Me.RadioButton5.Location = New System.Drawing.Point(72, 85)
-		Me.RadioButton5.Name = "RadioButton5"
-		Me.RadioButton5.Size = New System.Drawing.Size(86, 17)
-		Me.RadioButton5.TabIndex = 3
-		Me.RadioButton5.Text = "This session:"
-		Me.RadioButton5.UseVisualStyleBackColor = True
+		Me.InteractiveMode_UseCustomSession_RadioButton.AutoSize = True
+		Me.InteractiveMode_UseCustomSession_RadioButton.Location = New System.Drawing.Point(72, 85)
+		Me.InteractiveMode_UseCustomSession_RadioButton.Name = "InteractiveMode_UseCustomSession_RadioButton"
+		Me.InteractiveMode_UseCustomSession_RadioButton.Size = New System.Drawing.Size(86, 17)
+		Me.InteractiveMode_UseCustomSession_RadioButton.TabIndex = 3
+		Me.InteractiveMode_UseCustomSession_RadioButton.Text = "This session:"
+		Me.InteractiveMode_UseCustomSession_RadioButton.UseVisualStyleBackColor = True
 		'
-		'RadioButton4
+		'InteractiveMode_UseConsoleSession_RadioButton
 		'
-		Me.RadioButton4.AutoSize = True
-		Me.RadioButton4.Checked = True
-		Me.RadioButton4.Location = New System.Drawing.Point(72, 62)
-		Me.RadioButton4.Name = "RadioButton4"
-		Me.RadioButton4.Size = New System.Drawing.Size(123, 17)
-		Me.RadioButton4.TabIndex = 2
-		Me.RadioButton4.TabStop = True
-		Me.RadioButton4.Text = "The Console session"
-		Me.RadioButton4.UseVisualStyleBackColor = True
+		Me.InteractiveMode_UseConsoleSession_RadioButton.AutoSize = True
+		Me.InteractiveMode_UseConsoleSession_RadioButton.Checked = True
+		Me.InteractiveMode_UseConsoleSession_RadioButton.Location = New System.Drawing.Point(72, 62)
+		Me.InteractiveMode_UseConsoleSession_RadioButton.Name = "InteractiveMode_UseConsoleSession_RadioButton"
+		Me.InteractiveMode_UseConsoleSession_RadioButton.Size = New System.Drawing.Size(123, 17)
+		Me.InteractiveMode_UseConsoleSession_RadioButton.TabIndex = 2
+		Me.InteractiveMode_UseConsoleSession_RadioButton.TabStop = True
+		Me.InteractiveMode_UseConsoleSession_RadioButton.Text = "The Console session"
+		Me.InteractiveMode_UseConsoleSession_RadioButton.UseVisualStyleBackColor = True
 		'
 		'Label6
 		'
@@ -528,23 +517,23 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.PictureBox6.TabIndex = 3
 		Me.PictureBox6.TabStop = False
 		'
-		'CheckBox4
+		'InteractiveMode_UseGUIExecution_CheckBox
 		'
-		Me.CheckBox4.AutoSize = True
-		Me.CheckBox4.Checked = True
-		Me.CheckBox4.CheckState = System.Windows.Forms.CheckState.Checked
-		Me.CheckBox4.Location = New System.Drawing.Point(57, 22)
-		Me.CheckBox4.Name = "CheckBox4"
-		Me.CheckBox4.Size = New System.Drawing.Size(95, 17)
-		Me.CheckBox4.TabIndex = 0
-		Me.CheckBox4.Text = "GUI Execution"
-		Me.CheckBox4.UseVisualStyleBackColor = True
+		Me.InteractiveMode_UseGUIExecution_CheckBox.AutoSize = True
+		Me.InteractiveMode_UseGUIExecution_CheckBox.Checked = True
+		Me.InteractiveMode_UseGUIExecution_CheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+		Me.InteractiveMode_UseGUIExecution_CheckBox.Location = New System.Drawing.Point(57, 22)
+		Me.InteractiveMode_UseGUIExecution_CheckBox.Name = "InteractiveMode_UseGUIExecution_CheckBox"
+		Me.InteractiveMode_UseGUIExecution_CheckBox.Size = New System.Drawing.Size(168, 17)
+		Me.InteractiveMode_UseGUIExecution_CheckBox.TabIndex = 0
+		Me.InteractiveMode_UseGUIExecution_CheckBox.Text = "Run DS-Program in GUI mode"
+		Me.InteractiveMode_UseGUIExecution_CheckBox.UseVisualStyleBackColor = True
 		'
 		'GroupBox2
 		'
+		Me.GroupBox2.Controls.Add(Me.Label10)
 		Me.GroupBox2.Controls.Add(Me.InteractiveMode_CustomPSEXECPATH_TextBox)
 		Me.GroupBox2.Controls.Add(Me.Button2)
-		Me.GroupBox2.Controls.Add(Me.CheckBox3)
 		Me.GroupBox2.Controls.Add(Me.PictureBox7)
 		Me.GroupBox2.Location = New System.Drawing.Point(6, 6)
 		Me.GroupBox2.Name = "GroupBox2"
@@ -555,12 +544,11 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'InteractiveMode_CustomPSEXECPATH_TextBox
 		'
-		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Enabled = False
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Location = New System.Drawing.Point(57, 43)
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Name = "InteractiveMode_CustomPSEXECPATH_TextBox"
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Size = New System.Drawing.Size(266, 20)
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox.TabIndex = 1
-		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Text = "$(DSIDE_Dir)\PsExec.exe"
+		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Text = "{Set at Runtime}"
 		'
 		'Button2
 		'
@@ -571,16 +559,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Button2.TabIndex = 2
 		Me.Button2.Text = "..."
 		Me.Button2.UseVisualStyleBackColor = True
-		'
-		'CheckBox3
-		'
-		Me.CheckBox3.AutoSize = True
-		Me.CheckBox3.Location = New System.Drawing.Point(57, 19)
-		Me.CheckBox3.Name = "CheckBox3"
-		Me.CheckBox3.Size = New System.Drawing.Size(144, 17)
-		Me.CheckBox3.TabIndex = 0
-		Me.CheckBox3.Text = "Use custom PsExec exe:"
-		Me.CheckBox3.UseVisualStyleBackColor = True
 		'
 		'PictureBox7
 		'
@@ -594,11 +572,11 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'ConnectButton
 		'
-		Me.ConnectButton.Location = New System.Drawing.Point(317, 525)
+		Me.ConnectButton.Location = New System.Drawing.Point(273, 525)
 		Me.ConnectButton.Name = "ConnectButton"
-		Me.ConnectButton.Size = New System.Drawing.Size(75, 23)
+		Me.ConnectButton.Size = New System.Drawing.Size(119, 23)
 		Me.ConnectButton.TabIndex = 4
-		Me.ConnectButton.Text = "&Connect"
+		Me.ConnectButton.Text = "&Connect && Execute"
 		Me.ConnectButton.UseVisualStyleBackColor = True
 		'
 		'ShowHideOptionsButton
@@ -653,6 +631,24 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_InfoLabel.Text = "You will be asked for credentials when you connect." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "DSR will use the ""Interactiv" & _
 		  "e"" mode, with the Console session."
 		'
+		'Label9
+		'
+		Me.Label9.AutoSize = True
+		Me.Label9.Location = New System.Drawing.Point(57, 23)
+		Me.Label9.Name = "Label9"
+		Me.Label9.Size = New System.Drawing.Size(66, 13)
+		Me.Label9.TabIndex = 4
+		Me.Label9.Text = "PsExec exe:"
+		'
+		'Label10
+		'
+		Me.Label10.AutoSize = True
+		Me.Label10.Location = New System.Drawing.Point(57, 23)
+		Me.Label10.Name = "Label10"
+		Me.Label10.Size = New System.Drawing.Size(66, 13)
+		Me.Label10.TabIndex = 5
+		Me.Label10.Text = "PsExec exe:"
+		'
 		'DSRemotingWindow
 		'
 		Me.AcceptButton = Me.ConnectButton
@@ -694,7 +690,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Interactive_TabPage.ResumeLayout(False)
 		Me.GroupBox4.ResumeLayout(False)
 		Me.GroupBox4.PerformLayout()
-		CType(Me.InteractiveSession_NumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.InteractiveMode_CustomSessionNumber_NumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.GroupBox2.ResumeLayout(False)
 		Me.GroupBox2.PerformLayout()
@@ -739,19 +735,17 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 	Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
 	Friend WithEvents InteractiveMode_CustomPSEXECPATH_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents Button2 As System.Windows.Forms.Button
-	Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
 	Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
-	Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
+	Friend WithEvents InteractiveMode_UseGUIExecution_CheckBox As System.Windows.Forms.CheckBox
 	Friend WithEvents PictureBox6 As System.Windows.Forms.PictureBox
 	Friend WithEvents Label6 As System.Windows.Forms.Label
-	Friend WithEvents RadioButton5 As System.Windows.Forms.RadioButton
-	Friend WithEvents RadioButton4 As System.Windows.Forms.RadioButton
-	Friend WithEvents InteractiveSession_NumericUpDown As System.Windows.Forms.NumericUpDown
+	Friend WithEvents InteractiveMode_UseCustomSession_RadioButton As System.Windows.Forms.RadioButton
+	Friend WithEvents InteractiveMode_UseConsoleSession_RadioButton As System.Windows.Forms.RadioButton
+	Friend WithEvents InteractiveMode_CustomSessionNumber_NumericUpDown As System.Windows.Forms.NumericUpDown
 	Friend WithEvents PictureBox7 As System.Windows.Forms.PictureBox
 	Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
 	Friend WithEvents ShellMode_CustomPSEXECPATH_TextBox As System.Windows.Forms.TextBox
 	Friend WithEvents Button3 As System.Windows.Forms.Button
-	Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
 	Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
 	Public WithEvents TheToolTipProvider As System.Windows.Forms.ToolTip
 	Friend WithEvents Label8 As System.Windows.Forms.Label
@@ -759,5 +753,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 	Friend WithEvents SimpleMode_ComputerLabel As System.Windows.Forms.Label
 	Friend WithEvents SimpleMode_InfoLabel As System.Windows.Forms.Label
 	Friend WithEvents DeleteDSFilesFromRemoteAtEnd_CheckBox As System.Windows.Forms.CheckBox
+	Friend WithEvents Label9 As System.Windows.Forms.Label
+	Friend WithEvents Label10 As System.Windows.Forms.Label
 
 End Class

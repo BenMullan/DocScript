@@ -4,7 +4,7 @@
 	Public Shared Function Show_AndGetCredentials() As Tuple(Of String, String)
 
 		Dim _Dialog As New EnterCredentialsDialog()
-		_Dialog.ShowDialog()
+		_Dialog.ShowDialog() : _Dialog.Focus() : _Dialog.Activate() : _Dialog.BringToFront()
 		Return New Tuple(Of String, String)(_Dialog.UsernameTextBox.Text, _Dialog.PasswordTextBox.Text)
 
 	End Function

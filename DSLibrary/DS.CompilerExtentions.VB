@@ -41,6 +41,18 @@ Namespace CompilerExtentions
 			Return _Object
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) Repeats the _Element _Times times.</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function Repeat(Of _TElement)(ByVal _Element As _TElement, ByVal _Times As UInt64) As _TElement()
+
+			Dim _ElementsToReturn As New List(Of _TElement)()
+
+			For _Index As UInt64 = 0 To Convert.ToUInt64(_Times - 1) Step +1 : _ElementsToReturn.Add(_Element) : Next
+
+			Return _ElementsToReturn.ToArray()
+
+		End Function
+
 		''' <summary>(MullNet CompilerExtention) Ensures that the _Object IsNot Nothing, Throwing a NullReferanceException with the _MessageIfNull if it is</summary>
 		<System.Runtime.CompilerServices.Extension()>
 		Public Function MustNotBeNothing(Of _TObject)(ByRef _Object As _TObject, Optional ByVal _MsgIfNull$ = "") As _TObject
@@ -50,7 +62,7 @@ Namespace CompilerExtentions
 
 		''' <summary>(MullNet CompilerExtention) Determines if the _Object Is Nothing, Invoke()-ing the _ActionIfNull if it is</summary>
 		<System.Runtime.CompilerServices.Extension()>
-		Public Function MustNotBeNothing(Of _TObject)(ByRef _Object As _TObject, ByVal _ActionIfNull As action) As _TObject
+		Public Function MustNotBeNothing(Of _TObject)(ByRef _Object As _TObject, ByVal _ActionIfNull As Action) As _TObject
 			If (_Object Is Nothing) Then _ActionIfNull.Invoke()
 			Return _Object
 		End Function
@@ -225,7 +237,7 @@ Namespace CompilerExtentions
 		''' Only returns the post-computation Result; does NOT modify the input.
 		''' </summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
-		Public Function WithLastCharacterRemoved$(ByRef _InputString$)
+		Public Function WithLastCharacterRemoved$(ByVal _InputString$)
 
 			'If the String is Empty, we wouldn't be able to Remove the LastChar
 			If _InputString.IsEmpty() Then Throw New Exception("The Last Character could not be removed from the String, because the String is empty.")
@@ -639,18 +651,22 @@ Namespace CompilerExtentions
 		''' <summary>(MullNet CompilerExtention) Evaluates weather or not each Element in the _Array is unique. In other words, False is Returned if two or more elements are the same.</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Function AllElementsAreUnique(Of _TElement)(ByVal _Array As _TElement()) As Boolean
+
+			REM Any two of the same Element in the _Array would produce the same Hash,
+			REM and therefore be put into the same place in the HashSet, making it's size less than that of the _Array,
+			REM meaning that the Boolean Expression would resolve to False
 			Return (New HashSet(Of _TElement)(_Array)).Count = _Array.Length
+
 		End Function
 
-		''' <summary>(MullNet CompilerExtention) Repeats the _Element _Times times.</summary>
+		''' <summary>(MullNet CompilerExtention) Returns the Elements starting at _StartIndex, and including all Elements up to _EndIndex</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
-		Public Function Repeat(Of _TElement)(ByVal _Element As _TElement, ByVal _Times As UInt64) As _TElement()
+		Public Function GetInclusiveRange(Of TItems)(ByVal _InputList As List(Of TItems), ByVal _StartIndex As UInt16, ByVal _EndIndex As UInt16) As List(Of TItems)
 
-			Dim _ElementsToReturn As New List(Of _TElement)()
+			If (_StartIndex > (_InputList.Count - 1)) OrElse (_EndIndex > (_InputList.Count - 1)) Then Throw New ArgumentException("The Range could not be extracted from the List because either the _StartIndex (" & _StartIndex.ToString() & ") or the _EndIndex (" & _EndIndex.ToString() & ") was greater than the Maximum Index of the List (" & (_InputList.Count - 1).ToString() & ")")
+			If _EndIndex < _StartIndex Then Throw New ArgumentException("The Range could not be extracted from the List because the _EndIndex (" & _EndIndex.ToString() & ") was lower than the _StartIndex (" & _StartIndex.ToString() & ").", "_StartIndex, _EndIndex")
 
-			For _Index As UInt64 = 0 To Convert.ToUInt64(_Times - 1) Step +1 : _ElementsToReturn.Add(_Element) : Next
-
-			Return _ElementsToReturn.ToArray()
+			Return _InputList.GetRange(_StartIndex, _EndIndex - _StartIndex)
 
 		End Function
 
@@ -1169,7 +1185,7 @@ Namespace CompilerExtentions
 		''' <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. Returns both the STDOUT and STDERR.</summary>
 		Public Function RunProcess_AndReturnCommandLineOutput(ByVal _ProcessImageFile As IO.FileInfo, Optional ByVal _Process_CLAs$ = "") As String
 			Try
-				With New System.Diagnostics.Process()
+				With (New System.Diagnostics.Process())
 
 					.StartInfo.UseShellExecute = False
 					.StartInfo.FileName = _ProcessImageFile.FullName
@@ -1193,7 +1209,7 @@ Namespace CompilerExtentions
 			Catch _Ex As Exception : Throw New DSException("@RunProcess_AndReturnCommandLineOutput: " & _Ex.Message, _Ex) : End Try
 		End Function
 
-		''' <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object.</summary>
+		''' <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object. Waits for the process to exit completely before returning any output.</summary>
 		Public Function RunProcess_AndReturnCommandLineOutput(ByRef _InputProcess As Process) As [String]
 			Try
 				With _InputProcess
