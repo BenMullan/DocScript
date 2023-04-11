@@ -211,8 +211,8 @@
 				If String.IsNullOrEmpty(Me.SimpleMode_ComputerTextBox.Text) Then Throw New Exception("The Computer datum must all be specified")
 
 				REM Prompt for Credentials first
-				Me.TheActionInProgressWindow.UpdateText("Resolving Credentials...") : Me.TheActionInProgressWindow.SurpressUntilNextUpdate()
-				Dim _SpecifiedCredentials As Tuple(Of String, String) = EnterCredentialsDialog.Show_AndGetCredentials()
+				Me.TheActionInProgressWindow.Dismiss() 'Hide this, so that it dosen't block the EnterCredentialsDialog
+				Dim _SpecifiedCredentials As Tuple(Of String, String) = DocScript.EnterCredentialsDialog.Show_AndGetCredentials()
 
 				REM Use Interactive Mode, with the Console Session. DSR Files will not be deleted at the end.
 				Me.TheActionInProgressWindow.UpdateText("Copying Files to remote computer...")

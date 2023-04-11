@@ -53,36 +53,27 @@
 	End Sub
 
 	Public Sub UpdateText(ByVal _NewText$)
+
+		If Not Me.Visible Then Me.ShowInNewThread()
+
 		While Not Me.IsHandleCreated
 			System.Threading.Thread.Sleep(50)
 			Try
+
 				Me.Invoke(CType(
 				  Sub()
 					  Me.TopMost = True : Me.Show() : Me.Activate() : Me.BringToFront() : Me.Focus()
 				  End Sub, Action))
+
 			Catch _Ex As Exception : Debug.WriteLine("Could not bring ActionInProgressDialog to front") : End Try
 		End While
+
 		Me.Invoke(CType(
 		 Sub()
 			 Me.CurrentActionDescription_Label.Text = _NewText
 			 Me.TopMost = True : Me.Show() : Me.Activate() : Me.BringToFront() : Me.Focus()
 		 End Sub, Action))
-	End Sub
 
-	Public Sub UpdateLocation(ByVal _X_Change%, ByVal _Y_Change%)
-		While Not Me.IsHandleCreated : System.Threading.Thread.Sleep(50) : End While
-		Me.Invoke(CType(
-		 Sub()
-			 Me.Location = New System.Drawing.Point(x:=Me.Location.X + _X_Change, y:=Me.Location.Y + _Y_Change)
-		 End Sub, Action))
-	End Sub
-
-	Public Sub SurpressUntilNextUpdate()
-		While Not Me.IsHandleCreated : System.Threading.Thread.Sleep(50) : End While
-		Me.Invoke(CType(
-		 Sub()
-			 Me.TopMost = False
-		 End Sub, Action))
 	End Sub
 
 End Class

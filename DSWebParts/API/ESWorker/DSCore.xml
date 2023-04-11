@@ -6,36 +6,7 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
-	<summary>
- Uses WMI to run the specified command line on the remote Windows(TM) computer.
- </summary>
-	<param name="_TargetPC_HostnameOrIP">E.g. "192.168.1.85"</param>
-	<param name="_Username_ForTargetPC">E.g. ".\Administrator"</param>
-	<param name="_Password_ForTargetPC">E.g. "Pass!123"</param>
-	<param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
-	<remarks></remarks>
-</member><member name="M:DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.IO.FileInfo[])">
-	<summary>
- Copies each of the _FilesToCopyThither into the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
- </summary>
-	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
-	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
-	<param name="_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
-	<param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
-	<remarks></remarks>
-</member><member name="M:DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.String[])">
-	<summary>
- Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
- </summary>
-	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
-	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
-	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
-	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
-	<remarks></remarks>
-</member><member name="T:DocScript.Runtime.Remoting">
-	<summary>Contains resources for executing DocScript programs on remote computers</summary>
-</member><member name="T:DocScript.Language.Expressions.IExpression">
+<member name="T:DocScript.Language.Expressions.IExpression">
 	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
 </member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
 	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
@@ -325,6 +296,35 @@ DSCore
  </summary>
 </member><member name="T:DocScript.Runtime.SymbolTable">
 	<summary>Holds a dictionary of Identifiers to [SymbolTableEntry]s. All Identifiers are ToUpper()-ed.</summary>
+</member><member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
+	<summary>
+ Uses WMI to run the specified command line on the remote Windows(TM) computer.
+ </summary>
+	<param name="_TargetPC_HostnameOrIP">E.g. "192.168.1.85"</param>
+	<param name="_Username_ForTargetPC">E.g. ".\Administrator"</param>
+	<param name="_Password_ForTargetPC">E.g. "Pass!123"</param>
+	<param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.IO.FileInfo[])">
+	<summary>
+ Copies each of the _FilesToCopyThither into the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+	<param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.String[])">
+	<summary>
+ Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
+	<remarks></remarks>
+</member><member name="T:DocScript.Runtime.Remoting">
+	<summary>Contains resources for executing DocScript programs on remote computers</summary>
 </member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
 	<summary>If there wasn't an associated Expr in the source, then this is Nothing (null)</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Runtime.Token[]@)">
@@ -741,6 +741,8 @@ DSCore
 	<param name="_Object">The Object to ensure the Type of.</param>
 </member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.Output``1(``0,System.Action{System.String},System.String)">
 	<summary>(MullNet CompilerExtention) Runs the ToString() of the _Object through the specified _Action</summary>
+</member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.Repeat``1(``0,System.UInt64)">
+	<summary>(MullNet CompilerExtention) Repeats the _Element _Times times.</summary>
 </member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.MustNotBeNothing``1(``0@,System.String)">
 	<summary>(MullNet CompilerExtention) Ensures that the _Object IsNot Nothing, Throwing a NullReferanceException with the _MessageIfNull if it is</summary>
 </member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.MustNotBeNothing``1(``0@,System.Action)">
@@ -789,7 +791,7 @@ DSCore
 	<param name="_InputString"></param>
 	<returns></returns>
 	<remarks>Both Modifies the Parameter, and returns the post-computation Result</remarks>
-</member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithLastCharacterRemoved(System.String@)">
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithLastCharacterRemoved(System.String)">
 	<summary>
  (MullNet CompilerExtention) Removes the Last Character from the String.
  Only returns the post-computation Result; does NOT modify the input.
@@ -889,8 +891,8 @@ DSCore
  </summary>
 </member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.AllElementsAreUnique``1(``0[])">
 	<summary>(MullNet CompilerExtention) Evaluates weather or not each Element in the _Array is unique. In other words, False is Returned if two or more elements are the same.</summary>
-</member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.Repeat``1(``0,System.UInt64)">
-	<summary>(MullNet CompilerExtention) Repeats the _Element _Times times.</summary>
+</member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.GetInclusiveRange``1(System.Collections.Generic.List{``0},System.UInt16,System.UInt16)">
+	<summary>(MullNet CompilerExtention) Returns the Elements starting at _StartIndex, and including all Elements up to _EndIndex</summary>
 </member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.GetStandardArraySerialisation``1(``0[],System.String)">
 	<summary>(MullNet CompilerExtention) Gets the ToString() of each Element in the _Array, and serialises these Strings into the form {String1, String2, String3}</summary>
 </member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.Intersperse``1(``0[],``0[],System.UInt32)">
@@ -1013,7 +1015,7 @@ DSCore
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.IO.FileInfo,System.String)">
 	<summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. Returns both the STDOUT and STDERR.</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.Diagnostics.Process@)">
-	<summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object.</summary>
+	<summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object. Waits for the process to exit completely before returning any output.</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.Result_OrFalseOnException(System.Func{System.Boolean}@)">
 	<summary>(MullNet UsefulMethod) Attempts to resolve the Function to a value of type Boolean, but returns False if an Exception is Thrown whilst attempting to perform this resolution</summary>
 </member><member name="T:DocScript.CompilerExtentions.UsefulMethods">

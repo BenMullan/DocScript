@@ -1,0 +1,8 @@
+﻿FUNCTION <NUMBER> Main (<STRING@> _CLAs)
+	LOOP (4)
+		<STRING> _Random : DS_String_GetRandom(5)
+		Debug_ShowSymbolTables()
+	ENDLOOP
+	Output(Debug_GetStackTrace())
+	RETURN [~ 1]
+ENDFUNCTION

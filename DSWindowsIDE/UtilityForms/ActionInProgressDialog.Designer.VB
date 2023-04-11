@@ -60,6 +60,7 @@ Partial Class ActionInProgressDialog
 		Me.MinimumSize = New System.Drawing.Size(250, 110)
 		Me.Name = "ActionInProgressDialog"
 		Me.ShowInTaskbar = False
+		Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "Please Wait..."
 		Me.TopMost = True

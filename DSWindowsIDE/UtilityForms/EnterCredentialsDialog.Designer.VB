@@ -113,6 +113,7 @@ Partial Class EnterCredentialsDialog
 		Me.Name = "EnterCredentialsDialog"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
 		Me.Text = "Enter Credentials"
+		Me.TopMost = True
 		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()

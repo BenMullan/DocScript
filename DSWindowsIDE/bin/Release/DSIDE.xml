@@ -115,6 +115,10 @@ MainWindow
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:DocScript.My.Resources.Resources.Keyword">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:DocScript.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -177,6 +181,8 @@ MainWindow
 	<summary>Sets the Me.Cached_Program Member</summary>
 </member><member name="M:DocScript.MainWindow.ExecuteCachedProgram">
 	<summary>Sets the Me.Cached_ProgramExeRes Member</summary>
+</member><member name="M:DocScript.EnterCredentialsDialog.Show_AndGetCredentials">
+	<summary>Item1 = Username; Item2 = Password</summary>
 </member>
 </members>
 </doc>
