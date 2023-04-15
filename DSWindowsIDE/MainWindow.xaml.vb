@@ -43,18 +43,20 @@
 	''' <summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
 	Public Sub HandleShortcutKey(ByVal _Sender As Object, ByVal _KeyEventArgs As KeyEventArgs) Handles Me.KeyDown
 
-		If (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F5) Then : MsgDebug("Ctrl+F5")		'Ctrl + F5
-		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewFile()		'Ctrl + N
-		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenFile()			'Ctrl + O
-		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFile()			'Ctrl + S
-		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.H) Then : Me.ShowHelpWindow()	'Ctrl + H
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewDSIDEInstance()		'Ctrl + Shift + N
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenContainingFolder()			'Ctrl + Shift + O
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFileAs()					'Ctrl + Shift + S
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.T) Then : Me.ShowProgramTree_InNewWindow()	'Ctrl + Shift + T
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.R) Then : Me.ShowExeResTree_InNewWindow()	'Ctrl + Shift + R
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.B) Then : Me.ShowNewBIFExplorerWindow()		'Ctrl + Shift + B
-		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.H) Then : Call (New PictorialHelpWindow()).Show() 'Ctrl + Shift + H
+		If (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewFile()									'Ctrl + N
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenFile()									'Ctrl + O
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFile()									'Ctrl + S
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.H) Then : Me.ShowHelpWindow()							'Ctrl + H
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F4) Then : Me.AskToSaveUnsavedSource_ThenExitDSIDE()	'Ctrl + F4
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.LaunchDSCompilationWindow()				'Ctrl + F5
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Shift) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.LaunchDSRemotingWindow()					'Shift + F5
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewDSIDEInstance()				'Ctrl + Shift + N
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenContainingFolder()					'Ctrl + Shift + O
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFileAs()							'Ctrl + Shift + S
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.T) Then : Me.ShowProgramTree_InNewWindow()			'Ctrl + Shift + T
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.R) Then : Me.ShowExeResTree_InNewWindow()			'Ctrl + Shift + R
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.B) Then : Me.ShowNewBIFExplorerWindow()				'Ctrl + Shift + B
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.H) Then : Call (New PictorialHelpWindow()).Show()	'Ctrl + Shift + H
 		ElseIf _KeyEventArgs.Key = Key.F1 Then : Me.ParseCurrentSource()	'F1
 		ElseIf _KeyEventArgs.Key = Key.F2 Then : Me.LexCachedTokens()		'F2
 		ElseIf _KeyEventArgs.Key = Key.F3 Then : Me.ExecuteCachedProgram()	'F3
@@ -68,9 +70,9 @@
 
 	Protected Sub RegisterCodeSnippetInsertion_EventHandlers_()
 
-		AddHandler Insert_SampleProgram_HelloWorld.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_HelloWorld)
-		AddHandler Insert_SampleProgram_BeepSleepRepeat.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_BeepSleepRepeat)
-		AddHandler Insert_SampleProgram_DebuggingExample.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_DebuggingExample)
+		AddHandler Insert_SampleProgram_HelloWorld.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_HelloWorld, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
+		AddHandler Insert_SampleProgram_BeepSleepRepeat.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_BeepSleepRepeat, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
+		AddHandler Insert_SampleProgram_DebuggingExample.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_DebuggingExample, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
 
 		AddHandler Insert_EntryPoint_Unadorned.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.EntryPoint_Unadorned)
 		AddHandler Insert_EntryPoint_OSInterop.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.EntryPoint_OSInterop)
@@ -95,8 +97,8 @@
 		Me.LoadingUIComponents_SetForTaskStart(_TaskStatusDescription)
 
 		Dim _BackgroundWorker As New System.ComponentModel.BackgroundWorker() With {
-			.WorkerReportsProgress = False,
-			.WorkerSupportsCancellation = True
+		 .WorkerReportsProgress = False,
+		 .WorkerSupportsCancellation = True
 		}
 
 		REM If the Abort link is pressed, cancel the task
@@ -148,7 +150,7 @@
 			 End If
 			 RemoveHandler Me.AbortBackgroundWorkerLink.PreviewMouseDown, _CancelBackgroundWorker_Action
 			 Me.InvokeIfRequired(AddressOf Me.LoadingUIComponents_Reset)
-			 Me.InvokeIfRequired(AddressOf Me.Activate) 'Make the MainWindow focoused again
+			 Me.InvokeIfRequired(AddressOf Me.Activate)	'Make the MainWindow focoused again
 		 End Sub
 
 		_BackgroundWorker.RunWorkerAsync()
@@ -257,11 +259,16 @@
 			Return Me.CurrentSource_IsSaved_
 		End Get
 		Set(_SourceIsSaved As Boolean)
+
 			Me.CurrentSource_IsSaved_ = _SourceIsSaved
-			If Me.CurrentlyOpenFile Is Nothing Then	'Don't change anything...
-			ElseIf _SourceIsSaved Then : Me.Title = Me.CurrentlyOpenFile.Name
+
+			If Me.CurrentlyOpenFile Is Nothing Then : Me.Title = "(Unsaved) DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
+			ElseIf Me.CurrentSource_IsSaved_ Then : Me.Title = Me.CurrentlyOpenFile.Name
 			Else : Me.Title = "(Unsaved) " & Me.CurrentlyOpenFile.Name
 			End If
+
+			If Me.CurrentSource_IsSaved_ Then Me.LastPerformedAction_InfoText.Text = "Saved Source"
+
 		End Set
 	End Property
 	Protected CurrentSource_IsSaved_ As Boolean = False
@@ -408,6 +415,8 @@
 
 		Me.SourceTextEditor.Text = String.Empty
 		Me.CurrentlyOpenFile = Nothing
+		Me.Cached_Tokens = Nothing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
+		Me.GenerateProgTreeButton.IsEnabled = False : Me.GenerateExeResTreeButton.IsEnabled = False
 		Me.CurrentSource_IsSaved = False : Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
 		Me.LastPerformedAction_InfoText.Text = "Started New (unsaved) File"
 
@@ -419,23 +428,84 @@
 
 	Public Sub LaunchDSCompilationWindow() Handles DSCompilationButton.Click
 		Try
-			Dim _Program As DocScript.Runtime.Program = Runtime.Program.FromSource(Me.SourceTextEditor.Text, Runtime.ExecutionContext.GUIDefault)
-			If Me.CurrentlyOpenFile IsNot Nothing Then _Program.Name = Me.CurrentlyOpenFile.FullName
-			Call (New DSCompilationWindow(_Program)).ShowDialog()
-		Catch _Ex As Exception : MsgBox("The DocScript Source could not be constructed for Compilation. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+
+			'Show a *kind* message if there isn't any source
+			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source for the DS-Compilation Program in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
+			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+
+			Me.StartBackgroundWorker(
+			 "Using DS-Compilation...",
+			 Sub()
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
+				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
+				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
+				 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
+
+				 'The Program name is used for auto-filling the Default Output-path for the EXE
+				 If Me.CurrentlyOpenFile IsNot Nothing Then Me.Cached_Program.Name = Me.CurrentlyOpenFile.FullName
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Using DS-Compilation...")
+				 Call (New DSCompilationWindow(Me.Cached_Program)).ShowDialog()
+				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Finished DS-Compilation session")
+
+			 End Sub
+			)
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("The Text-Editor's source could not be constructed into a Program for DS-Compilation" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
+		End Try
 	End Sub
 
 	Public Sub LaunchDSRemotingWindow() Handles DSRemotingButton.Click
 		Try
-			Dim _Program As DocScript.Runtime.Program = Runtime.Program.FromSource(Me.SourceTextEditor.Text, Nothing)
-			If Me.CurrentlyOpenFile IsNot Nothing Then _Program.Name = Me.CurrentlyOpenFile.FullName
-			Call (New DSRemotingWindow(_Program)).ShowDialog()
-		Catch _Ex As Exception : MsgBox("The DocScript Source in the Text Editor could not be constructed, for Remote Execution. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+
+			'Show a *kind* message if there isn't any source
+			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source for the DS-Remoting Program in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
+			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+
+			Me.StartBackgroundWorker(
+			 "Using DS-Remoting...",
+			 Sub()
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
+				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
+				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
+				 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
+
+				 'Not used by DS-Remoting, but there's no harm in setting it
+				 If Me.CurrentlyOpenFile IsNot Nothing Then Me.Cached_Program.Name = Me.CurrentlyOpenFile.FullName
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Using DS-Remoting...")
+				 Call (New DSRemotingWindow(Me.Cached_Program)).ShowDialog()
+				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Finished DS-Remoting session")
+
+			 End Sub
+			)
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("The Text-Editor's source could not be constructed into a Program for DS-Remoting" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
+		End Try
 	End Sub
 
 	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()
-	Public Sub InsertTextAtCursor(ByVal _Text$)
+	Public Sub InsertTextAtCursor(ByVal _Text$, Optional ByVal _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor As Boolean = False)
+
+		REM Capture the boolean emptiness datum for use lates herein
+		Dim _TextEditorWasEmpty_BeforeTextWasInserted As Boolean = String.IsNullOrEmpty(Me.SourceTextEditor.Text)
+
+		REM Inject the string
 		Me.SourceTextEditor.Document.Insert(Me.SourceTextEditor.CaretOffset, _Text)
+
+		REM Raise the Source-Is-Saved flag, if (1) We've been told to, and (2) There wasn't any text in the SourceTextEditor beforehand
+		If _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor AndAlso _TextEditorWasEmpty_BeforeTextWasInserted Then Me.CurrentSource_IsSaved = True
+
 	End Sub
 
 	REM Mapped to a shortcut key
@@ -556,8 +626,8 @@
 
 			REM Run DSCLI.EXE
 			Process.Start(
-				_DSCLI_ExeFile.FullName,
-				String.Format("/PromptBeforeExit /Run /SourceFile:""{0}"" {1}", Me.CurrentlyOpenFile.FullName, If(String.IsNullOrEmpty(Me.ProgramCLAsTextBox.Text), String.Empty, "/DocScriptCLAs:""" & Me.ProgramCLAsTextBox.Text & """"))
+			 _DSCLI_ExeFile.FullName,
+			 String.Format("/PromptBeforeExit /Run /SourceFile:""{0}"" {1}", Me.CurrentlyOpenFile.FullName, If(String.IsNullOrEmpty(Me.ProgramCLAsTextBox.Text), String.Empty, "/DocScriptCLAs:""" & Me.ProgramCLAsTextBox.Text & """"))
 			)
 
 		Catch _Ex As Exception
@@ -597,14 +667,14 @@
 
 #Region "Window Closure Handling"
 
-	Public Sub AskToSaveUnsavedSource_ThenCloseProgram() Handles ExitMenuItem.Click
+	Public Sub AskToSaveUnsavedSource_ThenExitDSIDE() Handles ExitMenuItem.Click
 		If ((Me.SourceTextEditor.Text.Length > 0) AndAlso (Not Me.CurrentSource_IsSaved)) _
 		AndAlso (MsgBox("The Source-text in the Editor may be unsaved; it will be lost if DSIDE is closed." & vbCrLf & vbCrLf & "Do you still want to exit?", MsgBoxStyle.YesNo Or MsgBoxStyle.Question, "Source may be deleted") = MsgBoxResult.No) _
 		Then
 			'Stay open
 			Return
 		Else
-			Me.ExitIDE()
+			Me.KillCurrentDSIDEProcess()
 		End If
 	End Sub
 
@@ -617,15 +687,18 @@
 			_CancelEventArgs.Cancel = True
 			Return
 		Else
-			Me.ExitIDE()
+			Me.KillCurrentDSIDEProcess()
 		End If
 	End Sub
 
-	Public Sub HandleEscKeyPress(ByVal _Sender As Object, ByVal _KeyEventArgs As KeyEventArgs) Handles Me.PreviewKeyDown
+#Const MainWindow_IsClosedByEscKeyPress = False
+#If MainWindow_IsClosedByEscKeyPress Then
+	Public Sub HandleEscKeyPress(ByVal _Sender As [Object], ByVal _KeyEventArgs As [KeyEventArgs]) Handles Me.PreviewKeyDown
 		If _KeyEventArgs.Key = Key.Escape Then Me.AskToSaveUnsavedSource_ThenCloseProgram()
 	End Sub
+#End If
 
-	Public Sub ExitIDE()
+	Public Sub KillCurrentDSIDEProcess()
 		'End this Process, including the background thread
 		Global.System.Windows.Application.Current.Shutdown()
 		System.Diagnostics.Process.GetCurrentProcess().Kill()
@@ -674,7 +747,6 @@
 
 		'Show a *kind* message if there isn't any source
 		If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
-
 		Dim _RawSourceText$ = Me.SourceTextEditor.Text
 		Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
 
@@ -692,7 +764,7 @@
 			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Executing...")
 			 Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
 			 : Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
-			 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Program finished in " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
+			 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Program finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
 
 		 End Sub
 		)
@@ -705,8 +777,8 @@
 
 			'Show a *kind* message if there isn't any source
 			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
-
 			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+
 			Me.StartBackgroundWorker(
 			 "Parsing...",
 			 Sub()
@@ -717,14 +789,17 @@
 			)
 
 		Catch _Ex As Exception
-			MsgBox("On parsing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : Me.LoadingUIComponents_Reset()
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("On parsing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
 	End Sub
 
 	''' <summary>Sets the Me.Cached_Program Member</summary>
 	Public Sub LexCachedTokens() Handles LexButton.Click
 		Try
-			Me.Cached_Tokens.MustNotBeNothing("There were no Cached Tokens. Parsing must occur first")
+
+			Me.Cached_Tokens.MustNotBeNothing("There were no Cached Tokens; Parsing must occur first.")
+
 			Me.StartBackgroundWorker(
 			 "Lexing...",
 			 Sub()
@@ -734,8 +809,10 @@
 				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Constructed Program with " & Me.Cached_Program.Functions.Count.ToString() & " Function(s) and " & Me.Cached_Program.GlobalVarDecs.Count.ToString() & " Global VarDec(s)")
 			 End Sub
 			)
+
 		Catch _Ex As Exception
-			MsgBox("On lexing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : Me.LoadingUIComponents_Reset()
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("On lexing the DocScript Tokens:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
 	End Sub
 
@@ -747,15 +824,16 @@
 			Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox 'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
 
 			Me.StartBackgroundWorker("Executing...",
-			Sub()
-				Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
-				: Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
-				: Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
-			End Sub
+			 Sub()
+				 Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
+				 : Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
+				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
+			 End Sub
 			)
 
 		Catch _Ex As Exception
-			MsgBox("On executing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : Me.LoadingUIComponents_Reset()
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("On executing the DocScript Program:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
 	End Sub
 
@@ -777,28 +855,27 @@
 
 	Public Sub LoadingUIComponents_SetForTaskStart(ByVal _TaskStatusDescription$)
 		Me.InvokeIfRequired(
-		Sub()
-			Me.StatusLabel.Text = "Status: " & _TaskStatusDescription
-			Me.StatusLabel.Foreground = System.Windows.Media.Brushes.DarkBlue
-			Me.InterpretationProgressBar.IsIndeterminate = True
-			Me.Cursor = Cursors.Wait
-			Me.TheRibbon.IsEnabled = False : Me.SourceTextEditor.IsEnabled = False 'Prevent any other buttons etc from being pressed
-			Me.AbortBackgroundWorkerLink.Text = " Abort " : Me.AbortBackgroundWorkerLink.IsEnabled = True
-
-		End Sub
+		  Sub()
+			  Me.StatusLabel.Text = "Status: " & _TaskStatusDescription
+			  Me.StatusLabel.Foreground = System.Windows.Media.Brushes.DarkBlue
+			  Me.InterpretationProgressBar.IsIndeterminate = True
+			  Me.Cursor = Cursors.Wait
+			  Me.TheRibbon.IsEnabled = False : Me.SourceTextEditor.IsEnabled = False 'Prevent any other buttons etc from being pressed
+			  Me.AbortBackgroundWorkerLink.Text = " Abort " : Me.AbortBackgroundWorkerLink.IsEnabled = True
+		  End Sub
 		)
 	End Sub
 
 	Public Sub LoadingUIComponents_Reset()
 		Me.InvokeIfRequired(
-		Sub()
-			Me.StatusLabel.Text = "Status: Idle"
-			Me.StatusLabel.Foreground = System.Windows.Media.Brushes.Black
-			Me.InterpretationProgressBar.IsIndeterminate = False
-			Me.Cursor = Cursors.Arrow
-			Me.TheRibbon.IsEnabled = True : Me.SourceTextEditor.IsEnabled = True
-			Me.AbortBackgroundWorkerLink.Text = "" : Me.AbortBackgroundWorkerLink.IsEnabled = False
-		End Sub
+		  Sub()
+			  Me.StatusLabel.Text = "Status: Idle"
+			  Me.StatusLabel.Foreground = System.Windows.Media.Brushes.Black
+			  Me.InterpretationProgressBar.IsIndeterminate = False
+			  Me.Cursor = Cursors.Arrow
+			  Me.TheRibbon.IsEnabled = True : Me.SourceTextEditor.IsEnabled = True
+			  Me.AbortBackgroundWorkerLink.Text = "" : Me.AbortBackgroundWorkerLink.IsEnabled = False
+		  End Sub
 		)
 	End Sub
 

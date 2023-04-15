@@ -10,7 +10,8 @@
 
 		' Add any initialization after the InitializeComponent() call.
 		Me.ProgramToCompile = _Program
-		Try : If IO.File.Exists(_Program.Name) Then
+		Try
+			If IO.File.Exists(_Program.Name) Then
 				Me.OutputEXE_FullPath_TextBox.Text = IO.Path.Combine((New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, IO.Path.GetFileNameWithoutExtension(Me.ProgramToCompile.Name)) & ".exe"
 				Me.MetaData_ProductName_TextBox.Text = IO.Path.GetFileNameWithoutExtension(Me.ProgramToCompile.Name)
 			End If
@@ -75,8 +76,10 @@
 #End Region
 
 	Sub ShowAdditionalOptions() Handles ShowAdditionalOptions_LinkLabel.LinkClicked
-		Me.Width = 855
-		Me.ShowAdditionalOptions_LinkLabel.Enabled = False
+		Me.Width = Me.MaximumSize.Width : Me.Height = Me.MaximumSize.Height
+		Me.CompileButton.Location = New System.Drawing.Point(410, 317)
+		Me.MinimumSize = Me.MaximumSize
+		Me.ShowAdditionalOptions_LinkLabel.Hide()
 	End Sub
 
 	Sub Toggle_CustomVBCPathControls_Enabledness() Handles UseCustomVBCPath_CheckBox.CheckedChanged
@@ -87,9 +90,11 @@
 	Public Sub RunCompilation() Handles CompileButton.Click
 		Try
 
+			Me.Enabled = False : Me.Cursor = Forms.Cursors.WaitCursor
+
 			REM ILMerge.exe, System.Compiler.dll, and DSCore.dll should exist in the same directory as DSCLI.exe
 			If Not {"ILMerge.exe", "System.Compiler.dll", "DSCore.dll"}.All(
-				Function(ByVal _FileName$) IO.File.Exists(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, _FileName))
+			 Function(_FileName$) IO.File.Exists(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, _FileName))
 			) Then Throw New DSException("A copy of ILMerge.exe, System.Compiler.dll, and DSCore.dll must exist in the same directory as DSCLI.exe, in order for DSCompilation to function.")
 
 			REM Determine the ExeCxt to use, from the ComboBox
@@ -112,20 +117,21 @@
 			Me.ProgramToCompile _
 			.MustNotBeNothing() _
 			.CompileToEXE(
-				_OutputDirectory:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Directory,
-				_FinalExeFile_NameOnly:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Name,
-				_VBCExe:=If(Me.UseCustomVBCPath_CheckBox.Checked, New IO.FileInfo(Me.CustomVBCPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)), Runtime.Program.DefaultVbcExe_ForCurrentSystem),
-				_ILMergeExe:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
-				_DSCoreDll:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
-				_IcoFile_ForExe:=New IO.FileInfo(Me.IconFilePath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)),
-				_DeleteIntermediateFiles:=Not Me.DoNotDeleteIntermediateFiles_CheckBox.Checked
+			 _OutputDirectory:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Directory,
+			 _FinalExeFile_NameOnly:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Name,
+			 _VBCExe:=If(Me.UseCustomVBCPath_CheckBox.Checked, New IO.FileInfo(Me.CustomVBCPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)), Runtime.Program.DefaultVbcExe_ForCurrentSystem),
+			 _ILMergeExe:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
+			 _DSCoreDll:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
+			 _IcoFile_ForExe:=New IO.FileInfo(Me.IconFilePath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)),
+			 _DeleteIntermediateFiles:=Not Me.DoNotDeleteIntermediateFiles_CheckBox.Checked
 			)
 
 			REM Provide Feedback, and open the exe in explorer
 			MsgBox("The DocScript Program compiled successfully", MsgBoxStyle.Information)
 			Process.Start("Explorer.exe", "/select,""" & OutputEXE_FullPath_TextBox.Text & """"c)
 
-		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
+		Finally : Me.Enabled = True : Me.Cursor = Forms.Cursors.Default : End Try
 	End Sub
 
 End Class

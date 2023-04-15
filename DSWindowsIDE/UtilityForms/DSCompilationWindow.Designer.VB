@@ -61,7 +61,7 @@ Partial Class DSCompilationWindow
 		'
 		'CompileButton
 		'
-		Me.CompileButton.Location = New System.Drawing.Point(197, 345)
+		Me.CompileButton.Location = New System.Drawing.Point(197, 252)
 		Me.CompileButton.Name = "CompileButton"
 		Me.CompileButton.Size = New System.Drawing.Size(75, 23)
 		Me.CompileButton.TabIndex = 3
@@ -152,9 +152,9 @@ Partial Class DSCompilationWindow
 		Me.Label7.AutoSize = True
 		Me.Label7.Location = New System.Drawing.Point(6, 86)
 		Me.Label7.Name = "Label7"
-		Me.Label7.Size = New System.Drawing.Size(34, 13)
+		Me.Label7.Size = New System.Drawing.Size(55, 13)
 		Me.Label7.TabIndex = 2
-		Me.Label7.Text = "Type:"
+		Me.Label7.Text = "Exe Type:"
 		'
 		'Label2
 		'
@@ -205,9 +205,9 @@ Partial Class DSCompilationWindow
 		Me.GroupBox2.Controls.Add(Me.UseCustomVBCPath_CheckBox)
 		Me.GroupBox2.Controls.Add(Me.DoNotDeleteIntermediateFiles_CheckBox)
 		Me.GroupBox2.Controls.Add(Me.BrowseForCustomVBCPath_Button)
-		Me.GroupBox2.Location = New System.Drawing.Point(12, 237)
+		Me.GroupBox2.Location = New System.Drawing.Point(470, 205)
 		Me.GroupBox2.Name = "GroupBox2"
-		Me.GroupBox2.Size = New System.Drawing.Size(446, 91)
+		Me.GroupBox2.Size = New System.Drawing.Size(415, 91)
 		Me.GroupBox2.TabIndex = 1
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Compilation Options"
@@ -217,7 +217,7 @@ Partial Class DSCompilationWindow
 		Me.CustomVBCPath_TextBox.Enabled = False
 		Me.CustomVBCPath_TextBox.Location = New System.Drawing.Point(227, 46)
 		Me.CustomVBCPath_TextBox.Name = "CustomVBCPath_TextBox"
-		Me.CustomVBCPath_TextBox.Size = New System.Drawing.Size(122, 20)
+		Me.CustomVBCPath_TextBox.Size = New System.Drawing.Size(116, 20)
 		Me.CustomVBCPath_TextBox.TabIndex = 0
 		'
 		'UseCustomVBCPath_CheckBox
@@ -235,15 +235,15 @@ Partial Class DSCompilationWindow
 		Me.DoNotDeleteIntermediateFiles_CheckBox.AutoSize = True
 		Me.DoNotDeleteIntermediateFiles_CheckBox.Location = New System.Drawing.Point(8, 25)
 		Me.DoNotDeleteIntermediateFiles_CheckBox.Name = "DoNotDeleteIntermediateFiles_CheckBox"
-		Me.DoNotDeleteIntermediateFiles_CheckBox.Size = New System.Drawing.Size(186, 17)
+		Me.DoNotDeleteIntermediateFiles_CheckBox.Size = New System.Drawing.Size(171, 17)
 		Me.DoNotDeleteIntermediateFiles_CheckBox.TabIndex = 2
-		Me.DoNotDeleteIntermediateFiles_CheckBox.Text = "Do not delete intermediate .VB file"
+		Me.DoNotDeleteIntermediateFiles_CheckBox.Text = "Do not delete intermediate files"
 		Me.DoNotDeleteIntermediateFiles_CheckBox.UseVisualStyleBackColor = True
 		'
 		'BrowseForCustomVBCPath_Button
 		'
 		Me.BrowseForCustomVBCPath_Button.Enabled = False
-		Me.BrowseForCustomVBCPath_Button.Location = New System.Drawing.Point(355, 44)
+		Me.BrowseForCustomVBCPath_Button.Location = New System.Drawing.Point(349, 44)
 		Me.BrowseForCustomVBCPath_Button.Name = "BrowseForCustomVBCPath_Button"
 		Me.BrowseForCustomVBCPath_Button.Size = New System.Drawing.Size(60, 23)
 		Me.BrowseForCustomVBCPath_Button.TabIndex = 1
@@ -264,7 +264,7 @@ Partial Class DSCompilationWindow
 		Me.GroupBox3.Controls.Add(Me.MetaData_ProductName_TextBox)
 		Me.GroupBox3.Location = New System.Drawing.Point(470, 12)
 		Me.GroupBox3.Name = "GroupBox3"
-		Me.GroupBox3.Size = New System.Drawing.Size(362, 185)
+		Me.GroupBox3.Size = New System.Drawing.Size(415, 185)
 		Me.GroupBox3.TabIndex = 2
 		Me.GroupBox3.TabStop = False
 		Me.GroupBox3.Text = "EXE MetaData"
@@ -316,41 +316,41 @@ Partial Class DSCompilationWindow
 		'
 		'MetaData_Copyright_TextBox
 		'
-		Me.MetaData_Copyright_TextBox.Location = New System.Drawing.Point(90, 135)
+		Me.MetaData_Copyright_TextBox.Location = New System.Drawing.Point(95, 135)
 		Me.MetaData_Copyright_TextBox.Name = "MetaData_Copyright_TextBox"
-		Me.MetaData_Copyright_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Copyright_TextBox.Size = New System.Drawing.Size(289, 20)
 		Me.MetaData_Copyright_TextBox.TabIndex = 9
 		Me.MetaData_Copyright_TextBox.Text = "DS (c) 2023"
 		'
 		'MetaData_Description_TextBox
 		'
-		Me.MetaData_Description_TextBox.Location = New System.Drawing.Point(90, 109)
+		Me.MetaData_Description_TextBox.Location = New System.Drawing.Point(95, 109)
 		Me.MetaData_Description_TextBox.Name = "MetaData_Description_TextBox"
-		Me.MetaData_Description_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Description_TextBox.Size = New System.Drawing.Size(289, 20)
 		Me.MetaData_Description_TextBox.TabIndex = 8
 		Me.MetaData_Description_TextBox.Text = "Compiled DS Program"
 		'
 		'MetaData_Version_TextBox
 		'
-		Me.MetaData_Version_TextBox.Location = New System.Drawing.Point(90, 83)
+		Me.MetaData_Version_TextBox.Location = New System.Drawing.Point(95, 83)
 		Me.MetaData_Version_TextBox.Name = "MetaData_Version_TextBox"
-		Me.MetaData_Version_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Version_TextBox.Size = New System.Drawing.Size(289, 20)
 		Me.MetaData_Version_TextBox.TabIndex = 7
 		Me.MetaData_Version_TextBox.Text = "1.0.0.0"
 		'
 		'MetaData_Author_TextBox
 		'
-		Me.MetaData_Author_TextBox.Location = New System.Drawing.Point(90, 57)
+		Me.MetaData_Author_TextBox.Location = New System.Drawing.Point(95, 57)
 		Me.MetaData_Author_TextBox.Name = "MetaData_Author_TextBox"
-		Me.MetaData_Author_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_Author_TextBox.Size = New System.Drawing.Size(289, 20)
 		Me.MetaData_Author_TextBox.TabIndex = 6
 		Me.MetaData_Author_TextBox.Text = "DocScript Programmer"
 		'
 		'MetaData_ProductName_TextBox
 		'
-		Me.MetaData_ProductName_TextBox.Location = New System.Drawing.Point(90, 31)
+		Me.MetaData_ProductName_TextBox.Location = New System.Drawing.Point(95, 31)
 		Me.MetaData_ProductName_TextBox.Name = "MetaData_ProductName_TextBox"
-		Me.MetaData_ProductName_TextBox.Size = New System.Drawing.Size(259, 20)
+		Me.MetaData_ProductName_TextBox.Size = New System.Drawing.Size(289, 20)
 		Me.MetaData_ProductName_TextBox.TabIndex = 5
 		Me.MetaData_ProductName_TextBox.Text = "DocScript-Compiled Program"
 		'
@@ -359,16 +359,16 @@ Partial Class DSCompilationWindow
 		Me.AcceptButton = Me.CompileButton
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(469, 381)
+		Me.ClientSize = New System.Drawing.Size(469, 287)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox1)
 		Me.Controls.Add(Me.CompileButton)
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
 		Me.MaximizeBox = False
-		Me.MaximumSize = New System.Drawing.Size(860, 420)
+		Me.MaximumSize = New System.Drawing.Size(910, 390)
 		Me.MinimizeBox = False
-		Me.MinimumSize = New System.Drawing.Size(485, 420)
+		Me.MinimumSize = New System.Drawing.Size(485, 325)
 		Me.Name = "DSCompilationWindow"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
 		Me.Text = "DocScript Compilation"

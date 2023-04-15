@@ -15,4 +15,14 @@
 		 Else Me.Close()
 	End Sub
 
+	'Prevent Alt + F4
+	Protected Overrides Sub OnFormClosing(ByVal _FormClosingEventArgs As System.Windows.Forms.FormClosingEventArgs)
+		_FormClosingEventArgs.[Cancel] = True
+		MyBase.OnFormClosing(_FormClosingEventArgs)
+	End Sub
+
+	Protected Sub ShowOrHidePasswordString_DependingOnCheckboxValue_() Handles ShowPassword_CheckBox.CheckedChanged
+		Me.PasswordTextBox.UseSystemPasswordChar = Not Me.ShowPassword_CheckBox.Checked
+	End Sub
+
 End Class

@@ -210,8 +210,8 @@
 				</RibbonGroup>
 
 				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
-					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." />
-					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." />
+					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
+					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
 				</RibbonGroup>
 
 			</RibbonTab>

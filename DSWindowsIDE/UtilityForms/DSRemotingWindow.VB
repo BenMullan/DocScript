@@ -208,7 +208,7 @@
 			Else
 
 				REM Ensure the required data have been specified
-				If String.IsNullOrEmpty(Me.SimpleMode_ComputerTextBox.Text) Then Throw New Exception("The Computer datum must all be specified")
+				If String.IsNullOrEmpty(Me.SimpleMode_ComputerTextBox.Text) Then Throw New Exception("A Computer name of IP addr. must be specified")
 
 				REM Prompt for Credentials first
 				Me.TheActionInProgressWindow.Dismiss() 'Hide this, so that it dosen't block the EnterCredentialsDialog
@@ -232,7 +232,7 @@
 
 		Catch _DSR_Exception As Exception When True
 
-			Me.TheActionInProgressWindow.Dismiss()
+			Try : Me.TheActionInProgressWindow.Dismiss() : Catch : End Try
 			MsgBox("The DS-Remoting operation failed. Reason: " & vbCrLf & vbCrLf & _DSR_Exception.Message & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer. Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain.", If(_DSR_Exception.Message.Contains("Could not find file"), vbCrLf & "Ensure that there is a copy of DSCLI.ILM.exe in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.", "")), MsgBoxStyle.Critical, "DS-Remoting")
 
 		Finally

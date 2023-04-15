@@ -109,6 +109,8 @@
 		Public Sub SaveSymbolTablesAs() Handles SaveAsMenuItem.Click
 			Try
 
+				Me.Enabled = False : Me.Cursor = Windows.Forms.Cursors.WaitCursor
+
 				REM Always ask for a new Path to save the source as
 				Dim _SaveAsFile As IO.FileInfo =
 				 UsefulMethods.RequestFilePath_WithSaveFileDialog("Save the DS-SymbolTables as a File", New Tuple(Of String, String)("Hypertext Markup", "HTML"), New Tuple(Of String, String)("Comma-Seperated Values", "CSV"))
@@ -133,7 +135,8 @@
 
 				End If
 
-			Catch _Ex As Exception : MsgBox("The SymbolTables could not be saved." & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, "DocScript Runtime Serialisation") : End Try
+			Catch _Ex As Exception : MsgBox("The SymbolTables could not be saved." & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, "DocScript Runtime Serialisation")
+			Finally : Me.Enabled = True : Me.Cursor = Windows.Forms.Cursors.Default : End Try
 		End Sub
 
 		Public ReadOnly Property MySymbolTables_AsHTML As XElement
