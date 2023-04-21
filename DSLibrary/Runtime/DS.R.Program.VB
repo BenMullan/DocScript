@@ -88,7 +88,7 @@
 						_RemainingTokens = _RemainingTokens.Skip(_TokensHerefor.Length).ToArray()
 						LogLexingMessage("...Finished constructing a Global Variable Declaration for " & _Collected_GlobalVarDecs.Last().Identifier.InSquares())
 
-					Else : Throw New DSUnexpectedTokenException("Unexpected Token at Top Statement (Program) Level. Only Variable Declarations and Functions can exist here.", _RemainingTokens(0))
+					Else : Throw New DSUnexpectedTokenException("Unexpected Token at Top Statement (Program) Level." & vbCrLf & vbCrLf & "Only Variable Declarations and Functions can exist here; ensure that all other instruction types are inside a Function, such as the Entrypoint Main(). See the example Programs for guidance.", _RemainingTokens(0))
 					End If
 
 				Loop

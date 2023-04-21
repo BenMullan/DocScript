@@ -399,7 +399,7 @@ Namespace CompilerExtentions
 		''' <summary>
 		''' (MullNet CompilerExtention) Invokes the Control if required, and runs the specified _Action
 		''' </summary>
-		<System.Runtime.CompilerServices.Extension()> _
+		<System.Runtime.CompilerServices.Extension()>
 		Public Sub InvokeIfRequired(ByVal _Control As Windows.Forms.Control, ByVal _Action As Action)
 			If _Control.InvokeRequired Then
 				_Control.Invoke(_Action)

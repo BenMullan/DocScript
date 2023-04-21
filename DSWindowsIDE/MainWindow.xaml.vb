@@ -1,11 +1,12 @@
 ﻿Class MainWindow
 
+	Public Const AbortButton_TextWhenEnabled$ = " Abort "
+
 	Public Property Cached_Tokens As DocScript.Runtime.Token() = Nothing 'Parsing Output
 	Public Property Cached_Program As DocScript.Runtime.Program = Nothing 'Lexing Output
 	Public Property Cached_ProgramExeRes As DocScript.Language.Instructions.ExecutionResult = Nothing 'Execution Output
 
 	Public Property CurrentExecutionContext As DocScript.Runtime.ExecutionContext 'Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised)
-
 	Protected Property AvalonEdit_SearchPanel_ As New ICSharpCode.AvalonEdit.Search.SearchPanel()
 
 	Public Sub New()
@@ -43,6 +44,9 @@
 	''' <summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
 	Public Sub HandleShortcutKey(ByVal _Sender As Object, ByVal _KeyEventArgs As KeyEventArgs) Handles Me.KeyDown
 
+		REM Do not process shortcut keys whilst a BackgroundThread is in progress
+		If Me.AbortBackgroundWorkerLink.Text = MainWindow.AbortButton_TextWhenEnabled Then Return
+
 		If (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewFile()									'Ctrl + N
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenFile()									'Ctrl + O
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFile()									'Ctrl + S
@@ -64,7 +68,8 @@
 		Else : Return 'Don't set the Handled as below...
 		End If
 
-		_KeyEventArgs.Handled = True 'Don't type the Keys into Me.SourceTextEditor
+		'Don't type the Keys into Me.SourceTextEditor
+		_KeyEventArgs.Handled = True
 
 	End Sub
 
@@ -119,7 +124,7 @@
 				   Try
 					   _Action.Invoke()
 				   Catch _Exception As Exception When True
-					   REM Don't show the MsgBox if the user has clicked "Abort"...
+					   REM Don't show the MsgBox if the user has clicked [Abort]...
 					   If Not ({"Thread was being aborted.", "Der Thread wurde abgebrochen."}.Any(AddressOf _Exception.Message.EndsWith)) Then MsgBox("A Fatal Exception was Thrown whilst """ & _TaskStatusDescription & """:" & vbCrLf & vbCrLf & _Exception.Message, MsgBoxStyle.Critical, _Exception.GetType().FullName)
 					   RemoveHandler Me.AbortBackgroundWorkerLink.PreviewMouseDown, _CancelBackgroundWorker_Action
 					   Me.InvokeIfRequired(AddressOf Me.LoadingUIComponents_Reset)
@@ -861,7 +866,7 @@
 			  Me.InterpretationProgressBar.IsIndeterminate = True
 			  Me.Cursor = Cursors.Wait
 			  Me.TheRibbon.IsEnabled = False : Me.SourceTextEditor.IsEnabled = False 'Prevent any other buttons etc from being pressed
-			  Me.AbortBackgroundWorkerLink.Text = " Abort " : Me.AbortBackgroundWorkerLink.IsEnabled = True
+			  Me.AbortBackgroundWorkerLink.Text = MainWindow.AbortButton_TextWhenEnabled : Me.AbortBackgroundWorkerLink.IsEnabled = True
 		  End Sub
 		)
 	End Sub

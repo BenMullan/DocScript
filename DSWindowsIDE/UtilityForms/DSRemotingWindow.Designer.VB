@@ -53,6 +53,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Label3 = New System.Windows.Forms.Label()
 		Me.Shell_TabPage = New System.Windows.Forms.TabPage()
 		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+		Me.Label9 = New System.Windows.Forms.Label()
 		Me.ShellMode_CustomPSEXECPATH_TextBox = New System.Windows.Forms.TextBox()
 		Me.Button3 = New System.Windows.Forms.Button()
 		Me.PictureBox8 = New System.Windows.Forms.PictureBox()
@@ -65,6 +66,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.PictureBox6 = New System.Windows.Forms.PictureBox()
 		Me.InteractiveMode_UseGUIExecution_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.Label10 = New System.Windows.Forms.Label()
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox = New System.Windows.Forms.TextBox()
 		Me.Button2 = New System.Windows.Forms.Button()
 		Me.PictureBox7 = New System.Windows.Forms.PictureBox()
@@ -75,8 +77,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_ComputerTextBox = New System.Windows.Forms.TextBox()
 		Me.SimpleMode_ComputerLabel = New System.Windows.Forms.Label()
 		Me.SimpleMode_InfoLabel = New System.Windows.Forms.Label()
-		Me.Label9 = New System.Windows.Forms.Label()
-		Me.Label10 = New System.Windows.Forms.Label()
 		Me.TheTabControl.SuspendLayout()
 		Me.Mode_TabPage.SuspendLayout()
 		CType(Me.InteractiveIcon_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -412,6 +412,15 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.GroupBox3.TabStop = False
 		Me.GroupBox3.Text = "PsExec"
 		'
+		'Label9
+		'
+		Me.Label9.AutoSize = True
+		Me.Label9.Location = New System.Drawing.Point(57, 23)
+		Me.Label9.Name = "Label9"
+		Me.Label9.Size = New System.Drawing.Size(66, 13)
+		Me.Label9.TabIndex = 4
+		Me.Label9.Text = "PsExec exe:"
+		'
 		'ShellMode_CustomPSEXECPATH_TextBox
 		'
 		Me.ShellMode_CustomPSEXECPATH_TextBox.Location = New System.Drawing.Point(57, 43)
@@ -469,7 +478,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'InteractiveMode_CustomSessionNumber_NumericUpDown
 		'
-		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Enabled = False
 		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Location = New System.Drawing.Point(164, 85)
 		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
 		Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Name = "InteractiveMode_CustomSessionNumber_NumericUpDown"
@@ -541,6 +549,15 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.GroupBox2.TabIndex = 1
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "PsExec"
+		'
+		'Label10
+		'
+		Me.Label10.AutoSize = True
+		Me.Label10.Location = New System.Drawing.Point(57, 23)
+		Me.Label10.Name = "Label10"
+		Me.Label10.Size = New System.Drawing.Size(66, 13)
+		Me.Label10.TabIndex = 5
+		Me.Label10.Text = "PsExec exe:"
 		'
 		'InteractiveMode_CustomPSEXECPATH_TextBox
 		'
@@ -630,24 +647,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_InfoLabel.TabIndex = 3
 		Me.SimpleMode_InfoLabel.Text = "You will be asked for credentials when you connect." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "DSR will use the ""Interactiv" & _
 		  "e"" mode, with the Console session."
-		'
-		'Label9
-		'
-		Me.Label9.AutoSize = True
-		Me.Label9.Location = New System.Drawing.Point(57, 23)
-		Me.Label9.Name = "Label9"
-		Me.Label9.Size = New System.Drawing.Size(66, 13)
-		Me.Label9.TabIndex = 4
-		Me.Label9.Text = "PsExec exe:"
-		'
-		'Label10
-		'
-		Me.Label10.AutoSize = True
-		Me.Label10.Location = New System.Drawing.Point(57, 23)
-		Me.Label10.Name = "Label10"
-		Me.Label10.Size = New System.Drawing.Size(66, 13)
-		Me.Label10.TabIndex = 5
-		Me.Label10.Text = "PsExec exe:"
 		'
 		'DSRemotingWindow
 		'

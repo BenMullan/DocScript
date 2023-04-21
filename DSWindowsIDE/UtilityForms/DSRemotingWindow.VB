@@ -4,6 +4,9 @@
 	Public Const Default_PsExecPath$ = "$(DSIDE_Dir)\PsExec.exe"
 	Public Const Default_RemoteUNCPath$ = "C$\Windows\DSRemoting\"
 
+	Public Const PermissableCharsFor_ComputerNameOrIPAddr$ = "0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.-"
+	Public Const PermissableCharsFor_Username$ = "0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.-_@({})\ "
+
 	Public ReadOnly ProgramForRemoteExecution As DocScript.Runtime.Program
 	Protected ReadOnly SnapshotOf_TabPage_Shell_, SnapshotOf_TabPage_Interactive_ As Forms.TabPage
 
@@ -43,10 +46,15 @@
 		Me.SnapshotOf_TabPage_Interactive_ = Me.Interactive_TabPage
 		Me.TheTabControl.TabPages.Remove(Me.SnapshotOf_TabPage_Shell_)
 
-		REM These is set now, so that it can be stored in one constant, once
+		REM These are set now, so that it can be stored in one constant, once
 		Me.InteractiveMode_CustomPSEXECPATH_TextBox.Text = DSRemotingWindow.Default_PsExecPath
 		Me.ShellMode_CustomPSEXECPATH_TextBox.Text = DSRemotingWindow.Default_PsExecPath
 		Me.TargetUNCDirectory_TextBox.Text = DSRemotingWindow.Default_RemoteUNCPath
+
+		REM Only permit valid input to the Textboxes
+		AddHandler Me.SimpleMode_ComputerTextBox.TextChanged, Sub() Call {(Sub() Me.SimpleMode_ComputerTextBox.Text = Me.SimpleMode_ComputerTextBox.Text.OnlyAllowTheseChars(DSRemotingWindow.PermissableCharsFor_ComputerNameOrIPAddr.ToCharArray())), (Sub() Me.SimpleMode_ComputerTextBox.SelectionStart = Me.SimpleMode_ComputerTextBox.Text.Length), (Sub() Me.SimpleMode_ComputerTextBox.SelectionLength = 0)}.ToList().ForEach(Sub(_Sub As [Action]) _Sub.Invoke())
+		AddHandler Me.TargetComputer_TextBox.TextChanged, Sub() Call {(Sub() Me.TargetComputer_TextBox.Text = Me.TargetComputer_TextBox.Text.OnlyAllowTheseChars(DSRemotingWindow.PermissableCharsFor_ComputerNameOrIPAddr.ToCharArray())), (Sub() Me.TargetComputer_TextBox.SelectionStart = Me.TargetComputer_TextBox.Text.Length), (Sub() Me.TargetComputer_TextBox.SelectionLength = 0)}.ToList().ForEach(Sub(_Sub As [Action]) _Sub.Invoke())
+		AddHandler Me.TargetUsername_TextBox.TextChanged, Sub() Call {(Sub() Me.TargetUsername_TextBox.Text = Me.TargetUsername_TextBox.Text.OnlyAllowTheseChars(DSRemotingWindow.PermissableCharsFor_Username.ToCharArray())), (Sub() Me.TargetUsername_TextBox.SelectionStart = Me.TargetUsername_TextBox.Text.Length), (Sub() Me.TargetUsername_TextBox.SelectionLength = 0)}.ToList().ForEach(Sub(_Sub As [Action]) _Sub.Invoke())
 
 		REM Handler applied in Constructor, because otherwise this would be run during UI initialisation, before the SnapshotOf_* objects had been initialised
 		AddHandler Me.ShellMode_RadioButton.CheckedChanged, AddressOf Me.ShowAndHideCorrectTabPages_DependingOnSelectedMode
@@ -186,7 +194,7 @@
 				)
 
 				REM Perform the correct Advanced-Mode Operation
-				If Me.ShellMode_RadioButton.Checked Then
+				If Me.ShellMode_RadioButton.Checked Then : Me.ShellMode_StartPsExecSession()
 				ElseIf Me.InteractiveMode_RadioButton.Checked Then : Me.InteractiveMode_LaunchRemoteProcess_AdvancedMode()
 				ElseIf Me.HeadlessMode_RadioButton.Checked Then : Me.HeadlessMode_CreateRemoteProcess()
 				Else : Throw New Exception("The selected DSRemoting Mode was unrecognised")
@@ -205,7 +213,7 @@
 					)
 				End If
 
-			Else
+			Else 'Simple-Mode; gather Credentials first
 
 				REM Ensure the required data have been specified
 				If String.IsNullOrEmpty(Me.SimpleMode_ComputerTextBox.Text) Then Throw New Exception("A Computer name of IP addr. must be specified")
@@ -213,13 +221,14 @@
 				REM Prompt for Credentials first
 				Me.TheActionInProgressWindow.Dismiss() 'Hide this, so that it dosen't block the EnterCredentialsDialog
 				Dim _SpecifiedCredentials As Tuple(Of String, String) = DocScript.EnterCredentialsDialog.Show_AndGetCredentials()
+				Me.TargetUsername_TextBox.Text = _SpecifiedCredentials.[Item1]
 
 				REM Use Interactive Mode, with the Console Session. DSR Files will not be deleted at the end.
 				Me.TheActionInProgressWindow.UpdateText("Copying Files to remote computer...")
 				DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(
 				_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied:=(New IO.DirectoryInfo("\\" & Me.SimpleMode_ComputerTextBox.Text & "\"c & DSRemotingWindow.Default_RemoteUNCPath)),
-				_RemotePC_Username:=_SpecifiedCredentials.Item1,
-				_RemotePC_Password:=_SpecifiedCredentials.Item2,
+				_RemotePC_Username:=[_SpecifiedCredentials].Item1,
+				_RemotePC_Password:=[_SpecifiedCredentials].Item2,
 				_FilesToCopyThither:={
 				  New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Runtime.Remoting.DSCLI_ILM_EXE_FileName)),
 				  New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Me.CurrentRemotingSession_ScriptFileName))
@@ -233,7 +242,20 @@
 		Catch _DSR_Exception As Exception When True
 
 			Try : Me.TheActionInProgressWindow.Dismiss() : Catch : End Try
-			MsgBox("The DS-Remoting operation failed. Reason: " & vbCrLf & vbCrLf & _DSR_Exception.Message & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer. Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain.", If(_DSR_Exception.Message.Contains("Could not find file"), vbCrLf & "Ensure that there is a copy of DSCLI.ILM.exe in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.", "")), MsgBoxStyle.Critical, "DS-Remoting")
+
+			Global.Microsoft.VisualBasic.Interaction.MsgBox(
+				"The DS-Remoting operation failed. Reason: " _
+				& vbCrLf & vbCrLf & _DSR_Exception.Message _
+				& If(_DSR_Exception.Message.Contains("Logon failure"),
+					vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer. Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain.",
+					If(_DSR_Exception.Message.Contains("Could not find file"),
+						vbCrLf & "Ensure that there is a copy of DSCLI.ILM.exe in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.",
+						""
+					)
+				),
+				MsgBoxStyle.Critical,
+				"DS-Remoting"
+			)
 
 		Finally
 
@@ -295,9 +317,42 @@
 		'
 		'	Process:
 		'		- E.g. CopyFiles_ToRemoteComputer("\\192.168.1.85\C$\Windows\DSRemoting\", "User", "Pass", {"DSCLI.ILM.exe", "...ScriptAK47.DS"})
-		'		- E.g. PsExec.exe \\192.168.1.85 -u Administrator -p Logon#123 C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
+		'		- E.g. "PsExec.exe" "\\192.168.1.85" -nobanner -accepteula -u Administrator -p Logon#123 C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
 
-		Throw New NotImplementedException("Shell Mode has not been implemented yet")
+		Dim _PsExec_CLAs$ = [String].Format("""\\{0}"" -nobanner -accepteula -u ""{1}"" -p ""{2}"" ""{3}\{4}"" /Run /SourceFile:""{3}\{5}""{6}",
+			Me.TargetComputer_TextBox.Text,
+			Me.TargetUsername_TextBox.Text,
+			Me.TargetPassword_TextBox.Text,
+			(New IO.DirectoryInfo("\\" & Me.TargetComputer_TextBox.Text & "\"c & Me.TargetUNCDirectory_TextBox.Text)).FullName.WithoutBackslashOnEnd(),
+			DocScript.Runtime.Remoting.DSCLI_ILM_EXE_FileName,
+			Me.CurrentRemotingSession_ScriptFileName,
+			If(String.IsNullOrEmpty(Me.DocScriptCLAs_TextBox.Text), "", " /DocScriptCLAs:""" & Me.DocScriptCLAs_TextBox.Text & """"c)
+		)
+
+		REM If the specified PsExec exe isn't found, then ask for one.
+		Dim _PsExec_ExePath$ = Me.ShellMode_CustomPSEXECPATH_TextBox.Text.Replace(DSRemotingWindow.Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory.FullName.WithoutBackslashOnEnd())
+		If Not IO.File.Exists(_PsExec_ExePath$) Then _PsExec_ExePath = InputBox(_PsExec_ExePath & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""PsExec.exe""...")
+		If Not IO.File.Exists(_PsExec_ExePath$) Then Throw New IO.FileNotFoundException("The PsExec.exe process path could not be resolved.", _PsExec_ExePath)
+
+		REM Identify a Command Processor to use (e.g. cmd.exe or command.com)
+		Dim _CommandProcessorExecutable_Path$ = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Windows), "System32", "cmd.exe")
+		If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then _CommandProcessorExecutable_Path = InputBox(_CommandProcessorExecutable_Path & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""cmd.exe"" or another command processor executable...")
+		If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then Throw New IO.FileNotFoundException("The command processor executable path could not be resolved.", _CommandProcessorExecutable_Path)
+
+		Me.TheActionInProgressWindow.UpdateText("Hosting DS-Remoting Shell Session...")
+		Dim _PsExec_ViaCmdExe_Process As New System.Diagnostics.Process() With {
+		 .StartInfo = (New ProcessStartInfo() With {
+		  .CreateNoWindow = False,
+		  .WindowStyle = ProcessWindowStyle.Normal,
+		  .FileName = _CommandProcessorExecutable_Path,
+		  .Arguments = String.Format("/K Title DS-Remoting Shell Session && Prompt DSRemoting$G && ""{0}"" {1}", _PsExec_ExePath, _PsExec_CLAs)
+		 })
+		}
+		_PsExec_ViaCmdExe_Process.Start() : _PsExec_ViaCmdExe_Process.WaitForExit()
+
+		'Use a new thread for the MsgBox, so that the remaining DS-Remoting operations continue (e.g. deleting the files from the remote host)
+		Dim _MsgBoxThread As New System.Threading.Thread(Sub() MsgBox("The Shell Session to " & Me.TargetComputer_TextBox.Text & " ended with exit-code " & _PsExec_ViaCmdExe_Process.ExitCode.ToString(), MsgBoxStyle.Information, "DS-Remoting"))
+		_MsgBoxThread.Start()
 
 	End Sub
 
@@ -332,8 +387,8 @@
 			If(String.IsNullOrEmpty(Me.DocScriptCLAs_TextBox.Text), "", " /DocScriptCLAs:""" & Me.DocScriptCLAs_TextBox.Text & """"c)
 		)
 
-		REM If the Default PsExec exe isn't found, then ask for one.
-		Dim _PsExec_ExePath$ = DSRemotingWindow.Default_PsExecPath.Replace(DSRemotingWindow.Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory.FullName.WithoutBackslashOnEnd())
+		REM If the specified PsExec exe isn't found, then ask for one.
+		Dim _PsExec_ExePath$ = Me.InteractiveMode_CustomPSEXECPATH_TextBox.Text.Replace(DSRemotingWindow.Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory.FullName.WithoutBackslashOnEnd())
 		If Not IO.File.Exists(_PsExec_ExePath$) Then _PsExec_ExePath = InputBox(_PsExec_ExePath & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""PsExec.exe""...")
 		If Not IO.File.Exists(_PsExec_ExePath$) Then Throw New IO.FileNotFoundException("The PsExec.exe process path could not be resolved.", _PsExec_ExePath)
 
@@ -406,8 +461,4 @@
 
 End Class
 
-
-
-
-REM ADD TEXTBOX CHAR VALIDATION!!!!!!!!!
 REM Save the last Server in the .Config File!!
