@@ -63,6 +63,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9A35759447534765820EFD24AF6F4B47"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B62ED4B93A5B948D521765FC9D737871"
         "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
         "MsmSig" = "8:_UNDEFINED"
@@ -93,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EEEA78471E87480798295E4FBF7DDF5B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
         "MsmSig" = "8:_UNDEFINED"
@@ -107,6 +119,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B62ED4B93A5B948D521765FC9D737871"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9A35759447534765820EFD24AF6F4B47"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -357,6 +375,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9A35759447534765820EFD24AF6F4B47"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DSCLI.ILM, Version=1.9.2.1, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_9A35759447534765820EFD24AF6F4B47"
+                    {
+                    "Name" = "8:DSCLI.ILM.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DSCLI.ILM.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B62ED4B93A5B948D521765FC9D737871"
             {
             "AssemblyRegister" = "3:1"
@@ -443,6 +492,26 @@
             {
             "SourcePath" = "8:DocScriptFile.ICO"
             "TargetName" = "8:DocScriptFile.ICO"
+            "Tag" = "8:"
+            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EEEA78471E87480798295E4FBF7DDF5B"
+            {
+            "SourcePath" = "8:PsExec.exe"
+            "TargetName" = "8:PsExec.exe"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
             "Condition" = "8:"
@@ -549,15 +618,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{7E525AD9-19D3-4489-9143-E676106B46D7}"
-        "PackageCode" = "8:{02D5A7FB-6103-432C-8142-731D339B1535}"
+        "ProductCode" = "8:{0BDEEEFF-E625-4404-9358-96D8B7E926EE}"
+        "PackageCode" = "8:{A53A2AFB-709E-4A22-BB59-375AEE226A85}"
         "UpgradeCode" = "8:{1290F1CA-5A25-44B4-B3F6-CF384B244FFA}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.1.3"
+        "ProductVersion" = "8:3.2.0"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://BenM.eu5.org/"
