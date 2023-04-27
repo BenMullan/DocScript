@@ -15,7 +15,7 @@ Here's an example of a DocScript Program to solve [the Lightswitch Problem](http
 3. **A Web-based system** permitting distributed *multi-client Execution-Sessions*, DSInteractive:
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" height="50%" width="50%" /><br/>
 
-**Note:** All 3 implementations rely on the Core Interpretation Logic within `DSCore.dll`
+**Note:** All 3 implementations rely on the Core Interpretation Logic within `DSCore.dll` (which was previously called `DocScript.Library.dll`)
 
 
 # Getting Started...
