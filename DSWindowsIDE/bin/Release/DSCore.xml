@@ -323,6 +323,10 @@ DSCore
 	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
 	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
 	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.ConnectToShare(System.String,System.String,System.String)">
+	<summary>Associated the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
+</member><member name="M:DocScript.Runtime.Remoting.DisconnectFromShare(System.String,System.Boolean)">
+	<summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
 </member><member name="T:DocScript.Runtime.Remoting">
 	<summary>Contains resources for executing DocScript programs on remote computers</summary>
 </member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
@@ -916,7 +920,9 @@ DSCore
 </member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.EachToUpper(System.String[]@)">
 	<summary>(MullNet CompilerExtention) Returns each String, in a ToUpper()-ed state</summary>
 </member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.RemoveFromEnd``1(``0[],System.UInt32)">
-	<summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the _Array</summary>
+	<summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the input _Array</summary>
+</member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.ItemOrDefault``2(System.Collections.Generic.Dictionary{``0,``1}@,``0,``1)">
+	<summary>(MullNet CompilerExtention) Returns the Value corrosponding to _Key, unless the _Dictionary dosen't contain _Key, in which case _DefaultValue is returned</summary>
 </member><member name="M:DocScript.CompilerExtentions.WebObjectExtentions.WriteAndEnd(System.Web.HttpResponse@,System.String)">
 	<summary>
  (MullNet CompilerExtention) Writes to, and then Ends the Response Stream

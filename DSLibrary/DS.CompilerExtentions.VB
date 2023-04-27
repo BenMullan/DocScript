@@ -785,7 +785,7 @@ Namespace CompilerExtentions
 			Catch _Ex As Exception : Throw New DSException("@EachToUpper (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Function
 
-		''' <summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the _Array</summary>
+		''' <summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the input _Array</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Function RemoveFromEnd(Of _TElement)(ByVal _Array As _TElement(), ByVal _NumElementsToRemoveFromEnd As UInt32) As _TElement()
 			Try
@@ -794,6 +794,12 @@ Namespace CompilerExtentions
 				Return _Array.Take(CInt(_Array.Length - _NumElementsToRemoveFromEnd)).ToArray()
 
 			Catch _Ex As Exception : Throw New DSException("@RemoveFromEnd (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>(MullNet CompilerExtention) Returns the Value corrosponding to _Key, unless the _Dictionary dosen't contain _Key, in which case _DefaultValue is returned</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function ItemOrDefault(Of _TKey, _TValue)(ByRef _Dictionary As Dictionary(Of _TKey, _TValue), ByVal _Key As _TKey, ByVal _DefaultValue As _TValue) As _TValue
+			If Not _Dictionary.ContainsKey(_Key) Then Return _DefaultValue Else Return _Dictionary.Item(_Key)
 		End Function
 
 	End Module

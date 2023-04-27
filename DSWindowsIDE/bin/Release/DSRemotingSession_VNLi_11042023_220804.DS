@@ -1,5 +1,0 @@
-﻿FUNCTION <VOID> Main ()
-	System_Beep()
-	DS_Sleep(1000)
-	Main()
-ENDFUNCTION

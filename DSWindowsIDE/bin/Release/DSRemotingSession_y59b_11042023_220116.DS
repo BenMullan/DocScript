@@ -1,3 +1,0 @@
-﻿FUNCTION <VOID> Main ()
-	Output("Hello, World!")
-ENDFUNCTION

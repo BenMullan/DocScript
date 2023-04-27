@@ -47,14 +47,14 @@
 		)
 			Try : LogSystemMessage("Copying Files to remote UNC Directory " & _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithBackslashOnEnd().InSquares(), LogEvent.DSEventSeverity.Infomation)
 
-				'Disconnect in case we are currently connected with our credentials
-				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(), force:=True)
+				'Disconnect in case we are currently connected with other credentials
+				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=True)
 
 				'Connect \w new credentials
 				Remoting.ConnectToShare(
-				 uri:=_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(),
-				 username:=_RemotePC_Username,
-				 password:=_RemotePC_Password
+				 _UNCPath:=_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(),
+				 _Username:=_RemotePC_Username,
+				 _Password:=_RemotePC_Password
 				)
 
 				'Use the open authenticated UNC Connection
@@ -69,7 +69,7 @@
 				Next
 
 				'Final Disconnection
-				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(), force:=False)
+				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=False)
 
 			Catch _Ex As Exception : Throw New DSException("@CopyFiles_ToRemoteComputer: " & _Ex.Message, _Ex) : End Try
 		End Sub
@@ -91,13 +91,13 @@
 			Try : LogSystemMessage("Deleting Files from remote UNC Directory " & _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithBackslashOnEnd().InSquares(), LogEvent.DSEventSeverity.Infomation)
 
 				'Disconnect in case we are currently connected with our credentials
-				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(), force:=True)
+				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=True)
 
 				'Connect \w new credentials
 				Remoting.ConnectToShare(
-				 uri:=_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(),
-				 username:=_RemotePC_Username,
-				 password:=_RemotePC_Password
+				 _UNCPath:=_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(),
+				 _Username:=_RemotePC_Username,
+				 _Password:=_RemotePC_Password
 				)
 
 				'Use the open authenticated UNC Connection
@@ -106,36 +106,34 @@
 				Next
 
 				'Final Disconnection
-				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(), force:=False)
+				Remoting.DisconnectFromShare(_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=False)
 
 			Catch _Ex As Exception : Throw New DSException("@DeleteFiles_FromRemoteComputer: " & _Ex.Message, _Ex) : End Try
 		End Sub
 
 #Region "(Private) Authenticated Network Share Access Logic (Does not follow Private_ nomenclature)"
 
-		Private Function ConnectToShare(ByVal uri As String, ByVal username As String, ByVal password As String) As String
+		''' <summary>Associated the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
+		Private Function ConnectToShare(ByVal _UNCPath$, ByVal _Username$, ByVal _Password$) As String
 
-			Dim nr As NETRESOURCE = New NETRESOURCE()
-			nr.dwType = RESOURCETYPE_DISK
-			nr.lpRemoteName = uri
-			Dim ret As Integer = WNetUseConnection(IntPtr.Zero, nr, password, username, 0, Nothing, Nothing, Nothing)
+			Dim _Win32_NetworkResourceObject As New NETRESOURCE() With {.dwType = RESOURCETYPE_DISK, .lpRemoteName = _UNCPath}
+			Dim _StupidWin32ReturnedErrorCode% = Remoting.WNetUseConnection(IntPtr.Zero, _Win32_NetworkResourceObject, _Password$, _Username$, 0, Nothing, Nothing, Nothing)
 
-			If ret = NO_ERROR Then
-				Return Nothing
-			Else
-				Return GetError(ret)
+			If _StupidWin32ReturnedErrorCode% = NO_ERROR Then : Return Nothing
+			Else : Return GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode%)
 			End If
 
 		End Function
 
-		Private Function DisconnectFromShare(ByVal uri As String, ByVal force As Boolean) As String
-			Dim ret As Integer = WNetCancelConnection(uri, force)
+		''' <summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
+		Private Function DisconnectFromShare(ByVal _UNCPath$, ByVal _ForceDisconnection As Boolean) As String
 
-			If ret = NO_ERROR Then
-				Return Nothing
-			Else
-				Return GetError(ret)
+			Dim _StupidWin32ReturnedErrorCode% = WNetCancelConnection(_UNCPath, _ForceDisconnection)
+
+			If _StupidWin32ReturnedErrorCode = NO_ERROR Then : Return Nothing
+			Else : Return GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode)
 			End If
+
 		End Function
 
 		<System.Runtime.InteropServices.DllImport("Mpr.dll")>
@@ -158,53 +156,67 @@
 			Public lpProvider As String = ""
 		End Class
 
-		Private Const RESOURCETYPE_DISK As Integer = &H1
-		Private Const CONNECT_UPDATE_PROFILE As Integer = &H1
-		Private Const NO_ERROR As Integer = 0
-		Private Const ERROR_ACCESS_DENIED As Integer = 5
-		Private Const ERROR_ALREADY_ASSIGNED As Integer = 85
-		Private Const ERROR_BAD_DEVICE As Integer = 1200
-		Private Const ERROR_BAD_NET_NAME As Integer = 67
-		Private Const ERROR_BAD_PROVIDER As Integer = 1204
-		Private Const ERROR_CANCELLED As Integer = 1223
-		Private Const ERROR_EXTENDED_ERROR As Integer = 1208
-		Private Const ERROR_INVALID_ADDRESS As Integer = 487
-		Private Const ERROR_INVALID_PARAMETER As Integer = 87
-		Private Const ERROR_INVALID_PASSWORD As Integer = 1216
-		Private Const ERROR_MORE_DATA As Integer = 234
-		Private Const ERROR_NO_MORE_ITEMS As Integer = 259
-		Private Const ERROR_NO_NET_OR_BAD_PATH As Integer = 1203
-		Private Const ERROR_NO_NETWORK As Integer = 1222
-		Private Const ERROR_SESSION_CREDENTIAL_CONFLICT As Integer = 1219
-		Private Const ERROR_BAD_PROFILE As Integer = 1206
-		Private Const ERROR_CANNOT_OPEN_PROFILE As Integer = 1205
-		Private Const ERROR_DEVICE_IN_USE As Integer = 2404
-		Private Const ERROR_NOT_CONNECTED As Integer = 2250
-		Private Const ERROR_OPEN_FILES As Integer = 2401
+#Region "[Win32-Error]-handling Logic"
 
-		Private Structure ErrorClass
+		REM ↓ Misc.
+		Private Const RESOURCETYPE_DISK% = 1
+		Private Const NO_ERROR% = 0
 
-			Public num As Integer
-			Public message As String
+		REM ↓ Used in the below dictionary...
+		Private Const ERROR_ACCESS_DENIED% = 5
+		Private Const ERROR_BAD_NET_NAME% = 67
+		Private Const ERROR_ALREADY_ASSIGNED% = 85
+		Private Const ERROR_INVALID_PARAMETER% = 87
+		Private Const ERROR_MORE_DATA% = 234
+		Private Const ERROR_NO_MORE_ITEMS% = 259
+		Private Const ERROR_INVALID_ADDRESS% = 487
+		Private Const ERROR_BAD_DEVICE% = 1200
+		Private Const ERROR_NO_NET_OR_BAD_PATH% = 1203
+		Private Const ERROR_BAD_PROVIDER% = 1204
+		Private Const ERROR_CANNOT_OPEN_PROFILE% = 1205
+		Private Const ERROR_BAD_PROFILE% = 1206
+		Private Const ERROR_EXTENDED_ERROR% = 1208
+		Private Const ERROR_INVALID_PASSWORD% = 1216
+		Private Const ERROR_SESSION_CREDENTIAL_CONFLICT% = 1219
+		Private Const ERROR_NO_NETWORK% = 1222
+		Private Const ERROR_CANCELLED% = 1223
+		Private Const ERROR_NOT_CONNECTED% = 2250
+		Private Const ERROR_OPEN_FILES% = 2401
+		Private Const ERROR_DEVICE_IN_USE% = 2404
 
-			Public Sub New(ByVal num As Integer, ByVal message As String)
-				Me.num = num
-				Me.message = message
-			End Sub
+		Private Win32_NetworkErrors_ As New Dictionary(Of [Int32], [String])() From {
+		 {ERROR_ACCESS_DENIED, "Error: Access Denied"},
+		 {ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
+		 {ERROR_BAD_DEVICE, "Error: Bad Device"},
+		 {ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
+		 {ERROR_BAD_PROVIDER, "Error: Bad Provider"},
+		 {ERROR_CANCELLED, "Error: Cancelled"},
+		 {ERROR_EXTENDED_ERROR, "Error: Extended Error"},
+		 {ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
+		 {ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
+		 {ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
+		 {ERROR_MORE_DATA, "Error: More Data"},
+		 {ERROR_NO_MORE_ITEMS, "Error: No More Items"},
+		 {ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
+		 {ERROR_NO_NETWORK, "Error: No Network"},
+		 {ERROR_BAD_PROFILE, "Error: Bad Profile"},
+		 {ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
+		 {ERROR_DEVICE_IN_USE, "Error: Device In Use"},
+		 {ERROR_NOT_CONNECTED, "Error: Not Connected"},
+		 {ERROR_OPEN_FILES, "Error: Open Files"},
+		 {ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
+		}
 
-		End Structure
+		Private Function GetWin32NetworkErrorDescriptionText_FromErrorCode_$(ByVal _WinNT_ErrorCode%)
 
-		Private ERROR_LIST As ErrorClass() = New ErrorClass() {New ErrorClass(ERROR_ACCESS_DENIED, "Error: Access Denied"), New ErrorClass(ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"), New ErrorClass(ERROR_BAD_DEVICE, "Error: Bad Device"), New ErrorClass(ERROR_BAD_NET_NAME, "Error: Bad Net Name"), New ErrorClass(ERROR_BAD_PROVIDER, "Error: Bad Provider"), New ErrorClass(ERROR_CANCELLED, "Error: Cancelled"), New ErrorClass(ERROR_EXTENDED_ERROR, "Error: Extended Error"), New ErrorClass(ERROR_INVALID_ADDRESS, "Error: Invalid Address"), New ErrorClass(ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"), New ErrorClass(ERROR_INVALID_PASSWORD, "Error: Invalid Password"), New ErrorClass(ERROR_MORE_DATA, "Error: More Data"), New ErrorClass(ERROR_NO_MORE_ITEMS, "Error: No More Items"), New ErrorClass(ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"), New ErrorClass(ERROR_NO_NETWORK, "Error: No Network"), New ErrorClass(ERROR_BAD_PROFILE, "Error: Bad Profile"), New ErrorClass(ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"), New ErrorClass(ERROR_DEVICE_IN_USE, "Error: Device In Use"), New ErrorClass(ERROR_EXTENDED_ERROR, "Error: Extended Error"), New ErrorClass(ERROR_NOT_CONNECTED, "Error: Not Connected"), New ErrorClass(ERROR_OPEN_FILES, "Error: Open Files"), New ErrorClass(ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict")}
-
-		Private Function GetError(ByVal errNum As Integer) As String
-
-			For Each er As ErrorClass In ERROR_LIST
-				If er.num = errNum Then Return er.message
-			Next
-
-			Return "Error: Unknown, " & errNum
+			Return Remoting.Win32_NetworkErrors_.ItemOrDefault(
+			 _Key:=_WinNT_ErrorCode,
+			 _DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
+			)
 
 		End Function
+
+#End Region
 
 #End Region
 
