@@ -31,13 +31,13 @@
 	 "!ListBIFs	Lists avaliable Built-In Functions in the current Execution-Context" & vbCrLf & _
 	 "!Help		Shows this help message" & vbCrLf
 
-#Region "Global Instance Settigns"
+#Region "Global Instance-specific Propities"
 
 	Public ExeCxt_ToUse As DocScript.Runtime.ExecutionContext 'Initialised to CLIDefault, as soon as (CurrentLogEventHandler IsNot Nothing)
-	Public SourceToInterpret As String = Nothing
-	Public DocScriptCLAs As String() = {}
+	Public SourceToInterpret As [String] = Nothing
+	Public DocScriptCLAs As [String]() = {}
 	Public ActionWhenReady As WhenReadyAction = WhenReadyAction.Unresolved
-	Public PromptBeforeExit As Boolean = False
+	Public PromptBeforeExit As [Boolean] = False
 
 #End Region
 
@@ -62,27 +62,27 @@
 				REM Only one of [SourceFile] and [SourceString] should be specified
 				REM Only one of [Run] and [GetProgramTree] should be specified
 				Dim _CLAManager As New DocScript.Utilities.CLAManager(
-					_CLAs,
-					"DocScript Command-Line Interpreter. Interprets DocScript Source Files." & vbCrLf & "Note that for compatibility reasons, source files can be passed to DSCLI in the form DSCLI.exe {PathToSourceFile} {ArgumentsForTargetScript...}. However, the /Key:Value CLAs provide more options.",
-					{"DSCLI.EXE /Live",
-					"DSCLI.EXE /Live /LogToFile:""DSLive.DSLog"" /ProcessDebugEvents /GUI",
-					"DSCLI.EXE /Run /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
-					"DSCLI.EXE /Run /SourceFile:""X:\Programming\DocScript\HelloWorld.DS"" /LogToConsole",
-					"DSCLI.EXE /GetProgramTree /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
-					"DSCLI.EXE /Run /SourceString:""Function<Void>Main();System_Beep();EndFunction""",
-					"DSCLI.EXE /Run /SourceFile:""BIO2017.DS"" /DocScriptCLAs:""GRBBRB"" /LogToFile:BIO.DSLog"},
-					AddressOf Console.Write, True,
-					New Utilities.CLAManager.CLADatum("Live", "[Action] Enters a DocScript Live Session: a DS> prompt appears and accepts Statement-level Instructions", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.EnterDSLiveSession),
-					New Utilities.CLAManager.CLADatum("Run", "[Action] Interprets the DocScript Source (specified by either /SourceFile or /SourceString). This process then returns the ExitCode of the DocScript Program.", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.Run),
-					New Utilities.CLAManager.CLADatum("GetProgramTree", "[Action] Parses and Lexes the DocScript Source (specified by either /SourceFile or /SourceString), and writes the resultant XML Program tree to the Console Output Stream", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.GetProgramTree),
-					New Utilities.CLAManager.CLADatum("SourceFile", "[Datum] Specifies the Source via a DocScript Source File", False, True, Sub(_Value$) EntryPoint.SourceToInterpret = My.Computer.FileSystem.ReadAllText(_Value)),
-					New Utilities.CLAManager.CLADatum("SourceString", "[Datum] Specifies the Source via a DocScript Source String. Use ; for NewLine and ` for StringLiteralStartEndChar.", False, True, Sub(_Value$) EntryPoint.SourceToInterpret = _Value.Replace(";", vbCrLf).Replace("`"c, """"c)),
-					New Utilities.CLAManager.CLADatum("DocScriptCLAs", "[Datum] Specifies Command-Line Arguments for the DocScript Program", False, True, Sub(_Value$) EntryPoint.DocScriptCLAs = _Value.Split(" "c)),
-					New Utilities.CLAManager.CLADatum("LogToConsole", "[Flag] Writes Events from the DocScript Log to the Console Output Stream during Interpretation", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.CLIDefault),
-					New Utilities.CLAManager.CLADatum("LogToFile", "[Flag+Datum] Writes Events from the DocScript Log to the specified Text File during Interpretation", False, True, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.TextFile(New IO.FileInfo(_Value))),
-					New Utilities.CLAManager.CLADatum("ProcessDebugEvents", "[Flag] Processes and shows Debugging Messages in the Log (if the Log is shown)", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.ProcessDebugEvents = True),
-					New Utilities.CLAManager.CLADatum("GUI", "[Flag] Indicates that the GUI ExecutionContext will be used instead of the CLI one", False, False, Sub(_Value$) EntryPoint.ExeCxt_ToUse = DocScript.Runtime.ExecutionContext.GUIDefault),
-					New Utilities.CLAManager.CLADatum("PromptBeforeExit", "[Flag] Shows ""Press [Enter] to continue..."" before exiting the DSCLI Process", False, False, Sub(_Value$) EntryPoint.PromptBeforeExit = True)
+				 _CLAs,
+				 "DocScript Command-Line Interpreter. Interprets DocScript Source Files." & vbCrLf & "Note that for compatibility reasons, source files can be passed to DSCLI in" & vbCrLf & "the form DSCLI.exe {PathToSourceFile} {ArgumentsForTargetScript...}." & vbCrLf & "However, the /Key:Value CLAs provide more options.",
+				 {"DSCLI.EXE /Live",
+				 "DSCLI.EXE /Live /LogToFile:""DSLive.DSLog"" /ProcessDebugEvents /GUI",
+				 "DSCLI.EXE /Run /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
+				 "DSCLI.EXE /Run /SourceFile:""X:\Programming\DocScript\HelloWorld.DS"" /LogToConsole",
+				 "DSCLI.EXE /GetProgramTree /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
+				 "DSCLI.EXE /Run /SourceString:""Function<Void>Main();System_Beep();EndFunction""",
+				 "DSCLI.EXE /Run /SourceFile:""BIO2017.DS"" /DocScriptCLAs:""GRBBRB"" /LogToFile:BIO.DSLog"},
+				 AddressOf Console.Write, True,
+				 New Utilities.CLAManager.CLADatum("Live", "[Action] Enters a DocScript Live Session: a DS> prompt appears and accepts Statement-level Instructions", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.EnterDSLiveSession),
+				 New Utilities.CLAManager.CLADatum("Run", "[Action] Interprets the DocScript Source (specified by either /SourceFile or /SourceString). This process then returns the ExitCode of the DocScript Program.", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.Run),
+				 New Utilities.CLAManager.CLADatum("GetProgramTree", "[Action] Parses and Lexes the DocScript Source (specified by either /SourceFile or /SourceString), and writes the resultant XML Program tree to the Console Output Stream", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.GetProgramTree),
+				 New Utilities.CLAManager.CLADatum("SourceFile", "[Datum] Specifies the Source via a DocScript Source File", False, True, Sub(_Value$) EntryPoint.SourceToInterpret = My.Computer.FileSystem.ReadAllText(_Value)),
+				 New Utilities.CLAManager.CLADatum("SourceString", "[Datum] Specifies the Source via a DocScript Source String. Use ; for NewLine and ` for StringLiteralStartEndChar.", False, True, Sub(_Value$) EntryPoint.SourceToInterpret = _Value.Replace(";", vbCrLf).Replace("`"c, """"c)),
+				 New Utilities.CLAManager.CLADatum("DocScriptCLAs", "[Datum] Specifies Command-Line Arguments for the DocScript Program", False, True, Sub(_Value$) EntryPoint.DocScriptCLAs = _Value.Split(" "c)),
+				 New Utilities.CLAManager.CLADatum("LogToConsole", "[Flag] Writes Events from the DocScript Log to the Console Output Stream during Interpretation", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.CLIDefault),
+				 New Utilities.CLAManager.CLADatum("LogToFile", "[Flag+Datum] Writes Events from the DocScript Log to the specified Text File during Interpretation", False, True, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.TextFile(New IO.FileInfo(_Value))),
+				 New Utilities.CLAManager.CLADatum("ProcessDebugEvents", "[Flag] Processes and shows Debugging Messages in the Log (if the Log is shown)", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.ProcessDebugEvents = True),
+				 New Utilities.CLAManager.CLADatum("GUI", "[Flag] Indicates that the GUI ExecutionContext will be used instead of the CLI one", False, False, Sub(_Value$) EntryPoint.ExeCxt_ToUse = DocScript.Runtime.ExecutionContext.GUIDefault),
+				 New Utilities.CLAManager.CLADatum("PromptBeforeExit", "[Flag] Shows ""Press [Enter] to continue..."" before exiting the DSCLI Process", False, False, Sub(_Value$) EntryPoint.PromptBeforeExit = True)
 				)
 
 				REM If the /? was specified and the HelpDictionary was displayed, then we needn't do anything else with this instance

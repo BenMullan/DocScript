@@ -5,9 +5,10 @@
 
 #Region "Parser Constants"
 
-		Private Const WordChar_RegExp_$ = "^[0-9a-zA-Z_\$@\.]$"	'$ Needed for SLITs e.g. $SLIT_0$; @ Needed for Array Types e.g. <String@>; . Needed for some Numeric Literals e.g. 1255.2292
-		Private Const SLIT_PlaceholderPattern_$ = "$SLIT_{Number}$"	'{Number} is later String.Replace()'d
-		Private Const SLIT_RegExp_$ = "\$SLIT_\d{1,5}\$"
+		Private Const WordChar_RegExp_$ = "^[0-9a-zA-Z_\$@\.]$"			'$ Needed for SLITs e.g. $SLIT_0$; @ Needed for Array Types e.g. <String@>; . Needed for Numeric Literals e.g. 1255.2292
+		Private Const SLIT_PlaceholderPattern_$ = "$SLIT_{Number}$"		'{Number} is later String.Replace()'d
+		Private Const StandaloneSLIT_RegExp_$ = "^\$SLIT_\d{1,5}\$$"	'For SLITs with no other chars on either side	(e.g. in )
+		Private Const SurroundedSLIT_RegExp_$ = "\$SLIT_\d{1,5}\$"		'For SLITs with other chars on either side		(e.g. when looking for premature instances of SLITs within the entire source)
 		Private Const StringLiteral_RegExp_$ = """[^""]*"""
 		Private Const LineEnd_TokenTypeValue_$ = Language.Constants.LineBreak
 
@@ -91,7 +92,8 @@
 				REM This is needed so that we can still accurately report the Line and Column Location of the Tokens.
 				REM Next, StringLiterals will be replaced with StringLiteral Indication Tokens (SLITs)
 
-				Dim _SLITMatches As Text.RegularExpressions.MatchCollection = (New System.Text.RegularExpressions.Regex(Parser.SLIT_RegExp_)).Matches(String.Join(Language.Constants.LineBreak, _CleanSourceLines))
+				'We use the Surrounded version of the SLIT_RegExp_, because we want to find SLITs which are within the entire source string
+				Dim _SLITMatches As Text.RegularExpressions.MatchCollection = (New System.Text.RegularExpressions.Regex(Parser.SurroundedSLIT_RegExp_)).Matches(String.Join(Language.Constants.LineBreak, _CleanSourceLines))
 				LogParsingMessage("Detected " & _SLITMatches.Count.ToString() & " prematurely-present SLIT(s) in Source")
 				If _SLITMatches.Count > 0 Then Throw New DSValidationException("At least one instance of a SLIT Placeholder appeared in the Source before any had been inserted by the Parser. This is not permitted.", _SLITMatches.Item(0).Value)
 
@@ -231,20 +233,23 @@
 		Private Function SegmentCleanSourceIntoTokens_(ByVal _CleanSourceLines$(), ByVal _ExtractedStringLiterals As String()) As Token()
 			Try
 
-				REM Example Input
+				REM Example Input:
 				'Function <Number> Main (<String> CLAs)
 				'	Output("Hello, World!")
 				'	Return 0
 				'End-Function
 
-				REM In order to accurately report the Token Locations, we must calcuate the Column reletave to the length of the strings represented by the SLITs, instead of the SLITs themselves
+				REM In order to accurately report the Token Locations, we must calculate the Column reletave to the length of the strings represented by the SLITs, instead of the SLITs themselves
+				REM So, instead of the length of the string "$SLIT_0$", we would use the length of the string represented by the 1st SLIT
 				Dim _WordLengthEvaluator As Func(Of [String], UInt16) = _
 				   Function(_Word$) As UInt16
 					   Try
+
 						   'If the _Word is a SLIT, extract the {Number} from the SLIT, and return SLIT_Table.Item({Number}).Length
 						   'Otherwise, just return the _Word.Length
 
-						   If _Word.MatchesRegEx(Parser.SLIT_RegExp_) Then
+						   'We use the Standalone version of the SLIT_RegExp_, because we don't want to match input like $SLIT_0$$SLIT_1$$SLIT_2$; only input like $SLIT_0$
+						   If _Word.MatchesRegEx(Parser.StandaloneSLIT_RegExp_) Then
 							   Return Convert.ToUInt16(_ExtractedStringLiterals(Convert.ToInt32(_Word.GetDigitChars())).Length)
 						   Else
 							   Return Convert.ToUInt16(_Word.Length)
@@ -290,6 +295,7 @@
 							End If
 
 						Else
+
 							'We've just hit a non-WordChar; Empty the collected Word out as a Token...
 							If Not _WordAccumulator.IsEmpty() Then
 								_DerivedTokensToReturn.Add(New Token(_WordAccumulator, Token.TokenType.Unresolved, _LineNumber, _PreviousToken_FinishedOnColumn))
@@ -424,12 +430,21 @@
 				 End Function
 				)
 
+				REM Replace all Tokens' values with the values of any SLITs.
+				REM This effectively only affects Tokens whose Values match the pattern for a SLIT like $SLIT_0$
+				REM Therefore, we shall use the Standalone version of the SLIT_RegExp_, because we want to match input like...
+				REM		$SLIT_23$
+				REM But NOT input like...
+				REM		$SLIT_0$$SLIT_1$$SLIT_2$
+				REM (...Which - indicentally - should be caught downstream by causing [_CurrentToken_HasBeenClassified] to remain False)
+
 				For Each _TokenWithSLIT As Token In _TokensWithSLITs
+
 					_TokensWithStringLiteralsToReturn.Add( _
-					 New Token(_value:= _
-					  System.Text.RegularExpressions.Regex.Replace( _
+					 New Token(
+					  _value:=System.Text.RegularExpressions.Regex.Replace( _
 					   input:=_TokenWithSLIT.Value,
-					   pattern:=Parser.SLIT_RegExp_,
+					   pattern:=Parser.StandaloneSLIT_RegExp_,
 					   evaluator:=_SLITMatchEvaluator,
 					   options:=System.Text.RegularExpressions.RegexOptions.None
 					  ),
@@ -438,6 +453,7 @@
 					  _LocationColumn:=_TokenWithSLIT.LocationInSource.Column
 					 )
 					)
+
 				Next
 
 				REM On leaving that Loop, the number of [_TokensWithSLITs] and [_TokensWithStringLiteralsToReturn] should be equal
@@ -475,7 +491,7 @@
 					REM If we're here, then we've just exited the RegExp-Matching Loop
 					REM This could be because:
 					REM		1) We hit the [Exit For] when a Match Occoured, or:
-					REM		2) We treid all the RegExps, and none of them fit
+					REM		2) We tried all the RegExps, and none of them fit
 					REM	We can determine which eventuality is the case by checking the _CurrentToken_HasBeenClassified Variable
 
 					If Not _CurrentToken_HasBeenClassified Then Throw New DSValidationException("A Token could not be classified with a TokenType. Its Location in the Source is " & _UnclassifiedToken.LocationInSource.ToString(), _UnclassifiedToken.Value)
