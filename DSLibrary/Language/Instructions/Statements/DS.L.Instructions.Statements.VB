@@ -122,7 +122,7 @@ Namespace Language.Instructions.Statements
 							_TokenIndex = (_StatementContentsTokens.Length - _SubStatement_IStatement_And_LeftOverTokens.Item2.Length)
 							'MsgDebug("Just added a " & _DerivedInstructions.Last().GetType().Name & "; RemainingTokens:" & vbCrLf & _SubStatement_IStatement_And_LeftOverTokens.Item2.GetStandardArraySerialisation(vbCrLf))
 
-						Case Else : Throw New DSUnexpectedTokenException("An Inner-Statement Token Line was not recognised", _CurrentLine)
+						Case Else : Throw New DSUnexpectedTokenException("The syntax of the following inner-statement line is invalid", _CurrentLine)
 					End Select
 
 					REM Now we need to increment the _TokenIndex pointer by the number of Tokens in [the line just-processed]...

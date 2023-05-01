@@ -1,0 +1,65 @@
+﻿#IncrementNumericalValue.DS - Calculates the next permutation for a value in ANY BASE!
+Function <Number> Main (<String@> _CLAs)
+	
+	If ( Maths_LessThan(DS_StringArray_Length(_CLAs), 2) )
+		DS_ThrowError("The <Value> and <Tokens> must be specified as CLAs")
+	EndIf
+	
+	Output( IncrementNumericalValue(DS_StringArray_At(_CLAs, 0), DS_StringArray_At(_CLAs, 1)) )
+	
+	Return 0
+EndFunction
+
+#Increments a numerical magnitude represented in the place-value (positional-notation) system.
+#E.g. IncrementNumericalValue("100", "01") → "101"
+#E.g. IncrementNumericalValue("599", "0123456789") → "600"
+Function <String> IncrementNumericalValue (<String> _InputValue, <String> _Tokens)
+	
+	#Validation
+	If ( Maths_LessThan(DS_String_Length(_Tokens), 2) )
+		DS_ThrowError("There must be a minimum of two tokens (Base 2)")
+	EndIf
+	If ( ¬ DS_StringArray_AllItemsAreUnique(DS_String_ToChars(_Tokens)) )
+		DS_ThrowError("All Chars in the _Tokens must be unique")
+	EndIf
+	If ( ¬ DS_StringArray_TrueForAll(DS_String_ToChars(_InputValue), "DS_String_Contains(_Tokens, _Item)") )
+		DS_ThrowError("All Chars in the _InputValue must be in _Tokens as well")
+	EndIf
+	
+	#Ensure there is a digit to increment
+	_InputValue : DS_String_At(_Tokens, 0) & _InputValue
+	<String> _OutputValue : _InputValue
+	
+	#←Leftwards← Sweep; find the 1st digit we can increment
+	<Boolean> _IncrementHasBeenPerformed : False
+	<Number> _IndexInValue_Left : DS_String_Length(_OutputValue) - 1
+	While ( Maths_GreaterThan(_IndexInValue_Left + 1, 0) ' [¬ _IncrementHasBeenPerformed] )
+		
+		#If the digit isn't the Max-Token, then increment it
+		If ( ¬ [DS_String_At(_OutputValue, _IndexInValue_Left) = DS_String_At(_Tokens, DS_String_Length(_Tokens) - 1)] )
+			_OutputValue : DS_String_ReplaceAt( _OutputValue, _IndexInValue_Left, DS_String_At(_Tokens, DS_String_IndexOfFirst(_Tokens, DS_String_At(_OutputValue, _IndexInValue_Left)) + 1) )
+			_IncrementHasBeenPerformed : True
+		EndIf
+		
+		_IndexInValue_Left : _IndexInValue_Left - 1
+	EndWhile
+	
+	#→Rightwards→ Sweep; find the 1st digit which changed \zw Input and Output
+	<Number> _IndexInValue_Right : 0
+	While ( Maths_LessThan(_IndexInValue_Right, DS_String_Length(_OutputValue) - 1) )
+		
+		#If Input[i] != Output[i], then we're looking at the first (left-most) digit that changed
+		#Set all digits to the right of this, to the Min-Token ("0")
+		If ( ¬ [DS_String_At(_InputValue, _IndexInValue_Right) = DS_String_At(_OutputValue, _IndexInValue_Right)] )
+			_OutputValue : DS_String_OverwriteRange( _OutputValue, _IndexInValue_Right + 1, DS_String_Length(_OutputValue) - 1, DS_String_At(_Tokens, 0) )
+		EndIf
+		
+		_IndexInValue_Right : _IndexInValue_Right + 1
+	EndWhile
+	
+	#Remove any leading Min-Tokens ("0"s)
+	_OutputValue : DS_StringArray_Serialise( DS_StringArray_SkipWhile(DS_String_ToChars(_OutputValue), "_Item = DS_String_At(_Tokens, 0)"), "" )
+	
+	Return _OutputValue
+	
+EndFunction

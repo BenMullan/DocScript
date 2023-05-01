@@ -4,6 +4,32 @@
 
 
 
+
+
+
+
+
+
+
+
+Public Sub HandleShiftScholling(ByVal _Sender As [Object], ByVal _EventArgs As System.Windows.Input.MouseWheelEventArgs) Handles SourceTextEditor.PreviewMouseWheel
+		Debug.WriteLine("Scroll")
+		If Keyboard.IsKeyDown(Key.LeftShift) OrElse Keyboard.IsKeyDown(Key.RightShift) Then
+			Debug.WriteLine("Horozontal Scroll")
+		End If
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
 Public Sub ApplySyntaxHighlighting()
 
 		Me.Cached_Tokens.MustNotBeNothing("There were no Cached Tokens. Parsing must occur first")

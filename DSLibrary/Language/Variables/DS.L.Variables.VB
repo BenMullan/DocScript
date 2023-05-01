@@ -136,7 +136,7 @@
 					LogLexingMessage(String.Format("Determining if String (in squares) {0} is a valid Numeric Literal", _String.InSquares()))
 
 					_String = DSNumber.StripQuotesIfPresent(_String) 'Fine, because we're ByVal
-					
+
 					Dim _ValidNumericLiteralString_Patterns$() = {
 					 DSNumber.NumericLiteralRegExp_Integer_,
 					 DSNumber.NumericLiteralRegExp_Decimal_,
@@ -216,7 +216,7 @@
 			End Get
 		End Property
 
-		''' <summary>If the _Value contains the StringLIteralStartEndChar, then instances of this Char will be replaced with the Language.StringLIteralStartEndChar_DSStringValueReplacementChar</summary>
+		''' <summary>If the _Value contains the StringLIteralStartEndChar, then instances of this Char will be replaced with the Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar</summary>
 		Public Sub New(ByVal _Value As String)
 
 			If _Value.Contains(Constants.StringLiteralStartEndChar) Then

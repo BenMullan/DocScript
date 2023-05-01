@@ -722,7 +722,7 @@ DSCore
 </member><member name="T:DocScript.Language.Variables.DSNumber">
 	<summary>Represents a Number with a Value and a Base. Can be from three different forms of Literal</summary>
 </member><member name="M:DocScript.Language.Variables.DSString.#ctor(System.String)">
-	<summary>If the _Value contains the StringLIteralStartEndChar, then instances of this Char will be replaced with the Language.StringLIteralStartEndChar_DSStringValueReplacementChar</summary>
+	<summary>If the _Value contains the StringLIteralStartEndChar, then instances of this Char will be replaced with the Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar</summary>
 </member><member name="M:DocScript.Language.Variables.DSString.ToString">
 	<summary>Returns a string to represent the Literal for the IDataValue</summary>
 </member><member name="T:DocScript.Language.Variables.DSString">

@@ -154,6 +154,21 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Replaces all instances of the _SubstringToBeReplaced that occur within the _String, with the _Replacement"}
 
+		Private Const BIF_DS_String_ReplaceAt_Identifier_$ = DSBIFs_IdentifierStart_ & "String_ReplaceAt"
+		Private Shared ReadOnly BIF_DS_String_ReplaceAt_ As New BuiltInFunction(BIF_DS_String_ReplaceAt_Identifier_$, {New DSFunction.Parameter("_InputString", GetType(DSString)), New DSFunction.Parameter("_Index", GetType(DSNumber)), New DSFunction.Parameter("_NewCharacter", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_ReplaceAt_Identifier_$)
+
+			 Dim _InputArray As List(Of [Char]) = _Arguments.ElementAt(0).Coerce(Of DSString)().Value.ToCharArray().ToList()
+			 _InputArray.Item(index:=CInt(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)) = _Arguments.ElementAt(2).Coerce(Of DSString)().Value.First()
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(New String(_InputArray.ToArray()))
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns a String, based off of the _InputString, but where the Item at _Index is replaced with the first char of the _NewCharacter string"}
+
 		Private Const BIF_DS_String_Length_Identifier_$ = DSBIFs_IdentifierStart_ & "String_Length"
 		Private Shared ReadOnly BIF_DS_String_Length_ As New BuiltInFunction(BIF_DS_String_Length_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString))}, GetType(DSNumber), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -225,7 +240,7 @@ Namespace Runtime
 
 			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(
 			 Global.DocScript.CompilerExtentions.UsefulMethods.GetRandomString(
-				_WantedLength:=Global.System.Convert.ToUInt16(_Arguments.First().Coerce(Of DSNumber)().Value)
+			 _WantedLength:=Global.System.Convert.ToUInt16(_Arguments.First().Coerce(Of DSNumber)().Value)
 			   )
 			  )
 
@@ -233,6 +248,61 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Returns a random string of length _SoughtLength chars"}
+
+		Private Const BIF_DS_String_ToChars_Identifier_$ = DSBIFs_IdentifierStart_ & "String_ToChars"
+		Private Shared ReadOnly BIF_DS_String_ToChars_ As New BuiltInFunction(BIF_DS_String_ToChars_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString))}, GetType(DSArray(Of DSString)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_ToChars_Identifier_$)
+
+			 Dim _ArrayToReturn As Char() = _
+			 _Arguments.ElementAt(0).Coerce(Of DSString)().Value _
+			 .ToCharArray()
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSArray(Of DSString)((From _Item As String In _ArrayToReturn Select New DSString(_Item.ToString())).ToArray())
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Splits the _String into individual characters, returning <String@>"}
+
+#Region "LINQ-Style Methods"
+
+		Private Const BIF_DS_String_IndexOfFirst_Identifier_$ = DSBIFs_IdentifierStart_ & "String_IndexOfFirst"
+		Private Shared ReadOnly BIF_DS_String_IndexOfFirst_ As New BuiltInFunction(BIF_DS_String_IndexOfFirst_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString)), New DSFunction.Parameter("_CharToFind", GetType(DSString))}, GetType(DSNumber), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_IndexOfFirst_Identifier_$)
+
+			 Dim _String$ = _Arguments.ElementAt(0).Coerce(Of DSString)().Value
+			 Dim _CharToFind As [Char] = _Arguments.ElementAt(1).Coerce(Of DSString)().Value.First()
+
+			 If Not _String.Contains(_CharToFind) Then Throw New DSValidationException("The _String doesn't contain the _CharToFind", "_String=" & _String & ". _CharToFind=" & _CharToFind)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSNumber(_String.IndexOf(_CharToFind))
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the index of the first occurance of the (1st char of) _CharToFind within the _String. If the _String dosen't contain the _CharToFind, an exception is thrown."}
+
+		Private Const BIF_DS_String_OverwriteRange_Identifier_$ = DSBIFs_IdentifierStart_ & "String_OverwriteRange"
+		Private Shared ReadOnly BIF_DS_String_OverwriteRange_ As New BuiltInFunction(BIF_DS_String_OverwriteRange_Identifier_$, {New DSFunction.Parameter("_String", GetType(DSString)), New DSFunction.Parameter("_StartIndex", GetType(DSNumber)), New DSFunction.Parameter("_EndIndex", GetType(DSNumber)), New DSFunction.Parameter("_NewChar", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_OverwriteRange_Identifier_$)
+
+			 Dim _InputChars As List(Of [Char]) = _Arguments.ElementAt(0).Coerce(Of DSString)().Value.ToCharArray().ToList()
+			 For _Index As UInt32 = Convert.ToUInt32(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value) To Convert.ToUInt32(_Arguments.ElementAt(2).Coerce(Of DSNumber)().Value) Step +1
+				 _InputChars.Item(Convert.ToInt32(_Index)) = _Arguments.ElementAt(3).Coerce(Of DSString)().Value.First()
+			 Next
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(New String(_InputChars.ToArray()))
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the _String, but with Elements inclusively between the indicies of _StartIndex and _EndIndex substituted for the (1st char of) _NewChar"}
+
+#End Region
 
 #End Region
 
@@ -536,6 +606,21 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Returns a String with each element in the _Array being seperated by the _SeperatorString"}
 
+		Private Const BIF_DS_StringArray_AllItemsAreUnique_Identifier_$ = DSBIFs_IdentifierStart_ & "StringArray_AllItemsAreUnique"
+		Private Shared ReadOnly BIF_DS_StringArray_AllItemsAreUnique_ As New BuiltInFunction(BIF_DS_StringArray_AllItemsAreUnique_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSString)))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_StringArray_AllItemsAreUnique_Identifier_$)
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(
+			  _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))().Elements.ToArray().AllElementsAreUnique()
+			)
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns whether or not all elements of the _Array are different for oneanother"}
+
 #Region "LINQ-Style Methods"
 
 		Private Const BIF_DS_StringArray_ForEach_Identifier_$ = DSBIFs_IdentifierStart_ & "StringArray_ForEach"
@@ -591,7 +676,7 @@ Namespace Runtime
 			 REM For Each element in _Array:
 			 REM	Define a new SymbolTable for _Item and _Index
 			 REM	Execute the Expression with the new SymTblsSnpSht
-			 REM		If it resolves to True, add the Element to 
+			 REM		If it resolves to True, add the Element to those to return
 			 REM	Add as an upstairs ExeRes
 			 REM	Reapply the SymTbls
 			 REM Return WITHOUT the SymTbls which held _Item and _Index
@@ -623,6 +708,101 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Interprets the _FilterExpr for each Element of the _Array, returning only those elements which cause the _FilterExpr to resolve to True. A new SymbolTable is created for _Item and _Index. Use ; for CrLf and ` for ""."}
+
+		Private Const BIF_DS_StringArray_TrueForAll_Identifier_$ = DSBIFs_IdentifierStart_ & "StringArray_TrueForAll"
+		Private Shared ReadOnly BIF_DS_StringArray_TrueForAll_ As New BuiltInFunction(BIF_DS_StringArray_TrueForAll_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSString))), New DSFunction.Parameter("_FilterExpr", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_StringArray_TrueForAll_Identifier_$)
+			 Dim _Modified_SymTbls As Runtime.SymbolTablesSnapshot = _SymTbls.SnapshotFrom_ThisAndTopmost(_NewTopmost:=New Runtime.SymbolTable("LambdaTrueForAll_PreIterations"))
+
+			 REM Parse and Lex the _Action
+			 REM For Each element in _Array:
+			 REM	Define a new SymbolTable for _Item and _Index
+			 REM	Execute the Expression with the new SymTblsSnpSht
+			 REM		If it resolves to False, raise the _AtLeastOneElementWasFalse Flag, and stop iterating
+			 REM	Add as an upstairs ExeRes
+			 REM	Reapply the SymTbls
+			 REM Return WITHOUT the SymTbls which held _Item and _Index
+
+			 Dim _Array As DSArray(Of DSString) = _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))()
+			 Dim _AllElementsCauseFilterExprToResolveToTrue As [Boolean] = True	'Assume True, and attempt to disproove
+
+			 Dim _Tokens As Runtime.Token() = Parser.GetTokensFromSource(Parser.UnflattenSource(_Arguments.ElementAt(1).Coerce(Of DSString)().Value))
+			 Dim _Expression As Language.Expressions.IExpression = Language.Expressions.ExprUtilities.ConstructExpressionFromTokens(_Tokens)
+
+			 For _Element_Index% = 0 To (_Array.Elements.Count - 1) Step +1
+
+				 'Set the Topmost SymTbl to have the _Item and _Index
+				 _Modified_SymTbls.Topmost = New Runtime.SymbolTable("LambdaTrueForAll_Iteration" & _Element_Index.ToString())
+				 _Modified_SymTbls.AddEntryToToTopmost("_Item", Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=_Array.Elements.ElementAt(_Element_Index).MustNotBeNothing("The Element at index " & _Element_Index.ToString() & " in _Array, was Nothing"), _NullValueType_IfInputIDVIsNothing:=Nothing))
+				 _Modified_SymTbls.AddEntryToToTopmost("_Index", Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=New DSNumber(_Element_Index%), _NullValueType_IfInputIDVIsNothing:=Nothing))
+
+				 Dim _Expression_ExeRes As Language.Instructions.ExecutionResult = _Expression.Resolve(_Modified_SymTbls)
+				 _ExeRes.UpstairsExecutionResults.Add(New Tuple(Of String, ExecutionResult)("Iteration" & _Element_Index.ToString() & " FilterExpression " & _Expression.GetType().Name.InBrackets(), _Expression_ExeRes))
+				 _Modified_SymTbls = _Expression_ExeRes.ResultantSymbolTablesState
+
+				 'Raise the Flag and stop iterating, if the current Element caused the _FilterExpr to resolve to False
+				 If Not _Expression_ExeRes.ReturnStatus.IExpression_ResolutionResult.Coerce(Of DSBoolean)().Value Then
+					 _AllElementsCauseFilterExprToResolveToTrue = False
+					 Exit For
+				 End If
+
+			 Next
+
+			 _ExeRes.Archived_SymbolTable = _Modified_SymTbls.Topmost
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(_AllElementsCauseFilterExprToResolveToTrue)
+			 Return (_ExeRes.StopExecutionTimer_AndFinaliseObject(_Modified_SymTbls.BottomStack)) 'Don't return the SymTbl which was for _Item and _Index
+
+		 End Function)
+		) With {.[Description] = "Interprets the _FilterExpr for each Element of the _Array, returning whether or not ALL Elements cause the _FilterExpr to resolve to True. Stops resolving the _FilterExpr as soon as any Element causes it to resolve to false. A new SymbolTable is created for _Item and _Index. Use ; for CrLf and ` for ""."}
+
+		Private Const BIF_DS_StringArray_SkipWhile_Identifier_$ = DSBIFs_IdentifierStart_ & "StringArray_SkipWhile"
+		Private Shared ReadOnly BIF_DS_StringArray_SkipWhile_ As New BuiltInFunction(BIF_DS_StringArray_SkipWhile_Identifier_$, {New DSFunction.Parameter("_Array", GetType(DSArray(Of DSString))), New DSFunction.Parameter("_FilterExpr", GetType(DSString))}, GetType(DSArray(Of DSString)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_StringArray_SkipWhile_Identifier_$)
+			 Dim _Modified_SymTbls As Runtime.SymbolTablesSnapshot = _SymTbls.SnapshotFrom_ThisAndTopmost(_NewTopmost:=New Runtime.SymbolTable("LambdaSkipWhile_PreIterations"))
+
+			 REM Parse and Lex the _Action
+			 REM For Each element in _Array:
+			 REM	Define a new SymbolTable for _Item and _Index
+			 REM	Execute the Expression with the new SymTblsSnpSht
+			 REM		If it resolves to True, increment a counter. Otherwise, stop iterating; all remaining elements are wanted
+			 REM	Add as an upstairs ExeRes
+			 REM	Reapply the SymTbls
+			 REM Return WITHOUT the SymTbls which held _Item and _Index
+
+			 Dim _Array As DSArray(Of DSString) = _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSString))()
+			 Dim _NumberOfElementsToSkip As UInt16 = 0
+
+			 Dim _Tokens As Runtime.Token() = Parser.GetTokensFromSource(Parser.UnflattenSource(_Arguments.ElementAt(1).Coerce(Of DSString)().Value))
+			 Dim _Expression As Language.Expressions.IExpression = Language.Expressions.ExprUtilities.ConstructExpressionFromTokens(_Tokens)
+
+			 For _Element_Index% = 0 To (_Array.Elements.Count - 1) Step +1
+
+				 'Set the Topmost SymTbl to have the _Item and _Index
+				 _Modified_SymTbls.Topmost = New Runtime.SymbolTable("LambdaSkipWhile_Iteration" & _Element_Index.ToString())
+				 _Modified_SymTbls.AddEntryToToTopmost("_Item", Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=_Array.Elements.ElementAt(_Element_Index).MustNotBeNothing("The Element at index " & _Element_Index.ToString() & " in _Array, was Nothing"), _NullValueType_IfInputIDVIsNothing:=Nothing))
+				 _Modified_SymTbls.AddEntryToToTopmost("_Index", Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=New DSNumber(_Element_Index%), _NullValueType_IfInputIDVIsNothing:=Nothing))
+
+				 Dim _Expression_ExeRes As Language.Instructions.ExecutionResult = _Expression.Resolve(_Modified_SymTbls)
+				 _ExeRes.UpstairsExecutionResults.Add(New Tuple(Of String, ExecutionResult)("Iteration" & _Element_Index.ToString() & " FilterExpression " & _Expression.GetType().Name.InBrackets(), _Expression_ExeRes))
+				 _Modified_SymTbls = _Expression_ExeRes.ResultantSymbolTablesState
+
+				 'If the _Expression resolves to TRUE, increment the _NumberOfElementsToSkip. Otherwise, we've reached the start of elements we want, so stop iterating
+				 If _Expression_ExeRes.ReturnStatus.IExpression_ResolutionResult.Coerce(Of DSBoolean)().Value Then : _NumberOfElementsToSkip += 1US
+				 Else : Exit For
+				 End If
+
+			 Next
+
+			 _ExeRes.Archived_SymbolTable = _Modified_SymTbls.Topmost
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSArray(Of DSString)(_Array.Elements.Skip(CInt(_NumberOfElementsToSkip)).ToArray())
+			 Return (_ExeRes.StopExecutionTimer_AndFinaliseObject(_Modified_SymTbls.BottomStack)) 'Don't return the SymTbl which was for _Item and _Index
+
+		 End Function)
+		) With {.[Description] = "Interprets the _FilterExpr for each Element of the _Array, until an Element causes the _FilterExpr to resolve to False. At this point, all leading elements which caused the _FilterExpr to resolve to True are ignored, and the remaining elements returned herefrom. A new SymbolTable is created for _Item and _Index. Use ; for CrLf and ` for ""."}
 
 #End Region
 
@@ -726,11 +906,15 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_DS_InterpretProgram_,
 		 StandardBuiltInFunctions.BIF_DS_String_Split_,
 		 StandardBuiltInFunctions.BIF_DS_String_Replace_,
+		 StandardBuiltInFunctions.BIF_DS_String_ReplaceAt_,
 		 StandardBuiltInFunctions.BIF_DS_String_Length_,
 		 StandardBuiltInFunctions.BIF_DS_String_At_,
 		 StandardBuiltInFunctions.BIF_DS_String_Contains_,
 		 StandardBuiltInFunctions.BIF_DS_String_If_,
 		 StandardBuiltInFunctions.BIF_DS_String_GetRandom_,
+		 StandardBuiltInFunctions.BIF_DS_String_ToChars_,
+		 StandardBuiltInFunctions.BIF_DS_String_IndexOfFirst_,
+		 StandardBuiltInFunctions.BIF_DS_String_OverwriteRange_,
 		 StandardBuiltInFunctions.BIF_DS_Number_ToBase_,
 		 StandardBuiltInFunctions.BIF_DS_Number_FromExprString_,
 		 StandardBuiltInFunctions.BIF_DS_Number_GetRandom_,
@@ -747,6 +931,9 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_DS_StringArray_Serialise_,
 		 StandardBuiltInFunctions.BIF_DS_StringArray_ForEach_,
 		 StandardBuiltInFunctions.BIF_DS_StringArray_Where_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_AllItemsAreUnique_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_TrueForAll_,
+		 StandardBuiltInFunctions.BIF_DS_StringArray_SkipWhile_,
 		 StandardBuiltInFunctions.BIF_DS_NumberArray_Append_,
 		 StandardBuiltInFunctions.BIF_DS_NumberArray_At_,
 		 StandardBuiltInFunctions.BIF_DS_NumberArray_Length_,
