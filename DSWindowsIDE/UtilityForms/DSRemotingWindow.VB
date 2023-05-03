@@ -159,6 +159,9 @@
 
 #End Region
 
+#Region "Actual DS-Remoting Logic"
+
+	''' <summary>The main DS-Remoting [junction-box]-type Method.</summary>
 	Public Sub ExecuteDSRemotingOperation() Handles ConnectButton.Click
 		Try
 
@@ -260,7 +263,7 @@
 		Finally
 
 			REM Attempt to delete the tempoary local session-specific Script file
-			Try : IO.File.Delete(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), CurrentRemotingSession_ScriptFileName)) : Catch : End Try
+			Try : IO.File.Delete(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), CurrentRemotingSession_ScriptFileName)) : Catch _Ex As Exception : MsgBox("The tempoary local session-specific Script file (.\" & CurrentRemotingSession_ScriptFileName & ") could not be deleted because " & _Ex.Message, MsgBoxStyle.Exclamation) : End Try
 
 			REM Dismiss the ActionInProgressDialog
 			Me.TheActionInProgressWindow.Dismiss()
@@ -459,6 +462,6 @@
 
 	End Sub
 
-End Class
+#End Region
 
-REM Save the last Server in the .Config File!!
+End Class
