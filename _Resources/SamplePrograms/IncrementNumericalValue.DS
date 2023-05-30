@@ -1,13 +1,14 @@
 ﻿#IncrementNumericalValue.DS - Calculates the next permutation for a value in ANY BASE!
 Function <Number> Main (<String@> _CLAs)
 	
-	If ( Maths_LessThan(DS_StringArray_Length(_CLAs), 2) )
-		DS_ThrowError("The <Value> and <Tokens> must be specified as CLAs")
+	If ( ¬ [DS_StringArray_Length(_CLAs) = 2] )
+		Output("Invalid Command-line Input: The <Value> and <Tokens> must be specified as CLAs" & Const_CrLf() & "Example: IncrementNumericalValue.exe 12884 0123456789")
+		Return 1
 	EndIf
 	
 	Output( IncrementNumericalValue(DS_StringArray_At(_CLAs, 0), DS_StringArray_At(_CLAs, 1)) )
-	
 	Return 0
+	
 EndFunction
 
 #Increments a numerical magnitude represented in the place-value (positional-notation) system.
@@ -58,6 +59,7 @@ Function <String> IncrementNumericalValue (<String> _InputValue, <String> _Token
 	EndWhile
 	
 	#Remove any leading Min-Tokens ("0"s)
+	#This ensures that the input is returned in an unambigous form. I.e. 00042 is the same as just 42.
 	_OutputValue : DS_StringArray_Serialise( DS_StringArray_SkipWhile(DS_String_ToChars(_OutputValue), "_Item = DS_String_At(_Tokens, 0)"), "" )
 	
 	Return _OutputValue

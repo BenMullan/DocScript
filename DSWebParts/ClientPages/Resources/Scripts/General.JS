@@ -5,15 +5,15 @@
 */
 
 /* Constants */
-window.ExeSes_State_Ready = "READY";
-window.ExeSes_State_Running = "RUNNING";
-window.ExeSes_State_Finished = "FINISHED";
+window.ExeSes_State_Ready				= "READY";
+window.ExeSes_State_Running				= "RUNNING";
+window.ExeSes_State_Finished			= "FINISHED";
 /**/
-window.ESParticipant_Role_Observer = "OBSERVER";
-window.ESParticipant_Role_Responder = "RESPONDER";
-window.ESParticipant_Role_Controller = "CONTROLLER";
+window.ESParticipant_Role_Observer		= "OBSERVER";
+window.ESParticipant_Role_Responder		= "RESPONDER";
+window.ESParticipant_Role_Controller	= "CONTROLLER";
 /**/
-window.NullValue_Placeholder = "$__NULL__$";
+window.NullValue_Placeholder			= "$__NULL__$";
 
 /* Specific to UploadProgram.ASPX */
 function ValidateForm_AndUploadProgram() {
@@ -59,8 +59,8 @@ function ValidateForm_AndUploadProgram() {
 		window.LastError = "One of ProgramName or Source was empty";
 		Swal.fire({
 			icon: "error",
-			title: "There are incomplete Form Entries",
-			text: "At least one of the [ProgramName] or [Source] was empty or only-whitespace.",
+			title: "Nice try",
+			text: "Ensure that neither the Program-Name nor Source are empty or only-whitespace...",
 			footer: "<a href='/'>Reload DocScript Interactive...</a>"
 		});
 	}
@@ -143,8 +143,8 @@ function UploadProgram_ThenCreateES_ThenInitiateES_ThenJoinES() {
 		window.LastError = "One of ProgramName or Source was empty";
 		Swal.fire({
 			icon: "error",
-			title: "There are incomplete Form Entries",
-			text: "At least one of the [ProgramName] or [Source] was empty or only-whitespace.",
+			title: "Nice try",
+			text: "Ensure that neither the Program-Name nor Source are empty or only-whitespace...",
 			footer: "<a href='/'>Reload DocScript Interactive...</a>"
 		});
 	}

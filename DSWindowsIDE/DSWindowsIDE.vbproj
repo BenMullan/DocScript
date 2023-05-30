@@ -156,6 +156,12 @@
     <Compile Include="UtilityForms\ProgramTreeViewer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UtilityForms\TokenTableViewerWindow.Designer.VB">
+      <DependentUpon>TokenTableViewerWindow.VB</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityForms\TokenTableViewerWindow.VB">
+      <SubType>Form</SubType>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -249,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\ProgramTreeViewer.resx">
       <DependentUpon>ProgramTreeViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityForms\TokenTableViewerWindow.resx">
+      <DependentUpon>TokenTableViewerWindow.VB</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="DocScript.Signing.snk" />
@@ -468,6 +477,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\PsExec_NotActuallyTheLogoForItButStill.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

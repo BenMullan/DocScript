@@ -181,6 +181,7 @@ Namespace Language.Instructions.Statements
 
 				REM Work out which type of IStatement we're constructing
 				Select Case True
+
 					Case Keyword_If_TPV.IsSatisfiedBy(_AllRemainingTokens.First())
 						_SubStatementTokens = GetSubStatementTokens_(GetType(IfStatement), _AllRemainingTokens)
 						_ConstructedSubStatement_ToReturn = New IfStatement(_SubStatementTokens)
@@ -196,8 +197,7 @@ Namespace Language.Instructions.Statements
 					Case Else : Throw New DSUnexpectedTokenException("The SubStatement Instruction Type could not be determined", _AllRemainingTokens.First())
 				End Select
 
-				_LeftOverTokens_ToReturn = _AllRemainingTokens.TakeBlockFromEnd(CUInt(_AllRemainingTokens.Length - _SubStatementTokens.Length))	'?????
-
+				_LeftOverTokens_ToReturn = _AllRemainingTokens.TakeBlockFromEnd(CUInt(_AllRemainingTokens.Length - _SubStatementTokens.Length))
 				Return New Tuple(Of IStatement, Runtime.Token())(_ConstructedSubStatement_ToReturn, _LeftOverTokens_ToReturn)
 
 				LogLexingMessage(String.Format("Constructed SubStatement of Type {0} from {1} Total Remaining Tokens, with {2} left-over Tokens", _ConstructedSubStatement_ToReturn.GetType().Name.InSquares(), _AllRemainingTokens.Length.ToString(), _LeftOverTokens_ToReturn.Length.ToString()))

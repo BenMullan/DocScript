@@ -12,29 +12,7 @@
 
 					Case "Debug".ToUpper() 'http://localhost:400/API/Get.ASPX?Item=Debug
 
-						'DatabaseInteraction.AddUploadedProgram(InputBox("ProgramName"), "This is the Program Source")
 						'APIResponse.FromValidRequest().Send(_Response)
-						APIResponse.FromValidRequest({}, DatabaseInteraction.GetExecutionSesionInputEvents("2SAYHE_KJU")).Send(_Response)
-
-						'Dim _DocScriptDatabaseName$ = System.Configuration.ConfigurationManager.AppSettings.Item("DocScriptDatabaseName")
-						'APIResponse.FromValidRequest({"Config-DocScriptDatabaseName", _DocScriptDatabaseName}).Send(_Response)
-
-						'Dim _Configuration As System.Configuration.Configuration = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~")
-						'_Configuration.AppSettings.Settings.Add("DocScriptDatabaseName", "TheValue")
-						'_Configuration.AppSettings.Settings!DocScriptDatabaseName.Value = "DSInteractive0"
-						'APIResponse.FromValidRequest().Send(_Response)
-
-						'APIResponse.FromValidRequest(Get2DArray({"Tes1Key0", "0TestValue"}), {<TestChild UserDomainName=<%= Environment.UserDomainName %>>Who Am I?</TestChild>}).Send(_Response)
-						'MsgBox("After the Response is alledgedly sent!")
-
-						'Dim HoldData As String = "DefaultHoldData"
-
-						'If _Request.QueryStringIsSpecifiedAndHasValue("HoldData") Then
-						'	'Set
-						'	HoldData = _Request.QueryString("HoldData")
-						'Else
-						'	'Get
-						'End If
 
 					Case "UploadedProgramsWithoutSource".ToUpper()	'http://localhost:400/API/Get.ASPX?Item=UploadedProgramsWithoutSource
 

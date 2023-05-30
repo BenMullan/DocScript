@@ -41,7 +41,7 @@ Partial Class ProgramTreeViewer
 		Me.TheProgramTreeView.Location = New System.Drawing.Point(0, 24)
 		Me.TheProgramTreeView.Name = "TheProgramTreeView"
 		Me.TheProgramTreeView.SelectedImageIndex = 0
-		Me.TheProgramTreeView.Size = New System.Drawing.Size(574, 332)
+		Me.TheProgramTreeView.Size = New System.Drawing.Size(584, 338)
 		Me.TheProgramTreeView.TabIndex = 0
 		'
 		'ProgramTreeImageList
@@ -64,7 +64,7 @@ Partial Class ProgramTreeViewer
 		Me.TheMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewXMLToolStripMenuItem})
 		Me.TheMenuStrip.Location = New System.Drawing.Point(0, 0)
 		Me.TheMenuStrip.Name = "TheMenuStrip"
-		Me.TheMenuStrip.Size = New System.Drawing.Size(574, 24)
+		Me.TheMenuStrip.Size = New System.Drawing.Size(584, 24)
 		Me.TheMenuStrip.TabIndex = 1
 		Me.TheMenuStrip.Text = "MenuStrip1"
 		'
@@ -78,7 +78,7 @@ Partial Class ProgramTreeViewer
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(574, 356)
+		Me.ClientSize = New System.Drawing.Size(584, 362)
 		Me.Controls.Add(Me.TheProgramTreeView)
 		Me.Controls.Add(Me.TheMenuStrip)
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)

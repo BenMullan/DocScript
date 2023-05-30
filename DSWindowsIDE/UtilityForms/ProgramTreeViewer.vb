@@ -7,7 +7,7 @@ Public Class ProgramTreeViewer
 	Public Sub New(ByVal _Program As DocScript.Runtime.Program)
 
 		' This call is required by the designer.
-		InitializeComponent()
+		Me.InitializeComponent()
 
 		Me.Program = _Program
 
@@ -33,7 +33,7 @@ Public Class ProgramTreeViewer
 
 			'Functions
 			For Each _Function As Language.Instructions.Statements.DSFunction In _Program.Functions
-				_FunctionsNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement(_Function))
+				_FunctionsNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement_(_Function))
 			Next
 
 			_ProgramRootNode.Nodes.Add(_GlobalVarDecsNode) : _ProgramRootNode.Nodes.Add(_FunctionsNode)
@@ -42,7 +42,7 @@ Public Class ProgramTreeViewer
 		Catch _Ex As Exception : Throw New DSException("@GenerateProgramTreeNode: " & _Ex.Message, _Ex) : End Try
 	End Function
 
-	Protected Shared Function GenerateTreeNodeForIStatement(ByVal _IStatement As DocScript.Language.Instructions.Statements.IStatement) As System.Windows.Forms.TreeNode
+	Protected Shared Function GenerateTreeNodeForIStatement_(ByVal _IStatement As DocScript.Language.Instructions.Statements.IStatement) As System.Windows.Forms.TreeNode
 
 		Dim _NodeToReturn As New TreeNode(Text:=_IStatement.GetType().Name.InSquares() & " "c & _IStatement.ToString().Split({vbCrLf}, StringSplitOptions.None).ElementAt(0)) With {
 		 .ImageKey = _IStatement.GetType.Name,
@@ -59,7 +59,7 @@ Public Class ProgramTreeViewer
 			Dim _IfContents_TreeNode As New TreeNode(Text:="(If Contents)") With {.ImageKey = "IfStatement", .SelectedImageKey = "IfStatement"}
 			For Each _ChildInstr As Language.Instructions.IInstruction In _IfStatement.Contents
 				If _ChildInstr.GetType().GetInterfaces().Contains(GetType(Language.Instructions.Statements.IStatement)) Then
-					_IfContents_TreeNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement(CType(_ChildInstr, Language.Instructions.Statements.IStatement)))
+					_IfContents_TreeNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement_(CType(_ChildInstr, Language.Instructions.Statements.IStatement)))
 				ElseIf _ChildInstr.GetType().GetInterfaces().Contains(GetType(Language.Instructions.IInstruction)) Then
 					_IfContents_TreeNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIInstruction(_ChildInstr))
 				Else : Throw New DSException("Unrecognised Child Instruction Interface Implementation")
@@ -72,7 +72,7 @@ Public Class ProgramTreeViewer
 				Dim _ElseContents_TreeNode As New TreeNode(Text:="(Else Contents)") With {.ImageKey = "IfStatement", .SelectedImageKey = "IfStatement"}
 				For Each _ChildInstr As Language.Instructions.IInstruction In _IfStatement.ElseContents
 					If _ChildInstr.GetType().GetInterfaces().Contains(GetType(Language.Instructions.Statements.IStatement)) Then
-						_ElseContents_TreeNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement(CType(_ChildInstr, Language.Instructions.Statements.IStatement)))
+						_ElseContents_TreeNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement_(CType(_ChildInstr, Language.Instructions.Statements.IStatement)))
 					ElseIf _ChildInstr.GetType().GetInterfaces().Contains(GetType(Language.Instructions.IInstruction)) Then
 						_ElseContents_TreeNode.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIInstruction(_ChildInstr))
 					Else : Throw New DSException("Unrecognised Child Instruction Interface Implementation")
@@ -88,7 +88,7 @@ Public Class ProgramTreeViewer
 		'For non-IfStatements
 		For Each _ChildInstr As Language.Instructions.IInstruction In _IStatement.Contents
 			If _ChildInstr.GetType().GetInterfaces().Contains(GetType(Language.Instructions.Statements.IStatement)) Then
-				_NodeToReturn.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement(CType(_ChildInstr, Language.Instructions.Statements.IStatement)))
+				_NodeToReturn.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIStatement_(CType(_ChildInstr, Language.Instructions.Statements.IStatement)))
 			ElseIf _ChildInstr.GetType().GetInterfaces().Contains(GetType(Language.Instructions.IInstruction)) Then
 				_NodeToReturn.Nodes.Add(ProgramTreeViewer.GenerateTreeNodeForIInstruction(_ChildInstr))
 			Else : Throw New DSException("Unrecognised Child Instruction Interface Implementation")
@@ -102,29 +102,25 @@ Public Class ProgramTreeViewer
 	Protected Shared Function GenerateTreeNodeForIInstruction(ByVal _IInstruction As DocScript.Language.Instructions.IInstruction) As System.Windows.Forms.TreeNode
 
 		Dim _NodeToReturn As New TreeNode(Text:=_IInstruction.GetType().Name.InSquares() & " "c & _IInstruction.ToString()) With {
-   .ImageKey = _IInstruction.GetType.Name,
-   .SelectedImageKey = _IInstruction.GetType.Name,
-   .ToolTipText = _IInstruction.ToString()
-  }	'E.g. "VariableDeclaration"
-
-		'Select Case _IInstruction.GetType()
-		'	Case GetType(Language.Instructions.VariableDeclaration)	'Assigned/Unassigned
-		'		Dim _VarDec As Language.Instructions.VariableDeclaration = _IInstruction.MustBe(Of Language.Instructions.VariableDeclaration)()
-		'		_NodeToReturn.Text = String.Format("<{0}> {1} ", Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_VarDec.DataType), _VarDec.Identifier) & If(_VarDec.AssignmentExpr Is Nothing, "(Unassigned)", _VarDec.AssignmentExpr.ToString())
-		'	Case GetType(Language.Instructions.VariableAssignment)
-		'		Dim _VarAssign As Language.Instructions.VariableAssignment = _IInstruction.MustBe(Of Language.Instructions.VariableAssignment)()
-		'		_NodeToReturn.Text = String.Format("{0} : {1}", _VarAssign.TargetVariable_Identifier, _VarAssign.AssignmentExpr.ToString())
-		'	Case GetType(Language.Instructions.FunctionCall)
-		'	Case GetType(Language.Instructions.ReturnToCaller)
-		'	Case Else : Throw New DSValidationException("Unrecognised IInstruction Type", _IInstruction.GetType().FullName)
-		'End Select
+		   .ImageKey = _IInstruction.GetType.Name,
+		   .SelectedImageKey = _IInstruction.GetType.Name,
+		   .ToolTipText = _IInstruction.ToString()
+		}
 
 		Return _NodeToReturn
 
 	End Function
 
 	Public Sub ShowProgramXML() Handles ViewXMLToolStripMenuItem.Click
-		MsgDebug(Me.Program.ProgramTreeXML.ToString())
+
+		Dim _SimpleTextForm As New Windows.Forms.Form() With {.Text = "Program XML", .Width = 640, .Height = 768, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False}
+		_SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = DockStyle.Fill, .Text = Me.Program.ProgramTreeXML.ToString().Replace("  ", "    "), .ReadOnly = True})
+
+		REM Could do something like this in the future, to show the XML with Syntax Highlighting
+		'_SimpleTextForm.Controls.Add(New Windows.Forms.WebBrowser() With {.Dock = DockStyle.Fill, .DocumentText = Me.Program.ProgramTreeXML.ToString().Replace("  ", "    ")})
+
+		Call (_SimpleTextForm).Show()
+
 	End Sub
 
 #Region "Close the form on pressing [Esc]"

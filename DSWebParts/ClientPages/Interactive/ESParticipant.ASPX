@@ -147,7 +147,7 @@
 				<hr/>
 				
 				<!-- CEPs Table -->
-				<div class="h4 m-2 ds-heading"><b id="CEPsTableTitle">Injected CLient-Execution-Packages</b></div>
+				<div class="h4 m-2 ds-heading"><b id="CEPsTableTitle">Injected Client-Execution-Packages</b></div>
 				<table class="table table-sm container border rounded mb-4" style="background-color: #DEF7FF;" id="CEPsTable">
 					<thead>
 						<tr style="background-color: #F3F3F3;">

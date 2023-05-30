@@ -961,9 +961,9 @@ Namespace CompilerExtentions
 			Try
 
 				Return (
-					"Raw: """ & String.Join("", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) _Token.Value)) _
-					&
-					""", WithLocations: " & String.Join(", ", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) (""""c & _Token.Value & """ (@" & _Token.LocationInSource.ToShortString() & ")"c).InSquares())).InCurlies()
+				 "Raw: """ & String.Join("", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) _Token.Value)) _
+				 &
+				 """, WithLocations: " & String.Join(", ", _Tokens.Select(Of String)(Function(_Token As Runtime.Token) (""""c & _Token.Value & """ (@" & _Token.LocationInSource.ToShortString() & ")"c).InSquares())).InCurlies()
 				 ).InSquares().Replace(vbCrLf, "{LineEnd}")
 
 			Catch _Ex As Exception : Throw New DSException("@GetValuesAndLocationsString (CompilerExtention): " & _Ex.Message, _Ex) : End Try
@@ -1134,6 +1134,11 @@ Namespace CompilerExtentions
 		Public Function AllocConsole() As <System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)> Boolean
 		End Function
 
+		''' <summary>(MullNet UsefulMethod) Hides the active console window. Much easier than using ShowWindow on the current process.</summary>
+		<System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True, ExactSpelling:=True)> _
+		Public Function FreeConsole() As Boolean
+		End Function
+
 		''' <summary>(MullNet UsefulMethod) Returns a random String using the Chars 0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</summary>
 		Public Function GetRandomString(Optional ByVal _WantedLength As UInt16 = 8US) As String
 
@@ -1182,7 +1187,7 @@ Namespace CompilerExtentions
 		''' <summary>(MullNet UsefulMethod) Returns the directory of the current exe</summary>
 		Public Function GetExecutingAssemblyDirectory() As IO.DirectoryInfo
 
-			Dim _CodeBase$ = System.Reflection.Assembly.GetExecutingAssembly().CodeBase 'Looks like: "file:///C:/Windows/assembly/GAC_MSIL/Microsoft.VisualStudio.HostingProcess.Utilities/10.0.0.0__b03f5f7f11d50a3a/Microsoft.VisualStudio.HostingProcess.Utilities.dll"
+			Dim _CodeBase$ = System.Reflection.Assembly.GetExecutingAssembly().CodeBase	'Looks like: "file:///C:/Windows/assembly/GAC_MSIL/Microsoft.VisualStudio.HostingProcess.Utilities/10.0.0.0__b03f5f7f11d50a3a/Microsoft.VisualStudio.HostingProcess.Utilities.dll"
 			Dim _UriBuilder As New UriBuilder(_CodeBase)
 			Return New IO.DirectoryInfo(IO.Path.GetDirectoryName(Uri.UnescapeDataString(_UriBuilder.Path)))
 

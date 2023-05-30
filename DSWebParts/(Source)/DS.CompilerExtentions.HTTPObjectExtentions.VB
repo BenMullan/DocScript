@@ -39,7 +39,7 @@
 		End Function
 
 		''' <summary>
-		''' (MullNet CompilerExtention) Checks that the Specified Required QueryString Keys are contained in the current Request Object, and that they each HAVE VALUES.
+		''' (MullNet CompilerExtention) Checks that the Specified Required QueryString Keys are contained in the current Request Object, AND that they each HAVE VALUES.
 		''' </summary>
 		''' <param name="_RequestObject">(Filled in by the CompilerExtention)</param>
 		''' <param name="_ResponseObject">This is needed in case a QueryString is missing, in which case an APIResponse is sent back, informing the user of the missing Parameter</param>

@@ -47,6 +47,7 @@
 			<!-- The YouTube Video -->
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/ybl5pVSJOOk" title="DS3Min YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="true"></iframe>
 			
+			<!-- Text -->
 			<p class="py-4">
 				<b>DSI enables the execution of DocScript Programs in Real-Time, Multi-Client, Execution-Sessions.</b>
 				<br/><br/>

@@ -15,7 +15,7 @@
 	ConfigureWholePageFileDropping: function (_DropEventHandler) {
 
 		/* Add a hidden whole-document catcher element */
-		$("body").prepend("<div id='DropZone' style='position:fixed;padding:0;margin:0;top=0;left=0;width:100%;height:100%;opacity:0.9;background:#A5E3F6;'><center><h1>Drag Files Here...</h1></center></div>");
+		$("body").prepend("<div id='DropZone' style='position:fixed; padding:0; margin:0; top=0; left=0; width:100%; height:100%; opacity:0.95; background:#A5E3F6;'><center><b style='font-size:600%;'>Drag a *.DS file onto the BLUE area...</b></center></div>");
 		$("#DropZone").hide();
 		window.DropZoneElement = $("#DropZone").get(0);
 
@@ -103,10 +103,6 @@
 		}
 	},
 
-	ShowMessageToUser: function (_MessageText) {
-		window.alert(_MessageText);
-	},
-
 	GetCurrentDateTimeString: function () {
 		return ("[" + (new Date()).toUTCString() + "]");
 	},
@@ -166,7 +162,8 @@
 
 			window.Utilities.LogDebug(
 				"\r\n----------------------------------------------------------\r\n" +
-				"...Recieved AJAX Response (window.LastAJAXResponse). First 400 Chars of Response:\r\n\r\n" + _ResponseXML_AsString.slice(0, 400) +
+				"...Recieved AJAX Response (window.LastAJAXResponse). First 400 Chars of Response:\r\n\r\n" +
+				_ResponseXML_AsString.slice(0, 400) +
 				"\r\n\r\nStatusText: " + _StatusText +
 				"\r\nResponse Length: " + _ResponseXML_AsString.length.toString() +
 				" Chars\r\nTime Taken to receive Response: " + ((performance.now() - window.AJAXRequestStartTime) / 1000).toString() +
@@ -262,7 +259,8 @@
 
 			window.Utilities.LogDebug(
 				"\r\n----------------------------------------------------------\r\n\r\n" +
-				"...Recieved AJAX (POST) Response (window.LastAJAXResponse). First 400 Chars of Response:\r\n\r\n" + _ResponseXML_AsString.slice(0, 400) +
+				"...Recieved AJAX (POST) Response (window.LastAJAXResponse). First 400 Chars of Response:\r\n\r\n" +
+				_ResponseXML_AsString.slice(0, 400) +
 				"\r\n\r\nStatusText: " + _StatusText +
 				"\r\nResponse Length: " + _ResponseXML_AsString.length.toString() +
 				" Chars\r\nTime Taken to receive Response: " + ((performance.now() - window.AJAXRequestStartTime) / 1000).toString() +

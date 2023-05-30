@@ -30,7 +30,7 @@
 		Public Shared Function FormatMessage$(ByVal _PotentiallyUnformattedMessage$)
 			'If _PotentiallyUnformattedMessage.Contains(":" & vbCrLf) Then Return _PotentiallyUnformattedMessage
 			'Return _PotentiallyUnformattedMessage.Replace(":", ":" & vbCrLf)
-			Return _PotentiallyUnformattedMessage.Replace(":", vbCrLf)
+			Return _PotentiallyUnformattedMessage.Replace(": ", ":" & vbCrLf)
 		End Function
 
 	End Class

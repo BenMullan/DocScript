@@ -173,9 +173,9 @@
 			Me.TheActionInProgressWindow.UpdateText("Reconstructing Program Source...")
 			Me.CurrentRemotingSession_ScriptFileName$ = String.Format("DSRemotingSession_{2}_{0}_{1}.DS", DateTime.Now.ToString("ddMMyyyy"), DateTime.Now.ToString("HHmmss"), UsefulMethods.GetRandomString(4))
 			My.Computer.FileSystem.WriteAllText(
-			 file:=IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), CurrentRemotingSession_ScriptFileName),
-			 text:=Me.ProgramForRemoteExecution.ReconstructedSource,
-			 append:=False
+				file:=IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), CurrentRemotingSession_ScriptFileName),
+				text:=Me.ProgramForRemoteExecution.ReconstructedSource,
+				append:=False
 			)
 
 			If Me.IsCurrentlyInAdvancedMode Then
@@ -187,13 +187,13 @@
 				REM For all DSR-Modes, a copy of DSCLI.ILM.exe, and the session-specific DS Script, must be copied to the remote host
 				Me.TheActionInProgressWindow.UpdateText("Copying Files to remote computer...")
 				DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(
-				_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied:=(New IO.DirectoryInfo("\\" & Me.TargetComputer_TextBox.Text & "\"c & Me.TargetUNCDirectory_TextBox.Text)),
-				_RemotePC_Username:=Me.TargetUsername_TextBox.Text,
-				_RemotePC_Password:=Me.TargetPassword_TextBox.Text,
-				_FilesToCopyThither:={
-				  New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Runtime.Remoting.DSCLI_ILM_EXE_FileName)),
-				  New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Me.CurrentRemotingSession_ScriptFileName))
-				 }
+					_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied:=(New IO.DirectoryInfo("\\" & Me.TargetComputer_TextBox.Text & "\"c & Me.TargetUNCDirectory_TextBox.Text)),
+					_RemotePC_Username:=Me.TargetUsername_TextBox.Text,
+					_RemotePC_Password:=Me.TargetPassword_TextBox.Text,
+					_FilesToCopyThither:={
+						New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Runtime.Remoting.DSCLI_ILM_EXE_FileName)),
+						New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Me.CurrentRemotingSession_ScriptFileName))
+					}
 				)
 
 				REM Perform the correct Advanced-Mode Operation
@@ -209,10 +209,10 @@
 				If Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Checked Then
 					Me.TheActionInProgressWindow.UpdateText("Deleting Files from remote computer...")
 					DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(
-					 _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted:=(New IO.DirectoryInfo("\\" & Me.TargetComputer_TextBox.Text & "\"c & Me.TargetUNCDirectory_TextBox.Text)),
-					 _RemotePC_Username:=Me.TargetUsername_TextBox.Text,
-					 _RemotePC_Password:=Me.TargetPassword_TextBox.Text,
-					 _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted:={Runtime.Remoting.DSCLI_ILM_EXE_FileName, Me.CurrentRemotingSession_ScriptFileName}
+						_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted:=(New IO.DirectoryInfo("\\" & Me.TargetComputer_TextBox.Text & "\"c & Me.TargetUNCDirectory_TextBox.Text)),
+						_RemotePC_Username:=Me.TargetUsername_TextBox.Text,
+						_RemotePC_Password:=Me.TargetPassword_TextBox.Text,
+						_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted:={Runtime.Remoting.DSCLI_ILM_EXE_FileName, Me.CurrentRemotingSession_ScriptFileName}
 					)
 				End If
 
@@ -229,13 +229,13 @@
 				REM Use Interactive Mode, with the Console Session. DSR Files will not be deleted at the end.
 				Me.TheActionInProgressWindow.UpdateText("Copying Files to remote computer...")
 				DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(
-				_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied:=(New IO.DirectoryInfo("\\" & Me.SimpleMode_ComputerTextBox.Text & "\"c & DSRemotingWindow.Default_RemoteUNCPath)),
-				_RemotePC_Username:=[_SpecifiedCredentials].Item1,
-				_RemotePC_Password:=[_SpecifiedCredentials].Item2,
-				_FilesToCopyThither:={
-				  New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Runtime.Remoting.DSCLI_ILM_EXE_FileName)),
-				  New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Me.CurrentRemotingSession_ScriptFileName))
-				 }
+					_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied:=(New IO.DirectoryInfo("\\" & Me.SimpleMode_ComputerTextBox.Text & "\"c & DSRemotingWindow.Default_RemoteUNCPath)),
+					_RemotePC_Username:=[_SpecifiedCredentials].Item1,
+					_RemotePC_Password:=[_SpecifiedCredentials].Item2,
+					_FilesToCopyThither:={
+						New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Runtime.Remoting.DSCLI_ILM_EXE_FileName)),
+						New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), Me.CurrentRemotingSession_ScriptFileName))
+					}
 				)
 
 				Me.InteractiveMode_LaunchRemoteProcess_SimpleMode(_SpecifiedCredentials)

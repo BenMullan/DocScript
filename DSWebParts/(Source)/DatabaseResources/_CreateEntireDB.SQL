@@ -6,7 +6,7 @@
 	-----------------------------------------
 		1) Install MS-SQL-Server (ideally as the Default-Instance)
 		2) Run _CreateEntireDB.SQL, [Ctrl+H]-ing {DocScript_DatabaseName_Placeholder} with the chosen name e.g. "DSInteractive"
-		3) Specify the Database-Name and SQL-Server in \DSWebParts\DSInteractive.config AND \DSIExecutionSessionWorker\bin\Debug\DSInteractive.config
+		3) Specify the Database-Name and SQL-Server in \DSWebParts\API\DSInteractive.config
 		4) Either: Ctrl+F5 the WebParts Project in VS,
 		5) ...Or host the DSWebParts\ directory with IIS, and give the IIS AppPool Database Permissions (https://stackoverflow.com/questions/7698286/login-failed-for-user-iis-apppool-asp-net-v4-0)
 			These are the permissions:
@@ -28,7 +28,6 @@
 	-
 	...And remember to grant the just-created-Login permissions to CREATE TABLEs:
 	Go into the database, security, users, right-click on the user, properties, Membership, check db_owner.
-
 */
 
 

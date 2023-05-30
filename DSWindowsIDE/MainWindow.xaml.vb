@@ -2,9 +2,9 @@
 
 	Public Const AbortButton_TextWhenEnabled$ = " Abort "
 
-	Public Property Cached_Tokens As DocScript.Runtime.Token() = Nothing 'Parsing Output
-	Public Property Cached_Program As DocScript.Runtime.Program = Nothing 'Lexing Output
-	Public Property Cached_ProgramExeRes As DocScript.Language.Instructions.ExecutionResult = Nothing 'Execution Output
+	Public Property Cached_Tokens As DocScript.Runtime.Token() = Nothing								'Parsing Output		Used in [View Cached Tokens...]
+	Public Property Cached_Program As DocScript.Runtime.Program = Nothing								'Lexing Output		Used in [Generate Program Tree...]
+	Public Property Cached_ProgramExeRes As DocScript.Language.Instructions.ExecutionResult = Nothing	'Execution Output	Used in [Explore Execution Result...]
 
 	Public Property CurrentExecutionContext As DocScript.Runtime.ExecutionContext 'Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised)
 	Protected Property AvalonEdit_SearchPanel_ As New ICSharpCode.AvalonEdit.Search.SearchPanel()
@@ -16,7 +16,7 @@
 		System.Windows.Forms.Application.EnableVisualStyles()
 
 		Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
-		DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll 'TextFile(New IO.FileInfo("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Resources\DocScript.Log"))
+		DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll	'TextFile(New IO.FileInfo("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Resources\DocScript.Log"))
 		Me.CurrentExecutionContext = DocScript.Runtime.ExecutionContext.GUIDefault
 
 		RegisterCodeSnippetInsertion_EventHandlers_()
@@ -57,6 +57,7 @@
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewDSIDEInstance()				'Ctrl + Shift + N
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenContainingFolder()					'Ctrl + Shift + O
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFileAs()							'Ctrl + Shift + S
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.K) Then : Me.ShowTokensTable_InNewWindow()			'Ctrl + Shift + K
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.T) Then : Me.ShowProgramTree_InNewWindow()			'Ctrl + Shift + T
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.R) Then : Me.ShowExeResTree_InNewWindow()			'Ctrl + Shift + R
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.B) Then : Me.ShowNewBIFExplorerWindow()				'Ctrl + Shift + B
@@ -421,7 +422,7 @@
 		Me.SourceTextEditor.Text = String.Empty
 		Me.CurrentlyOpenFile = Nothing
 		Me.Cached_Tokens = Nothing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
-		Me.GenerateProgTreeButton.IsEnabled = False : Me.GenerateExeResTreeButton.IsEnabled = False
+		Me.GenerateTokensTableButton.IsEnabled = False : Me.GenerateProgTreeButton.IsEnabled = False : Me.GenerateExeResTreeButton.IsEnabled = False
 		Me.CurrentSource_IsSaved = False : Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
 		Me.LastPerformedAction_InfoText.Text = "Started New (unsaved) File"
 
@@ -444,6 +445,7 @@
 
 				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
 				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+				 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
 
 				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
 				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
@@ -478,6 +480,7 @@
 
 				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
 				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+				 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
 
 				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
 				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
@@ -648,10 +651,17 @@
 		Call (New HelpWindow()).Show()
 	End Sub
 
+	Public Sub ShowTokensTable_InNewWindow() Handles GenerateTokensTableButton.Click
+		Try
+			Call (New TokenTableViewerWindow(Me.Cached_Tokens.MustNotBeNothing("Tokens must first be created by Parsing"))).Show()
+		Catch _Ex As Exception
+			MsgBox("On Generating the Tokens' Table:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+		End Try
+	End Sub
+
 	Public Sub ShowProgramTree_InNewWindow() Handles GenerateProgTreeButton.Click
 		Try
-			Dim _NewProgramTreeWindow As New ProgramTreeViewer(Me.Cached_Program.MustNotBeNothing("A Program must first be created by Parsing and Lexing"))
-			_NewProgramTreeWindow.Show()
+			Call (New ProgramTreeViewer(Me.Cached_Program.MustNotBeNothing("A Program must first be created by Parsing and Lexing"))).Show()
 		Catch _Ex As Exception
 			MsgBox("On Generating the Program Tree:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
@@ -659,8 +669,7 @@
 
 	Public Sub ShowExeResTree_InNewWindow() Handles GenerateExeResTreeButton.Click
 		Try
-			Dim _NewExeResTreeWindow As New ExeResExplorerWindow(Me.Cached_ProgramExeRes.MustNotBeNothing("A Program must first be Executed, to create the cached ExecutionResult"))
-			_NewExeResTreeWindow.Show()
+			Call (New ExeResExplorerWindow(Me.Cached_ProgramExeRes.MustNotBeNothing("A Program must first be Executed, to create the cached ExecutionResult"))).Show()
 		Catch _Ex As Exception
 			MsgBox("On Generating the Execution-Result Tree:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
@@ -761,6 +770,7 @@
 
 			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
 			 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+			 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
 
 			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
 			 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
@@ -769,7 +779,8 @@
 			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Executing...")
 			 Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
 			 : Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
-			 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Program finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
+
+			 Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Program finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
 
 		 End Sub
 		)
@@ -788,6 +799,7 @@
 			 "Parsing...",
 			 Sub()
 				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+				 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
 				 : Me.InvokeIfRequired(Sub() Me.LexButton.IsEnabled = True)	'Lexing can occur, now that we have the Cached_Tokens
 				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Parsed Source into " & Me.Cached_Tokens.Length.ToString() & " Token(s)")
 			 End Sub
@@ -826,7 +838,7 @@
 		Try
 
 			Me.Cached_Program.MustNotBeNothing("There was no Cached Program. Parsing and Lexing must occur first")
-			Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox 'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
+			Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
 
 			Me.StartBackgroundWorker("Executing...",
 			 Sub()

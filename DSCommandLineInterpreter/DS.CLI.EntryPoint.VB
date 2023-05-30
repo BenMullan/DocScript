@@ -15,7 +15,7 @@
 	  "└───────────────────────────────────────┘▒" & vbCrLf &
 	  " ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒" & vbCrLf &
 	  vbCrLf &
-	  " Only use Statement-Contents Instructions (no Function declarations)" & vbCrLf &
+	  " Only use Inner-Statement Instructions (no Function declarations)" & vbCrLf &
 	  " Exit with !Exit (or Ctrl + C) - learn more with !Help" & vbCrLf &
 	  " Use ? to Resolve an Expression e.g. ?14 + 33" & vbCrLf &
 	  " Use ; for NewLine" &
@@ -43,7 +43,9 @@
 
 	Public Function Main(ByVal _CLAs As String()) As Int32
 
+		REM [-1] means [indeterminate]. The _ExitCode will be set depending on the ActionWhenReady...
 		Dim _ExitCode As Int32 = -1
+
 		Try
 
 			'Don't show and LogEvents unless /LogToConsole or /LogToFile is specified
@@ -90,23 +92,29 @@
 
 			End If
 
-			REM Ensure that we have an Action
-			If EntryPoint.ActionWhenReady = WhenReadyAction.Unresolved Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("An Action must be specified; use /Live or /Run or /GetProgramTree. Use /? for Examples!")
-			If EntryPoint.ActionWhenReady = WhenReadyAction.EnterDSLiveSession Then EntryPoint.EnterDSLiveSession() 'Never Returns...
+			REM Ensure that we have an Action to perform
+			If EntryPoint.ActionWhenReady = WhenReadyAction.Unresolved Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("An Action must be specified (e.g. /Live or /Run or /GetProgramTree). Use /? for Examples!")
 
-			REM If we're here, then we didn't enter DSLive, so we need some Source!
-			If SourceToInterpret Is Nothing Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("The Source To Interpret must be specified by means of either /SourceFile or /SourceString. Use /? for Examples!")
+			REM If the specified [ActionWhenReady] requires source, then ensure we've been given some source to interpret
+			If {WhenReadyAction.Run, WhenReadyAction.GetProgramTree}.Contains(EntryPoint.ActionWhenReady) _
+			 Then If SourceToInterpret Is Nothing _
+			  Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("The specified Action (" & EntryPoint.ActionWhenReady.ToString("G") & ") requires some Source to interpret, which must be specified by either /SourceFile or /SourceString. Use /? for Examples!")
 
-			Select Case ActionWhenReady
-				Case WhenReadyAction.GetProgramTree
+			REM At this points, we've understood WHAT to do, from the CLAs.
+			REM We've also validated 
+			REM Now, perform the actual task for this DSCLI.exe process
+
+			Select Case EntryPoint.ActionWhenReady
+				Case WhenReadyAction.GetProgramTree	'Construct source into a New Program
 
 					UsefulMethods.ConsoleWriteInColour(
 					   DocScript.Runtime.Program.FromSource(_Source:=EntryPoint.SourceToInterpret, _ExeCxt:=Nothing).ProgramTreeXML.ToString(),
 					   _ForegroundColour:=ConsoleColor.Black, _BackgroundColour:=ConsoleColor.Gray
 					)
+
 					_ExitCode = 0
 
-				Case WhenReadyAction.Run
+				Case WhenReadyAction.Run 'Construct and Execute a New Program
 
 					Dim _Program As New DocScript.Runtime.Program(
 					  _Tokens:=DocScript.Runtime.Parser.GetTokensFromSource(_RawSource:=EntryPoint.SourceToInterpret),
@@ -117,6 +125,10 @@
 					 .Run(EntryPoint.DocScriptCLAs) _
 					 .ReturnStatus.Program_ExitCode _
 					 .GetValueOrDefault(defaultValue:=DocScript.Runtime.Constants.ProgramExitCode_Default)
+
+				Case WhenReadyAction.EnterDSLiveSession	'Start a DS-Live session. This call never returns.
+
+					EntryPoint.EnterDSLiveSession()
 
 				Case Else : Throw New DSValidationException("Un-accounted-for ActionWhenReady", "ActionWhenReady: " & ActionWhenReady.ToString("G"))
 			End Select
@@ -146,13 +158,13 @@
 				REM Request Console Input. This may be piped, in which case end the process if the line is null.
 				UsefulMethods.ConsoleWriteInColour("DS>", _ForegroundColour:=ConsoleColor.Gray, _BackgroundColour:=ConsoleColor.DarkGray) : Console.Write(" "c)
 				Dim _LineReadFromConsole As [String] = Console.ReadLine()
-				If _LineReadFromConsole Is Nothing Then : UsefulMethods.ConsoleWriteLineInColour("Ending the DSCLI Process, because the Console Input was [Nothing]. This may be because the input to DSCLI was piped.", _ForegroundColour:=ConsoleColor.Red, _BackgroundColour:=ConsoleColor.Gray) : Environment.Exit(exitCode:=1) : End If
-				Dim _DSStatementLine_Raw As [String] = Parser.UnflattenSource(_LineReadFromConsole)
+				If _LineReadFromConsole Is Nothing Then : UsefulMethods.ConsoleWriteLineInColour("Ending the DSCLI Process, because the Console Input was [Nothing]. This may be because the input to DSCLI was piped.", _ForegroundColour:=ConsoleColor.Red, _BackgroundColour:=ConsoleColor.Gray) : Environment.Exit(exitCode:=-2) : End If
+				Dim _DSLiveInputCommand_UnflattenedAndTrimmed As [String] = Parser.UnflattenSource(_LineReadFromConsole.WithLeadingWhiteSpaceRemoved().WithTrailingWhiteSpaceRemoved())
 
-				REM Now perform the correct action, depending on whether the Input Line is a Meta-Command, Expression Query, or Statement-Level Instruction
-				If (_DSStatementLine_Raw.Length > 1) AndAlso (_DSStatementLine_Raw.First() = "!"c) Then	'Meta-Command
+				REM Now perform the correct action, depending on whether the Input Line is a Meta-Command, Expression-Query, or Inner-Statement Instruction
+				If (_DSLiveInputCommand_UnflattenedAndTrimmed.Length > 1) AndAlso (_DSLiveInputCommand_UnflattenedAndTrimmed.First() = "!"c) Then	'Meta-Command
 
-					Dim _RemainderOfLine$ = New String(_DSStatementLine_Raw.Skip(1).ToArray())
+					Dim _RemainderOfLine$ = New String(_DSLiveInputCommand_UnflattenedAndTrimmed.Skip(1).ToArray())
 					Select Case _RemainderOfLine.ToUpper()
 						Case "EXIT" : Environment.Exit(0)
 						Case "CLEAR" : Console.Clear()
@@ -161,9 +173,9 @@
 						Case Else : Throw New Exception("Unrecognised DSLive Meta-command: " & _RemainderOfLine)
 					End Select
 
-				ElseIf (_DSStatementLine_Raw.Length > 1) AndAlso (_DSStatementLine_Raw.First() = "?"c) Then	'Expression
+				ElseIf (_DSLiveInputCommand_UnflattenedAndTrimmed.Length > 1) AndAlso (_DSLiveInputCommand_UnflattenedAndTrimmed.First() = "?"c) Then	'Expression-Query
 
-					Dim _RemainderOfLine$ = New String(_DSStatementLine_Raw.Skip(1).ToArray())
+					Dim _RemainderOfLine$ = New String(_DSLiveInputCommand_UnflattenedAndTrimmed.Skip(1).ToArray())
 					Dim _ExpressionTokens As Token() = Parser.GetTokensFromSource(_RemainderOfLine)
 					Dim _IExpression As Language.Expressions.IExpression = Language.Expressions.ConstructExpressionFromTokens(_ExpressionTokens)
 
@@ -171,9 +183,9 @@
 					_Session_SymTbls = _Expression_ExeRes.ResultantSymbolTablesState
 					[UsefulMethods].ConsoleWriteLineInColour(_Expression_ExeRes.ReturnStatus.IExpression_ResolutionResult.Coerce(Of Variables.DSString)().Value, _ForegroundColour:=ConsoleColor.Blue, _BackgroundColour:=ConsoleColor.Gray)
 
-				Else 'Assume a DocScript inner-statement line
+				Else 'Assume the input to be 1+ DocScript Inner-Statement Instruction Line(s)
 
-					Dim _DSStatementLine_Tokens As DocScript.Runtime.Token() = DocScript.Runtime.Parser.GetTokensFromSource(_DSStatementLine_Raw)
+					Dim _DSStatementLine_Tokens As DocScript.Runtime.Token() = DocScript.Runtime.Parser.GetTokensFromSource(_DSLiveInputCommand_UnflattenedAndTrimmed)
 					Dim _DSStatementLine_IInstructions As Instructions.IInstruction() = Instructions.Statements.GetStatementContentsFromTokens(_DSStatementLine_Tokens)
 
 					'Just in case multiple Instructions were specified...
