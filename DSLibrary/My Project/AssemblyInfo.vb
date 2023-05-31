@@ -14,8 +14,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("DocScript Resources (Language, Runtime, and Utilities) DLL")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
 <Assembly: AssemblyProduct("DSCore (Signed DLL)")> 
-<Assembly: AssemblyCopyright("Copyright © Ben Mullan 2022")> 
-<Assembly: AssemblyTrademark("BenMullan")> 
+<Assembly: AssemblyCopyright("DocScript (C) 2023")> 
+<Assembly: AssemblyTrademark("BM-TM")> 
 
 <Assembly: ComVisible(False)> 
 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.3.5.1")> 
-<Assembly: AssemblyFileVersion("2.3.5.1")> 
+<Assembly: AssemblyVersion("4.0.5.1")> 
+<Assembly: AssemblyFileVersion("4.0.5.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

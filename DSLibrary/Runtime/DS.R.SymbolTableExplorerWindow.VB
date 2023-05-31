@@ -113,7 +113,7 @@
 
 				REM Always ask for a new Path to save the source as
 				Dim _SaveAsFile As IO.FileInfo =
-				 UsefulMethods.RequestFilePath_WithSaveFileDialog("Save the DS-SymbolTables as a File", New Tuple(Of String, String)("Hypertext Markup", "HTML"), New Tuple(Of String, String)("Comma-Seperated Values", "CSV"))
+				 UsefulMethods.RequestFilePath_WithSaveFileDialog("Save the DS-SymbolTables as a File", {New Tuple(Of String, String)("Hypertext Markup", "HTML"), New Tuple(Of String, String)("Comma-Seperated Values", "CSV")}, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
 
 				If _SaveAsFile IsNot Nothing Then
 

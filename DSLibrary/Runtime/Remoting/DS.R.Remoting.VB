@@ -3,7 +3,8 @@
 	''' <summary>Contains resources for executing DocScript programs on remote computers</summary>
 	Public Module Remoting
 
-		Public Const DSCLI_ILM_EXE_FileName$ = "DSCLI.ILM.exe"
+		Public Const DSCLI_EXE_FileName$ = "DSCLI.exe"
+		Public Const DSCore_DLL_FileName$ = "DSCore.dll"
 
 		''' <summary>
 		''' Uses WMI to run the specified command line on the remote Windows(TM) computer.
@@ -14,10 +15,10 @@
 		''' <param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
 		''' <remarks></remarks>
 		Public Sub WMI_CreateRemoteProcess(
-			ByVal _TargetPC_HostnameOrIP$,
-			ByVal _Username_ForTargetPC$,
-			ByVal _Password_ForTargetPC$,
-			ByVal _CommandLineToRun_OnRemotePC$
+		 ByVal _TargetPC_HostnameOrIP$,
+		 ByVal _Username_ForTargetPC$,
+		 ByVal _Password_ForTargetPC$,
+		 ByVal _CommandLineToRun_OnRemotePC$
 		)
 			Try : LogSystemMessage("Creating Remote Process on " & _TargetPC_HostnameOrIP.InSquares(), LogEvent.DSEventSeverity.Infomation)
 
@@ -40,10 +41,10 @@
 		''' <param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
 		''' <remarks></remarks>
 		Public Sub CopyFiles_ToRemoteComputer(
-			ByVal _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied As IO.DirectoryInfo,
-			ByVal _RemotePC_Username$,
-			ByVal _RemotePC_Password$,
-			ByVal _FilesToCopyThither As IO.FileInfo()
+		 ByVal _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied As IO.DirectoryInfo,
+		 ByVal _RemotePC_Username$,
+		 ByVal _RemotePC_Password$,
+		 ByVal _FilesToCopyThither As IO.FileInfo()
 		)
 			Try : LogSystemMessage("Copying Files to remote UNC Directory " & _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithBackslashOnEnd().InSquares(), LogEvent.DSEventSeverity.Infomation)
 
@@ -52,9 +53,9 @@
 
 				'Connect \w new credentials
 				Remoting.AuthenticateWithNetworkFolder(
-					_UNCPath:=_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(),
-					_Username:=_RemotePC_Username,
-					_Password:=_RemotePC_Password
+				 _UNCPath:=_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd(),
+				 _Username:=_RemotePC_Username,
+				 _Password:=_RemotePC_Password
 				)
 
 				'Use the open authenticated UNC Connection
@@ -62,9 +63,9 @@
 				For Each _SourceFile As IO.FileInfo In _FilesToCopyThither
 					'[_SourceFile].CopyTo(destFileName:=IO.Path.Combine(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName, _SourceFile.Name), overwrite:=True)
 					IO.File.Copy(
-						sourceFileName:=[_SourceFile].FullName,
-						destFileName:=IO.Path.Combine(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithBackslashOnEnd(), _SourceFile.Name),
-						overwrite:=True
+					 sourceFileName:=[_SourceFile].FullName,
+					 destFileName:=IO.Path.Combine(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithBackslashOnEnd(), _SourceFile.Name),
+					 overwrite:=True
 					)
 				Next
 
@@ -83,10 +84,10 @@
 		''' <param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
 		''' <remarks></remarks>
 		Public Sub DeleteFiles_FromRemoteComputer(
-			ByVal _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted As IO.DirectoryInfo,
-			ByVal _RemotePC_Username$,
-			ByVal _RemotePC_Password$,
-			ByVal _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted As [String]()
+		 ByVal _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted As IO.DirectoryInfo,
+		 ByVal _RemotePC_Username$,
+		 ByVal _RemotePC_Password$,
+		 ByVal _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted As [String]()
 		)
 			Try : LogSystemMessage("Deleting Files from remote UNC Directory " & _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithBackslashOnEnd().InSquares(), LogEvent.DSEventSeverity.Infomation)
 
@@ -95,9 +96,9 @@
 
 				'Connect \w new credentials
 				Remoting.AuthenticateWithNetworkFolder(
-					_UNCPath:=_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(),
-					_Username:=_RemotePC_Username,
-					_Password:=_RemotePC_Password
+				 _UNCPath:=_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted.FullName.WithoutBackslashOnEnd(),
+				 _Username:=_RemotePC_Username,
+				 _Password:=_RemotePC_Password
 				)
 
 				'Use the open authenticated UNC Connection
@@ -189,33 +190,33 @@
 		Private Const ERROR_DEVICE_IN_USE% = 2404
 
 		Private Win32_NetworkErrors_ As New Dictionary(Of [Int32], [String])() From {
-			{ERROR_ACCESS_DENIED, "Error: Access Denied"},
-			{ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
-			{ERROR_BAD_DEVICE, "Error: Bad Device"},
-			{ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
-			{ERROR_BAD_PROVIDER, "Error: Bad Provider"},
-			{ERROR_CANCELLED, "Error: Cancelled"},
-			{ERROR_EXTENDED_ERROR, "Error: Extended Error"},
-			{ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
-			{ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
-			{ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
-			{ERROR_MORE_DATA, "Error: More Data"},
-			{ERROR_NO_MORE_ITEMS, "Error: No More Items"},
-			{ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
-			{ERROR_NO_NETWORK, "Error: No Network"},
-			{ERROR_BAD_PROFILE, "Error: Bad Profile"},
-			{ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
-			{ERROR_DEVICE_IN_USE, "Error: Device In Use"},
-			{ERROR_NOT_CONNECTED, "Error: Not Connected"},
-			{ERROR_OPEN_FILES, "Error: Open Files"},
-			{ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
+		 {ERROR_ACCESS_DENIED, "Error: Access Denied"},
+		 {ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
+		 {ERROR_BAD_DEVICE, "Error: Bad Device"},
+		 {ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
+		 {ERROR_BAD_PROVIDER, "Error: Bad Provider"},
+		 {ERROR_CANCELLED, "Error: Cancelled"},
+		 {ERROR_EXTENDED_ERROR, "Error: Extended Error"},
+		 {ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
+		 {ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
+		 {ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
+		 {ERROR_MORE_DATA, "Error: More Data"},
+		 {ERROR_NO_MORE_ITEMS, "Error: No More Items"},
+		 {ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
+		 {ERROR_NO_NETWORK, "Error: No Network"},
+		 {ERROR_BAD_PROFILE, "Error: Bad Profile"},
+		 {ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
+		 {ERROR_DEVICE_IN_USE, "Error: Device In Use"},
+		 {ERROR_NOT_CONNECTED, "Error: Not Connected"},
+		 {ERROR_OPEN_FILES, "Error: Open Files"},
+		 {ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
 		}
 
 		Private Function GetWin32NetworkErrorDescriptionText_FromErrorCode_$(ByVal _WinNT_ErrorCode%)
 
 			Return Remoting.Win32_NetworkErrors_.ItemOrDefault(
-				_Key:=_WinNT_ErrorCode,
-				_DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
+			 _Key:=_WinNT_ErrorCode,
+			 _DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
 			)
 
 		End Function

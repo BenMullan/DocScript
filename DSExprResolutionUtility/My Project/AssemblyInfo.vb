@@ -14,7 +14,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("DocScript Standalone Expression Resolution Utility Executable")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
 <Assembly: AssemblyProduct("DSExprResolutionUtility")> 
-<Assembly: AssemblyCopyright("Copyright © Ben Mullan [MNDN] 2022")> 
+<Assembly: AssemblyCopyright("DocScript (C) 2023")> 
 <Assembly: AssemblyTrademark("BM-TM")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2.0.0")> 
-<Assembly: AssemblyFileVersion("1.4.2.0")> 
+<Assembly: AssemblyVersion("4.0.1.1")> 
+<Assembly: AssemblyFileVersion("4.0.1.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

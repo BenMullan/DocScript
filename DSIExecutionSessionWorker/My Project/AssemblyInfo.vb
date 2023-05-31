@@ -14,7 +14,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Communicates with the DocScript SQL Database to run the specified Program inside an Execution Session")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
 <Assembly: AssemblyProduct("DSIExecutionSessionWorker")> 
-<Assembly: AssemblyCopyright("Copyright © Ben Mullan 2022")> 
+<Assembly: AssemblyCopyright("DocScript (C) 2023")> 
 <Assembly: AssemblyTrademark("BM-TM")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.3.2.4")> 
-<Assembly: AssemblyFileVersion("1.2.2.0")> 
+<Assembly: AssemblyVersion("4.0.2.4")> 
+<Assembly: AssemblyFileVersion("4.0.2.0")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

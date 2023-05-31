@@ -482,4 +482,8 @@
     <Resource Include="Images\Tokens.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)..\DSCommandLineInterpreter\$(OutDir)DSCLI.exe $(ProjectDir)$(OutDir)
+copy $(ProjectDir)..\DSExprResolutionUtility\$(OutDir)DSExpr.exe $(ProjectDir)$(OutDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

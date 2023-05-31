@@ -1,6 +1,6 @@
 ﻿Public Module EntryPoint
 
-	Public Enum WhenReadyAction As Byte
+	Public Enum DSCLIActionToPerform As Byte
 		Unresolved = 0
 		Run = 1
 		GetProgramTree = 2
@@ -36,7 +36,8 @@
 	Public ExeCxt_ToUse As DocScript.Runtime.ExecutionContext 'Initialised to CLIDefault, as soon as (CurrentLogEventHandler IsNot Nothing)
 	Public SourceToInterpret As [String] = Nothing
 	Public DocScriptCLAs As [String]() = {}
-	Public ActionWhenReady As WhenReadyAction = WhenReadyAction.Unresolved
+	Public ActionWhenReady As DSCLIActionToPerform = DSCLIActionToPerform.Unresolved
+	Public HideConsoleBeforeExecution As [Boolean] = False
 	Public PromptBeforeExit As [Boolean] = False
 
 #End Region
@@ -55,7 +56,7 @@
 			REM ↓ Scenario-1: We have just been passed a Source-File-Path (with 0 or more DS-CLAs) in the CLAs to DSCLI.exe; just run the DS Program, instead of bothering with the CLAManager...
 			If (_CLAs.Length >= 1) AndAlso [UsefulMethods].Result_OrFalseOnException(Function() (New IO.FileInfo(_CLAs.ElementAt(0))).Exists) Then
 
-				EntryPoint.ActionWhenReady = EntryPoint.WhenReadyAction.Run
+				EntryPoint.ActionWhenReady = EntryPoint.DSCLIActionToPerform.Run
 				EntryPoint.SourceToInterpret = My.Computer.FileSystem.ReadAllText(_CLAs.ElementAt(0))
 				EntryPoint.DocScriptCLAs = _CLAs.Skip(1).ToArray()
 
@@ -67,16 +68,16 @@
 				 _CLAs,
 				 "DocScript Command-Line Interpreter. Interprets DocScript Source Files." & vbCrLf & "Note that for compatibility reasons, source files can be passed to DSCLI in" & vbCrLf & "the form DSCLI.exe {PathToSourceFile} {ArgumentsForTargetScript...}." & vbCrLf & "However, the /Key:Value CLAs provide more options.",
 				 {"DSCLI.EXE /Live",
-				 "DSCLI.EXE /Live /LogToFile:""DSLive.DSLog"" /ProcessDebugEvents /GUI",
 				 "DSCLI.EXE /Run /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
 				 "DSCLI.EXE /Run /SourceFile:""X:\Programming\DocScript\HelloWorld.DS"" /LogToConsole",
 				 "DSCLI.EXE /GetProgramTree /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
 				 "DSCLI.EXE /Run /SourceString:""Function<Void>Main();System_Beep();EndFunction""",
+				 "DSCLI.EXE /Live /LogToFile:""DSLive.DSLog"" /ProcessDebugEvents /GUI",
 				 "DSCLI.EXE /Run /SourceFile:""BIO2017.DS"" /DocScriptCLAs:""GRBBRB"" /LogToFile:BIO.DSLog"},
 				 AddressOf Console.Write, True,
-				 New Utilities.CLAManager.CLADatum("Live", "[Action] Enters a DocScript Live Session: a DS> prompt appears and accepts Statement-level Instructions", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.EnterDSLiveSession),
-				 New Utilities.CLAManager.CLADatum("Run", "[Action] Interprets the DocScript Source (specified by either /SourceFile or /SourceString). This process then returns the ExitCode of the DocScript Program.", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.Run),
-				 New Utilities.CLAManager.CLADatum("GetProgramTree", "[Action] Parses and Lexes the DocScript Source (specified by either /SourceFile or /SourceString), and writes the resultant XML Program tree to the Console Output Stream", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = WhenReadyAction.GetProgramTree),
+				 New Utilities.CLAManager.CLADatum("Live", "[Action] Enters a DocScript Live Session: a DS> prompt appears and accepts Statement-level Instructions", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = DSCLIActionToPerform.EnterDSLiveSession),
+				 New Utilities.CLAManager.CLADatum("Run", "[Action] Interprets the DocScript Source (specified by either /SourceFile or /SourceString). This process then returns the ExitCode of the DocScript Program.", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = DSCLIActionToPerform.Run),
+				 New Utilities.CLAManager.CLADatum("GetProgramTree", "[Action] Parses and Lexes the DocScript Source (specified by either /SourceFile or /SourceString), and writes the resultant XML Program tree to the Console Output Stream", False, False, Sub(_Value$) EntryPoint.ActionWhenReady = DSCLIActionToPerform.GetProgramTree),
 				 New Utilities.CLAManager.CLADatum("SourceFile", "[Datum] Specifies the Source via a DocScript Source File", False, True, Sub(_Value$) EntryPoint.SourceToInterpret = My.Computer.FileSystem.ReadAllText(_Value)),
 				 New Utilities.CLAManager.CLADatum("SourceString", "[Datum] Specifies the Source via a DocScript Source String. Use ; for NewLine and ` for StringLiteralStartEndChar.", False, True, Sub(_Value$) EntryPoint.SourceToInterpret = _Value.Replace(";", vbCrLf).Replace("`"c, """"c)),
 				 New Utilities.CLAManager.CLADatum("DocScriptCLAs", "[Datum] Specifies Command-Line Arguments for the DocScript Program", False, True, Sub(_Value$) EntryPoint.DocScriptCLAs = _Value.Split(" "c)),
@@ -84,6 +85,7 @@
 				 New Utilities.CLAManager.CLADatum("LogToFile", "[Flag+Datum] Writes Events from the DocScript Log to the specified Text File during Interpretation", False, True, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.TextFile(New IO.FileInfo(_Value))),
 				 New Utilities.CLAManager.CLADatum("ProcessDebugEvents", "[Flag] Processes and shows Debugging Messages in the Log (if the Log is shown)", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.ProcessDebugEvents = True),
 				 New Utilities.CLAManager.CLADatum("GUI", "[Flag] Indicates that the GUI ExecutionContext will be used instead of the CLI one", False, False, Sub(_Value$) EntryPoint.ExeCxt_ToUse = DocScript.Runtime.ExecutionContext.GUIDefault),
+				 New Utilities.CLAManager.CLADatum("HideConsoleBeforeExecution", "[Flag] Indicates that DSCLI should relinquish its Win32 Console, when Execution of the DocScript Program begins. (Only valid for the /Run action, and if the DSCLI process isn't launched from cmd)", False, False, Sub(_Value$) EntryPoint.HideConsoleBeforeExecution = True),
 				 New Utilities.CLAManager.CLADatum("PromptBeforeExit", "[Flag] Shows ""Press [Enter] to continue..."" before exiting the DSCLI Process", False, False, Sub(_Value$) EntryPoint.PromptBeforeExit = True)
 				)
 
@@ -93,10 +95,10 @@
 			End If
 
 			REM Ensure that we have an Action to perform
-			If EntryPoint.ActionWhenReady = WhenReadyAction.Unresolved Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("An Action must be specified (e.g. /Live or /Run or /GetProgramTree). Use /? for Examples!")
+			If EntryPoint.ActionWhenReady = DSCLIActionToPerform.Unresolved Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("An Action must be specified (e.g. /Live or /Run or /GetProgramTree). Use /? for Examples!")
 
 			REM If the specified [ActionWhenReady] requires source, then ensure we've been given some source to interpret
-			If {WhenReadyAction.Run, WhenReadyAction.GetProgramTree}.Contains(EntryPoint.ActionWhenReady) _
+			If {DSCLIActionToPerform.Run, DSCLIActionToPerform.GetProgramTree}.Contains(EntryPoint.ActionWhenReady) _
 			 Then If SourceToInterpret Is Nothing _
 			  Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("The specified Action (" & EntryPoint.ActionWhenReady.ToString("G") & ") requires some Source to interpret, which must be specified by either /SourceFile or /SourceString. Use /? for Examples!")
 
@@ -105,7 +107,7 @@
 			REM Now, perform the actual task for this DSCLI.exe process
 
 			Select Case EntryPoint.ActionWhenReady
-				Case WhenReadyAction.GetProgramTree	'Construct source into a New Program
+				Case DSCLIActionToPerform.GetProgramTree 'Construct source into a New Program
 
 					UsefulMethods.ConsoleWriteInColour(
 					   DocScript.Runtime.Program.FromSource(_Source:=EntryPoint.SourceToInterpret, _ExeCxt:=Nothing).ProgramTreeXML.ToString(),
@@ -114,23 +116,25 @@
 
 					_ExitCode = 0
 
-				Case WhenReadyAction.Run 'Construct and Execute a New Program
+				Case DSCLIActionToPerform.Run 'Construct and Execute a New Program
 
 					Dim _Program As New DocScript.Runtime.Program(
 					  _Tokens:=DocScript.Runtime.Parser.GetTokensFromSource(_RawSource:=EntryPoint.SourceToInterpret),
 					  _ExecutionContext:=EntryPoint.ExeCxt_ToUse
 					)
 
+					If EntryPoint.HideConsoleBeforeExecution Then UsefulMethods.FreeConsole()
+
 					_ExitCode = _Program _
 					 .Run(EntryPoint.DocScriptCLAs) _
 					 .ReturnStatus.Program_ExitCode _
 					 .GetValueOrDefault(defaultValue:=DocScript.Runtime.Constants.ProgramExitCode_Default)
 
-				Case WhenReadyAction.EnterDSLiveSession	'Start a DS-Live session. This call never returns.
+				Case DSCLIActionToPerform.EnterDSLiveSession 'Start a DS-Live session. This call never returns.
 
 					EntryPoint.EnterDSLiveSession()
 
-				Case Else : Throw New DSValidationException("Un-accounted-for ActionWhenReady", "ActionWhenReady: " & ActionWhenReady.ToString("G"))
+				Case Else : Throw New DSValidationException("Un-accounted-for Action", "ActionWhenReady: " & ActionWhenReady.ToString("G"))
 			End Select
 
 		Catch _Ex As Exception When True
@@ -139,7 +143,7 @@
 		End Try
 
 		REM PromptBeforeExit if needed
-		If EntryPoint.PromptBeforeExit Then : UsefulMethods.ConsoleWriteInColour("Press [Enter] to continue...", _ForegroundColour:=ConsoleColor.Magenta, _BackgroundColour:=ConsoleColor.Gray) : Console.ReadLine() : End If
+		If EntryPoint.PromptBeforeExit Then : UsefulMethods.ConsoleWriteInColour("DSCLI: Press [Enter] to continue...", _ForegroundColour:=ConsoleColor.Magenta, _BackgroundColour:=ConsoleColor.Gray) : Console.ReadLine() : End If
 
 		REM Exit this DSCLI instance
 		Return [_ExitCode]

@@ -59,6 +59,7 @@ Partial Class ActionInProgressDialog
 		Me.MinimizeBox = False
 		Me.MinimumSize = New System.Drawing.Size(250, 110)
 		Me.Name = "ActionInProgressDialog"
+		Me.Opacity = 0.9R
 		Me.ShowInTaskbar = False
 		Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

@@ -5,11 +5,11 @@
 
 	Public Sub New(ByVal _Program As DocScript.Runtime.Program)
 
-		' This call is required by the designer.
+		REM Initialise the Object
 		Me.InitializeComponent()
-
-		' Add any initialization after the InitializeComponent() call.
 		Me.ProgramToCompile = _Program
+
+		REM Set the Program Name
 		Try
 			If IO.File.Exists(_Program.Name) Then
 				Me.OutputEXE_FullPath_TextBox.Text = IO.Path.Combine((New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, IO.Path.GetFileNameWithoutExtension(Me.ProgramToCompile.Name)) & ".exe"
@@ -17,39 +17,42 @@
 			End If
 		Catch : End Try
 
-	End Sub
-
-	Public Sub InitialiseUI() Handles Me.Shown
-
-		REM Attempt to get the Default ICON Loaded: $(DSIDE_Dir)\DocScriptFile.ICO
-		Me.LoadSpecifiedICO_IntoPreviewPictureBox()
-		Me.ExeType_ComboBox.SelectedIndex = 0
-
+		REM Add EventHandlers for the File-Browsing-Dialogs
 		AddHandler Me.BrowseForEXEOutputFilePath_Button.Click,
-			Sub()
-				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", New Tuple(Of String, String)("PE Binary Executables", "EXE"))
-				Me.OutputEXE_FullPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
-			End Sub
+		   Sub()
+			   Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
+			   Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, _InitialDirectory:=If((New IO.FileInfo(Me.ProgramToCompile.Name)).Directory.Exists, (New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, Nothing))
+			   Me.OutputEXE_FullPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+			   Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
+		   End Sub
 
 		AddHandler Me.BrowseForIconFilePath_Button.Click,
-			Sub()
-				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Icon...", New Tuple(Of String, String)("Windows Icons", "ICO"))
-				Me.IconFilePath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
-			End Sub
+		 Sub()
+			 Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
+			 Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Browse for EXE Icon...", {New Tuple(Of String, String)("Windows Icons", "ICO")}, Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
+			 Me.IconFilePath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+			 Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
+		 End Sub
 
 		AddHandler Me.BrowseForCustomVBCPath_Button.Click,
-			Sub()
-				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for custom VBC File...", New Tuple(Of String, String)("PE Binary Executables", "EXE"))
-				Me.CustomVBCPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
-			End Sub
+		 Sub()
+			 Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
+			 Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Browse for custom VBC File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, Environment.GetFolderPath(Environment.SpecialFolder.Windows))
+			 Me.CustomVBCPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+			 Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
+		 End Sub
 
 	End Sub
 
-	Private Sub IconFilePath_TextBox_TextChanged() Handles IconFilePath_TextBox.TextChanged
-		Me.LoadSpecifiedICO_IntoPreviewPictureBox()
+	Public Sub InitialiseUIComponents() Handles Me.Shown
+
+		REM Attempt to get the Default ICON Loaded: $(DSIDE_Dir)\DocScriptFile.ICO
+		Me.LoadSpecifiedICO_IntoPreviewPictureBox()	'This would happen anyway as Windows Forms sets the hard-coded text of the textbox, then this EventHandler would be called
+		Me.ExeType_ComboBox.SelectedIndex = 0
+
 	End Sub
 
-	Public Sub LoadSpecifiedICO_IntoPreviewPictureBox()
+	Public Sub LoadSpecifiedICO_IntoPreviewPictureBox() Handles IconFilePath_TextBox.TextChanged
 		Try
 			Me.IconPreview_PictureBox.Image = System.Drawing.Image.FromStream(New IO.MemoryStream(IO.File.ReadAllBytes(Me.IconFilePath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))))
 			Me.IconPreviewError_Label.Text = [String].[Empty]

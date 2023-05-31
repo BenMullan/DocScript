@@ -181,10 +181,9 @@
 			<!-- The Program RibbonTab -->
 			<RibbonTab x:Name="ProgramTab" Header="Program">
 
-				<RibbonGroup x:Name="AnaylseGroup" Header="Analyse">
-					<RibbonButton x:Name="GenerateTokensTableButton" LargeImageSource="/DSIDE;component/Images/Tokens.PNG" Label="View Cached Tokens..." ToolTip="Ctrl + Shift + K" IsEnabled="False" />
-					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T" IsEnabled="False" />
-					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R" IsEnabled="False" />
+				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
+					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
+					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
 				</RibbonGroup>
 
 				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">
@@ -194,7 +193,7 @@
 				
 				<RibbonGroup Header="Debug">
 					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
-					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
+					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
 				</RibbonGroup>
 
 			</RibbonTab>
@@ -202,17 +201,18 @@
 			<!-- The DocScript RibbonTab -->
 			<RibbonTab x:Name="DocScriptTab" Header="DocScript">
 
+				<RibbonGroup x:Name="AnaylseGroup" Header="Analyse">
+					<RibbonButton x:Name="GenerateTokensTableButton" LargeImageSource="/DSIDE;component/Images/Tokens.PNG" Label="View Cached Tokens..." ToolTip="Ctrl + Shift + K" IsEnabled="False" />
+					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T" IsEnabled="False" />
+					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R" IsEnabled="False" />
+				</RibbonGroup>
+
 				<RibbonGroup x:Name="ExeCxtGroup" Header="Execution Context">
 					<RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
 				</RibbonGroup>
-
-				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
-					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
-					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
-				</RibbonGroup>
 				
 				<RibbonGroup x:Name="MiscGroup" Header="Misc.">
-					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
+					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
 					<RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />
 					<RibbonCheckBox Label="Process Debug Events" x:Name="ProcessDebugEventsCheckBox" />
 					<RibbonCheckBox Label="Use MsgBox Logging" Name="UseMsgBoxLoggingCheckBox" />

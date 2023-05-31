@@ -1156,7 +1156,8 @@ Namespace CompilerExtentions
 
 		''' <summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a SaveFileDialog, and returns the Selected File, or NOTHING.</summary>
 		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
-		Public Function RequestFilePath_WithSaveFileDialog(ByVal _FileDialog_Title$, ByVal ParamArray _TargetFileExtentions As Tuple(Of String, String)()) As IO.FileInfo
+		''' <param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
+		Public Function RequestFilePath_WithSaveFileDialog(ByVal _FileDialog_Title$, ByVal _TargetFileExtentions As Tuple(Of String, String)(), Optional ByVal _InitialDirectory$ = Nothing) As IO.FileInfo
 			Try
 
 				Dim _ProvidedFilePath As [String] = Nothing
@@ -1171,7 +1172,7 @@ Namespace CompilerExtentions
 				Dim _STAThread As New Threading.Thread(
 				Sub()
 					Dim _SaveFileDialog As New Windows.Forms.SaveFileDialog() _
-					With {.Title = _FileDialog_Title, .Filter$ = _FileDialog_Filter$, .InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)}
+					With {.Title = _FileDialog_Title, .Filter$ = _FileDialog_Filter$, .InitialDirectory = If(_InitialDirectory, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)), .AutoUpgradeEnabled = True, .ValidateNames = True}
 					If _SaveFileDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then _ProvidedFilePath = _SaveFileDialog.FileName
 				End Sub)
 
@@ -1181,7 +1182,38 @@ Namespace CompilerExtentions
 
 				Return If(_ProvidedFilePath = Nothing, Nothing, New IO.FileInfo(_ProvidedFilePath))
 
-			Catch _Ex As Exception : Throw New DSException("@RequestFolderPath: " & _Ex.Message, _Ex) : End Try
+			Catch _Ex As Exception : Throw New DSException("@RequestFilePath_WithSaveFileDialog: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		''' <summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a OpenFileDialog, and returns the Selected File, or NOTHING.</summary>
+		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
+		''' <param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
+		Public Function RequestFilePath_WithOpenFileDialog(ByVal _FileDialog_Title$, ByVal _TargetFileExtentions As Tuple(Of String, String)(), Optional ByVal _InitialDirectory$ = Nothing) As IO.FileInfo
+			Try
+
+				Dim _ProvidedFilePath As [String] = Nothing
+
+				REM ↓ E.g.	Hypertext Markup (*.HTML)|*.HTML|All files (*.*)|*.*
+				Dim _FileDialog_Filter As [String] = String.Join("|", ( _
+				 From _DescriptionAndExtention As Tuple(Of [String], [String])
+				 In _TargetFileExtentions.Concat({New Tuple(Of String, String)("All Files", "*")})
+				 Select String.Format("{0} (*.{1})|*.{1}", _DescriptionAndExtention.Item1, _DescriptionAndExtention.Item2)
+				).ToArray())
+
+				Dim _STAThread As New Threading.Thread(
+				Sub()
+					Dim _OpenFileDialog As New Windows.Forms.OpenFileDialog() _
+					With {.Title = _FileDialog_Title, .Filter$ = _FileDialog_Filter$, .InitialDirectory = If(_InitialDirectory, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)), .AutoUpgradeEnabled = True, .ValidateNames = True}
+					If _OpenFileDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then _ProvidedFilePath = _OpenFileDialog.FileName
+				End Sub)
+
+				_STAThread.SetApartmentState(Threading.ApartmentState.STA)
+				_STAThread.Start()
+				_STAThread.Join()
+
+				Return If(_ProvidedFilePath = Nothing, Nothing, New IO.FileInfo(_ProvidedFilePath))
+
+			Catch _Ex As Exception : Throw New DSException("@RequestFilePath_WithOpenFileDialog: " & _Ex.Message, _Ex) : End Try
 		End Function
 
 		''' <summary>(MullNet UsefulMethod) Returns the directory of the current exe</summary>

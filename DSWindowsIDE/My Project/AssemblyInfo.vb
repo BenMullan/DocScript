@@ -15,8 +15,8 @@ Imports System.Windows
 <Assembly: AssemblyDescription("DocScript Windows IDE Executable. Create, Edit, Analyse, and Debug Scripts with ease. Built on .NET v4.0 (2010).")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
 <Assembly: AssemblyProduct("DSWindowsIDE")> 
-<Assembly: AssemblyCopyright("DocScript (C) 2022")> 
-<Assembly: AssemblyTrademark("DOCSCRIPT (TM)")> 
+<Assembly: AssemblyCopyright("DocScript (C) 2023")> 
+<Assembly: AssemblyTrademark("BM-TM")> 
 <Assembly: ComVisible(false)>
 
 'In order to begin building localizable applications, set 
@@ -55,7 +55,7 @@ Imports System.Windows
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.3.5.1")> 
-<Assembly: AssemblyFileVersion("3.2.1.6")> 
+<Assembly: AssemblyVersion("4.0.5.1")> 
+<Assembly: AssemblyFileVersion("4.0.1.6")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

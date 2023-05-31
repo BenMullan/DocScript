@@ -1,5 +1,10 @@
 ﻿Public Class RemotingExperiments
 
+
+	'Note from 31052023: The final implementation of DS-Remoting (as found in RC4) differs from this mock-up, most notably in that DSCLI.exe and DSCore.dll are used instead of DSCLI.ILM.exe
+
+
+
 	REM ╔═════════════════════════════════════════════╗
 	REM ║             DocScript Remoting              ║
 	REM ╚═════════════════════════════════════════════╝
@@ -22,7 +27,7 @@
 	'
 	'	Process:
 	'		- E.g. CopyFiles_ToRemoteComputer("\\192.168.1.85\C$\Windows\DSRemoting\", "User", "Pass", {"DSCLI.ILM.exe", "...ScriptAK47.DS"})
-	'		- E.g. PsExec.exe \\192.168.1.85 -u Administrator -p Logon#123 C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
+	'		- E.g. PsExec.exe \\192.168.1.85 -u Administrator -p PASS123 C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
 
 
 	REM Interactive Mode - Starts a DSCLI.exe process on a specified Session of the remote computer; Supports GUI execution
@@ -37,7 +42,7 @@
 	'
 	'	Process:
 	'		- E.g. CopyFiles_ToRemoteComputer("\\192.168.1.85\C$\Windows\DSRemoting\", "User", "Pass", {"DSCLI.ILM.exe", "...ScriptAK47.DS"})
-	'		- E.g. PsExec.exe \\192.168.1.85 -u Administrator -p Logon#123 -i -d C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /GUI /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
+	'		- E.g. PsExec.exe \\192.168.1.85 -u Administrator -p PASS123 -i -d C:\Windows\DSRemoting\DSCLI.ILM.exe /Run /GUI /SourceFile:""C:\Windows\DSRemoting\...ScriptBC09.DS"" /DocScriptCLAs:"..."
 
 
 	REM Resources:
@@ -138,10 +143,10 @@
 	''' <param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
 	''' <remarks></remarks>
 	Public Shared Sub CopyFiles_ToRemoteComputer(
-		 ByVal _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied As IO.DirectoryInfo,
-		 ByVal _RemotePC_Username$,
-		 ByVal _RemotePC_Password$,
-		 ByVal _FilesToCopyThither As IO.FileInfo()
+	  ByVal _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied As IO.DirectoryInfo,
+	  ByVal _RemotePC_Username$,
+	  ByVal _RemotePC_Password$,
+	  ByVal _FilesToCopyThither As IO.FileInfo()
 	)
 		Try
 
@@ -212,7 +217,7 @@ Module NetworkShare
 	End Function
 
 	<System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)>
- Private Class NETRESOURCE
+	Private Class NETRESOURCE
 		Public dwScope As Integer = 0
 		Public dwType As Integer = 0
 		Public dwDisplayType As Integer = 0

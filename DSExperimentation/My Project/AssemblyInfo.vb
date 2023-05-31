@@ -13,8 +13,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("DSExperimentation")> 
 <Assembly: AssemblyDescription("DocScript Experementation")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
-<Assembly: AssemblyProduct("DocScript Experimentation INTERNAL")> 
-<Assembly: AssemblyCopyright("Copyright © 2023")> 
+<Assembly: AssemblyProduct("DocScript Experimentation (INTERNAL)")> 
+<Assembly: AssemblyCopyright("DocScript (C) 2023")> 
 <Assembly: AssemblyTrademark("BM-TM")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.5.0.0")> 
-<Assembly: AssemblyFileVersion("1.5.0.0")> 
+<Assembly: AssemblyVersion("4.0.1.1")> 
+<Assembly: AssemblyFileVersion("4.0.1.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

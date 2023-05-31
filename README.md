@@ -1,5 +1,5 @@
-﻿# DocScript
-A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases. (BM A-Level CS Coursework 2023)  
+# DocScript
+A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases. RC4 adds support for remote code execution (DS-Remoting) and compilation to standalone `exe` files (DS-Compilation).
   
 Watch the [**"DocScript in 3 Minutes" Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!<br/>
 

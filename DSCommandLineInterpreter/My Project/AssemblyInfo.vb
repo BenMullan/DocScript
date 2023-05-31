@@ -13,8 +13,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("DocScript Command-line Interpreter Executable")> 
 <Assembly: AssemblyDescription("Executes DocScript Source code")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
-<Assembly: AssemblyProduct("DSCommandLineInterpreter (v1.6)")> 
-<Assembly: AssemblyCopyright("Copyright © BenM 2022")> 
+<Assembly: AssemblyProduct("DSCommandLineInterpreter")> 
+<Assembly: AssemblyCopyright("DocScript (C) 2023")> 
 <Assembly: AssemblyTrademark("BM-TM")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.9.2.1")> 
-<Assembly: AssemblyFileVersion("1.9.2.1")> 
+<Assembly: AssemblyVersion("4.0.2.1")> 
+<Assembly: AssemblyFileVersion("4.0.2.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 
