@@ -542,12 +542,14 @@ Class MainWindow
 
 	End Sub
 
-	Public Sub ZoomIn() Handles ZoomInButton.MouseUp
-		Me.ZoomValueSlider.Value = 2
+	Protected Const ZoomInOut_Increment_# = 0.5
+
+	Public Sub ZoomIn() Handles ZoomInButton.Click
+		Me.ZoomValueSlider.Value += ZoomInOut_Increment_#
 	End Sub
 
-	Public Sub ZoomOut() Handles ZoomInButton.MouseUp
-		Me.ZoomValueSlider.Value = 0.5
+	Public Sub ZoomOut() Handles ZoomOutButton.Click
+		Me.ZoomValueSlider.Value -= ZoomInOut_Increment_#
 	End Sub
 
 	Public Sub ShowNewBIFExplorerWindow() Handles ViewBIFsButton.Click
