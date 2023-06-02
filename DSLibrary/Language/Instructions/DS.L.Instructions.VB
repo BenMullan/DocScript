@@ -77,7 +77,7 @@
 		Protected Sub New(ByVal _ExecuteeDescription$) 'The Class cannot be Instanciated from outside by means of the Constructor.
 			Me.ExecuteeDescription = _ExecuteeDescription
 			Me.ExecutionTime_Stopwatch_.Start()
-			LogExecutionMessage("Started Executing " & Me.ExecuteeDescription.InSquares() & "...")
+			LogExecutionMessage("Started Executing or Resolving " & Me.ExecuteeDescription.InSquares() & "...")
 		End Sub
 
 		''' <summary>

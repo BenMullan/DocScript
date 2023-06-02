@@ -1321,6 +1321,10 @@ Namespace CompilerExtentions
 				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:=Sub() Call (Sub(_SelectedFile As IO.FileInfo) If _SelectedFile IsNot Nothing Then My.Computer.FileSystem.WriteAllText(_SelectedFile.FullName, _Text, False)).Invoke(UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {}))))
 				 _SimpleTextForm.Controls.Add(_MainMenuStrip) : _SimpleTextForm.MainMenuStrip = _MainMenuStrip
 
+				 REM !!!
+				 REM There should be Try-Statements for the SaveAs!
+				 REM !!!
+
 				 Call (_SimpleTextForm).ShowDialog()
 
 			 End Sub)

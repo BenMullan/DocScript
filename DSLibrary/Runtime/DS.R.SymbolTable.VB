@@ -79,7 +79,7 @@
 
 		''' <summary>The _Identifier is ToUpper()-ed when added to the SymbolTable</summary>
 		Public Sub AddEntry(ByVal _Identifier$, ByVal _Entry As ISymbolTableEntry)
-			Try : LogExecutionMessage("Adding Entry with Identifier " & _Identifier.InSquares() & " and SymbolTableValue of " & _Entry.ToString() & " into SymbolTable " & Me.Description.InSquares())
+			Try : LogExecutionMessage("Adding Entry with Identifier " & _Identifier.InSquares() & " and SymbolTableValue of " & _Entry.ToString() & " into SymbolTable " & Me.Description.InSquares(), LogEvent.DSEventSeverity.Debug)
 
 				REM Ensure the SymbolTable dosen't already contain an Entry with the specified _Identifier
 				If Me.Entries_.ContainsKey(_Identifier.ToUpper()) Then Throw New DSDuplicateSymbolException(_Identifier, "SymbolTable Description: " & Me.Description)
