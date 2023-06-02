@@ -76,14 +76,16 @@ DSCore
 	<summary>This is a QuickLog Method</summary>
 </member><member name="F:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.CLIDefault">
 	<summary>Outputs the LogEvents to the Console in different Colours depending on the Event's Severity</summary>
+</member><member name="F:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.CurrentGUIDefaultLogWindow">
+	<summary>If this is [Nothing], then it's set to a New LogWindow. Otherwise, it can be a LogWIndow of your choice.</summary>
 </member><member name="F:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.GUIDefault">
-	<summary>Outputs the LogEvents to a Built-in LogWindow, which is run in a seperate Thread</summary>
+	<summary>Outputs the LogEvents to a Built-in LogWindow</summary>
 </member><member name="F:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.MsgBoxPerEvent">
 	<summary>Outputs each LogEvent to a MsgBox</summary>
 </member><member name="P:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.TextFile(System.IO.FileInfo)">
 	<summary>Outputs each LogEvent to the _LogFile</summary>
 </member><member name="P:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.WindowsEventLog(System.String)">
-	<summary>Writes each LogEvent to the Windows-Event-Log</summary>
+	<summary>Writes each LogEvent to the Windows-Event-Log. The _Log_SubName should be e.g. "IDE", which would form the Log Name "DS_IDE"</summary>
 </member><member name="F:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.SilenceAll">
 	<summary>Does nothing with each LogEvent</summary>
 </member><member name="T:DocScript.Logging.LogUtilities.BuiltInLogEventHandlers">
@@ -253,6 +255,8 @@ DSCore
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.VariableDeclaration">
 	<summary>Represents E.g. [&lt;String&gt; Name : "Ben"]</summary>
+</member><member name="M:DocScript.Logging.LogWindow.#ctor(System.String)">
+	<summary>The _SessionName$ appears in the Window Title, to distinguish it from other active LogWindows</summary>
 </member><member name="M:DocScript.Logging.LogWindow.AddLogEvent(DocScript.Logging.LogEvent)">
 	<summary>Adds the _LogEvent to the DataGridView of the Form</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Const">
@@ -298,39 +302,6 @@ DSCore
  </summary>
 </member><member name="T:DocScript.Runtime.SymbolTable">
 	<summary>Holds a dictionary of Identifiers to [SymbolTableEntry]s. All Identifiers are ToUpper()-ed.</summary>
-</member><member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
-	<summary>
- Uses WMI to run the specified command line on the remote Windows(TM) computer.
- </summary>
-	<param name="_TargetPC_HostnameOrIP">E.g. "192.168.1.85"</param>
-	<param name="_Username_ForTargetPC">E.g. ".\Administrator"</param>
-	<param name="_Password_ForTargetPC">E.g. "Pass!123"</param>
-	<param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
-	<remarks></remarks>
-</member><member name="M:DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.IO.FileInfo[])">
-	<summary>
- Copies each of the _FilesToCopyThither into the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
- </summary>
-	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
-	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
-	<param name="_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
-	<param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
-	<remarks></remarks>
-</member><member name="M:DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.String[])">
-	<summary>
- Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
- </summary>
-	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
-	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
-	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
-	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
-	<remarks></remarks>
-</member><member name="M:DocScript.Runtime.Remoting.AuthenticateWithNetworkFolder(System.String,System.String,System.String)">
-	<summary>Associates the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
-</member><member name="M:DocScript.Runtime.Remoting.RemoveCredentialsAssociatedWithNetworkFolder(System.String,System.Boolean)">
-	<summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
-</member><member name="T:DocScript.Runtime.Remoting">
-	<summary>Contains resources for executing DocScript programs on remote computers</summary>
 </member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
 	<summary>If there wasn't an associated Expr in the source, then this is Nothing (null)</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Runtime.Token[]@)">
@@ -925,6 +896,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) Returns a new Array, wherein _NumElementsToRemoveFromEnd have been chopped off of the end of the input _Array</summary>
 </member><member name="M:DocScript.CompilerExtentions.CollectionTypeExtentions.ItemOrDefault``2(System.Collections.Generic.Dictionary{``0,``1}@,``0,``1)">
 	<summary>(MullNet CompilerExtention) Returns the Value corrosponding to _Key, unless the _Dictionary dosen't contain _Key, in which case _DefaultValue is returned</summary>
+</member><member name="M:DocScript.CompilerExtentions.IOObjectExtentions.FileHereIn(System.IO.DirectoryInfo@,System.String)">
+	<summary>(MullNet CompilerExtention) Returns an IO.FileInfo pointing to the file with that name, within the _Directory</summary>
 </member><member name="M:DocScript.CompilerExtentions.WebObjectExtentions.WriteAndEnd(System.Web.HttpResponse@,System.String)">
 	<summary>
  (MullNet CompilerExtention) Writes to, and then Ends the Response Stream
@@ -1021,6 +994,9 @@ DSCore
 	<summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a SaveFileDialog, and returns the Selected File, or NOTHING.</summary>
 	<param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
 	<param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
+	<remarks>
+ E.g. UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")})
+ </remarks>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RequestFilePath_WithOpenFileDialog(System.String,System.Tuple{System.String,System.String}[],System.String)">
 	<summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a OpenFileDialog, and returns the Selected File, or NOTHING.</summary>
 	<param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
@@ -1033,6 +1009,8 @@ DSCore
 	<summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. The ExitCode can be resolved from the input Process Object. Waits for the process to exit completely before returning any output.</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.Result_OrFalseOnException(System.Func{System.Boolean}@)">
 	<summary>(MullNet UsefulMethod) Attempts to resolve the Function to a value of type Boolean, but returns False if an Exception is Thrown whilst attempting to perform this resolution</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ShowTextInNewWindow(System.String,System.String)">
+	<summary>(MullNet UsefulMethod) Shows the _Text in a Form with a Copy button at the top. This is all done in a NEW STA Thread.</summary>
 </member><member name="T:DocScript.CompilerExtentions.UsefulMethods">
 	<summary>
  Non-CompilerExtention Useful Methods which need to be accessible without Namespace qualification
@@ -1068,6 +1046,39 @@ DSCore
 	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
 </member><member name="T:DocScript.Runtime.Token">
 	<summary>Represents a Segmented String with a TokenType, from the Source of a DocScript Program</summary>
+</member><member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
+	<summary>
+ Uses WMI to run the specified command line on the remote Windows(TM) computer.
+ </summary>
+	<param name="_TargetPC_HostnameOrIP">E.g. "192.168.1.85"</param>
+	<param name="_Username_ForTargetPC">E.g. ".\Administrator"</param>
+	<param name="_Password_ForTargetPC">E.g. "Pass!123"</param>
+	<param name="_CommandLineToRun_OnRemotePC">E.g. "C:\Res\DSCLI.exe C:\Res\Script.DS"</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.CopyFiles_ToRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.IO.FileInfo[])">
+	<summary>
+ Copies each of the _FilesToCopyThither into the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+	<param name="_FilesToCopyThither">E.g. {"C:\File1.txt", "F:\Folder\File2.PNG"}</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.String[])">
+	<summary>
+ Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.AuthenticateWithNetworkFolder(System.String,System.String,System.String)">
+	<summary>Associates the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
+</member><member name="M:DocScript.Runtime.Remoting.RemoveCredentialsAssociatedWithNetworkFolder(System.String,System.Boolean)">
+	<summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
+</member><member name="T:DocScript.Runtime.Remoting">
+	<summary>Contains resources for executing DocScript programs on remote computers</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Debug">
 	<summary>DocScript Language Utilities</summary>
 </member><member name="T:DocScript.Language.Constants">
@@ -1214,7 +1225,7 @@ DSCore
 </member><member name="P:DocScript.Runtime.ExecutionContext.CLIDefault">
 	<summary>Uses Console.Write()&amp;Console.ReadLine() and Console.WriteLine()</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.GUIDefault">
-	<summary>Uses InputBox() and MsgBox()</summary>
+	<summary>Uses InputBox(), and MessageBox.Show() with the ServiceNotification flag. This means that even if the DocScript Interpreter process is running on a different session to that of the GUI Console session, a MessageBox will still be shown on the console.</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.AllStandardBuiltInFunctions">
 	<summary>Concatenates together all the Standard BuiltInFunctions into a single Array</summary>
 </member><member name="M:DocScript.Runtime.ExecutionContext.ToString">

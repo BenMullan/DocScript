@@ -125,34 +125,33 @@
 				 AddressOf Console.WriteLine
 
 				Return New ExecutionContext(
-					_ID:="DS_BuiltInExeCxt_CLIDefault",
-					_RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
-					_InputDelegate:=_CLIDefault_InputDelegate_,
-					_OutputDelegate:=_CLIDefault_OutputDelegate_,
-					_BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
+				 _ID:="DS_BuiltInExeCxt_CLIDefault",
+				 _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
+				 _InputDelegate:=_CLIDefault_InputDelegate_,
+				 _OutputDelegate:=_CLIDefault_OutputDelegate_,
+				 _BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
 				)
 
 			End Get
 		End Property
 
-		''' <summary>Uses InputBox() and MsgBox()</summary>
+		''' <summary>Uses InputBox(), and MessageBox.Show() with the ServiceNotification flag. This means that even if the DocScript Interpreter process is running on a different session to that of the GUI Console session, a MessageBox will still be shown on the console.</summary>
 		Public Shared ReadOnly Property GUIDefault As ExecutionContext
 			Get
 
 				Static _GUIDefault_InputDelegate_ As Func(Of String, String) = _
-				 Function(_Prompt$) As String
-					 Return Global.Microsoft.VisualBasic.Interaction.InputBox(_Prompt, "DocScript: Input")
-				 End Function
+				 Function(_Prompt$) Global.Microsoft.VisualBasic.Interaction.InputBox(_Prompt, "DocScript Input")
 
 				Static _GUIDefault_OutputDelegate_ As Action(Of String) = _
-				 Sub(_Message$) Global.Microsoft.VisualBasic.MsgBox(_Message, MsgBoxStyle.Information, "DocScript: Output")
+				 Sub(_Message$) Global.System.Windows.Forms.MessageBox.Show(_Message, "DocScript Output", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information, Windows.Forms.MessageBoxDefaultButton.Button1, Windows.Forms.MessageBoxOptions.ServiceNotification, displayHelpButton:=False)
+				'Sub(_Message$) Global.Microsoft.VisualBasic.MsgBox(_Message, MsgBoxStyle.Information, "DocScript: Output")
 
 				Return New ExecutionContext(
-					_ID:="DS_BuiltInExeCxt_GUIDefault",
-					_RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
-					_InputDelegate:=_GUIDefault_InputDelegate_,
-					_OutputDelegate:=_GUIDefault_OutputDelegate_,
-					_BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
+				 _ID:="DS_BuiltInExeCxt_GUIDefault",
+				 _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
+				 _InputDelegate:=_GUIDefault_InputDelegate_,
+				 _OutputDelegate:=_GUIDefault_OutputDelegate_,
+				 _BuiltInFunctions:=ExecutionContext.AllStandardBuiltInFunctions
 				)
 
 			End Get
@@ -162,7 +161,7 @@
 		Public Shared ReadOnly Property AllStandardBuiltInFunctions As BuiltInFunction()
 			Get
 
-				Return DocScript.Runtime.[StandardBuiltInFunctions].Maths _
+				Return DocScript.Runtime.StandardBuiltInFunctions.[Maths] _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[System]) _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[File]) _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[DS]) _

@@ -7,12 +7,12 @@
 
 		''' <summary>The plain EntryPoint with no Input or Output. Used by Program.IsEntryPointFunctionSignature()</summary>
 		Public Shared ReadOnly ValidEntryPointFunction_Signature_Unadorned As New Language.Instructions.Statements.DSFunction.Signature(
-			Runtime.Constants.EntryPointFunction_Identifier, {}, GetType(Language.Variables.Void)
+		 Runtime.Constants.EntryPointFunction_Identifier, {}, GetType(Language.Variables.Void)
 		)
 
 		''' <summary>The EntryPoint for OperatingSystem-Interoperability. Used by Program.IsEntryPointFunctionSignature()</summary>
 		Public Shared ReadOnly ValidEntryPointFunction_Signature_OSInterop As New Language.Instructions.Statements.DSFunction.Signature(
-			Runtime.Constants.EntryPointFunction_Identifier, {GetType(Language.Variables.DSArray(Of Language.Variables.DSString))}, GetType(Language.Variables.DSNumber)
+		 Runtime.Constants.EntryPointFunction_Identifier, {GetType(Language.Variables.DSArray(Of Language.Variables.DSString))}, GetType(Language.Variables.DSNumber)
 		)
 
 		''' <summary>Item1 = The DSFunctions; Item2 = The GlobalVarDecs;</summary>
@@ -183,7 +183,7 @@
 
 			LogLexingMessage("Began Program Construction (Lexing) with " & _Tokens.Length.ToString() & " Tokens...", LogEvent.DSEventSeverity.Infomation)
 
-			Me.ExecutionContext = _ExecutionContext REM COULD BE NOTHING
+			Me.ExecutionContext = _ExecutionContext	REM COULD BE NOTHING
 			'The ExeCxt is passed in as a constructor argument, instead of an argument to Run(),
 			'because you shouldn't really need to specify it every time you want to run the Program,
 			'and things like the BuiltInFunctions are a parameter of the Program, not a particular Invoccation of it.
@@ -368,14 +368,14 @@
 
 		''' <summary>Accounts for differences in System Drive letters and WinDir locations, and then looks in %WINDIR%\Microsoft.NET\Framework64\v4.0.30319\vbc.exe</summary>
 		Public Shared ReadOnly Property DefaultVbcExe_ForCurrentSystem As IO.FileInfo
-			Get 'dir %WINDIR%\Microsoft.NET\Framework64\vbc.exe /s /b
+			Get	'dir %WINDIR%\Microsoft.NET\Framework64\vbc.exe /s /b
 
 				Dim _VBCFile As New IO.FileInfo(
-					IO.Path.Combine(
-						Environment.GetFolderPath(Environment.SpecialFolder.Windows),
-						"Microsoft.NET\Framework\v4.0.30319",
-						"vbc.exe"
-					)
+				 IO.Path.Combine(
+				  Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+				  "Microsoft.NET\Framework\v4.0.30319",
+				  "vbc.exe"
+				 )
 				)
 
 				If Not _VBCFile.Exists Then Throw New IO.FileNotFoundException("The Default VBC.exe file did not exist", _VBCFile.FullName)
@@ -387,13 +387,13 @@
 
 		''' <summary>Packages up the DocScript Program, and all required Runtime Resources, into a standalone .exe file, which needs only the .NET Framework present on the client.</summary>
 		Public Sub CompileToEXE(
-			ByVal _OutputDirectory As IO.DirectoryInfo,
-			ByVal _FinalExeFile_NameOnly$,
-			ByVal _VBCExe As IO.FileInfo,
-			ByVal _ILMergeExe As IO.FileInfo,
-			ByVal _DSCoreDll As IO.FileInfo,
-			ByVal _IcoFile_ForExe As IO.FileInfo,
-			ByVal _DeleteIntermediateFiles As Boolean
+		 ByVal _OutputDirectory As IO.DirectoryInfo,
+		 ByVal _FinalExeFile_NameOnly$,
+		 ByVal _VBCExe As IO.FileInfo,
+		 ByVal _ILMergeExe As IO.FileInfo,
+		 ByVal _DSCoreDll As IO.FileInfo,
+		 ByVal _IcoFile_ForExe As IO.FileInfo,
+		 ByVal _DeleteIntermediateFiles As Boolean
 		)
 			Try
 
@@ -408,8 +408,8 @@
 				'DSCompilation requires either the GUIDefault or CLIDefault ExecutionContexts
 				'The ExecutionContext in use also dictates the /target:* argument for vbc.exe
 				If (
-					(Me.ExecutionContext Is Nothing) OrElse
-					Not {Runtime.ExecutionContext.GUIDefault, Runtime.ExecutionContext.CLIDefault}.Any(Function(_ExeCxt As Runtime.ExecutionContext) Me.ExecutionContext = _ExeCxt)
+				 (Me.ExecutionContext Is Nothing) OrElse
+				 Not {Runtime.ExecutionContext.GUIDefault, Runtime.ExecutionContext.CLIDefault}.Any(Function(_ExeCxt As Runtime.ExecutionContext) Me.ExecutionContext = _ExeCxt)
 				) Then Throw New DSValidationException("DSCompilation requires that the Program use the GUIDefault or CLIDefault ExecutionContext", "ExecutionContext: " & Me.ExecutionContext.ToString())
 
 				'VBEncoding Considerations:
@@ -417,10 +417,10 @@
 				'	- Prepend each line with	"
 				'	- Append each line with		" & vbcrlf & _
 				Dim _VBEncoded_DSSource As String = String.Join("",
-					Me.ReconstructedSource _
-						.Replace(""""c, """""") _
-						.Split({vbCrLf}, StringSplitOptions.RemoveEmptyEntries) _
-						.Select(Of String)(Function(_DSLine$) """"c & _DSLine.Trim() & """ & vbcrlf & _" & vbCrLf)
+				 Me.ReconstructedSource _
+				  .Replace(""""c, """""") _
+				  .Split({vbCrLf}, StringSplitOptions.RemoveEmptyEntries) _
+				  .Select(Of String)(Function(_DSLine$) """"c & _DSLine.Trim() & """ & vbcrlf & _" & vbCrLf)
 				).ToCharArray().RemoveFromEnd(15) 'Remove the final " & vbcrlf & _
 
 				Dim _DSPackage_SourceString$ =
@@ -487,9 +487,9 @@
 
 				'Delete DSPackage.VB and DSPackage.exe and {EXEName}.pdb
 				If _DeleteIntermediateFiles Then Call {
-					_DSPackageExe_FileName,
-					_DSPackageVB_FileName,
-					_FinalExeFile_NameOnly.Split("."c).ElementAt(0) & ".pdb"
+				 _DSPackageExe_FileName,
+				 _DSPackageVB_FileName,
+				 _FinalExeFile_NameOnly.Split("."c).ElementAt(0) & ".pdb"
 				}.ToList().ForEach(Sub(_FileToDelete_PathRelativeToOutputDir$) IO.File.Delete(IO.Path.Combine(_OutputDirectory.FullName, _FileToDelete_PathRelativeToOutputDir)))
 
 			Catch _Ex As Exception : Throw New DSException("@Program\CompileToEXE: " & _Ex.Message, _Ex) : End Try

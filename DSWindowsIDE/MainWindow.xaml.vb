@@ -1,27 +1,19 @@
-﻿Class MainWindow
+﻿'Not all Properties and Feilds are declared at the top of this Class. Rather, they are close to where they are used, inside a #Region.
+Class MainWindow
 
-	Public Const AbortButton_TextWhenEnabled$ = " Abort "
-
-	Public Property Cached_Tokens As DocScript.Runtime.Token() = Nothing								'Parsing Output		Used in [View Cached Tokens...]
-	Public Property Cached_Program As DocScript.Runtime.Program = Nothing								'Lexing Output		Used in [Generate Program Tree...]
-	Public Property Cached_ProgramExeRes As DocScript.Language.Instructions.ExecutionResult = Nothing	'Execution Output	Used in [Explore Execution Result...]
-
-	Public Property CurrentExecutionContext As DocScript.Runtime.ExecutionContext 'Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised)
-	Protected Property AvalonEdit_SearchPanel_ As New ICSharpCode.AvalonEdit.Search.SearchPanel()
+	'Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised)
+	Public Property CurrentExecutionContext As DocScript.Runtime.ExecutionContext
 
 	Public Sub New()
 
-		' This call is required by the designer.
-		Me.InitializeComponent()
-		System.Windows.Forms.Application.EnableVisualStyles()
+		Me.InitializeComponent() : System.Windows.Forms.Application.EnableVisualStyles()
 
 		Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
-		DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll	'TextFile(New IO.FileInfo("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Resources\DocScript.Log"))
 		Me.CurrentExecutionContext = DocScript.Runtime.ExecutionContext.GUIDefault
 
 		RegisterCodeSnippetInsertion_EventHandlers_()
 		Me.InitialiseTextEditorControl_()
-		Me.InitializeComponent()
+		Me.PopulateLogEventHandlersComboBox()
 
 		CLAManagment.ExamineCLAs_And_SetPassthroughVariables() 'Variables including CLAManagment.CLAPassthrough_CLAHelpDictionaryText are then later picked-up on.
 
@@ -35,6 +27,9 @@
 			If CLAManagment.CLAPassthrough_TextToInsertIntoTextEditor IsNot Nothing Then Me.SourceTextEditor.Text = CLAManagment.CLAPassthrough_TextToInsertIntoTextEditor
 			If CLAManagment.CLAPassthrough_RunWhenReady AndAlso (CLAManagment.CLAPassthrough_SourceFileToOpen Is Nothing) Then Throw New DSException("The /Run Argument is invalid, because no DocScript Program was specified the /OpenSourceFile Argument")
 			If CLAManagment.CLAPassthrough_SourceFileToOpen IsNot Nothing Then Me.OpenFile_FromCLAs(CLAManagment.CLAPassthrough_SourceFileToOpen, Sub() If CLAManagment.CLAPassthrough_RunWhenReady Then Me.RunCurrentSource())
+
+			REM Ensure the correct Buttons' State is applied
+			Me.UpdateInterpretationButtonsState_(InterpretationStage_.NoInterpretationPerformedYet)
 
 		Catch _Ex As Exception
 			[Interaction].MsgBox("On Initialising the UI Components:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Exclamation, _Ex.GetType().Name)
@@ -165,6 +160,8 @@
 
 #Region "SourceTextEditor-related"
 
+	Protected Property AvalonEdit_SearchPanel_ As New ICSharpCode.AvalonEdit.Search.SearchPanel()
+
 	Protected Sub InitialiseTextEditorControl_()
 
 		AddHandler Me.SourceTextEditor.TextArea.Caret.PositionChanged, AddressOf Me.UpdateLineAndColLabel
@@ -280,7 +277,7 @@
 	Protected CurrentSource_IsSaved_ As Boolean = False
 
 	REM Drag-and-Drop Open
-	Private Sub LayoutRoot_Drop(ByVal _Sender As Object, ByVal _DragEventArgs As System.Windows.DragEventArgs) Handles LayoutRoot.Drop
+	Private Sub LayoutRoot_Drop_(ByVal _Sender As Object, ByVal _DragEventArgs As System.Windows.DragEventArgs) Handles LayoutRoot.Drop
 
 		If ((Me.SourceTextEditor.Text.Length > 0) AndAlso (Not Me.CurrentSource_IsSaved)) AndAlso (MsgBox("The Source-text in the Editor may be unsaved; it will be lost if a new file is opened." & vbCrLf & vbCrLf & "Do you still want to Open the new DocScript File?", MsgBoxStyle.YesNo Or MsgBoxStyle.Question, "Source may be deleted") = MsgBoxResult.No) Then Return
 
@@ -289,7 +286,7 @@
 
 			 If _DragEventArgs.Data.GetDataPresent(DataFormats.FileDrop) Then
 
-				 Dim _File As New IO.FileInfo(CType(_DragEventArgs.Data.GetData(DataFormats.FileDrop), String()).First())
+				 Dim _File As New IO.FileInfo(CType(_DragEventArgs.Data.GetData(DataFormats.FileDrop), [String]()).First())
 				 If Not _File.Exists Then Throw New DSValidationException("The file specified via the Drop-Event does not exist.", _File.FullName)
 
 				 Me.CurrentlyOpenFile = _File
@@ -297,6 +294,7 @@
 				 Me.InvokeIfRequired(Sub()
 										 Me.SourceTextEditor.Text = _SourceText_FromFile
 										 Me.CurrentSource_IsSaved = True 'Sets the Window Title accordingly
+										 Me.UpdateInterpretationButtonsState_(InterpretationStage_.NoInterpretationPerformedYet)
 										 Me.LastPerformedAction_InfoText.Text = "Opened File [Drop] " & Me.CurrentlyOpenFile.Name.InBrackets()
 									 End Sub)
 
@@ -319,6 +317,7 @@
 			 Me.InvokeIfRequired(Sub()
 									 Me.SourceTextEditor.Text = _SourceText_FromFile
 									 Me.CurrentSource_IsSaved = True 'Sets the Window Title accordingly
+									 Me.UpdateInterpretationButtonsState_(InterpretationStage_.NoInterpretationPerformedYet)
 									 Me.LastPerformedAction_InfoText.Text = "Opened File [CLA] " & Me.CurrentlyOpenFile.Name.InBrackets()
 									 _OnceFileLoaded_Callback.Invoke()
 								 End Sub)
@@ -346,6 +345,7 @@
 					 Me.InvokeIfRequired(Sub()
 											 Me.SourceTextEditor.Text = _SourceText_FromFile
 											 Me.CurrentSource_IsSaved = True 'Sets the Window Title accordingly
+											 Me.UpdateInterpretationButtonsState_(InterpretationStage_.NoInterpretationPerformedYet)
 											 Me.LastPerformedAction_InfoText.Text = "Opened File " & Me.CurrentlyOpenFile.Name.InBrackets()
 										 End Sub)
 				 End If
@@ -368,10 +368,7 @@
 					   .Title = "DocScript: Save Source File..."
 					   .DefaultExt = ".DS"
 					   .Filter = "DocScript Source (*.DS)|*.DS|All files (*.*)|*.*"
-					   If If(.ShowDialog(), False) Then
-						   Me.CurrentlyOpenFile = New IO.FileInfo(.FileName)
-					   Else : Return 'If cancelled, don't save the File
-					   End If
+					   If If(.ShowDialog(), False) Then Me.CurrentlyOpenFile = New IO.FileInfo(.FileName) Else Return 'If cancelled, don't save the File
 				   End With
 			   End If
 
@@ -398,9 +395,7 @@
 				   .Title = "DocScript: Save Source File As..."
 				   .DefaultExt = ".DS"
 				   .Filter = "DocScript Source (*.DS)|*.DS|All files (*.*)|*.*"
-				   If If(.ShowDialog(), False) Then : Me.CurrentlyOpenFile = New IO.FileInfo(.FileName)
-				   Else : Return 'If cancelled, don't save the File
-				   End If
+				   If If(.ShowDialog(), False) Then Me.CurrentlyOpenFile = New IO.FileInfo(.FileName) Else Return 'If cancelled, don't save the File
 			   End With
 
 			   'At this point, we should have a CurrentlyOpenFile; Save it...
@@ -421,8 +416,9 @@
 
 		Me.SourceTextEditor.Text = String.Empty
 		Me.CurrentlyOpenFile = Nothing
-		Me.Cached_Tokens = Nothing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
-		Me.GenerateTokensTableButton.IsEnabled = False : Me.GenerateProgTreeButton.IsEnabled = False : Me.GenerateExeResTreeButton.IsEnabled = False
+
+		Me.UpdateInterpretationButtonsState_(InterpretationStage_.NoInterpretationPerformedYet)
+
 		Me.CurrentSource_IsSaved = False : Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
 		Me.LastPerformedAction_InfoText.Text = "Started New (unsaved) File"
 
@@ -432,75 +428,17 @@
 
 #Region "Misc. Control Event Handlers"
 
-	Public Sub LaunchDSCompilationWindow() Handles DSCompilationButton.Click
-		Try
+	Public ReadOnly Property DocScriptCLAs_FromTextbox As [String]()
+		Get
 
-			'Show a *kind* message if there isn't any source
-			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source for the DS-Compilation Program in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
-			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+			REM If the TextBox is empty, then return an Empty Array
+			If [String].IsNullOrEmpty(Me.ProgramCLAsTextBox.Text) Then Return (New [String](-1) {}) '(New List(Of [String])()).ToArray()
 
-			Me.StartBackgroundWorker(
-			 "Using DS-Compilation...",
-			 Sub()
+			REM Otherwise, return the .Text, Split() by " "c
+			Return Me.ProgramCLAsTextBox.Text.Split(" "c)
 
-				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
-				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
-
-				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
-				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
-
-				 'The Program name is used for auto-filling the Default Output-path for the EXE
-				 If Me.CurrentlyOpenFile IsNot Nothing Then Me.Cached_Program.Name = Me.CurrentlyOpenFile.FullName
-
-				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Using DS-Compilation...")
-				 Call (New DSCompilationWindow(Me.Cached_Program)).ShowDialog()
-				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Finished DS-Compilation session")
-
-			 End Sub
-			)
-
-		Catch _Ex As Exception
-			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
-			MsgBox("The Text-Editor's source could not be constructed into a Program for DS-Compilation" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
-		End Try
-	End Sub
-
-	Public Sub LaunchDSRemotingWindow() Handles DSRemotingButton.Click
-		Try
-
-			'Show a *kind* message if there isn't any source
-			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source for the DS-Remoting Program in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
-			Dim _RawSourceText$ = Me.SourceTextEditor.Text
-
-			Me.StartBackgroundWorker(
-			 "Using DS-Remoting...",
-			 Sub()
-
-				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
-				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
-
-				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
-				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
-
-				 'Not used by DS-Remoting, but there's no harm in setting it
-				 If Me.CurrentlyOpenFile IsNot Nothing Then Me.Cached_Program.Name = Me.CurrentlyOpenFile.FullName
-
-				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Using DS-Remoting...")
-				 Call (New DSRemotingWindow(Me.Cached_Program)).ShowDialog()
-				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Finished DS-Remoting session")
-
-			 End Sub
-			)
-
-		Catch _Ex As Exception
-			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
-			MsgBox("The Text-Editor's source could not be constructed into a Program for DS-Remoting" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
-		End Try
-	End Sub
+		End Get
+	End Property
 
 	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()
 	Public Sub InsertTextAtCursor(ByVal _Text$, Optional ByVal _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor As Boolean = False)
@@ -720,155 +658,9 @@
 
 #End Region
 
-#Region "Logging-related"
-
-	Public Sub UpdateWeatherOrNotToUseMsgBoxLogging() Handles UseMsgBoxLoggingCheckBox.Checked
-
-		If UseMsgBoxLoggingCheckBox.IsChecked Then
-			DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.MsgBoxPerEvent
-			Me.ShowDSLogCheckBox.IsChecked = True
-		Else 'It's not Checked; don't use MsgBox Logging
-			DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll
-			Me.ShowDSLogCheckBox.IsChecked = False
-		End If
-
-	End Sub
-
-	Public Sub UpdateWeatherOrNotToShowDSLog() Handles ShowDSLogCheckBox.Checked
-
-		If ShowDSLogCheckBox.IsChecked Then
-			DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.GUIDefault
-			Me.UseMsgBoxLoggingCheckBox.IsChecked = False
-		Else 'Don't show the Log
-			DocScript.Logging.CurrentLogEventHandler = DocScript.Logging.BuiltInLogEventHandlers.SilenceAll
-			Me.UseMsgBoxLoggingCheckBox.IsChecked = False
-		End If
-
-	End Sub
-
-	Public Sub UpdateWeatherOrNotToProcessDebugEvents() Handles ProcessDebugEventsCheckBox.Checked
-		DocScript.Logging.LogUtilities.ProcessDebugEvents = (Me.ProcessDebugEventsCheckBox.IsChecked.HasValue AndAlso Me.ProcessDebugEventsCheckBox.IsChecked.Value)
-	End Sub
-
-#End Region
-
-#End Region
-
-#Region "Interpretation Actions"
-
-	''' <summary>Calls the ParseCurrentSource(), LexCachedTokens(), and ExecuteCachedProgram() Methods</summary>
-	Public Sub RunCurrentSource() Handles RunButton.Click
-
-		'Show a *kind* message if there isn't any source
-		If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
-		Dim _RawSourceText$ = Me.SourceTextEditor.Text
-		Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
-
-		'Exceptions hence ↓ are MsgBoxed out
-		Me.StartBackgroundWorker("Interpreting...",
-		 Sub()
-
-			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
-			 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
-			 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
-
-			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
-			 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
-			 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
-
-			 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Executing...")
-			 Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
-			 : Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
-
-			 Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Program finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
-
-		 End Sub
-		)
-
-	End Sub
-
-	''' <summary>Sets the Me.Cached_Tokens Member, and Applies SyntaxHighlighting</summary>
-	Public Sub ParseCurrentSource() Handles ParseButton.Click
-		Try
-
-			'Show a *kind* message if there isn't any source
-			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
-			Dim _RawSourceText$ = Me.SourceTextEditor.Text
-
-			Me.StartBackgroundWorker(
-			 "Parsing...",
-			 Sub()
-				 Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateTokensTableButton.IsEnabled = True)
-				 : Me.InvokeIfRequired(Sub() Me.LexButton.IsEnabled = True)	'Lexing can occur, now that we have the Cached_Tokens
-				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Parsed Source into " & Me.Cached_Tokens.Length.ToString() & " Token(s)")
-			 End Sub
-			)
-
-		Catch _Ex As Exception
-			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
-			MsgBox("On parsing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
-		End Try
-	End Sub
-
-	''' <summary>Sets the Me.Cached_Program Member</summary>
-	Public Sub LexCachedTokens() Handles LexButton.Click
-		Try
-
-			Me.Cached_Tokens.MustNotBeNothing("There were no Cached Tokens; Parsing must occur first.")
-
-			Me.StartBackgroundWorker(
-			 "Lexing...",
-			 Sub()
-				 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateProgTreeButton.IsEnabled = True)
-				 : Me.InvokeIfRequired(Sub() Me.ExecuteButton.IsEnabled = True)	'Execution can occur, now that we have the Cached_Program
-				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Constructed Program with " & Me.Cached_Program.Functions.Count.ToString() & " Function(s) and " & Me.Cached_Program.GlobalVarDecs.Count.ToString() & " Global VarDec(s)")
-			 End Sub
-			)
-
-		Catch _Ex As Exception
-			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
-			MsgBox("On lexing the DocScript Tokens:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
-		End Try
-	End Sub
-
-	''' <summary>Sets the Me.Cached_ProgramExeRes Member</summary>
-	Public Sub ExecuteCachedProgram() Handles ExecuteButton.Click
-		Try
-
-			Me.Cached_Program.MustNotBeNothing("There was no Cached Program. Parsing and Lexing must occur first")
-			Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
-
-			Me.StartBackgroundWorker("Executing...",
-			 Sub()
-				 Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
-				 : Me.InvokeIfRequired(Sub() Me.GenerateExeResTreeButton.IsEnabled = True)
-				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
-			 End Sub
-			)
-
-		Catch _Ex As Exception
-			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
-			MsgBox("On executing the DocScript Program:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
-		End Try
-	End Sub
-
-	Public ReadOnly Property DocScriptCLAs_FromTextbox As [String]()
-		Get
-
-			REM If the TextBox is empty, then return an Empty Array
-			If [String].IsNullOrEmpty(Me.ProgramCLAsTextBox.Text) Then Return (New [String](-1) {}) '(New List(Of [String])()).ToArray()
-
-			REM Otherwise, return the .Text, Split() by " "c
-			Return Me.ProgramCLAsTextBox.Text.Split(" "c)
-
-		End Get
-	End Property
-
-#End Region
-
 #Region "Window LoadingMode Setters"
+
+	Public Const AbortButton_TextWhenEnabled$ = " Abort "
 
 	Public Sub LoadingUIComponents_SetForTaskStart(ByVal _TaskStatusDescription$)
 		Me.InvokeIfRequired(
@@ -894,6 +686,312 @@
 			  Me.AbortBackgroundWorkerLink.Text = "" : Me.AbortBackgroundWorkerLink.IsEnabled = False
 		  End Sub
 		)
+	End Sub
+
+#End Region
+
+#End Region
+
+#Region "Logging-related"
+
+	Protected Shared ReadOnly LogEventHandlers_Names_ToHandlers_Dictionary_ As New Dictionary(Of [String], DocScript.Logging.LogEventHandler)() From {
+	 {"Silence All", Logging.BuiltInLogEventHandlers.SilenceAll},
+	 {"Log Window", Logging.BuiltInLogEventHandlers.GUIDefault},
+	 {"Command-line", Logging.BuiltInLogEventHandlers.CLIDefault},
+	 {"MsgBox-per-Event", Logging.BuiltInLogEventHandlers.MsgBoxPerEvent},
+	 {"Write to "".\DSInterpretation.Log""", Logging.BuiltInLogEventHandlers.TextFile(UsefulMethods.GetExecutingAssemblyDirectory().FileHereIn("DSInterpretation.Log"))},
+	 {"Write to Windows Event Log", Logging.BuiltInLogEventHandlers.WindowsEventLog("IDE")}
+	}
+
+	Protected LogWindow_ForGUIDefault_ As DocScript.Logging.LogWindow = Nothing
+
+	Public Sub PopulateLogEventHandlersComboBox() 'Called by the Constructor
+		Me.LogEventHandlers_ComboBox.ItemsSource = MainWindow.LogEventHandlers_Names_ToHandlers_Dictionary_.Keys.ToArray()
+		Me.LogEventHandlers_ComboBox.SelectedIndex = 0
+	End Sub
+
+	Protected Sub SetCurrentLogEventHandler_() Handles LogEventHandlers_ComboBox.SelectionChanged
+
+		REM Tell DS-Logging what the new LogEventHandler should be
+		DocScript.Logging.CurrentLogEventHandler = MainWindow.LogEventHandlers_Names_ToHandlers_Dictionary_.Item(key:=Me.LogEventHandlers_ComboBox.SelectedItem.ToString())
+
+	End Sub
+
+	Public Sub UpdateWeatherOrNotToProcessDebugEvents() Handles ProcessDebugEventsCheckBox.Checked, ProcessDebugEventsCheckBox.Unchecked
+		DocScript.Logging.LogUtilities.ProcessDebugEvents = (Me.ProcessDebugEventsCheckBox.IsChecked.HasValue AndAlso Me.ProcessDebugEventsCheckBox.IsChecked.Value)
+	End Sub
+
+	Public Sub PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+
+		REM Perform Handler-specific Initialisation
+		Select Case DocScript.Logging.CurrentLogEventHandler
+			Case Logging.BuiltInLogEventHandlers.GUIDefault : Me.LogWindow_ForGUIDefault_ = New Logging.LogWindow(_SessionName:=Me.SourceTextEditor.Text.Replace(vbCrLf, "  ")) : Me.LogWindow_ForGUIDefault_.Show() : DocScript.Logging.BuiltInLogEventHandlers.CurrentGUIDefaultLogWindow = Me.LogWindow_ForGUIDefault_
+			Case Logging.BuiltInLogEventHandlers.CLIDefault : UsefulMethods.AllocConsole()
+		End Select
+
+	End Sub
+
+#End Region
+
+#Region "Interpretation Actions"
+
+	Public Property Cached_Tokens As DocScript.Runtime.Token() = Nothing								'Parsing Output		Used in [View Cached Tokens...]
+	Public Property Cached_Program As DocScript.Runtime.Program = Nothing								'Lexing Output		Used in [Generate Program Tree...]
+	Public Property Cached_ProgramExeRes As DocScript.Language.Instructions.ExecutionResult = Nothing	'Execution Output	Used in [Explore Execution Result...]
+
+#Region "Interpretation Action Payloads"
+
+	Public ReadOnly InterpretationPayload_Parse As Action(Of [String]) = _
+	  Sub(_RawSourceText$)
+		  : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Parsing...")
+		  Me.Cached_Tokens = DocScript.Runtime.Parser.GetTokensFromSource(_RawSourceText$)
+		  : Me.InvokeIfRequired(Sub() Me.UpdateInterpretationButtonsState_(InterpretationStage_.Parsing))
+		  : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Parsed Source into " & Me.Cached_Tokens.Length.ToString() & " Token(s)")
+	  End Sub
+
+	Public ReadOnly InterpretationPayload_Lex As Action = _
+	 Sub()
+		 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Lexing...")
+		 Me.Cached_Program = New DocScript.Runtime.Program(Me.Cached_Tokens, Me.CurrentExecutionContext)
+		 : Me.InvokeIfRequired(Sub() Me.UpdateInterpretationButtonsState_(InterpretationStage_.Lexing))
+		 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Constructed Program with " & Me.Cached_Program.Functions.Count.ToString() & " Function(s) and " & Me.Cached_Program.GlobalVarDecs.Count.ToString() & " Global VarDec(s)")
+	 End Sub
+
+	Public ReadOnly InterpretationPayload_Execute As Action(Of [String]()) = _
+	  Sub(_CLAs$())
+		  : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Executing...")
+		  Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
+		  : Me.InvokeIfRequired(Sub() Me.UpdateInterpretationButtonsState_(InterpretationStage_.Execution))
+		  : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
+	  End Sub
+
+#End Region
+
+	''' <summary>Calls the ParseCurrentSource(), LexCachedTokens(), and ExecuteCachedProgram() Methods</summary>
+	Public Sub RunCurrentSource() Handles RunButton.Click
+
+		'Show a *kind* message if there isn't any source
+		If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
+		Dim _RawSourceText$ = Me.SourceTextEditor.Text
+		Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
+
+		Me.PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+
+		'Exceptions hence ↓ are MsgBoxed out
+		Me.StartBackgroundWorker("Interpreting...",
+		 Sub()
+
+			 Me.InterpretationPayload_Parse.Invoke(_RawSourceText)
+			 Me.InterpretationPayload_Lex.Invoke()
+			 Me.InterpretationPayload_Execute.Invoke(_CLAs)
+
+		 End Sub
+		)
+
+	End Sub
+
+	''' <summary>Sets the Me.Cached_Tokens Member, and Applies SyntaxHighlighting</summary>
+	Public Sub ParseCurrentSource() Handles ParseButton.Click
+		Try
+
+			'Show a *kind* message if there isn't any source
+			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source to interpret in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
+			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+
+			Me.PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+			Me.StartBackgroundWorker("Parsing...", Sub() Me.InterpretationPayload_Parse.Invoke(_RawSourceText))
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("On parsing the DocScript Source:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+		End Try
+	End Sub
+
+	''' <summary>Sets the Me.Cached_Program Member</summary>
+	Public Sub LexCachedTokens() Handles LexButton.Click
+		Try
+
+			Me.Cached_Tokens.MustNotBeNothing("There were no Cached Tokens; Parsing must occur first.")
+
+			Me.PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+			Me.StartBackgroundWorker("Lexing...", Me.InterpretationPayload_Lex)
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("On lexing the DocScript Tokens:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+		End Try
+	End Sub
+
+	''' <summary>Sets the Me.Cached_ProgramExeRes Member</summary>
+	Public Sub ExecuteCachedProgram() Handles ExecuteButton.Click
+		Try
+
+			Me.Cached_Program.MustNotBeNothing("There was no Cached Program. Parsing and Lexing must occur first")
+			Dim _CLAs$() = Me.DocScriptCLAs_FromTextbox	'Must be procured here, because the BackgroundWorker Thread cannot access UI Controls
+
+			Me.PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+			Me.StartBackgroundWorker("Executing...", Sub() Me.InterpretationPayload_Execute.Invoke(_CLAs))
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("On executing the DocScript Program:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+		End Try
+	End Sub
+
+	REM Used by UpdateInterpretationButtonsState_()
+	Protected Enum InterpretationStage_ As [Byte]
+		'These Integers are used as Index-Keys for the [_InterpretationButtons_] Array
+		NoInterpretationPerformedYet = 0 : Parsing = 1 : Lexing = 2 : Execution = 3
+	End Enum
+
+	''' <summary>
+	''' Enables the buttons up-to-and-including _FurthestDownInterpretationButtonToBeEnabled, and sets all buttons BEFORE _FurthestDownInterpretationButtonToBeEnabled to the GREEN Gradient Background Colour.
+	''' Handles the Program Analysis Buttons corrosponding too.
+	''' Manages which Interpretation-Cache-Objects should be set to [Nothing] too.
+	''' </summary>
+	Protected Sub UpdateInterpretationButtonsState_(ByVal _FurthestInterpretationStageCompleted As InterpretationStage_)
+
+		Static _InterpretationButtons_ As Ribbon.RibbonButton() = {Me.ParseButton, Me.LexButton, Me.ExecuteButton}
+		Static _ProgramAnalysisButtons_ As Ribbon.RibbonButton() = {Me.GenerateTokensTableButton, Me.GenerateProgTreeButton, Me.GenerateExeResTreeButton}
+
+		Static _GreenBackgroundBrush_ As New LinearGradientBrush(Colors.PaleGreen, Colors.Aquamarine, New Point(0.1, 0), New Point(0.9, 1))
+
+		REM State-Map for [_FurthestInterpretationStageCompleted]:
+		'
+		'	[0] NoInterpretationPerformedYet:
+		'		Interpret Enabled:	ParseButton
+		'		Interpret Green:	/
+		'		Analysis Enabled:	/
+		'		Analysis Green:		/
+		'		Interpret Cache:	/
+		'
+		'	[1] Parsing:
+		'		Interpret Enabled:	ParseButton, LexButton
+		'		Interpret Green:	ParseButton
+		'		Analysis Enabled:	GenerateTokensTableButton
+		'		Analysis Green:		GenerateTokensTableButton
+		'		Interpret Cache:	Cached_Tokens
+		'
+		'	[2] Lexing:
+		'		Interpret Enabled:	ParseButton, LexButton, ExecuteButton
+		'		Interpret Green:	ParseButton, LexButton
+		'		Analysis Enabled:	GenerateTokensTableButton, GenerateProgTreeButton
+		'		Analysis Green:		GenerateTokensTableButton, GenerateProgTreeButton
+		'		Interpret Cache:	Cached_Tokens, Cached_Program
+		'
+		'	[3] Execution:
+		'		Interpret Enabled:	ParseButton, LexButton, ExecuteButton
+		'		Interpret Green:	ParseButton, LexButton, ExecuteButton
+		'		Analysis Enabled:	GenerateTokensTableButton, GenerateProgTreeButton, GenerateExeResTreeButton
+		'		Analysis Green:		GenerateTokensTableButton, GenerateProgTreeButton, GenerateExeResTreeButton
+		'		Interpret Cache:	Cached_Tokens, Cached_Program, Cached_ProgramExeRes
+
+
+		REM ∴ Equations derived from this:
+		'	Highest Interpret Enabled	= _InterpretationButtons_		At [_FurthestInterpretationStageCompleted]
+		'	Highest Interpret Green		= _InterpretationButtons_		At [_FurthestInterpretationStageCompleted - 1]
+		'	Highest Analysis Enabled	= _ProgramAnalysisButtons_		At [_FurthestInterpretationStageCompleted - 1]
+		'	Highest Analysis Green		= _ProgramAnalysisButtons_		At [_FurthestInterpretationStageCompleted - 1]
+		'	Highest Interpret Cache		= _InterpretationCacheObjects_	At [_FurthestInterpretationStageCompleted - 1]
+
+
+
+		REM Reset all Buttons to disabled, with the normal Background
+		For Each _InterpretationButton As Ribbon.RibbonButton In _InterpretationButtons_ : _InterpretationButton.IsEnabled = False : _InterpretationButton.Background = Windows.Media.Brushes.Transparent : Next
+		For Each _ProgAnalysisButton As Ribbon.RibbonButton In _ProgramAnalysisButtons_ : _ProgAnalysisButton.IsEnabled = False : _ProgAnalysisButton.Background = Windows.Media.Brushes.Transparent : Next
+
+		'Note: In Visual B.A.S.I.C. .NET, a For-Loop iterating from 0 To 0 WILL ITERATE ONCE
+
+		REM Enable Interpretation Buttons up to [_FurthestInterpretationStageCompleted]
+		For _InterpretationButtonToEnable_Index% = 0 To Math.Min(val1:=CInt(_FurthestInterpretationStageCompleted), val2:=_InterpretationButtons_.Length - 1) Step +1
+			'The Math.Min() is there above, because if _FurthestInterpretationStageCompleted is [3]Execution, then this For-Loop would attempt to set a non-existant 4th InterpretationButton ([3]) to enabled.
+			'This doesn't need to occur, since the final InterpretationStage ([3]) is an edge-case whereby there is NO NEW InterpretationButton TO ENABLE
+			_InterpretationButtons_(_InterpretationButtonToEnable_Index%).IsEnabled = True
+		Next
+
+		REM Make Interpretation Buttons Green up to [_FurthestInterpretationStageCompleted - 1]
+		REM Enable Analysis Buttons up to [_FurthestInterpretationStageCompleted - 1]
+		REM Make Analysis Buttons Green up to [_FurthestInterpretationStageCompleted - 1]
+		For _Index% = 0 To CInt(_FurthestInterpretationStageCompleted) - 1 Step +1
+			_InterpretationButtons_(_Index%).Background = _GreenBackgroundBrush_
+			_ProgramAnalysisButtons_(_Index%).IsEnabled = True
+			_ProgramAnalysisButtons_(_Index%).Background = _GreenBackgroundBrush_
+		Next
+
+		REM Unfortunately, an array like {Me.Cached_Tokens, Me.Cached_Program, Me.Cached_ProgramExeRes} wouldn't referance the origional objects inside it for some reason (even though it does work with the Buttons' arrays above).
+		REM Therefore, we'll have to manually account for each of the 4 eventualities...
+		Select Case _FurthestInterpretationStageCompleted
+			Case InterpretationStage_.NoInterpretationPerformedYet : Me.Cached_Tokens = Nothing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
+			Case InterpretationStage_.Parsing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
+			Case InterpretationStage_.Lexing : Me.Cached_ProgramExeRes = Nothing
+			Case InterpretationStage_.Execution
+			Case Else : Throw New Exception("The Interpretation-Cache-Objects cannot be annulled, because the specified interpretation stage is unaccounted-for: " & _FurthestInterpretationStageCompleted.ToString())
+		End Select
+
+	End Sub
+
+	Public Sub LaunchDSCompilationWindow() Handles DSCompilationButton.Click
+		Try
+
+			'Show a *kind* message if there isn't any source
+			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source for the DS-Compilation Program in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
+			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+
+			Me.PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+
+			Me.StartBackgroundWorker(
+			 "Using DS-Compilation...",
+			 Sub()
+
+				 Me.InterpretationPayload_Parse.Invoke(_RawSourceText)
+				 Me.InterpretationPayload_Lex.Invoke()
+
+				 'The Program name is used for auto-filling the Default Output-path for the EXE
+				 If Me.CurrentlyOpenFile IsNot Nothing Then Me.Cached_Program.Name = Me.CurrentlyOpenFile.FullName
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Using DS-Compilation...")
+				 Call (New DSCompilationWindow(Me.Cached_Program)).ShowDialog()
+				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Finished DS-Compilation session")
+
+			 End Sub
+			)
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("The Text-Editor's source could not be constructed into a Program for DS-Compilation" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
+		End Try
+	End Sub
+
+	Public Sub LaunchDSRemotingWindow() Handles DSRemotingButton.Click
+		Try
+
+			'Show a *kind* message if there isn't any source
+			If System.String.IsNullOrEmpty(Me.SourceTextEditor.Text) Then : MsgBox("There is no Source for the DS-Remoting Program in the Text-Editor.", MsgBoxStyle.Information, "DSIDE") : Return : End If
+			Dim _RawSourceText$ = Me.SourceTextEditor.Text
+
+			Me.PerformAnyRequiredLoggingInitialisation_PreInterpretation()
+
+			Me.StartBackgroundWorker(
+			 "Using DS-Remoting...",
+			 Sub()
+
+				 Me.InterpretationPayload_Parse.Invoke(_RawSourceText)
+				 Me.InterpretationPayload_Lex.Invoke()
+
+				 'Not used by DS-Remoting, but there's no harm in setting it
+				 If Me.CurrentlyOpenFile IsNot Nothing Then Me.Cached_Program.Name = Me.CurrentlyOpenFile.FullName
+
+				 : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Using DS-Remoting...")
+				 Call (New DSRemotingWindow(Me.Cached_Program)).ShowDialog()
+				 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Finished DS-Remoting session")
+
+			 End Sub
+			)
+
+		Catch _Ex As Exception
+			REM This {Catch} is only hit, by an Exception from outside the BackgroundWorker Sub
+			MsgBox("The Text-Editor's source could not be constructed into a Program for DS-Remoting" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
+		End Try
 	End Sub
 
 #End Region

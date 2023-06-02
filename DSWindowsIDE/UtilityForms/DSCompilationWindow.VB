@@ -21,7 +21,7 @@
 		AddHandler Me.BrowseForEXEOutputFilePath_Button.Click,
 		   Sub()
 			   Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
-			   Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, _InitialDirectory:=If((New IO.FileInfo(Me.ProgramToCompile.Name)).Directory.Exists, (New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, Nothing))
+			   Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Save (managed) EXE Output File as...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, _InitialDirectory:=If((New IO.FileInfo(Me.ProgramToCompile.Name)).Directory.Exists, (New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, Nothing))
 			   Me.OutputEXE_FullPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
 			   Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
 		   End Sub

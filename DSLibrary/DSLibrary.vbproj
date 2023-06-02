@@ -139,7 +139,7 @@
     <Compile Include="Runtime\DS.R.SymbolTablesSnapshot.VB" />
     <Compile Include="Runtime\DS.R.Token.VB" />
     <Compile Include="Runtime\DS.R.Parser.VB" />
-    <Compile Include="Runtime\Remoting\DS.R.Remoting.VB" />
+    <Compile Include="Runtime\DS.R.Remoting.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Debug.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.Const.VB" />
     <Compile Include="Runtime\StandardBuiltInFunctions\DS.R.SBIF.DS.VB" />

@@ -260,7 +260,7 @@
 			'LogWindowStatusStrip
 			'
 			Me.LogWindowStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EventCountLabel})
-			Me.LogWindowStatusStrip.Location = New System.Drawing.Point(0, 540)
+			Me.LogWindowStatusStrip.Location = New System.Drawing.Point(0, 440)
 			Me.LogWindowStatusStrip.Name = "LogWindowStatusStrip"
 			Me.LogWindowStatusStrip.Size = New System.Drawing.Size(784, 22)
 			Me.LogWindowStatusStrip.TabIndex = 7
@@ -285,7 +285,7 @@
 			Me.LogEventsDataGridView.Name = "LogEventsDataGridView"
 			Me.LogEventsDataGridView.ReadOnly = True
 			Me.LogEventsDataGridView.RowHeadersWidth = 10
-			Me.LogEventsDataGridView.Size = New System.Drawing.Size(784, 516)
+			Me.LogEventsDataGridView.Size = New System.Drawing.Size(784, 416)
 			Me.LogEventsDataGridView.TabIndex = 6
 			'
 			'EventIcon
@@ -415,7 +415,7 @@
 			'
 			Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 			Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-			Me.ClientSize = New System.Drawing.Size(784, 562)
+			Me.ClientSize = New System.Drawing.Size(784, 462)
 			Me.Controls.Add(Me.PlaySoundCheckBox)
 			Me.Controls.Add(Me.ShowDebugSeverityCheckBox)
 			Me.Controls.Add(Me.ShowVerboseSeverityCheckBox)
@@ -430,7 +430,7 @@
 			Me.MinimumSize = New System.Drawing.Size(600, 200)
 			Me.Name = "LogWindow"
 			Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
-			Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+			Me.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds
 			Me.Text = "DocScript Log Window"
 			Me.LogWindowMenuStrip.ResumeLayout(False)
 			Me.LogWindowMenuStrip.PerformLayout()

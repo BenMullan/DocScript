@@ -113,14 +113,15 @@ Public Class ProgramTreeViewer
 
 	Public Sub ShowProgramXML() Handles ViewXMLToolStripMenuItem.Click
 
-		Dim _SimpleTextForm As New Windows.Forms.Form() With {.Text = "Program XML", .Width = 640, .Height = 768, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False}
-		_SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = DockStyle.Fill, .Text = Me.Program.ProgramTreeXML.ToString().Replace("  ", "    "), .ReadOnly = True})
+		UsefulMethods.ShowTextInNewWindow("Program XML", Me.Program.ProgramTreeXML.ToString().Replace("  ", "    "))
 
 		REM Could do something like this in the future, to show the XML with Syntax Highlighting
 		'_SimpleTextForm.Controls.Add(New Windows.Forms.WebBrowser() With {.Dock = DockStyle.Fill, .DocumentText = Me.Program.ProgramTreeXML.ToString().Replace("  ", "    ")})
 
-		Call (_SimpleTextForm).Show()
+	End Sub
 
+	Public Sub ShowReconstructedProgramSource() Handles ReconstructToSourceToolStripMenuItem.Click
+		UsefulMethods.ShowTextInNewWindow("Reconstructed Program Source", Me.Program.ReconstructedSource)
 	End Sub
 
 #Region "Close the form on pressing [Esc]"

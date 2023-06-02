@@ -10,6 +10,22 @@
 
 
 
+		REM Annul the Interpretation-Cache-Objects which shouldn't exist for the current _FurthestInterpretationStageCompleted
+		REM Walk down from the highest Interpretation-Cache-Object (ExeRes), To _FurthestInterpretationStageCompleted
+		For _InterpretationCacheObjectToAnnul_Index% = (_InterpretationCacheObjects_.Length - 1) To _FurthestInterpretationStageCompleted Step -1
+			_InterpretationCacheObjects_(_InterpretationCacheObjectToAnnul_Index) = Nothing
+		Next
+
+
+
+
+
+
+
+
+
+
+
 
 
 Public Sub HandleShiftScholling(ByVal _Sender As [Object], ByVal _EventArgs As System.Windows.Input.MouseWheelEventArgs) Handles SourceTextEditor.PreviewMouseWheel

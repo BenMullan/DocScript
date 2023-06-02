@@ -27,6 +27,14 @@
 		  {LogEvent.DSEventSeverity.Debug, New Tuple(Of Int32, Int32)(523, 25)}
 		 }
 
+		''' <summary>The _SessionName$ appears in the Window Title, to distinguish it from other active LogWindows</summary>
+		Public Sub New(Optional ByVal _SessionName$ = "")
+
+			Me.InitializeComponent()
+			If Not [String].IsNullOrEmpty(_SessionName) Then Me.Text &= " (" & _SessionName.Take(40).ToArray() & ")"
+
+		End Sub
+
 		''' <summary>Adds the _LogEvent to the DataGridView of the Form</summary>
 		Public Sub AddLogEvent(ByVal _LogEvent As DocScript.Logging.LogEvent)
 
@@ -62,7 +70,7 @@
 
 		Private Sub Set_ProcessDebugMessages_State() Handles ShowDebugSeverityCheckBox.CheckedChanged
 			DocScript.Logging.LogUtilities.ProcessDebugEvents = Me.ShowDebugSeverityCheckBox.Checked
-			MsgBox("The [ProcessDebugEvents] Flag has been changed. Any Debug Events submitted henceforth will be " & If(Me.ShowDebugSeverityCheckBox.Checked, "shown", "hidden"), MsgBoxStyle.Information, "Debug Events Show/Hide")
+			MsgBox("The [ProcessDebugEvents] Flag has been changed. Any Debug Events submitted henceforth will be " & If(Me.ShowDebugSeverityCheckBox.Checked, "shown.", "hidden."), MsgBoxStyle.Information, "Debug Events Show/Hide")
 		End Sub
 
 		Public Sub DeleteAllLogEvents() Handles DeleteAllToolStripMenuItem.Click

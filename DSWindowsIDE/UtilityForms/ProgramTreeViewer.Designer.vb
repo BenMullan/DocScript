@@ -1,33 +1,33 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ProgramTreeViewer
-    Inherits System.Windows.Forms.Form
+Partial Class ProgramTreeViewer : Inherits System.Windows.Forms.Form
 
-    'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
-    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-        Try
-            If disposing AndAlso components IsNot Nothing Then
-                components.Dispose()
-            End If
-        Finally
-            MyBase.Dispose(disposing)
-        End Try
-    End Sub
+	'Form overrides dispose to clean up the component list.
+	<System.Diagnostics.DebuggerNonUserCode()> _
+	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+		Try
+			If disposing AndAlso components IsNot Nothing Then
+				components.Dispose()
+			End If
+		Finally
+			MyBase.Dispose(disposing)
+		End Try
+	End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+	'Required by the Windows Form Designer
+	Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
-    Private Sub InitializeComponent()
+	'NOTE: The following procedure is required by the Windows Form Designer
+	'It can be modified using the Windows Form Designer.  
+	'Do not modify it using the code editor.
+	<System.Diagnostics.DebuggerStepThrough()> _
+	Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProgramTreeViewer))
 		Me.TheProgramTreeView = New System.Windows.Forms.TreeView()
 		Me.ProgramTreeImageList = New System.Windows.Forms.ImageList(Me.components)
 		Me.TheMenuStrip = New System.Windows.Forms.MenuStrip()
 		Me.ViewXMLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ReconstructToSourceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TheMenuStrip.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -61,7 +61,7 @@ Partial Class ProgramTreeViewer
 		'TheMenuStrip
 		'
 		Me.TheMenuStrip.BackColor = System.Drawing.SystemColors.GradientInactiveCaption
-		Me.TheMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewXMLToolStripMenuItem})
+		Me.TheMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewXMLToolStripMenuItem, Me.ReconstructToSourceToolStripMenuItem})
 		Me.TheMenuStrip.Location = New System.Drawing.Point(0, 0)
 		Me.TheMenuStrip.Name = "TheMenuStrip"
 		Me.TheMenuStrip.Size = New System.Drawing.Size(584, 24)
@@ -73,6 +73,12 @@ Partial Class ProgramTreeViewer
 		Me.ViewXMLToolStripMenuItem.Name = "ViewXMLToolStripMenuItem"
 		Me.ViewXMLToolStripMenuItem.Size = New System.Drawing.Size(80, 20)
 		Me.ViewXMLToolStripMenuItem.Text = "View &XML..."
+		'
+		'ReconstructToSourceToolStripMenuItem
+		'
+		Me.ReconstructToSourceToolStripMenuItem.Name = "ReconstructToSourceToolStripMenuItem"
+		Me.ReconstructToSourceToolStripMenuItem.Size = New System.Drawing.Size(144, 20)
+		Me.ReconstructToSourceToolStripMenuItem.Text = "Reconstruct to &Source..."
 		'
 		'ProgramTreeViewer
 		'
@@ -92,8 +98,11 @@ Partial Class ProgramTreeViewer
 		Me.PerformLayout()
 
 	End Sub
+
 	Friend WithEvents TheProgramTreeView As System.Windows.Forms.TreeView
 	Friend WithEvents ProgramTreeImageList As System.Windows.Forms.ImageList
 	Friend WithEvents TheMenuStrip As System.Windows.Forms.MenuStrip
 	Friend WithEvents ViewXMLToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ReconstructToSourceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+
 End Class

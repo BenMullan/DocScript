@@ -24,7 +24,7 @@
 
 			<!-- The drop-down "File" Menu -->
 			<Ribbon.ApplicationMenu>
-				<RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" SnapsToDevicePixels="False" Background="#FF0090FF" KeyTip="M">
+				<RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" SnapsToDevicePixels="False" Background="#FF0090FF" KeyTip="F">
 					<RibbonApplicationMenuItem
 					Header="About..."
 					x:Name="AboutMenuItem"
@@ -46,7 +46,7 @@
 			</Ribbon.ApplicationMenu>
 
 			<!-- The Home RibbonTab -->
-			<RibbonTab x:Name="HomeTab" Header="Home">
+			<RibbonTab x:Name="HomeTab" Header="Home" KeyTip="H">
 
 				<!-- File -->
 				<RibbonGroup Header="File">
@@ -134,10 +134,10 @@
 
 				<!-- Interpretation -->
 				<RibbonGroup Header="Interpretation">
-					<RibbonButton x:Name="RunButton" LargeImageSource="/DSIDE;component/Images/Run.PNG" Label="Run (F5)" ToolTipTitle="Begin Interpretation" ToolTipDescription="Runs the 3 stages of DocScript Interpretation, in a new thread." ToolTipFooterDescription="Use the seperate buttons to the side hereof to carry out each stage individually." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" CanAddToQuickAccessToolBarDirectly="True" />
-					<RibbonButton x:Name="ParseButton" SmallImageSource="/DSIDE;component/Images/Parse.PNG" Label="Parse (F1)" ToolTip="Creates Tokens from the raw Source" />
-					<RibbonButton x:Name="LexButton" SmallImageSource="/DSIDE;component/Images/Construct.PNG" Label="Construct (F2)" ToolTip="Constructs a New DocScript.Runtime.Program() from the parsed Tokens" IsEnabled="False" />
-					<RibbonButton x:Name="ExecuteButton" SmallImageSource="/DSIDE;component/Images/Execute.PNG" Label="Execute (F3)" ToolTip="Executes the cached Program in a new thread, showing the ExitCode on completion." IsEnabled="False" />
+					<RibbonButton x:Name="RunButton"		LargeImageSource="/DSIDE;component/Images/Run.PNG"			Label="Run (F5)"		ToolTipTitle="Begin Interpretation" ToolTipDescription="Runs the 3 stages of DocScript Interpretation, in a new thread." ToolTipFooterDescription="Use the seperate buttons to the side hereof to carry out each stage individually." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" CanAddToQuickAccessToolBarDirectly="True" />
+					<RibbonButton x:Name="ParseButton"		SmallImageSource="/DSIDE;component/Images/Parse.PNG"		Label="Parse (F1)"		ToolTip="Creates and caches Tokens from the raw Source. Becomes GREEN when cached Tokens are currently present." />
+					<RibbonButton x:Name="LexButton"		SmallImageSource="/DSIDE;component/Images/Construct.PNG"	Label="Construct (F2)"	ToolTip="Constructs and caches a New DocScript.Runtime.Program() from the parsed Tokens. Becomes GREEN when a cached Program is currently present." />
+					<RibbonButton x:Name="ExecuteButton"	SmallImageSource="/DSIDE;component/Images/Execute.PNG"		Label="Execute (F3)"	ToolTip="Executes the cached Program in a new thread, showing the ExitCode on completion, and caching the ExecutionResult. Becomes GREEN when a cached ExecutionResult is currently present." />
 				</RibbonGroup>
 
 				<!-- View -->
@@ -150,7 +150,7 @@
 			</RibbonTab>
 
 			<!-- The ViewPlus RibbonTab -->
-			<RibbonTab Header="ViewPlus">
+			<RibbonTab x:Name="ViewPlusTab" Header="ViewPlus" KeyTip="V">
 
 				<!-- Reset All -->
 				<RibbonGroup Header="Global">
@@ -179,7 +179,7 @@
 			</RibbonTab>
 
 			<!-- The Program RibbonTab -->
-			<RibbonTab x:Name="ProgramTab" Header="Program">
+			<RibbonTab x:Name="ProgramTab" Header="Program" KeyTip="P">
 
 				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
 					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
@@ -188,7 +188,7 @@
 
 				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">
 					<Label Content="Command-line Arguments:"/>
-					<TextBox x:Name="ProgramCLAsTextBox" Width="200" />
+					<TextBox x:Name="ProgramCLAsTextBox" Width="250" TextWrapping="Wrap" AcceptsReturn="False" VerticalScrollBarVisibility="Hidden" />
 				</RibbonGroup>
 				
 				<RibbonGroup Header="Debug">
@@ -199,23 +199,23 @@
 			</RibbonTab>
 
 			<!-- The DocScript RibbonTab -->
-			<RibbonTab x:Name="DocScriptTab" Header="DocScript">
+			<RibbonTab x:Name="DocScriptTab" Header="DocScript" KeyTip="D">
 
 				<RibbonGroup x:Name="AnaylseGroup" Header="Analyse">
-					<RibbonButton x:Name="GenerateTokensTableButton" LargeImageSource="/DSIDE;component/Images/Tokens.PNG" Label="View Cached Tokens..." ToolTip="Ctrl + Shift + K" IsEnabled="False" />
-					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T" IsEnabled="False" />
-					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R" IsEnabled="False" />
+					<RibbonButton x:Name="GenerateTokensTableButton" LargeImageSource="/DSIDE;component/Images/Tokens.PNG" Label="View Cached Tokens..." ToolTip="Ctrl + Shift + K. Becomes GREEN when cached Tokens are currently present." />
+					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T. Becomes GREEN when a cached Program is currently present." />
+					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R. Becomes GREEN when a cached ExecutionResult is currently present." />
 				</RibbonGroup>
 
-				<RibbonGroup x:Name="ExeCxtGroup" Header="Execution Context">
+				<RibbonGroup x:Name="CompositionGroup" Header="Composition">
 					<RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
+					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
 				</RibbonGroup>
 				
-				<RibbonGroup x:Name="MiscGroup" Header="Misc.">
-					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
-					<RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />
+				<RibbonGroup x:Name="LogginGroup" Header="Logging">
+					<!--<RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />-->
+					<Label Content="Log Event Handler:"/><ComboBox Width="150" x:Name="LogEventHandlers_ComboBox" />
 					<RibbonCheckBox Label="Process Debug Events" x:Name="ProcessDebugEventsCheckBox" />
-					<RibbonCheckBox Label="Use MsgBox Logging" Name="UseMsgBoxLoggingCheckBox" />
 				</RibbonGroup>
 
 			</RibbonTab>

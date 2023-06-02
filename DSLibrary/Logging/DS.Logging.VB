@@ -46,7 +46,7 @@
 		Public Delegate Sub LogEventHandler(ByVal _Event As DocScript.Logging.LogEvent)
 
 		''' <summary>LogEvents where [Severity=Debug] are only processed when this flag is set to [True]. This is to improve performance, as there are a very large number of Debug Messages, and they are submitted at an annoyingly-high frequency.</summary>
-		Public ProcessDebugEvents As Boolean = False
+		Public ProcessDebugEvents As [Boolean] = False
 
 		''' <summary>Invokes the CurrentLogEventHandler with the specified Data for the LogEvent. Also checks that the CurrentLogEventHandler has been initialised with a Delegate.</summary>
 		Public Function SubmitLogEvent(ByVal _Message$, ByVal _Severity As LogEvent.DSEventSeverity, ByVal _Catagory As LogEvent.DSEventCatagory) As LogEventSubmissionResult
@@ -136,19 +136,21 @@
 
 #Region "GUI LogEvent Handler"
 
-			Private Shared LogWindow_ As Logging.LogWindow = Nothing
+			''' <summary>If this is [Nothing], then it's set to a New LogWindow. Otherwise, it can be a LogWIndow of your choice.</summary>
+			Public Shared CurrentGUIDefaultLogWindow As Logging.LogWindow = Nothing
 
-			''' <summary>Outputs the LogEvents to a Built-in LogWindow, which is run in a seperate Thread</summary>
+			''' <summary>Outputs the LogEvents to a Built-in LogWindow</summary>
 			Public Shared ReadOnly GUIDefault As New LogEventHandler(
 			  Sub(_Event As LogEvent)
 
-				  REM If this is the first time a Log call is being made, Initialise the LogWindow in a new Thread:
-				  If (LogWindow_ Is Nothing) Then
-					  LogWindow_ = New LogWindow()
-				  End If
+				  REM If this is the first time a Log call is being made, Initialise it:
+				  If (CurrentGUIDefaultLogWindow Is Nothing) Then CurrentGUIDefaultLogWindow = New LogWindow()
 
-				  LogWindow_.AddLogEvent(_Event)
-				  LogWindow_.Show()
+				  CurrentGUIDefaultLogWindow.InvokeIfRequired(
+				  Sub()
+					  CurrentGUIDefaultLogWindow.AddLogEvent(_Event)
+					  CurrentGUIDefaultLogWindow.Show()
+				  End Sub)
 
 			  End Sub
 			)
@@ -171,16 +173,18 @@
 			''' <summary>Outputs each LogEvent to the _LogFile</summary>
 			Public Shared ReadOnly Property TextFile(ByVal _LogFile As IO.FileInfo) As LogEventHandler
 				Get
+
 					Return New LogEventHandler(
 					 Sub(_Event As LogEvent)
 
-						 If Not _LogFile.Exists Then _LogFile.Create()
+						 'For some reason, _LogFile.Exists doesn't work by itself...
+						 If Not (New IO.FileInfo(_LogFile.FullName)).Exists Then _LogFile.Create().Close()
 
 						 My.Computer.FileSystem.WriteAllText(
-						 file:=_LogFile.FullName,
-						 text:=String.Format(vbCrLf & "Log: [{0}]{4}[Stage: {1}]{4}[{2}]{4}{3}", _Event.Timestamp.GetLogSerialisation(), _Event.Catagory.ToString(), _Event.Severity.ToString(), _Event.Message, vbTab),
-						 append:=True
-						)
+						  file:=_LogFile.FullName,
+						  text:=String.Format(vbCrLf & "Log: [{0}]{4}[Stage: {1}]{4}[{2}]{4}{3}", _Event.Timestamp.GetLogSerialisation(), _Event.Catagory.ToString(), _Event.Severity.ToString(), _Event.Message, vbTab),
+						  append:=True
+						 )
 
 					 End Sub
 					)
@@ -192,9 +196,10 @@
 
 #Region "WindowsEventLog LogEvent Handler"
 
-			''' <summary>Writes each LogEvent to the Windows-Event-Log</summary>
+			''' <summary>Writes each LogEvent to the Windows-Event-Log. The _Log_SubName should be e.g. "IDE", which would form the Log Name "DS_IDE"</summary>
 			Public Shared ReadOnly Property WindowsEventLog(ByVal _Log_SubName$) As LogEventHandler
 				Get
+
 					Return (New LogEventHandler(
 					 Sub(_Event As LogEvent)
 

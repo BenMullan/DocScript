@@ -804,6 +804,16 @@ Namespace CompilerExtentions
 
 	End Module
 
+	Public Module IOObjectExtentions
+
+		''' <summary>(MullNet CompilerExtention) Returns an IO.FileInfo pointing to the file with that name, within the _Directory</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function FileHereIn(ByRef _Directory As IO.DirectoryInfo, ByVal _FileName$) As IO.FileInfo
+			Return (New IO.FileInfo(IO.Path.Combine(_Directory.FullName, _FileName)))
+		End Function
+
+	End Module
+
 	REM There exists also the HTTPObjectExtentions Module in WebParts
 	Public Module WebObjectExtentions
 
@@ -1157,6 +1167,9 @@ Namespace CompilerExtentions
 		''' <summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a SaveFileDialog, and returns the Selected File, or NOTHING.</summary>
 		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
 		''' <param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
+		''' <remarks>
+		''' E.g. UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")})
+		''' </remarks>
 		Public Function RequestFilePath_WithSaveFileDialog(ByVal _FileDialog_Title$, ByVal _TargetFileExtentions As Tuple(Of String, String)(), Optional ByVal _InitialDirectory$ = Nothing) As IO.FileInfo
 			Try
 
@@ -1289,6 +1302,32 @@ Namespace CompilerExtentions
 			End Try
 
 		End Function
+
+		''' <summary>(MullNet UsefulMethod) Shows the _Text in a Form with a Copy button at the top. This is all done in a NEW STA Thread.</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Sub ShowTextInNewWindow(ByVal _WindowTitle$, ByVal _Text$)
+
+			Dim _STAThread As New Threading.Thread(
+			 Sub()
+
+				 'Form
+				 Dim _SimpleTextForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 700, .Height = 500, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
+				 _SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = System.Windows.Forms.DockStyle.Fill, .Text = _Text, .ReadOnly = True, .ScrollBars = Windows.Forms.ScrollBars.Both})
+				 AddHandler _SimpleTextForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleTextForm.Close()
+
+				 'MenuStrip, with Copy-Button
+				 Dim _MainMenuStrip As New Windows.Forms.MenuStrip() With {.BackColor = System.Drawing.SystemColors.GradientInactiveCaption}
+				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Copy", image:=Nothing, onClick:=Sub() My.Computer.Clipboard.SetText(_Text)))
+				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:=Sub() Call (Sub(_SelectedFile As IO.FileInfo) If _SelectedFile IsNot Nothing Then My.Computer.FileSystem.WriteAllText(_SelectedFile.FullName, _Text, False)).Invoke(UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {}))))
+				 _SimpleTextForm.Controls.Add(_MainMenuStrip) : _SimpleTextForm.MainMenuStrip = _MainMenuStrip
+
+				 Call (_SimpleTextForm).ShowDialog()
+
+			 End Sub)
+
+			_STAThread.SetApartmentState(Threading.ApartmentState.STA) : _STAThread.Start()
+
+		End Sub
 
 	End Module
 
