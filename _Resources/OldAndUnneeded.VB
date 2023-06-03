@@ -7,6 +7,18 @@
 
 
 
+		REM Unfortunately, an array like {Me.Cached_Tokens, Me.Cached_Program, Me.Cached_ProgramExeRes} wouldn't referance the origional objects inside it for some reason (even though it does work with the Buttons' arrays above).
+		REM Therefore, we'll have to manually account for each of the 4 eventualities...
+		'Select Case _FurthestInterpretationStageCompleted
+		'	Case InterpretationStage_.NoInterpretationPerformedYet : Me.Cached_Tokens = Nothing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
+		'	Case InterpretationStage_.Parsing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
+		'	Case InterpretationStage_.Lexing : Me.Cached_ProgramExeRes = Nothing
+		'	Case InterpretationStage_.Execution
+		'	Case Else : Throw New Exception("The Interpretation-Cache-Objects cannot be annulled, because the specified interpretation stage is unaccounted-for: " & _FurthestInterpretationStageCompleted.ToString())
+		'End Select
+
+
+
 
 
 

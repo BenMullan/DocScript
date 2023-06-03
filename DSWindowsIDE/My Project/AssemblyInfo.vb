@@ -12,7 +12,7 @@ Imports System.Windows
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("DocScript (IDE)")> 
-<Assembly: AssemblyDescription("DocScript Windows IDE Executable. Create, Edit, Analyse, and Debug Scripts with ease. Built on .NET v4.0 (2010).")> 
+<Assembly: AssemblyDescription("DocScript Windows IDE Executable. Create, Edit, Analyse, and Debug Scripts with ease. Execute scripts localy, remotely, or compile them to standalone exe files. Built on .NET v4.0.")> 
 <Assembly: AssemblyCompany("Ben Mullan")> 
 <Assembly: AssemblyProduct("DSWindowsIDE")> 
 <Assembly: AssemblyCopyright("DocScript (C) 2023")> 
@@ -55,7 +55,7 @@ Imports System.Windows
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("4.3.5.1")> 
-<Assembly: AssemblyFileVersion("4.3.5.1")> 
+<Assembly: AssemblyVersion("4.4.1.2")> 
+<Assembly: AssemblyFileVersion("4.4.1.2")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-GB")> 

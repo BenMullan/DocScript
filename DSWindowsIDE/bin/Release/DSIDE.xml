@@ -187,7 +187,7 @@ MainWindow
 	<summary>
  Enables the buttons up-to-and-including _FurthestDownInterpretationButtonToBeEnabled, and sets all buttons BEFORE _FurthestDownInterpretationButtonToBeEnabled to the GREEN Gradient Background Colour.
  Handles the Program Analysis Buttons corrosponding too.
- Manages which Interpretation-Cache-Objects should be set to [Nothing] too.
+ DOES NOT Manage which Interpretation-Cache-Objects should be set to [Nothing]. (This functionality was removed as it was causing major bugs.)
  </summary>
 </member><member name="M:DocScript.EnterCredentialsDialog.Show_AndGetCredentials">
 	<summary>Item1 = Username; Item2 = Password</summary>

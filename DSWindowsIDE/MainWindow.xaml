@@ -24,7 +24,7 @@
 
 			<!-- The drop-down "File" Menu -->
 			<Ribbon.ApplicationMenu>
-				<RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" SnapsToDevicePixels="False" Background="#FF0090FF" KeyTip="F">
+				<RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" Background="#FF0090FF" KeyTip="F">
 					<RibbonApplicationMenuItem
 					Header="About..."
 					x:Name="AboutMenuItem"

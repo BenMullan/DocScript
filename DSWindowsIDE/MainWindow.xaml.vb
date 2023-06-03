@@ -111,6 +111,7 @@ Class MainWindow
 		 End Sub)
 		AddHandler Me.AbortBackgroundWorkerLink.PreviewMouseDown, _CancelBackgroundWorker_Action
 
+		REM The main action of the Background Thread
 		AddHandler _BackgroundWorker.DoWork, _
 		 Sub(_Sender As Object, _DoWorkEA As ComponentModel.DoWorkEventArgs)
 
@@ -143,6 +144,7 @@ Class MainWindow
 
 		 End Sub
 
+		REM The action to run when the Background Thread's main task is complete
 		AddHandler _BackgroundWorker.RunWorkerCompleted, _
 		 Sub(_Sender As Object, _CompletedEA As ComponentModel.RunWorkerCompletedEventArgs)
 			 If _CompletedEA.Error IsNot Nothing Then
@@ -151,9 +153,11 @@ Class MainWindow
 			 End If
 			 RemoveHandler Me.AbortBackgroundWorkerLink.PreviewMouseDown, _CancelBackgroundWorker_Action
 			 Me.InvokeIfRequired(AddressOf Me.LoadingUIComponents_Reset)
-			 Me.InvokeIfRequired(AddressOf Me.Activate)	'Make the MainWindow focoused again
+			 Me.InvokeIfRequired(AddressOf Me.Activate)					'Make the MainWindow focoused again...
+			 Me.InvokeIfRequired(AddressOf Me.SourceTextEditor.Focus)	'...Specifically, make the SourceTextEditor Focoused
 		 End Sub
 
+		REM Now actually start the Background Thread
 		_BackgroundWorker.RunWorkerAsync()
 
 	End Sub
@@ -849,7 +853,7 @@ Class MainWindow
 	''' <summary>
 	''' Enables the buttons up-to-and-including _FurthestDownInterpretationButtonToBeEnabled, and sets all buttons BEFORE _FurthestDownInterpretationButtonToBeEnabled to the GREEN Gradient Background Colour.
 	''' Handles the Program Analysis Buttons corrosponding too.
-	''' Manages which Interpretation-Cache-Objects should be set to [Nothing] too.
+	''' DOES NOT Manage which Interpretation-Cache-Objects should be set to [Nothing]. (This functionality was removed as it was causing major bugs.)
 	''' </summary>
 	Protected Sub UpdateInterpretationButtonsState_(ByVal _FurthestInterpretationStageCompleted As InterpretationStage_)
 
@@ -919,16 +923,6 @@ Class MainWindow
 			_ProgramAnalysisButtons_(_Index%).IsEnabled = True
 			_ProgramAnalysisButtons_(_Index%).Background = _GreenBackgroundBrush_
 		Next
-
-		REM Unfortunately, an array like {Me.Cached_Tokens, Me.Cached_Program, Me.Cached_ProgramExeRes} wouldn't referance the origional objects inside it for some reason (even though it does work with the Buttons' arrays above).
-		REM Therefore, we'll have to manually account for each of the 4 eventualities...
-		Select Case _FurthestInterpretationStageCompleted
-			Case InterpretationStage_.NoInterpretationPerformedYet : Me.Cached_Tokens = Nothing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
-			Case InterpretationStage_.Parsing : Me.Cached_Program = Nothing : Me.Cached_ProgramExeRes = Nothing
-			Case InterpretationStage_.Lexing : Me.Cached_ProgramExeRes = Nothing
-			Case InterpretationStage_.Execution
-			Case Else : Throw New Exception("The Interpretation-Cache-Objects cannot be annulled, because the specified interpretation stage is unaccounted-for: " & _FurthestInterpretationStageCompleted.ToString())
-		End Select
 
 	End Sub
 

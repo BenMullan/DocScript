@@ -143,7 +143,7 @@
 				 Function(_Prompt$) Global.Microsoft.VisualBasic.Interaction.InputBox(_Prompt, "DocScript Input")
 
 				Static _GUIDefault_OutputDelegate_ As Action(Of String) = _
-				 Sub(_Message$) Global.System.Windows.Forms.MessageBox.Show(_Message, "DocScript Output", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information, Windows.Forms.MessageBoxDefaultButton.Button1, Windows.Forms.MessageBoxOptions.ServiceNotification, displayHelpButton:=False)
+				Sub(_Message$) Global.System.Windows.Forms.MessageBox.Show(_Message, "DocScript Output", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information, Windows.Forms.MessageBoxDefaultButton.Button1, Windows.Forms.MessageBoxOptions.ServiceNotification, displayHelpButton:=False)
 				'Sub(_Message$) Global.Microsoft.VisualBasic.MsgBox(_Message, MsgBoxStyle.Information, "DocScript: Output")
 
 				Return New ExecutionContext(
