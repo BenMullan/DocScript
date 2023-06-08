@@ -533,6 +533,7 @@ DSCore
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.CallFunctionByName(DocScript.Runtime.SymbolTablesSnapshot,System.String,DocScript.Language.Expressions.IExpression[],System.Boolean)">
 	<summary>Used by FunctionCall and FunctionCallExpr to call a BIF or DSFunction contained in the _InputSymbolTables. Arguments are passed in as UNRESOLVED Expressions.</summary>
+	<remarks>Sounds rather Win32-y, dosen't it?</remarks>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.ToString">
@@ -1080,7 +1081,7 @@ DSCore
 </member><member name="T:DocScript.Runtime.Remoting">
 	<summary>Contains resources for executing DocScript programs on remote computers</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Debug">
-	<summary>DocScript Language Utilities</summary>
+	<summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
 </member><member name="T:DocScript.Language.Constants">
 	<summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript</summary>
 </member><member name="T:DocScript.Language.Expressions.Operators.DSOperator">

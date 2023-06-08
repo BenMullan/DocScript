@@ -61,7 +61,6 @@
 				'Use the open authenticated UNC Connection
 				If Not _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.Exists Then IO.Directory.CreateDirectory(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithoutBackslashOnEnd())
 				For Each _SourceFile As IO.FileInfo In _FilesToCopyThither
-					'[_SourceFile].CopyTo(destFileName:=IO.Path.Combine(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName, _SourceFile.Name), overwrite:=True)
 					IO.File.Copy(
 					 sourceFileName:=[_SourceFile].FullName,
 					 destFileName:=IO.Path.Combine(_UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied.FullName.WithBackslashOnEnd(), _SourceFile.Name),
@@ -115,7 +114,7 @@
 #Region "(Private) Authenticated Network Share Access Logic (Does not follow Private_ nomenclature)"
 
 		''' <summary>Associates the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
-		Private Function AuthenticateWithNetworkFolder(ByVal _UNCPath$, ByVal _Username$, ByVal _Password$) As String
+		Public Function AuthenticateWithNetworkFolder(ByVal _UNCPath$, ByVal _Username$, ByVal _Password$) As String
 
 			Dim _Win32_NetworkResourceObject As New NETRESOURCE() With {.dwType = RESOURCETYPE_DISK, .lpRemoteName = _UNCPath}
 			Dim _StupidWin32ReturnedErrorCode% = Remoting.WNetUseConnection(IntPtr.Zero, _Win32_NetworkResourceObject, _Password$, _Username$, 0, Nothing, Nothing, Nothing)
@@ -127,7 +126,7 @@
 		End Function
 
 		''' <summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
-		Private Function RemoveCredentialsAssociatedWithNetworkFolder(ByVal _UNCPath$, ByVal _ForceDisconnection As Boolean) As String
+		Public Function RemoveCredentialsAssociatedWithNetworkFolder(ByVal _UNCPath$, ByVal _ForceDisconnection As Boolean) As String
 
 			Dim _StupidWin32ReturnedErrorCode% = WNetCancelConnection(_UNCPath, _ForceDisconnection)
 

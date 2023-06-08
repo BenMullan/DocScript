@@ -81,6 +81,7 @@
 		End Function
 
 		''' <summary>Used by FunctionCall and FunctionCallExpr to call a BIF or DSFunction contained in the _InputSymbolTables. Arguments are passed in as UNRESOLVED Expressions.</summary>
+		''' <remarks>Sounds rather Win32-y, dosen't it?</remarks>
 		Public Shared Function CallFunctionByName(
 		  ByVal _InputSymbolTables As Runtime.SymbolTablesSnapshot,
 		  ByVal _TargetFunction_Identifier As System.String,

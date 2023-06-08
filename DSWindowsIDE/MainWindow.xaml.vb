@@ -6,16 +6,24 @@ Class MainWindow
 
 	Public Sub New()
 
-		Me.InitializeComponent() : System.Windows.Forms.Application.EnableVisualStyles()
+		Try
 
-		Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
-		Me.CurrentExecutionContext = DocScript.Runtime.ExecutionContext.GUIDefault
+			Me.InitializeComponent() : System.Windows.Forms.Application.EnableVisualStyles()
 
-		RegisterCodeSnippetInsertion_EventHandlers_()
-		Me.InitialiseTextEditorControl_()
-		Me.PopulateLogEventHandlersComboBox()
+			Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
+			Me.CurrentExecutionContext = DocScript.Runtime.ExecutionContext.GUIDefault
 
-		CLAManagment.ExamineCLAs_And_SetPassthroughVariables() 'Variables including CLAManagment.CLAPassthrough_CLAHelpDictionaryText are then later picked-up on.
+			RegisterCodeSnippetInsertion_EventHandlers_()
+			Me.InitialiseTextEditorControl_()
+			Me.PopulateLogEventHandlersComboBox()
+
+			CLAManagment.ExamineCLAs_And_SetPassthroughVariables() 'Variables including CLAManagment.CLAPassthrough_CLAHelpDictionaryText are then later picked-up on.
+
+		Catch _Ex As Exception
+			Dim _NewMsgBoxThread As New System.Threading.Thread(Sub() MsgBox("Exception on DSIDE Main-Window Construction:" & vbCrLf & vbCrLf & _Ex.Message & If(_Ex.InnerException IsNot Nothing, vbCrLf & _Ex.InnerException.Message, ""), MsgBoxStyle.Critical, _Ex.GetType().FullName))
+			_NewMsgBoxThread.Start() : _NewMsgBoxThread.Join()
+			Environment.Exit(exitCode:=2)
+		End Try
 
 	End Sub
 
@@ -57,6 +65,8 @@ Class MainWindow
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.R) Then : Me.ShowExeResTree_InNewWindow()			'Ctrl + Shift + R
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.B) Then : Me.ShowNewBIFExplorerWindow()				'Ctrl + Shift + B
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.H) Then : Call (New PictorialHelpWindow()).Show()	'Ctrl + Shift + H
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.F) Then : Me.ShowNewRemoteFileExplorerWindow()		'Ctrl + Shift + F
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.E) Then : Me.LaunchDSExpr()							'Ctrl + Shift + E
 		ElseIf _KeyEventArgs.Key = Key.F1 Then : Me.ParseCurrentSource()	'F1
 		ElseIf _KeyEventArgs.Key = Key.F2 Then : Me.LexCachedTokens()		'F2
 		ElseIf _KeyEventArgs.Key = Key.F3 Then : Me.ExecuteCachedProgram()	'F3
@@ -557,7 +567,7 @@ Class MainWindow
 	End Sub
 
 	Public Sub ShowNewBIFExplorerWindow() Handles ViewBIFsButton.Click
-		Dim _NewBIFExplorerWindow As New BIFExplorerWindow(Me) : _NewBIFExplorerWindow.Show()
+		Call (New BIFExplorerWindow(Me)).Show()
 	End Sub
 
 	Public Sub LaunchDSExpr() Handles OpenDSExprButton.Click
@@ -567,6 +577,12 @@ Class MainWindow
 		Catch _Ex As Exception
 			MsgBox("On attempting to launch " & _DSExpr_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message & vbCrLf & vbCrLf & "Note that the [Launch DSExpr] feature is designed only to work when the DocScript binaries exist within the same directory, such as when DocScript has been installed via the .msi setup program.", MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
+	End Sub
+
+	Public Sub ShowNewRemoteFileExplorerWindow() Handles LaunchNewRemoteFileExplorerButton.Click
+		Dim _NewRFEWindowThread As New System.Threading.Thread(Sub() Call (New RemoteFileExplorerWindow()).ShowDialog())
+		_NewRFEWindowThread.SetApartmentState(System.Threading.ApartmentState.STA)
+		_NewRFEWindowThread.Start()	': _NewRFEWindowThread.Join()
 	End Sub
 
 	Public Sub RunInDSCLI() Handles RunInDSCLIButton.Click
@@ -589,6 +605,10 @@ Class MainWindow
 
 	Public Sub ShowAboutBox() Handles AboutMenuItem.Click
 		Call (New DSAboutBox()).ShowDialog()
+	End Sub
+
+	Public Sub LaunchDSOnGitHub() Handles DSGitHubMenuItem.Click
+		Process.Start("https://github.com/BenMullan/DocScript/")
 	End Sub
 
 	Public Sub ShowHelpWindow() Handles HelpMenuItem.Click, PaneHelpButton.Click

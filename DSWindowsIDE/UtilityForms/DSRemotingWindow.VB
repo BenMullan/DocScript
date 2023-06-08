@@ -287,7 +287,7 @@
 			Try : IO.File.Delete(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd(), CurrentRemotingSession_ScriptFileName)) : Catch _Ex As Exception : MsgBox("The tempoary local session-specific Script file (.\" & CurrentRemotingSession_ScriptFileName & ") could not be deleted because " & _Ex.Message, MsgBoxStyle.Exclamation) : End Try
 
 			REM Dismiss the ActionInProgressDialog
-			Me.TheActionInProgressDialog.Dismiss()
+			Try : Me.TheActionInProgressDialog.Dismiss() : Catch : End Try
 			Me.Enabled = True
 
 		End Try

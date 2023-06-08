@@ -8,6 +8,8 @@ Namespace Runtime
 
 #Region "Individual BIF Member Declarations"
 
+#Region "SymbolTable-Related"
+
 		Private Const BIF_Debug_SymbolExists_Identifier_$ = DebugBIFs_IdentifierStart_ & "SymbolExists"
 		Private Shared ReadOnly BIF_Debug_SymbolExists_ As New BuiltInFunction(BIF_Debug_SymbolExists_Identifier_$, {New DSFunction.Parameter("_SymbolName", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -52,6 +54,8 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Shows a graphical Window with a tab for the entries of each currently-visiable SymbolTable. Interrupts continous execution until the Windows is closed. This BIF only works in User-Interactive Mode."}
 
+#End Region
+
 		Private Const BIF_Debug_GetStackTrace_Identifier_$ = DebugBIFs_IdentifierStart_ & "GetStackTrace"
 		Private Shared ReadOnly BIF_Debug_GetStackTrace_ As New BuiltInFunction(BIF_Debug_GetStackTrace_Identifier_$, {}, GetType(DSString), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -63,14 +67,35 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Returns the DocScript-Runtime's Stack Trace. This includes all the behind-the-scenes Functions responsible for Interpreting DocScript Source."}
 
+		Private Const BIF_Debug_GetBIFDescription_Identifier_$ = DebugBIFs_IdentifierStart_ & "GetBIFDescription"
+		Private Shared ReadOnly BIF_Debug_GetBIFDescription_ As New BuiltInFunction(BIF_Debug_GetBIFDescription_Identifier_$, {New DSFunction.Parameter("_BIFIdentifier", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 '1) Initialise
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Debug_GetBIFDescription_Identifier_$)
+			 Dim _TargetBIF_Identifier$ = _Arguments.First().Coerce(Of DSString)().Value
+
+			 '2) Ensure that the SymbolTables contain an Entry for the target BIFunction
+			 If Not _SymTbls.IsContainedInAny(_TargetBIF_Identifier) Then Throw New DSNonexistentSymbolException(_TargetBIF_Identifier, "The BIF Description can not be retreived")
+			 Dim _TargetBIF_SymTblEntry As Runtime.SymbolTable.ISymbolTableEntry = _SymTbls.GetEntryFromAny(_TargetBIF_Identifier)
+			 If Not (_TargetBIF_SymTblEntry.GetType() = GetType(Runtime.SymbolTable.SymbolTableEntry(Of Runtime.BuiltInFunction))) Then Throw New DSIncorrectSymbolTableEntryTypeException(_TargetBIF_Identifier, "A BuiltInFunction".InSquares(), _TargetBIF_SymTblEntry.GetType().FullName, "The BIF Description can not be retreived")
+
+			 '3) Return the Description for the specified BIF
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(CType(_TargetBIF_SymTblEntry, Runtime.SymbolTable.SymbolTableEntry(Of Runtime.BuiltInFunction)).Value.Description)
+			 Return (_ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls))
+
+		 End Function)
+		) With {.[Description] = "Returns the Description for the Built-in Function with an identifier of _BIFIdentifier."}
+
 #End Region
 
-		''' <summary>DocScript Language Utilities</summary>
+		''' <summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
 		Public Shared ReadOnly Debug As DocScript.Runtime.BuiltInFunction() = {
 		 StandardBuiltInFunctions.BIF_Debug_SymbolExists_,
 		 StandardBuiltInFunctions.BIF_Debug_GetVisibleSymbols_,
 		 StandardBuiltInFunctions.BIF_Debug_ShowSymbolTables_,
-		 StandardBuiltInFunctions.BIF_Debug_GetStackTrace_
+		 StandardBuiltInFunctions.BIF_Debug_GetStackTrace_,
+		 StandardBuiltInFunctions.BIF_Debug_GetBIFDescription_
 		}
 
 	End Class

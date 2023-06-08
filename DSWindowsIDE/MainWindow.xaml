@@ -25,23 +25,10 @@
 			<!-- The drop-down "File" Menu -->
 			<Ribbon.ApplicationMenu>
 				<RibbonApplicationMenu SmallImageSource="/DSIDE;component/Images/Home.PNG" Label="IDE" Background="#FF0090FF" KeyTip="F">
-					<RibbonApplicationMenuItem
-					Header="About..."
-					x:Name="AboutMenuItem"
-					ImageSource="Images\About.PNG"
-				/>
-					<RibbonApplicationMenuItem
-					Header="Help!"
-					x:Name="HelpMenuItem"
-					ImageSource="Images\Help.PNG"
-					ToolTip="Ctrl + H (Ctrl + Shift + H for Pictorial-Help)"
-				/>
-					<RibbonApplicationMenuItem
-					Header="Exit"
-					x:Name="ExitMenuItem"
-					ImageSource="Images\Exit.PNG"
-					ToolTip="Esc"
-				/>
+					<RibbonApplicationMenuItem Header="About..." x:Name="AboutMenuItem" ImageSource="Images\About.PNG" />
+					<RibbonApplicationMenuItem Header="Help!" x:Name="HelpMenuItem" ImageSource="Images\Help.PNG" ToolTip="Ctrl + H (Ctrl + Shift + H for Pictorial-Help)" />
+					<RibbonApplicationMenuItem Header="DocScript on GitHub..." x:Name="DSGitHubMenuItem" ImageSource="Images\DS_On_GitHub.PNG" ToolTip="Source Control homepage for DocScript." />
+					<RibbonApplicationMenuItem Header="Exit" x:Name="ExitMenuItem" ImageSource="Images\Exit.PNG" ToolTip="Esc" />
 				</RibbonApplicationMenu>
 			</Ribbon.ApplicationMenu>
 
@@ -207,9 +194,10 @@
 					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R. Becomes GREEN when a cached ExecutionResult is currently present." />
 				</RibbonGroup>
 
-				<RibbonGroup x:Name="CompositionGroup" Header="Composition">
-					<RibbonButton x:Name="ViewBIFsButton" LargeImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
-					<RibbonButton x:Name="OpenDSExprButton" LargeImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch DSExpr..." />
+				<RibbonGroup x:Name="UtilitiesGroup" Header="Utilities">
+					<RibbonButton x:Name="ViewBIFsButton" SmallImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
+					<RibbonButton x:Name="OpenDSExprButton" SmallImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch Expr Resolver..." ToolTip="Ctrl + Shift + E" />
+					<RibbonButton x:Name="LaunchNewRemoteFileExplorerButton" SmallImageSource="/DSIDE;component/Images/Open.PNG" Label="Remote File Explorer..." ToolTip="Ctrl + Shift + F" />
 				</RibbonGroup>
 				
 				<RibbonGroup x:Name="LogginGroup" Header="Logging">

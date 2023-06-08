@@ -139,6 +139,9 @@
   <data name="__6_InstructionTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\UtilityForms\PictorialHelp_Images\InstructionTypes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RemoteFileExplorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\RemoteFileExplorer.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Computer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Computer.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -181,13 +184,16 @@
   <data name="PsExec_NotActuallyTheLogoForItButStill" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\PsExec_NotActuallyTheLogoForItButStill.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Keyword" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Keyword.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="StartPictorialHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\StartPictorialHelp.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="__7_PossibleLineTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\UtilityForms\PictorialHelp_Images\PossibleLineTypes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Keyword" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\Keyword.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="NetFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\NetFolder.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

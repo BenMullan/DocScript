@@ -10,7 +10,7 @@
 		Public ReadOnly [ReturnType] As Type
 		Public ReadOnly [Action] As BuiltInFunctionDelegate
 
-		'To be set from within an Inline With Statement following a Construction Expression
+		'To be set from within an Inline With Statement following a Construction Expression (New BuiltInFunction(...) With {.Description = "..."})
 		Public [Description] As String = "(No Description Specified)"
 
 		''' <summary>Remember to Initilise the Descrtiption by means of an Inline With Statement {.Description = "..."}</summary>
@@ -27,7 +27,7 @@
 		''' <summary>Automatically ensures that the correct number of _Arguments have been provided, in accordance with the .ExpectedParameters Property.</summary>
 		Public Function Run(ByVal _InputSymbolTablesState As Runtime.SymbolTablesSnapshot, ByVal _Arguments As Language.Variables.IDataValue()) As Language.Instructions.ExecutionResult
 			Try
-
+				'_InputSymbolTablesState.GetEntryFromAny("").
 				REM Ensure the number of Arguments specified are correct for the BuiltInFunction in question
 				If Not _Arguments.Length = Me.ExpectedParameters.Count Then Throw New DSException(String.Format("The number of Arguments provided to the BuiltInFunction ({0}) was not equal to the number of expected Parameters ({1})", _Arguments.Length.ToString(), Me.ExpectedParameters.Count.ToString()))
 

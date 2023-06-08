@@ -64,6 +64,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.InteractiveMode_UseConsoleSession_RadioButton = New System.Windows.Forms.RadioButton()
 		Me.Label6 = New System.Windows.Forms.Label()
 		Me.PictureBox6 = New System.Windows.Forms.PictureBox()
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.InteractiveMode_UseGUIExecution_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
 		Me.Label10 = New System.Windows.Forms.Label()
@@ -77,7 +78,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_ComputerTextBox = New System.Windows.Forms.TextBox()
 		Me.SimpleMode_ComputerLabel = New System.Windows.Forms.Label()
 		Me.SimpleMode_InfoLabel = New System.Windows.Forms.Label()
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox = New System.Windows.Forms.CheckBox()
 		Me.TheTabControl.SuspendLayout()
 		Me.Mode_TabPage.SuspendLayout()
 		CType(Me.InteractiveIcon_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -347,6 +347,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.TargetPassword_TextBox.Name = "TargetPassword_TextBox"
 		Me.TargetPassword_TextBox.Size = New System.Drawing.Size(213, 20)
 		Me.TargetPassword_TextBox.TabIndex = 5
+		Me.TargetPassword_TextBox.UseSystemPasswordChar = True
 		'
 		'Label5
 		'
@@ -526,6 +527,18 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.PictureBox6.TabIndex = 3
 		Me.PictureBox6.TabStop = False
 		'
+		'InteractiveMode_HideConsoleBeforeExecution_CheckBox
+		'
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.AutoSize = True
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Checked = True
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Location = New System.Drawing.Point(57, 45)
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Name = "InteractiveMode_HideConsoleBeforeExecution_CheckBox"
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Size = New System.Drawing.Size(181, 17)
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.TabIndex = 0
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Text = "Hide Interpreter's Win32 Console"
+		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.UseVisualStyleBackColor = True
+		'
 		'InteractiveMode_UseGUIExecution_CheckBox
 		'
 		Me.InteractiveMode_UseGUIExecution_CheckBox.AutoSize = True
@@ -647,18 +660,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_InfoLabel.TabIndex = 3
 		Me.SimpleMode_InfoLabel.Text = "You will be asked for credentials when you connect." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "DSR will use the ""Interactiv" & _
 		  "e"" mode, with the Console session."
-		'
-		'InteractiveMode_HideConsoleBeforeExecution_CheckBox
-		'
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.AutoSize = True
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Checked = True
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.CheckState = System.Windows.Forms.CheckState.Checked
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Location = New System.Drawing.Point(57, 45)
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Name = "InteractiveMode_HideConsoleBeforeExecution_CheckBox"
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Size = New System.Drawing.Size(181, 17)
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.TabIndex = 0
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.Text = "Hide Interpreter's Win32 Console"
-		Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox.UseVisualStyleBackColor = True
 		'
 		'DSRemotingWindow
 		'

@@ -62,7 +62,7 @@
 		Try
 
 			REM Join()-ing by CrLf puts each Call on a new Line
-			Me.Target_IDEWindow.InsertTextAtCursor(String.Join(vbCrLf, Me.BIFsListView.SelectedIndices.Cast(Of Int32)().Select(Of String)(Function(_SelectedBIF_Index As Int32) Me.BuiltInFunctions.ElementAt(_SelectedBIF_Index).TemplateCall)))
+			Me.Target_IDEWindow.InsertTextAtCursor([String].Join(vbCrLf, Me.BIFsListView.SelectedIndices.Cast(Of Int32)().Select(Of String)(Function(_SelectedBIF_Index As Int32) Me.BuiltInFunctions.ElementAt(_SelectedBIF_Index).TemplateCall)) & [vbCrLf])
 			Me.NumberOfBIFs_InsertedOntoIDEWindow += Convert.ToUInt16(Me.BIFsListView.SelectedItems.Count)
 			Me.Text = "BuiltInFunction Explorer (" & Me.NumberOfBIFs_InsertedOntoIDEWindow.ToString() & " BIF(s) Inserted)"
 
