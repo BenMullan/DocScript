@@ -582,7 +582,7 @@ Class MainWindow
 	Public Sub ShowNewRemoteFileExplorerWindow() Handles LaunchNewRemoteFileExplorerButton.Click
 		Dim _NewRFEWindowThread As New System.Threading.Thread(Sub() Call (New RemoteFileExplorerWindow()).ShowDialog())
 		_NewRFEWindowThread.SetApartmentState(System.Threading.ApartmentState.STA)
-		_NewRFEWindowThread.Start()	': _NewRFEWindowThread.Join()
+		_NewRFEWindowThread.Start()
 	End Sub
 
 	Public Sub RunInDSCLI() Handles RunInDSCLIButton.Click

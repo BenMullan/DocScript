@@ -534,13 +534,13 @@
 			Get
 				Try
 
-					Dim _Reconstruction$ = String.Empty
+					Dim _Reconstruction$ = [String].Empty
 
-					For Each _GlobalVarDec As Language.Instructions.VariableDeclaration In Me.GlobalVarDecs : _Reconstruction &= (_GlobalVarDec.ToString() & Language.Constants.LineBreak) : Next
-					For Each _DSFunction As Language.Instructions.Statements.DSFunction In Me.Functions : _Reconstruction &= (_DSFunction.ToString() & Language.Constants.LineBreak) : Next
+					For Each _GlobalVarDec As Language.Instructions.VariableDeclaration In Me.GlobalVarDecs : _Reconstruction &= (_GlobalVarDec.ToString() & Language.Constants.LineBreak & Language.Constants.LineBreak) : Next
+					For Each _DSFunction As Language.Instructions.Statements.DSFunction In Me.Functions : _Reconstruction &= (_DSFunction.ToString() & Language.Constants.LineBreak & Language.Constants.LineBreak) : Next
 
 					'We'd rather not have a superflous LineBreak on the end
-					If _Reconstruction.EndsWith(DocScript.Language.Constants.LineBreak) Then _Reconstruction = _Reconstruction.WithLastCharacterRemoved().WithLastCharacterRemoved()
+					_Reconstruction = _Reconstruction.WithTrailingWhiteSpaceRemoved()
 
 					Return _Reconstruction
 

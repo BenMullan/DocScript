@@ -32,10 +32,18 @@
 			.SetToolTip(Me.SimpleMode_ComputerTextBox, "The Hostname or IP Addr. of the target Windows™ computer")
 
 			.SetToolTip(Me.TargetComputer_TextBox, "The Hostname or IP Addr. of the target Windows™ computer")
-			.SetToolTip(Me.TargetUsername_TextBox, "Use the form Domain\Username, or just Username")
+			.SetToolTip(Me.TargetUsername_TextBox, "Use the form Domain\Username, .\Username, Username@Domain, or just Username")
+			.SetToolTip(Me.DocScriptCLAs_TextBox, "The Command-line Arguments received by the DocScript Program in the _CLAs parameter to the Main() Function")
+			.SetToolTip(Me.TargetUNCDirectory_TextBox, "The Path on the Remote Computer, in which to store the DocScript Runtime files. E.g. ""C$\DSR\"".")
+			.SetToolTip(Me.TargetUNCDirectory_TextBox, "Indicates that the copy of DSCLI.exe, DSCore.dll, and {SessionName}.DS used by DS-Remoting, are to be deleted shortly after the remote script's execution has begun.")
 
 			.SetToolTip(Me.InteractiveMode_UseGUIExecution_CheckBox, "Indicates that the /GUI flag will be used for the remote DSCLI interpreter process")
 			.SetToolTip(Me.InteractiveMode_HideConsoleBeforeExecution_CheckBox, "Indicates that the /HideConsoleBeforeExecution flag will be used for the remote DSCLI interpreter process")
+			.SetToolTip(Me.InteractiveMode_PsExecPath_TextBox, "PsExec is a utility used to execute the script remotely.")
+			.SetToolTip(Me.ShellMode_PsExecPath_TextBox, "PsExec is a utility used to execute the script remotely.")
+
+			REM At this point, it was discovered that the Designer could be used to set ToolTips on Controls.
+			REM Naturally, the remaining ToolTips can therefore be found on individual controls.
 
 		End With
 
@@ -175,6 +183,61 @@
 		Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
 	End Sub
 
+#Region "Utility Driver Methods"
+
+	REM Remote-File-Explorer
+	Public Sub LaunchNewRFE_ToSpecifiedComputer() Handles Utility_LaunchNewRFE_LinkLabel.LinkClicked
+		Try
+
+			REM Ensure the required data have been specified
+			If {Me.TargetComputer_TextBox.Text, Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text}.Any(AddressOf [String].IsNullOrEmpty) _
+			 Then Throw New Exception("The Computer, Username, and Password data must all be specified")
+
+			REM Show the RFE
+			Dim _NewRFEWindowThread As New System.Threading.Thread(Sub() Call (New RemoteFileExplorerWindow("\\" & Me.TargetComputer_TextBox.Text & "\C$\", Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text)).ShowDialog())
+			_NewRFEWindowThread.SetApartmentState(System.Threading.ApartmentState.STA)
+			_NewRFEWindowThread.Start()
+
+		Catch _Ex As Exception : MsgBox("The Remote File Explorer could not be opened: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+	End Sub
+
+	Public Sub LaunchNewPsExecCMDSession_ToSpecifiedComputer() Handles Utility_StartRemoteShellSession_LinkLabel.LinkClicked
+		Try
+
+			REM Ensure the required data have been specified
+			If {Me.TargetComputer_TextBox.Text, Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text}.Any(AddressOf [String].IsNullOrEmpty) _
+			 Then Throw New Exception("The Computer, Username, and Password data must all be specified")
+
+			REM Resolve a PsExec.exe path
+			Dim _PsExec_ExePath$ = Me.ShellMode_PsExecPath_TextBox.Text.Replace(DSRemotingWindow.PlaceholderFor_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory.FullName.WithoutBackslashOnEnd())
+			If Not IO.File.Exists(_PsExec_ExePath$) Then _PsExec_ExePath = Me.InteractiveMode_PsExecPath_TextBox.Text.Replace(DSRemotingWindow.PlaceholderFor_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory.FullName.WithoutBackslashOnEnd())
+			If Not IO.File.Exists(_PsExec_ExePath$) Then _PsExec_ExePath = InputBox(_PsExec_ExePath & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""PsExec.exe""...")
+			If Not IO.File.Exists(_PsExec_ExePath$) Then Throw New IO.FileNotFoundException("The PsExec.exe process path could not be resolved.", _PsExec_ExePath)
+
+			REM Prepare PsExec CLAs
+			Dim _PsExec_CLAs$ = [String].Format("""\\{0}"" -nobanner -accepteula -u ""{1}"" -p ""{2}"" CMD.EXE", Me.TargetComputer_TextBox.Text, Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text)
+
+			REM Identify a Command Processor to use (e.g. cmd.exe or command.com)
+			Dim _CommandProcessorExecutable_Path$ = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Windows), "System32", "cmd.exe")
+			If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then _CommandProcessorExecutable_Path = InputBox(_CommandProcessorExecutable_Path & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""cmd.exe"" or another command processor executable supporting the same command-line arguments...")
+			If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then Throw New IO.FileNotFoundException("The command processor executable path could not be resolved.", _CommandProcessorExecutable_Path)
+
+			REM Launch the new Process
+			Dim _PsExec_ViaCmdExe_Process As New System.Diagnostics.Process() With {
+			.StartInfo = (New ProcessStartInfo() With {
+			 .CreateNoWindow = False,
+			 .WindowStyle = ProcessWindowStyle.Normal,
+			 .FileName = _CommandProcessorExecutable_Path,
+			 .Arguments = String.Format("/K Title DSR Ad-hoc Shell Session && Prompt The PsExec session has finished.$_Type ""exit"" and press [Enter] to close...$_DSRemoting$G && ""{0}"" {1}", _PsExec_ExePath, _PsExec_CLAs)
+			})
+			  }
+			_PsExec_ViaCmdExe_Process.Start()
+
+		Catch _Ex As Exception : MsgBox("The Remote File Explorer could not be opened: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+	End Sub
+
+#End Region
+
 #End Region
 
 #Region "Actual DS-Remoting Logic"
@@ -270,15 +333,12 @@
 			Global.Microsoft.VisualBasic.Interaction.MsgBox(
 			 "The DS-Remoting operation failed. Reason: " _
 			 & vbCrLf & vbCrLf & _DSR_Exception.Message _
-			 & If(_DSR_Exception.Message.Contains("Logon failure"),
-			  vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer. Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain.",
-			  If(_DSR_Exception.Message.Contains("Could not find file"),
-			   vbCrLf & "Ensure that there are copies of DSCLI.exe and DSCore.dll in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.",
-			   ""
-			  )
-			 ),
-			 MsgBoxStyle.Critical,
-			 "DS-Remoting"
+			 & If(_DSR_Exception.Message.Contains("The network path was not found"), vbCrLf & vbCrLf & "Ensure that TCP/445 and UDP/137 are open on the target (wf.msc). Another way to open these is to enable [Network Discovery] and [File and Printer Sharing] via ""Manage Advanced Sharing Settings""." & vbCrLf & "Check that you can PING and PSEXEC into the target manually." & vbCrLf & vbCrLf & "If currently using the HostName, try using the IP-Address instead.", "") _
+			 & If(_DSR_Exception.Message.Contains("The process cannot access the file"), vbCrLf & vbCrLf & "Check that another DS-Remoting session is not already in-progress on the target. You could use the [Start remote shell session...] link-button to tasklist and taskkill the currently-active remote DSCLI.exe process.", "") _
+			 & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer." & vbCrLf & "Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain." & vbCrLf & vbCrLf & "If currently using the HostName, try using the IP-Address instead.", "") _
+			 & If(_DSR_Exception.Message.Contains("Could not find file"), vbCrLf & vbCrLf & "Ensure that there are copies of DSCLI.exe and DSCore.dll in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.", ""),
+			MsgBoxStyle.Critical,
+			"DS-Remoting"
 			)
 
 		Finally
@@ -360,7 +420,7 @@
 
 		REM Identify a Command Processor to use (e.g. cmd.exe or command.com)
 		Dim _CommandProcessorExecutable_Path$ = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Windows), "System32", "cmd.exe")
-		If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then _CommandProcessorExecutable_Path = InputBox(_CommandProcessorExecutable_Path & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""cmd.exe"" or another command processor executable...")
+		If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then _CommandProcessorExecutable_Path = InputBox(_CommandProcessorExecutable_Path & " does not exist." & vbCrLf & vbCrLf & "Enter a path to ""cmd.exe"" or another command processor executable supporting the same command-line arguments...")
 		If Not IO.File.Exists(_CommandProcessorExecutable_Path$) Then Throw New IO.FileNotFoundException("The command processor executable path could not be resolved.", _CommandProcessorExecutable_Path)
 
 		Me.TheActionInProgressDialog.UpdateText("Hosting DS-Remoting Shell Session...")
@@ -369,7 +429,7 @@
 		  .CreateNoWindow = False,
 		  .WindowStyle = ProcessWindowStyle.Normal,
 		  .FileName = _CommandProcessorExecutable_Path,
-		  .Arguments = String.Format("/K Title DS-Remoting Shell Session && Prompt DSRemoting$G && ""{0}"" {1}", _PsExec_ExePath, _PsExec_CLAs)
+		  .Arguments = String.Format("/K Title DS-Remoting Shell Session && Prompt The DS-Remoting session has finished.$_Type ""exit"" and press [Enter] to close...$_DSRemoting$G && ""{0}"" {1}", _PsExec_ExePath, _PsExec_CLAs)
 		 })
 		}
 		_PsExec_ViaCmdExe_Process.Start() : _PsExec_ViaCmdExe_Process.WaitForExit()

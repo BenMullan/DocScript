@@ -75,6 +75,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ShowHideOptionsButton = New System.Windows.Forms.Button()
 		Me.DSRemotingBanner_PictureBox = New System.Windows.Forms.PictureBox()
 		Me.TheToolTipProvider = New System.Windows.Forms.ToolTip(Me.components)
+		Me.Utility_StartRemoteShellSession_LinkLabel = New System.Windows.Forms.LinkLabel()
+		Me.Utility_LaunchNewRFE_LinkLabel = New System.Windows.Forms.LinkLabel()
 		Me.SimpleMode_ComputerTextBox = New System.Windows.Forms.TextBox()
 		Me.SimpleMode_ComputerLabel = New System.Windows.Forms.Label()
 		Me.SimpleMode_InfoLabel = New System.Windows.Forms.Label()
@@ -607,6 +609,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ConnectButton.Size = New System.Drawing.Size(119, 23)
 		Me.ConnectButton.TabIndex = 4
 		Me.ConnectButton.Text = "&Connect && Execute"
+		Me.TheToolTipProvider.SetToolTip(Me.ConnectButton, "Copies the DocScript Runtime files to the target," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and starts the DSCLI.exe inter" & _
+			  "preter process.")
 		Me.ConnectButton.UseVisualStyleBackColor = True
 		'
 		'ShowHideOptionsButton
@@ -616,6 +620,9 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ShowHideOptionsButton.Size = New System.Drawing.Size(90, 23)
 		Me.ShowHideOptionsButton.TabIndex = 5
 		Me.ShowHideOptionsButton.Text = "Hide &Options"
+		Me.TheToolTipProvider.SetToolTip(Me.ShowHideOptionsButton, "By default, the Interactive mode will be used with GUI Execution," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and you will b" & _
+			  "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
+			  "")
 		Me.ShowHideOptionsButton.UseVisualStyleBackColor = True
 		'
 		'DSRemotingBanner_PictureBox
@@ -630,10 +637,42 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'TheToolTipProvider
 		'
-		Me.TheToolTipProvider.AutomaticDelay = 0
+		Me.TheToolTipProvider.AutomaticDelay = 1
+		Me.TheToolTipProvider.AutoPopDelay = 30000
+		Me.TheToolTipProvider.InitialDelay = 100
+		Me.TheToolTipProvider.ReshowDelay = 1
 		Me.TheToolTipProvider.ShowAlways = True
 		Me.TheToolTipProvider.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
 		Me.TheToolTipProvider.ToolTipTitle = "Help"
+		'
+		'Utility_StartRemoteShellSession_LinkLabel
+		'
+		Me.Utility_StartRemoteShellSession_LinkLabel.AutoSize = True
+		Me.Utility_StartRemoteShellSession_LinkLabel.BackColor = System.Drawing.SystemColors.Control
+		Me.Utility_StartRemoteShellSession_LinkLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Utility_StartRemoteShellSession_LinkLabel.Location = New System.Drawing.Point(114, 392)
+		Me.Utility_StartRemoteShellSession_LinkLabel.Name = "Utility_StartRemoteShellSession_LinkLabel"
+		Me.Utility_StartRemoteShellSession_LinkLabel.Size = New System.Drawing.Size(138, 13)
+		Me.Utility_StartRemoteShellSession_LinkLabel.TabIndex = 6
+		Me.Utility_StartRemoteShellSession_LinkLabel.TabStop = True
+		Me.Utility_StartRemoteShellSession_LinkLabel.Text = "Start PsExec cmd session..."
+		Me.TheToolTipProvider.SetToolTip(Me.Utility_StartRemoteShellSession_LinkLabel, "Launches a PsExec cmd.exe Session, using the currently-entered Computer, Username" & _
+			  ", Password, and PsExec path.")
+		'
+		'Utility_LaunchNewRFE_LinkLabel
+		'
+		Me.Utility_LaunchNewRFE_LinkLabel.AutoSize = True
+		Me.Utility_LaunchNewRFE_LinkLabel.BackColor = System.Drawing.SystemColors.Control
+		Me.Utility_LaunchNewRFE_LinkLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Utility_LaunchNewRFE_LinkLabel.Location = New System.Drawing.Point(114, 409)
+		Me.Utility_LaunchNewRFE_LinkLabel.Name = "Utility_LaunchNewRFE_LinkLabel"
+		Me.Utility_LaunchNewRFE_LinkLabel.Size = New System.Drawing.Size(143, 13)
+		Me.Utility_LaunchNewRFE_LinkLabel.TabIndex = 7
+		Me.Utility_LaunchNewRFE_LinkLabel.TabStop = True
+		Me.Utility_LaunchNewRFE_LinkLabel.Text = "Launch remote file explorer..."
+		Me.TheToolTipProvider.SetToolTip(Me.Utility_LaunchNewRFE_LinkLabel, "Launches an new DocScript Remote File Explorer, targeting the specified" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Computer" & _
+			  "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
+			  "w Thread.")
 		'
 		'SimpleMode_ComputerTextBox
 		'
@@ -667,6 +706,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(404, 562)
+		Me.Controls.Add(Me.Utility_LaunchNewRFE_LinkLabel)
+		Me.Controls.Add(Me.Utility_StartRemoteShellSession_LinkLabel)
 		Me.Controls.Add(Me.SimpleMode_InfoLabel)
 		Me.Controls.Add(Me.SimpleMode_ComputerLabel)
 		Me.Controls.Add(Me.SimpleMode_ComputerTextBox)
@@ -768,5 +809,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 	Friend WithEvents Label9 As System.Windows.Forms.Label
 	Friend WithEvents Label10 As System.Windows.Forms.Label
 	Friend WithEvents InteractiveMode_HideConsoleBeforeExecution_CheckBox As System.Windows.Forms.CheckBox
+	Friend WithEvents Utility_StartRemoteShellSession_LinkLabel As System.Windows.Forms.LinkLabel
+	Friend WithEvents Utility_LaunchNewRFE_LinkLabel As System.Windows.Forms.LinkLabel
 
 End Class

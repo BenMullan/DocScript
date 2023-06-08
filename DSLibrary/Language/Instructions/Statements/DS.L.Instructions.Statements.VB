@@ -277,11 +277,13 @@ Namespace Language.Instructions.Statements
 
 			REM E.g. Output:
 			'	IF (CONDITION)
+			'
 			'		OUTPUT("Hello, World!")
 			'		NAME = INPUT("Enter Name:")
+			'
 			'	ENDIF
 
-			Dim _SourceToReturn$ = ""
+			Dim _SourceToReturn$ = Language.Constants.LineBreak	'This is so that the Statement has a LineBreak AFTER its header. (The IStatement's ToString() itself will add one for AFTER the contents).
 
 			For Each _Instruction As IInstruction In _StatementContents
 				_SourceToReturn &= _Instruction.ToString() & Language.Constants.LineBreak

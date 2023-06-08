@@ -2,8 +2,9 @@
 
 	Public TheActionInProgressDialog As ActionInProgressDialog
 
-	Public Sub New()
+	Public Sub New(Optional ByVal _UNCPath$ = "", Optional ByVal _Username$ = "", Optional ByVal _Password$ = "")
 		Me.InitializeComponent()
+		Me.RemoteUNCPath_TextBox.Text = _UNCPath : Me.Username_TextBox.Text = _Username : Me.Password_TextBox.Text = _Password
 	End Sub
 
 	Public Sub UpdatePathTextbox() Handles RemoteFilesWebBrowser.Navigated
