@@ -1,9 +1,10 @@
 ﻿Public Class DSIntelliSenseEntry : Implements Global.ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData
 
-	Public Enum DSIntellisenseEntryImage As Byte
+	Public Enum DSIntellisenseEntryImage As [Byte]
 		BuiltInFunction = 0
 		Keyword = 1
 		DataType = 2
+		Identifier = 3
 	End Enum
 
 	Protected Property Text_$
@@ -20,10 +21,13 @@
 				Case DSIntellisenseEntryImage.BuiltInFunction : Return New BitmapImage(New Uri("pack://application:,,,/DSIDE;component/Images/BuiltInFunction.PNG"))
 				Case DSIntellisenseEntryImage.Keyword : Return New BitmapImage(New Uri("pack://application:,,,/DSIDE;component/Images/Keyword.PNG"))
 				Case DSIntellisenseEntryImage.DataType : Return New BitmapImage(New Uri("pack://application:,,,/DSIDE;component/Images/DataType.PNG"))
+				Case DSIntellisenseEntryImage.Identifier : Return New BitmapImage(New Uri("pack://application:,,,/DSIDE;component/Images/About.PNG"))
 				Case Else : Throw New DSValidationException("The DSIntellisenseEntryImage was unaccounted-for", Me.Image_.ToString())
 			End Select
 		End Get
 	End Property
+
+#Region "Rather Useless Passthrough Propities"
 
 	Public ReadOnly Property Text As String Implements ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData.Text
 		Get
@@ -49,8 +53,30 @@
 		End Get
 	End Property
 
-	Public Sub Complete(ByVal textArea As ICSharpCode.AvalonEdit.Editing.TextArea, ByVal completionSegment As ICSharpCode.AvalonEdit.Document.ISegment, ByVal insertionRequestEventArgs As System.EventArgs) Implements ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData.Complete
-		textArea.Document.Replace(completionSegment, Me.Text)
+	''' <summary>Inserts the AutoComplete text into the Source-Code-Editor</summary>
+	Public Sub Complete(
+	 ByVal _TextArea As ICSharpCode.AvalonEdit.Editing.TextArea,
+	 ByVal _CompletionSegment As ICSharpCode.AvalonEdit.Document.ISegment,
+	 ByVal _InsertionRequestEventArgs As System.EventArgs
+	) Implements ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData.Complete
+		Try
+
+			REM Patch 09062023
+			'Problem: DSIntelliSense is inserting characters that have already been typed
+			'E.g. "Fun" → "FFunction"
+			'E.g. "Stringarray" → "SDS_StringArray_EachToNumber"
+			'
+			'Solution: Overwrite the 1st character; Make the 
+
+			_TextArea.Document.Replace(
+			 offset:=_CompletionSegment.Offset - 1,
+			 length:=_CompletionSegment.Length + 1,
+			 text:=Me.Text
+			)
+
+		Catch _Ex As Exception : MsgBox("DSIDE could not insert the Auto-Completion String: " & _Ex.Message, MsgBoxStyle.Critical) : End Try
 	End Sub
+
+#End Region
 
 End Class

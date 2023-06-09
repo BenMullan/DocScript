@@ -39,7 +39,7 @@ Partial Class HelpWindow
 		Me.Label1.Location = New System.Drawing.Point(8, 22)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(526, 195)
+		Me.Label1.Size = New System.Drawing.Size(526, 221)
 		Me.Label1.TabIndex = 0
 		Me.Label1.Text = resources.GetString("Label1.Text")
 		'
@@ -52,7 +52,7 @@ Partial Class HelpWindow
 		Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-		Me.GroupBox1.Size = New System.Drawing.Size(543, 228)
+		Me.GroupBox1.Size = New System.Drawing.Size(543, 255)
 		Me.GroupBox1.TabIndex = 2
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "General"
@@ -89,7 +89,7 @@ Partial Class HelpWindow
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(564, 411)
+		Me.ClientSize = New System.Drawing.Size(564, 444)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox1)
 		Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -97,7 +97,7 @@ Partial Class HelpWindow
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
 		Me.Margin = New System.Windows.Forms.Padding(4)
 		Me.MaximizeBox = False
-		Me.MaximumSize = New System.Drawing.Size(580, 450)
+		Me.MaximumSize = New System.Drawing.Size(580, 500)
 		Me.MinimizeBox = False
 		Me.MinimumSize = New System.Drawing.Size(395, 340)
 		Me.Name = "HelpWindow"

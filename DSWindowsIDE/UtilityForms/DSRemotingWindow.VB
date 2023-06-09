@@ -191,14 +191,14 @@
 
 			REM Ensure the required data have been specified
 			If {Me.TargetComputer_TextBox.Text, Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text}.Any(AddressOf [String].IsNullOrEmpty) _
-			 Then Throw New Exception("The Computer, Username, and Password data must all be specified")
+			 Then Throw New Exception("The Computer, Username, and Password data must all be specified, under [Target].")
 
 			REM Show the RFE
 			Dim _NewRFEWindowThread As New System.Threading.Thread(Sub() Call (New RemoteFileExplorerWindow("\\" & Me.TargetComputer_TextBox.Text & "\C$\", Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text)).ShowDialog())
 			_NewRFEWindowThread.SetApartmentState(System.Threading.ApartmentState.STA)
 			_NewRFEWindowThread.Start()
 
-		Catch _Ex As Exception : MsgBox("The Remote File Explorer could not be opened: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+		Catch _Ex As Exception : MsgBox(_Ex.Message, MsgBoxStyle.Critical, "Couldn't open Remote-File-Explorer") : End Try
 	End Sub
 
 	Public Sub LaunchNewPsExecCMDSession_ToSpecifiedComputer() Handles Utility_StartRemoteShellSession_LinkLabel.LinkClicked
@@ -206,7 +206,7 @@
 
 			REM Ensure the required data have been specified
 			If {Me.TargetComputer_TextBox.Text, Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text}.Any(AddressOf [String].IsNullOrEmpty) _
-			 Then Throw New Exception("The Computer, Username, and Password data must all be specified")
+			 Then Throw New Exception("The Computer, Username, and Password data must all be specified, under [Target].")
 
 			REM Resolve a PsExec.exe path
 			Dim _PsExec_ExePath$ = Me.ShellMode_PsExecPath_TextBox.Text.Replace(DSRemotingWindow.PlaceholderFor_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory.FullName.WithoutBackslashOnEnd())
@@ -233,7 +233,7 @@
 			  }
 			_PsExec_ViaCmdExe_Process.Start()
 
-		Catch _Ex As Exception : MsgBox("The Remote File Explorer could not be opened: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical) : End Try
+		Catch _Ex As Exception : MsgBox(_Ex.Message, MsgBoxStyle.Critical, "Couldn't launch Shell-Session") : End Try
 	End Sub
 
 #End Region

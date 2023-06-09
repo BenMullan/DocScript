@@ -382,6 +382,16 @@ Namespace CompilerExtentions
 			Return If(_String.EndsWith("\"c), _String, _String & "\"c)
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function InTitleCase$(ByVal _Input$)
+			Try
+
+				Return (New System.Globalization.CultureInfo("en-GB", useUserOverride:=False)).TextInfo.ToTitleCase(_Input.ToLower())
+
+			Catch _Ex As Exception : Throw New DSException("@InTitleCase (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
+
 	End Module
 
 	Public Module DateTimeExtentions

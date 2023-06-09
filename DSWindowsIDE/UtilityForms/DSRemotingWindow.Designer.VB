@@ -116,7 +116,9 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'Mode_TabPage
 		'
+		Me.Mode_TabPage.Controls.Add(Me.Utility_LaunchNewRFE_LinkLabel)
 		Me.Mode_TabPage.Controls.Add(Me.InteractiveIcon_PictureBox)
+		Me.Mode_TabPage.Controls.Add(Me.Utility_StartRemoteShellSession_LinkLabel)
 		Me.Mode_TabPage.Controls.Add(Me.ShellIcon_PictureBox)
 		Me.Mode_TabPage.Controls.Add(Me.HeadlessIcon_PictureBox)
 		Me.Mode_TabPage.Controls.Add(Me.InteractiveMode_RadioButton)
@@ -648,9 +650,9 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'Utility_StartRemoteShellSession_LinkLabel
 		'
 		Me.Utility_StartRemoteShellSession_LinkLabel.AutoSize = True
-		Me.Utility_StartRemoteShellSession_LinkLabel.BackColor = System.Drawing.SystemColors.Control
+		Me.Utility_StartRemoteShellSession_LinkLabel.BackColor = System.Drawing.SystemColors.ControlLightLight
 		Me.Utility_StartRemoteShellSession_LinkLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Utility_StartRemoteShellSession_LinkLabel.Location = New System.Drawing.Point(114, 392)
+		Me.Utility_StartRemoteShellSession_LinkLabel.Location = New System.Drawing.Point(4, 247)
 		Me.Utility_StartRemoteShellSession_LinkLabel.Name = "Utility_StartRemoteShellSession_LinkLabel"
 		Me.Utility_StartRemoteShellSession_LinkLabel.Size = New System.Drawing.Size(138, 13)
 		Me.Utility_StartRemoteShellSession_LinkLabel.TabIndex = 6
@@ -662,9 +664,9 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'Utility_LaunchNewRFE_LinkLabel
 		'
 		Me.Utility_LaunchNewRFE_LinkLabel.AutoSize = True
-		Me.Utility_LaunchNewRFE_LinkLabel.BackColor = System.Drawing.SystemColors.Control
+		Me.Utility_LaunchNewRFE_LinkLabel.BackColor = System.Drawing.SystemColors.ControlLightLight
 		Me.Utility_LaunchNewRFE_LinkLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Utility_LaunchNewRFE_LinkLabel.Location = New System.Drawing.Point(114, 409)
+		Me.Utility_LaunchNewRFE_LinkLabel.Location = New System.Drawing.Point(226, 247)
 		Me.Utility_LaunchNewRFE_LinkLabel.Name = "Utility_LaunchNewRFE_LinkLabel"
 		Me.Utility_LaunchNewRFE_LinkLabel.Size = New System.Drawing.Size(143, 13)
 		Me.Utility_LaunchNewRFE_LinkLabel.TabIndex = 7
@@ -706,8 +708,6 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(404, 562)
-		Me.Controls.Add(Me.Utility_LaunchNewRFE_LinkLabel)
-		Me.Controls.Add(Me.Utility_StartRemoteShellSession_LinkLabel)
 		Me.Controls.Add(Me.SimpleMode_InfoLabel)
 		Me.Controls.Add(Me.SimpleMode_ComputerLabel)
 		Me.Controls.Add(Me.SimpleMode_ComputerTextBox)

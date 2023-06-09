@@ -119,7 +119,9 @@
   </resheader>
   <data name="Label1.Text" xml:space="preserve">
     <value>Worth Noting:
-- Type _ to bring up DS Intellisense
+- Type _ and start typing in lower-case to bring up DS Intellisense.
+- For DS-Remoting, ensure that TCP/445 and UDP/137 are open (Windows File &amp;&amp; Printer Sharing),
+    and Network Discovery. Using the IP Address is often more reliable than using a Hostname.
 
 Command-Line Argument Help:
 -----------------------------------------------------------

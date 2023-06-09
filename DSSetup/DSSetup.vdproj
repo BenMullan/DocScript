@@ -21,26 +21,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4D50BED714354A10938969D438FA6482"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
+        "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
         "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
+        "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
         "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
+        "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
         "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4D50BED714354A10938969D438FA6482"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +142,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
+        "OwnerKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -250,34 +250,14 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D50BED714354A10938969D438FA6482"
-            {
-            "SourcePath" = "8:_AddDSAppPathsToRegistry.VBS"
-            "TargetName" = "8:_AddDSAppPathsToRegistry.VBS"
-            "Tag" = "8:"
-            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_58A90369CB16C2533ED2AD5657E84150"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_447CBFCA3A4FADD8B04F48474427CFA8"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DSCore, Version=2.3.5.1, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DSCore, Version=4.0.5.1, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_58A90369CB16C2533ED2AD5657E84150"
+                    "_447CBFCA3A4FADD8B04F48474427CFA8"
                     {
                     "Name" = "8:DSCore.dll"
                     "Attributes" = "3:512"
@@ -299,6 +279,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D50BED714354A10938969D438FA6482"
+            {
+            "SourcePath" = "8:_AddDSAppPathsToRegistry.VBS"
+            "TargetName" = "8:_AddDSAppPathsToRegistry.VBS"
+            "Tag" = "8:"
+            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6779BBF64B26AD86C8379EA7505EFC60"
@@ -575,15 +575,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{B008B4A3-D413-4747-A0CC-F54B4F450A83}"
-        "PackageCode" = "8:{844AB544-579D-4FAD-9CEB-FD6B1371DF17}"
+        "ProductCode" = "8:{1EF0F77F-EFBF-4B11-BC7F-005A10FF140C}"
+        "PackageCode" = "8:{DD72D2B0-AB6A-4641-B34B-1F21D5F98AD9}"
         "UpgradeCode" = "8:{1290F1CA-5A25-44B4-B3F6-CF384B244FFA}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:4.0.0"
+        "ProductVersion" = "8:4.7.2"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://BenM.eu5.org/"

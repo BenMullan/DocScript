@@ -817,6 +817,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string without this.</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithBackslashOnEnd(System.String)">
 	<summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string, otherwise returns the string concatenated with a [\].</summary>
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.InTitleCase(System.String)">
+	<summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
 </member><member name="M:DocScript.CompilerExtentions.DateTimeExtentions.GetLogSerialisation(System.DateTime@)">
 	<summary>(MullNet CompilerExtention) Gets a short Date and Time String suitable for Logs, in the form "21-07 12:00:08.625"</summary>
 </member><member name="M:DocScript.CompilerExtentions.ControlExtentions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
@@ -1083,7 +1085,7 @@ DSCore
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Debug">
 	<summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
 </member><member name="T:DocScript.Language.Constants">
-	<summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript</summary>
+	<summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript. See Also: DocScript.Runtime.Constants</summary>
 </member><member name="T:DocScript.Language.Expressions.Operators.DSOperator">
 	<summary>The Base Class for UnaryOperator and BinaryOperator</summary>
 </member><member name="T:DocScript.Language.Expressions.Operators.UnaryOperator">

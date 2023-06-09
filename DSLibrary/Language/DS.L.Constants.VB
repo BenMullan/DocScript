@@ -1,6 +1,6 @@
 ﻿Namespace Language
 
-	''' <summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript</summary>
+	''' <summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript. See Also: DocScript.Runtime.Constants</summary>
 	Public NotInheritable Class Constants
 
 		'Make this Class uninstanciatable from outside
@@ -38,6 +38,7 @@
 		Public Const StatementEnd_While$ = StatementEndPrefix & Keyword_While
 		Public Const StatementEnd_Loop$ = StatementEndPrefix & Keyword_Loop
 		Public Const StatementEnd_Function$ = StatementEndPrefix & Keyword_Function
+		Public Shared ReadOnly AllStatementEnds$() = {StatementEnd_If, StatementEnd_While, StatementEnd_Loop, StatementEnd_Function}
 
 		REM Operators
 		Public Const OperatorChar_EqualityComparrison As Char = "="c

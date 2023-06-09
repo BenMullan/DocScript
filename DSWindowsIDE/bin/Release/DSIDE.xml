@@ -143,6 +143,8 @@ MainWindow
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
+</member><member name="M:DocScript.DSIntelliSenseEntry.Complete(ICSharpCode.AvalonEdit.Editing.TextArea,ICSharpCode.AvalonEdit.Document.ISegment,System.EventArgs)">
+	<summary>Inserts the AutoComplete text into the Source-Code-Editor</summary>
 </member><member name="M:DocScript.DSRemotingWindow.ExecuteDSRemotingOperation">
 	<summary>The main DS-Remoting [junction-box]-type Method.</summary>
 </member><member name="P:DocScript.My.MyWpfExtension.Application">

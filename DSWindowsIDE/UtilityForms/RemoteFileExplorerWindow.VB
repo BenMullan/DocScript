@@ -53,9 +53,10 @@
 
 	Public Sub NavigateUpADir() Handles UpADir_LinkLabel.LinkClicked
 		Try
+			If (New IO.DirectoryInfo(Me.RemoteUNCPath_TextBox.Text)).Parent Is Nothing Then Throw New Exception("There is no parent directory.")
 			Me.RemoteUNCPath_TextBox.Text = (New IO.DirectoryInfo(Me.RemoteUNCPath_TextBox.Text)).Parent.FullName
 			Me.OpenRemoteDirectory()
-		Catch _Ex As Exception : MsgBox("The Parent directory could not be resolved: " & _Ex.Message, MsgBoxStyle.Critical) : End Try
+		Catch _Ex As Exception : MsgBox(_Ex.Message, MsgBoxStyle.Critical, "Could not resolve Parent Directory") : End Try
 	End Sub
 
 #Region "Close the form on pressing [Esc]"

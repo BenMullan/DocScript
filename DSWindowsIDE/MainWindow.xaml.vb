@@ -1,4 +1,5 @@
-﻿'Not all Properties and Feilds are declared at the top of this Class. Rather, they are close to where they are used, inside a #Region.
+﻿'The Properties and Feilds are not declared at the top of this Class File. Rather, they are close to where they are used, inside [#Region]s.
+
 Class MainWindow
 
 	'Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised)
@@ -205,8 +206,8 @@ Class MainWindow
 
 	Protected Sub LoadSyntaxHighlighting_()
 
-		Dim _XSHD_ByteArray As Byte() = My.Resources.DocScript_SyntaxHighlighting
-		Dim _XSHD_XMLString As String = System.Text.Encoding.ASCII.GetString(_XSHD_ByteArray)
+		Dim _XSHD_ByteArray As [Byte]() = Global.DocScript.[My].Resources.DocScript_SyntaxHighlighting
+		Dim _XSHD_XMLString As [String] = System.Text.Encoding.ASCII.GetString(_XSHD_ByteArray)
 
 		Dim _XMLReader As New Xml.XmlTextReader(New System.IO.StringReader(_XSHD_XMLString))
 
@@ -227,29 +228,42 @@ Class MainWindow
 	Protected Sub TextArea_TextEntered_(ByVal _Sender As Object, ByVal _TextCompositionEA As TextCompositionEventArgs)
 
 		REM Only open the IntelliSense Window after a _ has been typed
-		If Not (_TextCompositionEA.Text.First() = "_"c) Then Return
+		If Not ((_TextCompositionEA.Text.First() = "_"c) OrElse [Char].IsUpper(_TextCompositionEA.Text.First())) Then Return
 
-		Me.IntelliSenseWindow_ = New Global.ICSharpCode.AvalonEdit.CodeCompletion.CompletionWindow(Me.SourceTextEditor.TextArea) With {.Width = 250}
-
+		Me.IntelliSenseWindow_ = New Global.ICSharpCode.AvalonEdit.CodeCompletion.CompletionWindow(Me.SourceTextEditor.TextArea) With {.Width = 250, .CloseWhenCaretAtBeginning = True, .ExpectInsertionBeforeStart = False}
 		Dim _DSIntellisenseEntries As IList(Of Global.ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData) = Me.IntelliSenseWindow_.CompletionList.CompletionData
 
-		REM Add all non-array DataTypes
+		REM Add a note about Parsing to get Identifiers added
+		_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:="(Parse to load Identifiers: F1)", _Description:="", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Identifier))
+
+		REM Identifiers in currently-cached Tokens
+		If Me.Cached_Tokens IsNot Nothing Then
+			For Each _IdentifierToken As Runtime.Token In Me.Cached_Tokens.Where(Function(_Token As Runtime.Token) _Token.Type = Runtime.Token.TokenType.Identifier)
+				_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_IdentifierToken.Value, _Description:="[Identifier]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Identifier))
+			Next
+		End If
+
+		REM Non-array DataTypes
 		For Each _DataType$ In Global.DocScript.Language.Constants.AllNonArrayDataTypes
-			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_DataType, _Description:="[DocScript DataType]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.DataType))
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_DataType.InTitleCase(), _Description:="[Data Type]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.DataType))
 		Next
 
-		REM Add all Keywords
+		REM Keywords
 		For Each _Keyword$ In Global.DocScript.Language.Constants.AllKeywords
-			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_Keyword, _Description:="[DocScript Keyword]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Keyword))
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_Keyword.InTitleCase(), _Description:="[Keyword]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Keyword))
 		Next
 
-		REM Add all BIFs
+		REM StatementEnds
+		For Each _StatementEnd$ In Global.DocScript.Language.Constants.AllStatementEnds
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_StatementEnd.InTitleCase(), _Description:="[Statement End]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Keyword))
+		Next
+
+		REM BIFs
 		For Each _BIF As DocScript.Runtime.BuiltInFunction In Me.CurrentExecutionContext.BuiltInFunctions
-			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_BIF.Identifier, _Description:="[BuiltInFunction] " & _BIF.Description, _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.BuiltInFunction))
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_BIF.Identifier, _Description:="[Built-in Function] " & _BIF.TemplateCall & vbCrLf & _BIF.Description, _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.BuiltInFunction))
 		Next
 
 		Me.IntelliSenseWindow_.Show()
-
 		AddHandler Me.IntelliSenseWindow_.Closed, Sub() Me.IntelliSenseWindow_ = Nothing
 
 	End Sub
@@ -257,9 +271,15 @@ Class MainWindow
 	Protected Sub TextArea_TextEntering_(ByVal _Sender As Object, ByVal _TextCompositionEA As TextCompositionEventArgs)
 
 		If (_TextCompositionEA.Text.Length > 0) AndAlso (Me.IntelliSenseWindow_ IsNot Nothing) Then
-			'Whenever a non-letter is typed while the completion window is open,
-			'insert the currently selected element.
-			If Not Char.IsLetterOrDigit(_TextCompositionEA.Text.First()) Then Me.IntelliSenseWindow_.CompletionList.RequestInsertion(_TextCompositionEA)
+
+			REM OLD
+			'Whenever a non-letter is typed while the completion window is open, insert the currently selected element.
+			'If Not [Char].IsLetterOrDigit(_TextCompositionEA.Text.First()) Then Me.IntelliSenseWindow_.CompletionList.RequestInsertion(_TextCompositionEA)
+
+			REM NEW
+			'If a non-letter-or-number is pressed (e.g. [SPACE]), then Hide the IntelliSenseWindow_
+			If Not [Char].IsLetterOrDigit(_TextCompositionEA.Text.First()) Then Me.IntelliSenseWindow_.Close()
+
 		End If
 
 	End Sub
