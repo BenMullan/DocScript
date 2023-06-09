@@ -119,22 +119,12 @@
   </resheader>
   <data name="Label1.Text" xml:space="preserve">
     <value>Worth Noting:
-- Type _ and start typing in lower-case to bring up DS Intellisense.
-- For DS-Remoting, ensure that TCP/445 and UDP/137 are open (Windows File &amp;&amp; Printer Sharing),
-    and Network Discovery. Using the IP Address is often more reliable than using a Hostname.
+    - Type _ and start typing in lower-case to bring up DS Intellisense.
+    - For DS-Remoting, ensure that TCP/445 and UDP/137 are open (Windows File &amp;&amp; Printer Sharing),
+       and Network Discovery. Using the IP Address is often more reliable than using a Hostname.
 
-Command-Line Argument Help:
------------------------------------------------------------
-Description:
-DocScript Windows Integrated-Development-Environment. Create, Execute, and Analyse DocScript Programs.
 
-Examples:
-DSIDE.exe /OpenSourceFile:"X:\HelloWorld.DS"
-
-Argument Usage: (Keys are case-insensitive)
-/OpenSourceFile:&lt;Value&gt;   → (Optional) [Datum] A path (relative or absolute) to a DocScript Source-File
-/Run                                    → (Optional) [Action] Specifies that the DocScript Program in the file from
-                                                 /OpenSourceFile:&lt;value&gt; should be Run immediately.</value>
+Run "DSIDE /?" for a list of avaliable command-line arguments.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
