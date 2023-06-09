@@ -6,6 +6,8 @@
 	ShutdownMode="OnMainWindowClose"
 >
 
+	<!-- NOTE: ExamineCLAs_And_SetPassthroughVariables() is called from MainWindow\New() -->
+	
 	<Application.Resources/>
 
 </Application>
