@@ -965,6 +965,10 @@ DSCore
 	<remarks>DSCompilation's DSPackage.VB mechanism releis on this method!</remarks>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleWriteInColour(System.String,System.ConsoleColor,System.ConsoleColor)">
 	<summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ForegroundColour (without a LineBreak on the end), and using the specified _BackgroundColour</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleErrorWriteLineInColour(System.String,System.ConsoleColor)">
+	<summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ConsoleErrorWriteInColour(System.String,System.ConsoleColor)">
+	<summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour, without a LineBreak on the end</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ContainsWellBalencedPairs``1(``0[],System.Tuple{``0,``0}[])">
 	<summary>
  (MullNet UsefulMethod)
@@ -1219,12 +1223,26 @@ DSCore
 	<summary>Represents a Function accessible from, but not defined within, a DocScript Program</summary>
 </member><member name="F:DocScript.Runtime.ExecutionContext.InputDelegate">
 	<summary>
- This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings
- The InputDelegate must then be wrapped-up into the Input() Function which actually appears on the SymTbl
+ This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings.
+ The InputDelegate will be wrapped-up into the Input() Function which actually appears on the SymTbl.
  This is to say: InputDelegate IS DIFFERENT FROM the Input() BuiltInFunction
  </summary>
+</member><member name="F:DocScript.Runtime.ExecutionContext.OutputErrorDelegate">
+	<summary>
+ By default, this is set to Nothing, and the ExeCxt will use the OutputDelegate as the OutputErrorDelegate.
+ For the CLIDefault, this writes to STDERR in Red.
+ For the GUIDefault, this shows a MsgBox with the Error Icon.
+ </summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.BuiltInFunctions">
-	<summary>When retreived, this Property Concatenates in the IO BIFs.</summary>
+	<summary>When retreived, this Property Concatenates the IO BIFs in.</summary>
+</member><member name="M:DocScript.Runtime.ExecutionContext.#ctor(System.String,System.IO.DirectoryInfo,System.Func{System.String,System.String},System.Action{System.String},DocScript.Runtime.BuiltInFunction[])">
+	<summary>Note that the OutputError() Delegate should be set with an inline With Statement, as it is not taken in as a Constructor Argument</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.InputBIF_(System.Func{System.String,System.String})">
+	<summary>Wraps the InputDelegate in a DocScript BIF</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.OutputBIF_(System.Action{System.String})">
+	<summary>Wraps the OutputDelegate in a DocScript BIF</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.OutputErrorBIF_">
+	<summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used.</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.CLIDefault">
 	<summary>Uses Console.Write()&amp;Console.ReadLine() and Console.WriteLine()</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.GUIDefault">

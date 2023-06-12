@@ -14,6 +14,7 @@
 		Public Const EntryPointFunction_Identifier$ = "Main"
 		Public Const InputFunction_Identifier$ = "Input"
 		Public Const OutputFunction_Identifier$ = "Output"
+		Public Const OutputErrorFunction_Identifier$ = "OutputError"
 
 		REM Misc.
 		Public Const GlobalSymbolTable_Description$ = "Global Symbol Table"

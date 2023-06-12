@@ -304,10 +304,10 @@
 				REM Ensure the required data have been specified
 				If String.IsNullOrEmpty(Me.SimpleMode_ComputerTextBox.Text) Then Throw New Exception("A Computer name of IP addr. must be specified")
 
-				REM Prompt for Credentials first
+				REM Prompt for Credentials first. Copy these into the main Username and Password Textboxes
 				Me.TheActionInProgressDialog.Dismiss() 'Hide this, so that it dosen't block the EnterCredentialsDialog
 				Dim _SpecifiedCredentials As Tuple(Of String, String) = DocScript.EnterCredentialsDialog.Show_AndGetCredentials()
-				Me.TargetUsername_TextBox.Text = _SpecifiedCredentials.[Item1]
+				Me.TargetUsername_TextBox.Text = _SpecifiedCredentials.[Item1] : Me.TargetPassword_TextBox.Text = _SpecifiedCredentials.[Item2]
 
 				REM Use Interactive Mode, with the Console Session. DSR Files will not be deleted at the end.
 				Me.TheActionInProgressDialog.UpdateText("Copying Files to remote computer...")
@@ -334,7 +334,7 @@
 			 "The DS-Remoting operation failed. Reason: " _
 			 & vbCrLf & vbCrLf & _DSR_Exception.Message _
 			 & If(_DSR_Exception.Message.Contains("The network path was not found"), vbCrLf & vbCrLf & "Ensure that TCP/445 and UDP/137 are open on the target (wf.msc). Another way to open these is to enable [Network Discovery] and [File and Printer Sharing] via ""Manage Advanced Sharing Settings""." & vbCrLf & "Check that you can PING and PSEXEC into the target manually." & vbCrLf & vbCrLf & "If currently using the HostName, try using the IP-Address instead.", "") _
-			 & If(_DSR_Exception.Message.Contains("The process cannot access the file"), vbCrLf & vbCrLf & "Check that another DS-Remoting session is not already in-progress on the target. You could use the [Start remote shell session...] link-button to tasklist and taskkill the currently-active remote DSCLI.exe process.", "") _
+			 & If(_DSR_Exception.Message.Contains("The process cannot access the file"), vbCrLf & vbCrLf & "Check that another DS-Remoting session is not already in-progress on the target. You could use the [Start PsExec cmd session...] link-button to tasklist and taskkill the currently-active remote DSCLI.exe process.", "") _
 			 & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer." & vbCrLf & "Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain." & vbCrLf & vbCrLf & "If currently using the HostName, try using the IP-Address instead.", "") _
 			 & If(_DSR_Exception.Message.Contains("Could not find file"), vbCrLf & vbCrLf & "Ensure that there are copies of DSCLI.exe and DSCore.dll in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.", ""),
 			MsgBoxStyle.Critical,

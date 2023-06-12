@@ -1077,6 +1077,26 @@ Namespace CompilerExtentions
 
 		End Sub
 
+		''' <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour</summary>
+		Public Sub ConsoleErrorWriteLineInColour(ByVal _Text$, ByVal _ConsoleColour As ConsoleColor)
+
+			Dim _PreviousConsoleColour As ConsoleColor = Console.ForegroundColor
+			Console.ForegroundColor = _ConsoleColour
+			Console.Error.WriteLine(_Text)
+			Console.ForegroundColor = _PreviousConsoleColour
+
+		End Sub
+
+		''' <summary>(MullNet UsefulMethod) Writes the _Text to the _Console in the specified _ConsoleColour, without a LineBreak on the end</summary>
+		Public Sub ConsoleErrorWriteInColour(ByVal _Text$, ByVal _ConsoleColour As ConsoleColor)
+
+			Dim _PreviousConsoleColour As ConsoleColor = Console.ForegroundColor
+			Console.ForegroundColor = _ConsoleColour
+			Console.Error.Write(_Text)
+			Console.ForegroundColor = _PreviousConsoleColour
+
+		End Sub
+
 		''' <summary>
 		''' (MullNet UsefulMethod)
 		''' Ensures that for each opening component in the _Pairs, there is an instance of the corrosponding closing component.
