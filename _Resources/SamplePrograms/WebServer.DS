@@ -1,0 +1,23 @@
+﻿# WebServer.DS
+# Hosts a Lightweight Web Server on http://localhost:{RandomPort}/
+# Does this in a new thread, which is kept alive for 20 seconds.
+# The webpage is then opened by the Shell in the browser.
+
+<Number> Port : DS_Number_GetRandom(1000, 9000)
+
+Function <Number> Main (<String@> _CLAs)
+	
+	DS_InterpretInNewThread( "WebServer_NewThreadTask()" )
+	System_OpenFile("http://localhost:" & Port)
+	DS_Sleep(20 * 1000)
+	
+	Return 0
+EndFunction
+
+Function <Void> WebServer_NewThreadTask ()
+	
+	# Use the Log, to see all incomming Requests
+	# (DocScript Tab on Ribbon → Log Event Handler → Log Window)
+	System_HostWebServerForString(Port, "text/plain", "HELLO!")
+	
+EndFunction

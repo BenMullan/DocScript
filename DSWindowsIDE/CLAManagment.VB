@@ -12,7 +12,8 @@
 			Dim _InstanceCLAs$() = Environment.GetCommandLineArgs()
 
 			REM ↓ If we have just been passed one file as a CLA, then just open it, instead of bothering with the CLAManager at all...
-			If (_InstanceCLAs.Length = 2) AndAlso [UsefulMethods].Result_OrFalseOnException(Function() (New IO.FileInfo(_InstanceCLAs.ElementAt(1))).Exists) Then
+			REM ↓ CLAs[0] is the path to the current binary executable. CLAs[1] is the 1st Command-line Argument.
+			If (_InstanceCLAs.Length = 2) AndAlso _InstanceCLAs.ElementAt(1).IsValidFilePath_AndThatFileExists() Then
 				CLAManagment.CLAPassthrough_SourceFileToOpen = New IO.FileInfo(_InstanceCLAs.ElementAt(1))
 				Return
 			End If

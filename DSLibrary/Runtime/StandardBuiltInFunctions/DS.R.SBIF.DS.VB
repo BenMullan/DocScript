@@ -54,6 +54,36 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Runs _Source as statement-level DocScript source, in the context of the current Symbol-Tables. Seperate lines with ; and use ` for SpeeachMarks ("")"}
 
+		Private Const BIF_DS_InterpretInNewThread_Identifier_$ = DSBIFs_IdentifierStart_ & "InterpretInNewThread"
+		Private Shared ReadOnly BIF_DS_InterpretInNewThread_ As New BuiltInFunction(BIF_DS_InterpretInNewThread_Identifier_$, {New DSFunction.Parameter("_Source", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_InterpretInNewThread_Identifier_$)
+			 Dim _Modified_SymTbls As Runtime.SymbolTablesSnapshot = _SymTbls
+
+			 Dim _Thread_InterpretationOperation As Action = _
+			 Sub()
+
+				 Dim _Tokens As Runtime.Token() = Parser.GetTokensFromSource(Parser.UnflattenSource(_Arguments.First().Coerce(Of DSString)().Value))
+				 Dim _Instructions As Language.Instructions.IInstruction() = Language.Instructions.Statements.GetStatementContentsFromTokens(_Tokens)
+
+				 'Just in case multiple Instructions were specified...
+				 For Each _Instruction As Language.Instructions.IInstruction In _Instructions
+					 Dim _Instruction_ExeRes As Language.Instructions.ExecutionResult = _Instruction.Execute(_Modified_SymTbls)
+					 _ExeRes.UpstairsExecutionResults.Add(New Tuple(Of String, ExecutionResult)("Lambda " & _Instruction.GetType().Name.InBrackets(), _Instruction_ExeRes))
+					 _Modified_SymTbls = _Instruction_ExeRes.ResultantSymbolTablesState
+				 Next
+
+			 End Sub
+
+			 Dim _NewThread As New Threading.Thread(Sub() _Thread_InterpretationOperation())
+			 _NewThread.Start()
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_Modified_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Runs _Source as statement-level DocScript source, in the context of the current Symbol-Tables. As soon as the new Thread has been started, this method returns. A snapshot of the current Symbol Tables' State is fed into the new thread, but any modifications made to variables BY the new thread are not applied to the symbol tables in the current thread. Seperate lines with ; and use ` for SpeeachMarks ("")"}
+
 		Private Const BIF_DS_InterpretTry_Identifier_$ = DSBIFs_IdentifierStart_ & "InterpretTry"
 		Private Shared ReadOnly BIF_DS_InterpretTry_ As New BuiltInFunction(BIF_DS_InterpretTry_Identifier_$, {New DSFunction.Parameter("_Source", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -902,6 +932,7 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_DS_Sleep_,
 		 StandardBuiltInFunctions.BIF_DS_ThrowError_,
 		 StandardBuiltInFunctions.BIF_DS_Interpret_,
+		 StandardBuiltInFunctions.BIF_DS_InterpretInNewThread_,
 		 StandardBuiltInFunctions.BIF_DS_InterpretTry_,
 		 StandardBuiltInFunctions.BIF_DS_InterpretProgram_,
 		 StandardBuiltInFunctions.BIF_DS_String_Split_,

@@ -392,6 +392,26 @@ Namespace CompilerExtentions
 			Catch _Ex As Exception : Throw New DSException("@InTitleCase (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function IsValidFilePath_AndThatFileExists(ByVal _Path$) As [Boolean]
+			Try
+
+				REM To account for the specific case of not treating a CLA such as...
+				REM /OpenSourceFile:D:\Benedict\Documents\SchoolWork\Projects\DocScript\DocScriptPrograms\LightswitchProblem.DS
+				REM ...As a valid File path, and NOT throwing an exception whilst checking (as this disrupts the debugger-attached startup of DSIDE),
+				REM ...We shall ensure that the _Path dosen't match the RegExp ^(\/\w+:[a-zA-Z0-9_\\:.\+\-\*\/&=\(\)\^%\$£"!`¬<>\[\]\{\};'@#~\?\|]+)$
+
+				If _Path.MatchesRegEx("^\/\w+:[a-zA-Z0-9_\\:.\+\-\*\/&=\(\)\^%\$£""!`¬<>\[\]\{\};'@#~\?\|]+$") Then Return False
+
+				Return (New IO.FileInfo(_Path)).Exists
+
+			Catch _Ex As Exception
+				Debug.WriteLine("The File path [" & _Path & "] is not valid or does not exist: " & _Ex.Message)
+				Return False
+			End Try
+		End Function
+
 	End Module
 
 	Public Module DateTimeExtentions

@@ -5,10 +5,10 @@
 
 #Region "ExeCxt \ Propities"
 
-		'''' <summary>Should be unique for each type of ExecutionContext (e.g. a GUI one vs a CLI one). Used when comparing several delegates.</summary>
+		''' <summary>Should be unique for each type of ExecutionContext (e.g. a GUI one vs a CLI one). Used when comparing several delegates.</summary>
 		Public ReadOnly ID As String
 
-		REM Can be set automatically via System.IO.Path.GetDirectoryName(Application.ExecutablePath)
+		''' <summary>Can be set automatically via System.IO.Path.GetDirectoryName(Application.ExecutablePath)</summary>
 		Public ReadOnly RootFolder As IO.DirectoryInfo
 
 		''' <summary>
@@ -18,7 +18,11 @@
 		''' </summary>
 		Public ReadOnly InputDelegate As Func(Of [String], [String])
 
-		REM Similarly, OutputDelegate is an abstraction of Output()
+		''' <summary>
+		''' This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings.
+		''' The OutputDelegate will be wrapped-up into the Output() Function which actually appears on the SymTbl.
+		''' This is to say: OutputDelegate IS DIFFERENT FROM the Outut() BuiltInFunction
+		''' </summary>
 		Public ReadOnly OutputDelegate As Action(Of [String])
 
 		''' <summary>

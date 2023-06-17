@@ -8,7 +8,7 @@ Namespace Runtime
 
 #Region "Individual BIF Member Declarations"
 
-#Region "Data-retrival: System_Get*() BIFs"
+#Region "Data-retrival: System_Get* BIFs"
 
 		Private Const BIF_System_GetTime_Identifier_$ = SystemBIFs_IdentifierStart_ & "GetTime"
 		Private Shared ReadOnly BIF_System_GetTime_ As New BuiltInFunction(BIF_System_GetTime_Identifier_$, {}, GetType(DSString), New BuiltInFunctionDelegate(
@@ -42,6 +42,17 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Returns the Username of the current Computer"}
+
+		Private Const BIF_System_GetCurrentInterpreterDirectory_Identifier_$ = SystemBIFs_IdentifierStart_ & "GetCurrentInterpreterDirectory"
+		Private Shared ReadOnly BIF_System_GetCurrentInterpreterDirectory_ As New BuiltInFunction(BIF_System_GetCurrentInterpreterDirectory_Identifier_$, {}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_GetCurrentInterpreterDirectory_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd())
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the directory in which the binary of the current Interpreter exists, with a Backslash on the end."}
 
 #End Region
 
@@ -130,6 +141,47 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Attempts to ping the _HostnameOrIP. Returns True if this was successful, and otherwise, False."}
 
+#Region "Web Server Methods"
+
+		Private Const BIF_System_HostWebServerForString_Identifier_$ = SystemBIFs_IdentifierStart_ & "HostWebServerForString"
+		Private Shared ReadOnly BIF_System_HostWebServerForString_ As New BuiltInFunction(BIF_System_HostWebServerForString_Identifier_$, {New DSFunction.Parameter("_Port", GetType(DSNumber)), New DSFunction.Parameter("_MIMEType", GetType(DSString)), New DSFunction.Parameter("_ResponseString", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_HostWebServerForString_Identifier_$)
+
+			 Dim _MicroServer As New DocScript.Utilities.MicroHTTPServer(
+			   _Port:=Convert.ToUInt16(_Arguments.ElementAt(0).Coerce(Of DSNumber)().Value),
+			   _ResponseContentString:=_Arguments.ElementAt(2).Coerce(Of DSString)().Value,
+			   _ResponseMIMEType:=_Arguments.ElementAt(1).Coerce(Of DSString)().Value
+			 )
+			 AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) LogSystemMessage("Handled a DS-WebServer Request for URL: " & _Request.Url.ToString(), LogEvent.DSEventSeverity.Infomation)
+			 _MicroServer.Run()
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Runs a lightweight Web Server, serving the given _ResponseString for all requests, listening on the URL http://localhost:{_Port}/"}
+
+		Private Const BIF_System_HostWebServerForDirectory_Identifier_$ = SystemBIFs_IdentifierStart_ & "HostWebServerForDirectory"
+		Private Shared ReadOnly BIF_System_HostWebServerForDirectory_ As New BuiltInFunction(BIF_System_HostWebServerForDirectory_Identifier_$, {New DSFunction.Parameter("_Port", GetType(DSNumber)), New DSFunction.Parameter("_DirectoryPath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_HostWebServerForDirectory_Identifier_$)
+
+			 Dim _MicroServer As New DocScript.Utilities.MicroHTTPServer(
+			 _Port:=Convert.ToUInt16(_Arguments.ElementAt(0).Coerce(Of DSNumber)().Value),
+			 _DirectoryToServeFilesFrom:=New IO.DirectoryInfo(_Arguments.ElementAt(1).Coerce(Of DSString)().Value)
+			 )
+			 AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) LogSystemMessage("Handled a DS-WebServer Request for URL: " & _Request.Url.ToString(), LogEvent.DSEventSeverity.Infomation)
+			 _MicroServer.Run()
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Runs a lightweight Web Server, serving files in the _DirectoryPath, depending on the URL, listening on the URL http://localhost:{_Port}/"}
+
+#End Region
+
 #End Region
 
 		''' <summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
@@ -137,13 +189,16 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_System_GetTime_,
 		 StandardBuiltInFunctions.BIF_System_GetHostname_,
 		 StandardBuiltInFunctions.BIF_System_GetUsername_,
+		 StandardBuiltInFunctions.BIF_System_GetCurrentInterpreterDirectory_,
 		 StandardBuiltInFunctions.BIF_System_Beep_,
 		 StandardBuiltInFunctions.BIF_System_PlayWav_,
 		 StandardBuiltInFunctions.BIF_System_Run_,
 		 StandardBuiltInFunctions.BIF_System_RunInline_,
 		 StandardBuiltInFunctions.BIF_System_OpenFile_,
 		 StandardBuiltInFunctions.BIF_System_Curl_,
-		 StandardBuiltInFunctions.BIF_System_Ping_
+		 StandardBuiltInFunctions.BIF_System_Ping_,
+		 StandardBuiltInFunctions.BIF_System_HostWebServerForString_,
+		 StandardBuiltInFunctions.BIF_System_HostWebServerForDirectory_
 		}
 
 	End Class
