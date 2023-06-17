@@ -21,7 +21,7 @@ Here's an example of a DocScript Program to solve [the Lightswitch Problem](http
 # Getting Started...
 **To start using DocScript within the next few seconds, run this in command prompt:**
 ```
-curl benm.eu5.org/d.s | cmd
+curl benm.eu5.org/ds | cmd
 ```
 *Otherwise...*
 - Download `DSSetup.msi` (or just the binaries) from [§Releases](https://github.com/BenMullan/DocScript/releases)
