@@ -6,42 +6,7 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="F:DocScript.Utilities.MicroHTTPServer.Port">
-	<summary>The logical port on which the Web Server listens. E.g. "900" in the URL "http://localhost:900/Help/".</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.VirtualPath">
-	<summary>The URL sub-path on which the Web Server listens. E.g. "Help" in the URL "http://localhost:900/Help/".</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.SuccessfullyHandledRequestsCount">
-	<summary>The Number of requests responded-to by the Web Server instance so-far. This is NOT readonly, so that it can be externally reset.</summary>
-</member><member name="E:DocScript.Utilities.MicroHTTPServer.RequestHandledSuccessfully">
-	<summary>Occurs directly after a HTTP Request is responded-to. The Argument is the Request, whose full URL is avaliable via the Property .Url.ToString(). Also note the Properties of .UserAgent, .UserHostName, and .HttpMethod.</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.MIMETypesDictionary">
-	<summary>A mapping of FILE-EXTENTIONS to MIME-TYPES. E.g. {"HTM", "text/html"}, {"BMP", "image/bmp"}. If a request's File Extension dosen't appear in the Dictionary's Keys, then the default of "text/plain" is used.</summary>
-</member><member name="P:DocScript.Utilities.MicroHTTPServer.URL">
-	<summary>E.g. Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.String,System.String,System.String)">
-	<summary>Mode 1: Constructs the MicroHTTPServer to serve a STRING. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.FileInfo,System.String)">
-	<summary>Mode 2: Constructs the MicroHTTPServer to serve a SINGLE FILE. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the _FileToServe's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.DirectoryInfo,System.String)">
-	<summary>Mode 3: Constructs the MicroHTTPServer to serve FILES FROM A DIRECTORY. If the root URL / is requested, an Exception is Thrown. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the File-to-serve's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.Run">
-	<summary>Initialises the HTTPListener and begins the request-handling loop. Each time a request is handled, the [RequestHandled] Event is raised.</summary>
-</member><member name="T:DocScript.Utilities.MicroHTTPServer">
-	<summary>
- A lightweight HTTP Server, which can serve either a constant String, single File, or a file from a specified Directory.
- 
- 	<example>
- 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _ResponseContentString:="Same for all URLs!", _ResponseMIMEType:="text/plain")
-  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
-		 	_MicroServer.Run()
- 	</example>
-		<example>
- 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _DirectoryToServeFilesFrom:=New IO.DirectoryInfo("F:\"))
-  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
-		 	_MicroServer.Run()
- 	</example>
-	</summary>
-</member><member name="T:DocScript.Language.Expressions.IExpression">
+<member name="T:DocScript.Language.Expressions.IExpression">
 	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
 </member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
 	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
@@ -187,6 +152,41 @@ DSCore
 	<summary>Generatess a New Empty SymTblsSnpSht</summary>
 </member><member name="T:DocScript.Runtime.SymbolTablesSnapshot">
 	<summary>Represents the State of one or more SymbolTables at a given point during the execution of a DocScript program</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.Port">
+	<summary>The logical port on which the Web Server listens. E.g. "900" in the URL "http://localhost:900/Help/".</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.VirtualPath">
+	<summary>The URL sub-path on which the Web Server listens. E.g. "Help" in the URL "http://localhost:900/Help/".</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.SuccessfullyHandledRequestsCount">
+	<summary>The Number of requests responded-to by the Web Server instance so-far. This is NOT readonly, so that it can be externally reset.</summary>
+</member><member name="E:DocScript.Utilities.MicroHTTPServer.RequestHandledSuccessfully">
+	<summary>Occurs directly after a HTTP Request is responded-to. The Argument is the Request, whose full URL is avaliable via the Property .Url.ToString(). Also note the Properties of .UserAgent, .UserHostName, and .HttpMethod.</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.MIMETypesDictionary">
+	<summary>A mapping of FILE-EXTENTIONS to MIME-TYPES. E.g. {"HTM", "text/html"}, {"BMP", "image/bmp"}. If a request's File Extension dosen't appear in the Dictionary's Keys, then the default of "text/plain" is used.</summary>
+</member><member name="P:DocScript.Utilities.MicroHTTPServer.URL">
+	<summary>E.g. Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.String,System.String,System.String)">
+	<summary>Mode 1: Constructs the MicroHTTPServer to serve a STRING. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.FileInfo,System.String)">
+	<summary>Mode 2: Constructs the MicroHTTPServer to serve a SINGLE FILE. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the _FileToServe's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.DirectoryInfo,System.String)">
+	<summary>Mode 3: Constructs the MicroHTTPServer to serve FILES FROM A DIRECTORY. If the root URL / is requested, an Exception is Thrown. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the File-to-serve's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.Run">
+	<summary>Initialises the HTTPListener and begins the request-handling loop. Each time a request is handled, the [RequestHandled] Event is raised.</summary>
+</member><member name="T:DocScript.Utilities.MicroHTTPServer">
+	<summary>
+ A lightweight HTTP Server, which can serve either a constant String, single File, or a file from a specified Directory.
+ 
+ 	<example>
+ 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _ResponseContentString:="Same for all URLs!", _ResponseMIMEType:="text/plain")
+  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
+		 	_MicroServer.Run()
+ 	</example>
+		<example>
+ 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _DirectoryToServeFilesFrom:=New IO.DirectoryInfo("F:\"))
+  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
+		 	_MicroServer.Run()
+ 	</example>
+	</summary>
 </member><member name="T:DocScript._DebugResources">
 	<summary>Used for internal debugging purposes. No calls to members hereof should exist within ReleaseCandidate* builds.</summary>
 </member><member name="T:DocScript.Language.Instructions.IInstruction">

@@ -404,6 +404,8 @@ Namespace CompilerExtentions
 
 				If _Path.MatchesRegEx("^\/\w+:[a-zA-Z0-9_\\:.\+\-\*\/&=\(\)\^%\$£""!`¬<>\[\]\{\};'@#~\?\|]+$") Then Return False
 
+				If _Path.ToCharArray().Any(AddressOf IO.Path.GetInvalidPathChars().Contains) Then Return False
+
 				Return (New IO.FileInfo(_Path)).Exists
 
 			Catch _Ex As Exception

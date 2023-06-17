@@ -212,29 +212,29 @@
 
 		<!-- The Source TextBox -->
 		<avalonEdit:TextEditor xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" Grid.Row="1"
-		Name="SourceTextEditor" FontFamily="Consolas" FontSize="10pt" ShowLineNumbers="True" SnapsToDevicePixels="True">
+			Name="SourceTextEditor" FontFamily="Consolas" FontSize="10pt" ShowLineNumbers="True" SnapsToDevicePixels="True">
 
-			<avalonEdit:TextEditor.LayoutTransform>
-				<TransformGroup>
-					<ScaleTransform ScaleX="{Binding ElementName=ZoomValueSlider, Path=Value}" ScaleY="{Binding ElementName=ZoomValueSlider, Path=Value}" />
-					<SkewTransform AngleX="{Binding ElementName=SkewValueSlider, Path=Value}" AngleY="{Binding ElementName=SkewValueSlider, Path=Value}" />
-					<RotateTransform Angle="{Binding ElementName=RotateValueSlider, Path=Value}" x:Name="SourceTextRotateTransform" />
-					<MatrixTransform x:Name="SourceTextMatrixTransformation">
-						<MatrixTransform.Matrix>
-							<!--
-							M11		X Multiplier		1
-							M22		Y Multiplier		1
-							M12		TopAndBottomSkew	0
-							M21		SidesSkew			0
-						-->
-							<Matrix OffsetX="0" OffsetY="0" M11="1" M22="1" M12="0" M21="0" />
-						</MatrixTransform.Matrix>
-					</MatrixTransform>
-				</TransformGroup>
-			</avalonEdit:TextEditor.LayoutTransform>
+				<avalonEdit:TextEditor.LayoutTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleX="{Binding ElementName=ZoomValueSlider, Path=Value}" ScaleY="{Binding ElementName=ZoomValueSlider, Path=Value}" />
+						<SkewTransform AngleX="{Binding ElementName=SkewValueSlider, Path=Value}" AngleY="{Binding ElementName=SkewValueSlider, Path=Value}" />
+						<RotateTransform Angle="{Binding ElementName=RotateValueSlider, Path=Value}" x:Name="SourceTextRotateTransform" />
+						<MatrixTransform x:Name="SourceTextMatrixTransformation">
+							<MatrixTransform.Matrix>
+								<Matrix OffsetX="0" OffsetY="0" M11="1" M22="1" M12="0" M21="0" />
+								<!--
+									M11		X Multiplier		1
+									M22		Y Multiplier		1
+									M12		TopAndBottomSkew	0
+									M21		SidesSkew			0
+								-->
+							</MatrixTransform.Matrix>
+						</MatrixTransform>
+					</TransformGroup>
+				</avalonEdit:TextEditor.LayoutTransform>
 
-		</avalonEdit:TextEditor>
-
+			</avalonEdit:TextEditor>
+		
 		<!-- The StatusBar -->
 		<Border Grid.Row="2" BorderThickness="0 1 0 0" BorderBrush="#FF575757">
 			<StatusBar Name="TheStatusBar" Height="24" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" ToolTip="IDE Status" Background="#FFD7D7D7">

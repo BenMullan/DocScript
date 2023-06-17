@@ -3,6 +3,32 @@
 #Region "DSWindowsIDE"
 
 
+	Protected SourceTextEditor_HorozontalOffset, SourceTextEditor_VerticalOffset As [Double]
+
+	Protected Sub SourceTextEditor_PreviewMouseWheel(ByVal _Sender As [Object], ByVal _MouseWheelEventArgs As MouseWheelEventArgs) Handles SourceTextEditor.PreviewMouseWheel
+		If Keyboard.Modifiers = ModifierKeys.Shift Then
+			Dim _ZoomFactor# = 100 / 100D
+			Me.SourceTextEditor.ScrollTo(CInt((Me.SourceTextEditor_HorozontalOffset + -_MouseWheelEventArgs.Delta) / _ZoomFactor), CInt(Me.SourceTextEditor_VerticalOffset / _ZoomFactor))
+			_MouseWheelEventArgs.Handled = True
+		End If
+	End Sub
+
+	Protected Sub SourceTextEditor_ScrollChanged(ByVal _Sender As [object], ByVal _ScrollChangedEventArgs As ScrollChangedEventArgs) Handles SourceTextEditor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

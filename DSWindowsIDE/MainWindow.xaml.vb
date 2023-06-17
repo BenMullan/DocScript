@@ -284,6 +284,55 @@ Class MainWindow
 
 	End Sub
 
+	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()
+	Public Sub InsertTextAtCursor(ByVal _Text$, Optional ByVal _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor As Boolean = False)
+
+		REM Capture the boolean emptiness datum for use lates herein
+		Dim _TextEditorWasEmpty_BeforeTextWasInserted As Boolean = String.IsNullOrEmpty(Me.SourceTextEditor.Text)
+
+		REM Inject the string
+		Me.SourceTextEditor.Document.Insert(Me.SourceTextEditor.CaretOffset, _Text)
+
+		REM Raise the Source-Is-Saved flag, if (1) We've been told to, and (2) There wasn't any text in the SourceTextEditor beforehand
+		If _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor AndAlso _TextEditorWasEmpty_BeforeTextWasInserted Then Me.CurrentSource_IsSaved = True
+
+	End Sub
+
+	Public Sub UpdateLineAndColLabel(ByVal _Sender As Object, ByVal _EventArgs As EventArgs) 'Handler set in InitialiseTextEditorControl_()
+		Dim _CaretLocation As Global.ICSharpCode.AvalonEdit.Document.TextLocation = Me.SourceTextEditor.Document.GetLocation(Me.SourceTextEditor.CaretOffset)
+		Me.CaretLineColumnLabel.Text = String.Format("Line: {0}, Col: {1}", _CaretLocation.Line.ToString(), _CaretLocation.Column.ToString())
+	End Sub
+
+	Public Sub UpdateLineCountLabel_And_AlterIsSavedState() Handles SourceTextEditor.TextChanged
+
+		Me.LineCountLabel.Text = (Me.SourceTextEditor.Text.ToCharArray().Where(Function(_Char As Char) _Char = vbLf.First()).Count() + 1).ToString() & " Line(s)"
+		Me.CurrentSource_IsSaved = False 'Sets the Window Title accordingly. If there's no open file, then the Title dosen't change.
+
+	End Sub
+
+	REM Shift + Scroll
+	Protected Sub HandleHorozontalScrollingEvent_(ByVal _Sender As [Object], ByVal _MouseWheelEventArgs As [MouseWheelEventArgs]) Handles SourceTextEditor.PreviewMouseWheel
+		If Keyboard.Modifiers = ModifierKeys.Shift Then
+			If (_MouseWheelEventArgs.Delta < 0) Then
+				Me.SourceTextEditor.LineRight() : Me.SourceTextEditor.LineRight()
+			Else
+				Me.SourceTextEditor.LineLeft() : Me.SourceTextEditor.LineLeft()
+			End If
+			_MouseWheelEventArgs.Handled = True
+		End If
+	End Sub
+
+	REM Ctrl + Scroll
+	Protected Sub HandleCtrlScroll_(ByVal _Sender As Object, ByVal _MouseWheelEventArgs As MouseWheelEventArgs) Handles Me.PreviewMouseWheel
+		If Keyboard.Modifiers = ModifierKeys.Control Then
+			'Dim _FirstVisibleLine_Number% = Me.SourceTextEditor.TextArea.TextView.GetDocumentLineByVisualTop(Me.SourceTextEditor.TextArea.TextView.ScrollOffset.Y).LineNumber
+			If _MouseWheelEventArgs.Delta > 0 Then Me.ZoomValueSlider.Value += 0.2
+			If _MouseWheelEventArgs.Delta < 0 Then Me.ZoomValueSlider.Value -= 0.2
+			'Me.SourceTextEditor.ScrollToLine(_FirstVisibleLine_Number)
+			_MouseWheelEventArgs.Handled = True
+		End If
+	End Sub
+
 #End Region
 
 #Region "File Open and Save Button Event Handlers"
@@ -474,20 +523,6 @@ Class MainWindow
 		End Get
 	End Property
 
-	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()
-	Public Sub InsertTextAtCursor(ByVal _Text$, Optional ByVal _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor As Boolean = False)
-
-		REM Capture the boolean emptiness datum for use lates herein
-		Dim _TextEditorWasEmpty_BeforeTextWasInserted As Boolean = String.IsNullOrEmpty(Me.SourceTextEditor.Text)
-
-		REM Inject the string
-		Me.SourceTextEditor.Document.Insert(Me.SourceTextEditor.CaretOffset, _Text)
-
-		REM Raise the Source-Is-Saved flag, if (1) We've been told to, and (2) There wasn't any text in the SourceTextEditor beforehand
-		If _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor AndAlso _TextEditorWasEmpty_BeforeTextWasInserted Then Me.CurrentSource_IsSaved = True
-
-	End Sub
-
 	REM Mapped to a shortcut key
 	Public Sub OpenContainingFolder()
 		Try
@@ -506,25 +541,6 @@ Class MainWindow
 		Catch _Ex As Exception
 			MsgBox("On attempting to launch " & _DSIDE_Path.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
-	End Sub
-
-	Protected Sub HandleCtrlScroll_(ByVal _Sender As Object, ByVal _MouseWheelEventArgs As MouseWheelEventArgs) Handles Me.PreviewMouseWheel
-		If Keyboard.Modifiers = ModifierKeys.Control Then
-			If _MouseWheelEventArgs.Delta > 0 Then Me.ZoomValueSlider.Value += 0.2 'MsgBox("ZoomIn()")
-			If _MouseWheelEventArgs.Delta < 0 Then Me.ZoomValueSlider.Value -= 0.2 'MsgBox("ZoomOut()")
-		End If
-	End Sub
-
-	Public Sub UpdateLineAndColLabel(ByVal _Sender As Object, ByVal _EventArgs As EventArgs) 'Handler set in InitialiseTextEditorControl_()
-		Dim _CaretLocation As Global.ICSharpCode.AvalonEdit.Document.TextLocation = Me.SourceTextEditor.Document.GetLocation(Me.SourceTextEditor.CaretOffset)
-		Me.CaretLineColumnLabel.Text = String.Format("Line: {0}, Col: {1}", _CaretLocation.Line.ToString(), _CaretLocation.Column.ToString())
-	End Sub
-
-	Public Sub UpdateLineCountLabel_And_AlterIsSavedState() Handles SourceTextEditor.TextChanged
-
-		Me.LineCountLabel.Text = (Me.SourceTextEditor.Text.ToCharArray().Where(Function(_Char As Char) _Char = vbLf.First()).Count() + 1).ToString() & " Line(s)"
-		Me.CurrentSource_IsSaved = False 'Sets the Window Title accordingly. If there's no open file, then the Title dosen't change.
-
 	End Sub
 
 	Public Sub UpdateZoomValueText() Handles ZoomValueSlider.ValueChanged
