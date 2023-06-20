@@ -22,12 +22,15 @@ Partial Class TokenTableViewerWindow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TokenTableViewerWindow))
 		Me.TokensTable_DataGridView = New System.Windows.Forms.DataGridView()
 		Me.IndexCol = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.TokenTypeCol = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.TokenValueCol = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.TokenLISCol = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
+		Me.ViewTokensXMLMenuItem = New System.Windows.Forms.MenuItem()
 		CType(Me.TokensTable_DataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
@@ -68,6 +71,15 @@ Partial Class TokenTableViewerWindow
 		Me.TokenLISCol.Name = "TokenLISCol"
 		Me.TokenLISCol.ReadOnly = True
 		'
+		'MainMenu1
+		'
+		Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ViewTokensXMLMenuItem})
+		'
+		'ViewTokensXMLMenuItem
+		'
+		Me.ViewTokensXMLMenuItem.Index = 0
+		Me.ViewTokensXMLMenuItem.Text = "View &XML..."
+		'
 		'TokenTableViewerWindow
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -75,6 +87,7 @@ Partial Class TokenTableViewerWindow
 		Me.ClientSize = New System.Drawing.Size(735, 299)
 		Me.Controls.Add(Me.TokensTable_DataGridView)
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+		Me.Menu = Me.MainMenu1
 		Me.Name = "TokenTableViewerWindow"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
 		Me.Text = "Tokens' Viewer"
@@ -87,4 +100,6 @@ Partial Class TokenTableViewerWindow
 	Friend WithEvents TokenTypeCol As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents TokenValueCol As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents TokenLISCol As System.Windows.Forms.DataGridViewTextBoxColumn
+	Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
+	Friend WithEvents ViewTokensXMLMenuItem As System.Windows.Forms.MenuItem
 End Class

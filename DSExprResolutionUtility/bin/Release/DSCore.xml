@@ -1013,6 +1013,9 @@ DSCore
 	<summary>(MullNet CompilerExtention) Returns a new XElement which contains the _XElements</summary>
 </member><member name="M:DocScript.CompilerExtentions.XMLObjectExtentions.FirstOrEmptyNode(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})">
 	<summary>(MullNet CompilerExtention) Returns the first in the series of XElements, otherwise an XElement that looks like: &lt;Empty/&gt;</summary>
+</member><member name="M:DocScript.CompilerExtentions.XMLObjectExtentions.WriteToConsoleWithXMLColourFormatting(System.Xml.Linq.XElement,System.String)">
+	<summary>(MullNet CompilerExtention) Writes the XElement onto the current Process's Console, using coloured formatting.</summary>
+	<param name="_TabChar">The character to use for Indenting the XML</param>
 </member><member name="M:DocScript.CompilerExtentions.DocScriptObjectExtentions.GetValuesAndLocationsString(DocScript.Runtime.Token[])">
 	<summary>(MullNet CompilerExtention) Produces a simple serialisation of the _Tokens with just their Values and Locations in the form [Raw: "A:", WithLocations: {["A" @14,6], [":" @14,7]}]</summary>
 </member><member name="M:DocScript.CompilerExtentions.DocScriptObjectExtentions.ReconstructIntoSource(DocScript.Runtime.Token[],System.String)">

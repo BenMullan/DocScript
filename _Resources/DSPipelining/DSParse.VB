@@ -11,7 +11,7 @@ Public Module DSParse
 			Dim _Tokens As DocScript.Runtime.Token() = DocScript.Runtime.Parser.GetTokensFromSource(_RawSource)
 			Dim _TokensXML As System.XML.LINQ.XElement = DocScript.Runtime.Parser.GetTokensXML(_Tokens)
 
-			Console.Out.WriteLine(_TokensXML.ToString())
+			DocScript.CompilerExtentions.XMLObjectExtentions.WriteToConsoleWithXMLColourFormatting(_TokensXML)
 
 			Return 0
 

@@ -1007,6 +1007,87 @@ Namespace CompilerExtentions
 			Catch _Ex As Exception : Throw New DSException("@FirstOrEmptyNode (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) Writes the XElement onto the current Process's Console, using coloured formatting.</summary>
+		''' <param name="_TabChar">The character to use for Indenting the XML</param>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Sub WriteToConsoleWithXMLColourFormatting(ByVal _XElement As XElement, Optional ByVal _TabChar$ = vbTab)
+			Try
+
+				REM _XElement might look like:
+				'	<DSFunction Identifier="Main" ReturnType="VOID">
+				'	    <Parameters />
+				'	    <Contents>
+				'	        <FunctionCall TargetFunction_Identifier="Output">
+				'	            <Arguments>
+				'	                <LiteralExpr LiteralType="STRING" LiteralValue="&quot;Hello, World!&quot;" />
+				'	            </Arguments>
+				'	        </FunctionCall>
+				'	    </Contents>
+				'	</DSFunction>
+
+				REM XMLComponent to ConsoleColors mapping:
+				'	</>=		Blue
+				'	TagName		DarkRed
+				'	AttrKey		Red
+				'	"AttrValue"	Blue
+
+				Dim _Console_PreviousBackgroundColour As ConsoleColor = Console.BackgroundColor
+				Console.BackgroundColor = ConsoleColor.Gray
+
+				Dim _XElementStringChars As [Char]() = System.Text.RegularExpressions.Regex.Replace(input:=_XElement.ToString(), pattern:="^(\s\s)+", evaluator:=Function(_Match As System.Text.RegularExpressions.Match) String.Join("", _TabChar.Repeat(Convert.ToUInt64(_Match.Length \ 2))), options:=Text.RegularExpressions.RegexOptions.Multiline).ToCharArray()
+				Dim _CurrentlyInStringLiteral As [Boolean] = False			'Either on a " or in the middle of two of them
+				Dim _CurrentlyBetweenSpaceAndEquals As [Boolean] = False	'Indicates that we've currently on an AttrName
+
+				For _CharIndex% = 0 To (_XElementStringChars.Length - 1) Step +1
+					Dim _Char As [Char] = _XElementStringChars.ElementAt(_CharIndex)
+					Select Case True
+
+						Case _Char = """"c
+							'If this is the start of a StringLiteral, then _CurrentlyInStringLiteral becomes True
+							'If this is the  end  of a StringLiteral, then _CurrentlyInStringLiteral becomes False
+							_CurrentlyInStringLiteral = Not _CurrentlyInStringLiteral
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+
+						Case _CurrentlyInStringLiteral
+							'In the Middle of a String Literal
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+
+						Case (_Char = " "c) AndAlso ( _
+						   Not {"/"c, " "c}.Contains(_XElementStringChars.ElementAtOrDefault(_CharIndex + 1)) _
+						   AndAlso (_XElementStringChars.ElementAtOrDefault(_CharIndex - 1) <> " "c) _
+						)
+							'Start of AttrName like <TagName AttrName="Value" />
+							'The check above [1] prevents us from entering here on an ending space like <TagName />
+							'The check above [2] prevents any leading spaces before     <Element/> from flagging as the beginning of an AttrName
+							'It reads: "The current character is a space" And "The next character is not a space or /" And "The previous character is not a space"
+							_CurrentlyBetweenSpaceAndEquals = True
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.White)
+
+						Case _Char = "="c
+							'End of AttrName
+							_CurrentlyBetweenSpaceAndEquals = False
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+
+						Case _CurrentlyBetweenSpaceAndEquals
+							'In the Middle of an AttrName
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Red)
+
+						Case {"<"c, ">"c, "/"c}.Contains(_Char)
+							'XML Grammar Char
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+
+						Case Else
+							'XML TagName
+							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.DarkRed)
+
+							'Case Else : Throw New Exception("The character in the XML represented an unaccounted-for syntax component: " & _Char)
+					End Select
+				Next _CharIndex
+
+				Console.BackgroundColor = _Console_PreviousBackgroundColour
+
+			Catch _Ex As Exception : Throw New DSException("@PrintToConsoleWithColourFormatting (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Sub
 
 	End Module
 

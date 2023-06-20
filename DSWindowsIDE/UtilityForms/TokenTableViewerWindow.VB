@@ -19,6 +19,12 @@
 
 	End Sub
 
+	Public Sub ViewTokensXML() Handles ViewTokensXMLMenuItem.Click
+		Try
+			UsefulMethods.ShowTextInNewWindow("Tokens' XML", Runtime.Parser.GetTokensXML(Me.Tokens).ToString().Replace("  ", vbTab))
+		Catch _Ex As Exception : MsgBox(_Ex.Message, MsgBoxStyle.Critical) : End Try
+	End Sub
+
 #Region "Close the form on pressing [Esc]"
 
 	Protected Sub Register_CloseOnEscKey_Handler() Handles Me.Load

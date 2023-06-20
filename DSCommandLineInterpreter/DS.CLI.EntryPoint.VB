@@ -54,7 +54,7 @@
 			EntryPoint.ExeCxt_ToUse = DocScript.Runtime.ExecutionContext.CLIDefault
 
 			REM ↓ Scenario-1: We have just been passed a Source-File-Path (with 0 or more DS-CLAs) in the CLAs to DSCLI.exe; just run the DS Program, instead of bothering with the CLAManager...
-			If (_CLAs.Length >= 1) AndAlso [UsefulMethods].Result_OrFalseOnException(Function() (New IO.FileInfo(_CLAs.ElementAt(0))).Exists) Then
+			If (_CLAs.Length >= 1) AndAlso _CLAs.ElementAt(0).IsValidFilePath_AndThatFileExists() Then
 
 				EntryPoint.ActionWhenReady = EntryPoint.DSCLIActionToPerform.Run
 				EntryPoint.SourceToInterpret = My.Computer.FileSystem.ReadAllText(_CLAs.ElementAt(0))
@@ -66,7 +66,7 @@
 				REM Only one of [Run] and [GetProgramTree] should be specified
 				Dim _CLAManager As New DocScript.Utilities.CLAManager(
 				 _CLAs,
-				 "DocScript Command-Line Interpreter. Interprets DocScript Source Files." & vbCrLf & "Note that for compatibility reasons, source files can be passed to DSCLI in" & vbCrLf & "the form DSCLI.exe {PathToSourceFile} {ArgumentsForTargetScript...}." & vbCrLf & "However, the /Key:Value CLAs provide more options.",
+				 "DocScript Command-Line Interpreter v" & Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() & ". Interprets DocScript Source Files." & vbCrLf & "Note that for compatibility reasons, source files can be passed to DSCLI in" & vbCrLf & "the form DSCLI.exe {PathToSourceFile} {ArgumentsForTargetScript...}." & vbCrLf & "However, the /Key:Value CLAs provide more options.",
 				 {"DSCLI.EXE /Live",
 				 "DSCLI.EXE /Run /SourceString:""Function <Void> Main ();Output(`Hello, World!`);EndFunction""",
 				 "DSCLI.EXE /Run /SourceFile:""X:\Programming\DocScript\HelloWorld.DS"" /LogToConsole",
@@ -109,10 +109,8 @@
 			Select Case EntryPoint.ActionWhenReady
 				Case DSCLIActionToPerform.GetProgramTree 'Construct source into a New Program
 
-					UsefulMethods.ConsoleWriteInColour(
-					   DocScript.Runtime.Program.FromSource(_Source:=EntryPoint.SourceToInterpret, _ExeCxt:=Nothing).ProgramTreeXML.ToString(),
-					   _ForegroundColour:=ConsoleColor.Black, _BackgroundColour:=ConsoleColor.Gray
-					)
+					DocScript.Runtime.Program.FromSource(_Source:=EntryPoint.SourceToInterpret, _ExeCxt:=Nothing) _
+					 .ProgramTreeXML.WriteToConsoleWithXMLColourFormatting(_TabChar:="    ")
 
 					_ExitCode = 0
 
@@ -143,7 +141,7 @@
 		End Try
 
 		REM PromptBeforeExit if needed
-		If EntryPoint.PromptBeforeExit Then : UsefulMethods.ConsoleWriteInColour("DSCLI: Press [Enter] to continue...", _ForegroundColour:=ConsoleColor.Magenta, _BackgroundColour:=ConsoleColor.Gray) : Console.ReadLine() : End If
+		If EntryPoint.PromptBeforeExit Then : UsefulMethods.ConsoleWriteInColour(vbCrLf & "DSCLI: Press [Enter] to continue...", _ForegroundColour:=ConsoleColor.Magenta, _BackgroundColour:=ConsoleColor.Gray) : Console.ReadLine() : End If
 
 		REM Exit this DSCLI instance
 		Return [_ExitCode]

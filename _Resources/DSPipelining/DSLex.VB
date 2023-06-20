@@ -12,7 +12,7 @@ Public Module DSLex
 			Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromTokensXML(_TokensXML, _ExeCxt:=Nothing)
 			Dim _ProgramTreeXML As System.XML.LINQ.XElement = _Program.ProgramTreeXML
 
-			Console.Out.WriteLine(_ProgramTreeXML.ToString())
+			DocScript.CompilerExtentions.XMLObjectExtentions.WriteToConsoleWithXMLColourFormatting(_ProgramTreeXML)
 
 			Return 0
 
