@@ -27,6 +27,45 @@
 		LogMsg(SerializeToXML(Of Token)(_Token))
 	End Sub
 
+	Private Sub Button2_Click(sender As System.Object, e As System.EventArgs) Handles Button2.Click
+		MsgBox(
+		 DocScript.Runtime.Parser.GetTokensXML(
+		 DocScript.Runtime.Parser.GetTokensFromSource(Me.SourceTextBox.Text)
+		 ).ToString()
+		)
+	End Sub
+
+	Public Sub ProgramFromTokensXML() Handles Button3.Click
+
+		Dim _TokensXMLString$ = DocScript.Runtime.Parser.GetTokensXML(
+		 DocScript.Runtime.Parser.GetTokensFromSource(Me.SourceTextBox.Text)
+		).ToString()
+
+		Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromTokensXML(XElement.Parse(_TokensXMLString), Nothing)
+
+		MsgBox(_Program.ProgramTreeXML.ToString())
+
+	End Sub
+
+	Private Sub ProgramFromTokensXML(sender As System.Object, e As System.EventArgs) Handles Button4.Click
+
+		'<Tokens> <Token ... /> </Tokens>
+		Dim _TokensXMLString$ = DocScript.Runtime.Parser.GetTokensXML(
+		 DocScript.Runtime.Parser.GetTokensFromSource(Me.SourceTextBox.Text)
+		).ToString()
+
+		Dim _ProgramFromTokens As DocScript.Runtime.Program = DocScript.Runtime.Program.FromTokensXML(XElement.Parse(_TokensXMLString), Nothing)
+
+		Dim _ProgTreeXMLString$ = _ProgramFromTokens.ProgramTreeXML.ToString()
+
+		MsgBox(_ProgTreeXMLString)
+
+		Dim _ProgramFromProgTreeXML As DocScript.Runtime.Program = DocScript.Runtime.Program.FromProgramTreeXML(XElement.Parse(_ProgTreeXMLString), Nothing)
+
+		MsgBox(_ProgramFromProgTreeXML.ReconstructedSource)
+
+	End Sub
+
 End Class
 
 Module Parser

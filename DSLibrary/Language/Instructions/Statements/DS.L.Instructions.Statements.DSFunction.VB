@@ -23,8 +23,21 @@
 				Me.Identifier = _Identifier : Me.DataType = _DataType
 			End Sub
 
+			''' <summary>Returns an XML Representation of the Parameter, with the Identifier and DataType</summary>
 			Public Function GetProgramTreeNodeXML() As XElement
-				Return <Parameter Identifier=<%= Me.Identifier %> DataType=<%= Me.DataType.Name %>/>
+				Return <Parameter Identifier=<%= Me.Identifier %> DataType=<%= Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(Me.DataType) %>/>
+			End Function
+
+			''' <summary>Constructs an instance of the class from its XML serialasation</summary>
+			Public Shared Function FromXML(ByVal _XElement As XElement) As Parameter
+				Try
+
+					Return New Parameter(
+					 _Identifier:=_XElement.@Identifier,
+					 _DataType:=Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_XElement.@DataType)
+					)
+
+				Catch _Ex As Exception : Throw New DSException("@Parameter\FromXML: " & _Ex.Message, _Ex) : End Try
 			End Function
 
 			''' <summary>Returns what the Argument would have looked like in the Source, without an extra LineBreak on the End</summary>
@@ -69,7 +82,7 @@
 						If Not _SignatureA.ParameterTypes.ElementAt(_ParameterType_Index) = _SignatureB.ParameterTypes.ElementAt(_ParameterType_Index) Then Return False
 					Next
 
-					LogLexingMessage("(...The Signatures were equal)")
+					LogLexingMessage("(...The Function Signatures were equal)")
 					Return True
 
 				Catch _Ex As Exception : Throw New DSException("@DSFunction\ProcessTokensToInitialiseFields: " & _Ex.Message, _Ex) : End Try
@@ -107,6 +120,10 @@
 		End Property
 
 #End Region
+
+		''' <summary>For internal use only; used by FromXML()</summary>
+		Protected Sub New()
+		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
 		Sub New(ByRef _Tokens As Runtime.Token())
@@ -211,7 +228,7 @@
 
 					Next
 
-					Me.Parameters = New ObjectModel.ReadOnlyCollection(Of Parameter)(_DerivedParameters)
+					Me.Parameters = (New ObjectModel.ReadOnlyCollection(Of Parameter)(_DerivedParameters))
 
 				End If
 
@@ -387,6 +404,20 @@
 
 			Return _XElementToReturn
 
+		End Function
+
+		''' <summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As DSFunction
+			Try
+
+				Return New DSFunction() With {
+				 .Identifier = _IInstructionXElement.@Identifier,
+				 .ReturnType = Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_IInstructionXElement.@ReturnType),
+				 .Parameters = New ObjectModel.ReadOnlyCollection(Of Parameter)(_IInstructionXElement.<Parameters>.First().<Parameter>.Select(Of DSFunction.Parameter)(AddressOf Parameter.FromXML).ToList()),
+				 .Contents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray())
+				}
+
+			Catch _Ex As Exception : Throw New DSException("@DSFunction\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function
 
 		''' <summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End.</summary>

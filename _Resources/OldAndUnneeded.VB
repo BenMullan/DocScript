@@ -1,6 +1,24 @@
 ﻿#If False Then
 
-#Region "DSWindowsIDE"
+#Region "DSWindowsIDE, and - at this point in time - rather a large amount more of random left-overs"
+
+
+
+
+DocScript.CompilerExtentions.UsefulMethods.ConsoleErrorWriteLineInColour("DSParse: Provide StdIn via piping, or by typing here and pressing [Ctrl + Z], [Enter] to submit...", ConsoleColor.Blue)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	Protected SourceTextEditor_HorozontalOffset, SourceTextEditor_VerticalOffset As [Double]

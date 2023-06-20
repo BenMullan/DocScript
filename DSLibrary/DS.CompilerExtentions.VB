@@ -993,6 +993,21 @@ Namespace CompilerExtentions
 			Catch _Ex As Exception : Throw New DSException("@WrapIn (Array-Version) (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) Returns the first in the series of XElements, otherwise an XElement that looks like: &lt;Empty/&gt;</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function FirstOrEmptyNode(ByVal _XElements As IEnumerable(Of XElement)) As XElement
+			Try
+
+				If (_XElements IsNot Nothing) AndAlso (_XElements.Count() > 0) Then
+					Return _XElements.First()
+				Else
+					Return <Empty/>
+				End If
+
+			Catch _Ex As Exception : Throw New DSException("@FirstOrEmptyNode (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
+
+
 	End Module
 
 	Public Module DocScriptObjectExtentions

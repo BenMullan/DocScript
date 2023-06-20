@@ -33,8 +33,12 @@
 
 #End Region
 
+		''' <summary>For internal use only; used by FromXML()</summary>
+		Protected Sub New()
+		End Sub
+
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
-		Sub New(ByRef _Tokens As Runtime.Token())
+		Public Sub New(ByRef _Tokens As Runtime.Token())
 			Me.Tokens_ = _Tokens : Me.ProcessTokensToInitialiseFields()
 		End Sub
 
@@ -83,7 +87,7 @@
 				Me.Contents_ = [StatementUtilities].GetStatementContentsFromTokens(_Contents_And_ElseContents.Item1).ToList()
 
 				If _Contents_And_ElseContents.Item2 IsNot Nothing Then _
-					Me.ElseContents_ = [StatementUtilities].GetStatementContentsFromTokens(_Contents_And_ElseContents.Item2).ToList()
+				 Me.ElseContents_ = [StatementUtilities].GetStatementContentsFromTokens(_Contents_And_ElseContents.Item2).ToList()
 
 				LogLexingMessage("...Finished constructing an IfStatement Object with " & Me.Contents.Count.ToString() & " Child Instruction(s)")
 			Catch _Ex As Exception : Throw New DSException("@IfStatement\ProcessTokensToInitialiseFields: " & _Ex.Message, _Ex) : End Try
@@ -117,7 +121,7 @@
 
 			REM The Contents ends (and the ElseContents begins) at the First Else where the DepthCounter is 1
 
-			Dim _IfStatementDepth_Counter As UInt16 = 1 'Initialised to 1, because the ForLoop starts from Tokens that are already inside the FIRST IfStatement (there may, of course, only be this singular IfStatement, with no SubIfStatements inside it...)
+			Dim _IfStatementDepth_Counter As UInt16 = 1	'Initialised to 1, because the ForLoop starts from Tokens that are already inside the FIRST IfStatement (there may, of course, only be this singular IfStatement, with no SubIfStatements inside it...)
 			Dim _ContentsTokens As New List(Of Runtime.Token)()
 
 			'From [after the first {LineEnd}] to [before the last EndIf]
@@ -339,6 +343,19 @@
 
 			Return _XElementToReturn
 
+		End Function
+
+		''' <summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As IfStatement
+			Try
+
+				Return New IfStatement() With {
+				 .ConditionExpr = Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ConditionExpr>.First().Elements().First()),
+				 .Contents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList(),
+				 .ElseContents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<ElseContents>.First().Elements().ToArray()).ToList()
+				}
+
+			Catch _Ex As Exception : Throw New DSException("@IfStatement\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function
 
 		''' <summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>

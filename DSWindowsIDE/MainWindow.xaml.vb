@@ -284,7 +284,7 @@ Class MainWindow
 
 	End Sub
 
-	REM Used in RegisterCodeSnippetInsertion_EventHandlers_()
+	'Used in RegisterCodeSnippetInsertion_EventHandlers_()
 	Public Sub InsertTextAtCursor(ByVal _Text$, Optional ByVal _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor As Boolean = False)
 
 		REM Capture the boolean emptiness datum for use lates herein
@@ -313,22 +313,17 @@ Class MainWindow
 	REM Shift + Scroll
 	Protected Sub HandleHorozontalScrollingEvent_(ByVal _Sender As [Object], ByVal _MouseWheelEventArgs As [MouseWheelEventArgs]) Handles SourceTextEditor.PreviewMouseWheel
 		If Keyboard.Modifiers = ModifierKeys.Shift Then
-			If (_MouseWheelEventArgs.Delta < 0) Then
-				Me.SourceTextEditor.LineRight() : Me.SourceTextEditor.LineRight()
-			Else
-				Me.SourceTextEditor.LineLeft() : Me.SourceTextEditor.LineLeft()
-			End If
+			If (_MouseWheelEventArgs.Delta < 0) Then : Me.SourceTextEditor.LineRight() : Me.SourceTextEditor.LineRight()
+			Else : Me.SourceTextEditor.LineLeft() : Me.SourceTextEditor.LineLeft() : End If
 			_MouseWheelEventArgs.Handled = True
 		End If
 	End Sub
 
 	REM Ctrl + Scroll
-	Protected Sub HandleCtrlScroll_(ByVal _Sender As Object, ByVal _MouseWheelEventArgs As MouseWheelEventArgs) Handles Me.PreviewMouseWheel
+	Protected Sub HandleZoomScrollingEvent_(ByVal _Sender As [Object], ByVal _MouseWheelEventArgs As [MouseWheelEventArgs]) Handles SourceTextEditor.PreviewMouseWheel
 		If Keyboard.Modifiers = ModifierKeys.Control Then
-			'Dim _FirstVisibleLine_Number% = Me.SourceTextEditor.TextArea.TextView.GetDocumentLineByVisualTop(Me.SourceTextEditor.TextArea.TextView.ScrollOffset.Y).LineNumber
 			If _MouseWheelEventArgs.Delta > 0 Then Me.ZoomValueSlider.Value += 0.2
 			If _MouseWheelEventArgs.Delta < 0 Then Me.ZoomValueSlider.Value -= 0.2
-			'Me.SourceTextEditor.ScrollToLine(_FirstVisibleLine_Number)
 			_MouseWheelEventArgs.Handled = True
 		End If
 	End Sub

@@ -122,6 +122,41 @@
 			Catch _Ex As Exception : Throw New DSException("@GetTreeViewNodeFromExpr: " & _Ex.Message, _Ex) : End Try
 		End Function
 
+		''' <summary>
+		''' Constructs a Tree for an Expression, from an XML Expression Serialisation, as produced by IExpression.GetExprTreeNodeXML().
+		''' The XElement passed in should have one of these Tag Names: OperatorExpr, LiteralExpr, FunctionCallExpr, VariableExpr.
+		''' </summary>
+		Public Function ConstructExpressionFromXML(ByVal _ExpressionXML As XElement) As IExpression
+			Try
+
+				Select Case _ExpressionXML.Name.ToString().ToUpper()
+					Case "LITERALEXPR"
+						Select Case _ExpressionXML.@LiteralType
+							Case "STRING" : Return New LiteralExpr(Of Variables.DSString)(New Variables.DSString(_ExpressionXML.@LiteralValue.WithFirstCharacterRemoved().WithLastCharacterRemoved()))
+							Case "NUMBER" : Return New LiteralExpr(Of Variables.DSNumber)(New Variables.DSNumber(Convert.ToDouble(_ExpressionXML.@LiteralValue)))
+							Case "BOOLEAN" : Return New LiteralExpr(Of Variables.DSBoolean)(New Variables.DSBoolean(_ExpressionXML.@LiteralValue.ToUpper() = Boolean.TrueString.ToUpper()))
+							Case Else : Throw New DSValidationException("The LiteralExpr's Data-Type was unaccounted-for", _ExpressionXML.@LiteralType)
+						End Select
+					Case "VARIABLEEXPR" : Return New VariableExpr(_ExpressionXML.@Identifier)
+					Case "OPERATOREXPR"
+						Return New OperatorExpr(
+						 _OperatorChar:=_ExpressionXML.@OperatorChar.ToCharArray().First(),
+						 _Operands:=If(_ExpressionXML.Elements().Count() = 1,
+						  {ExprUtilities.ConstructExpressionFromXML(_ExpressionXML.Elements().ElementAt(0))},
+						  {ExprUtilities.ConstructExpressionFromXML(_ExpressionXML.Elements().ElementAt(0)), ExprUtilities.ConstructExpressionFromXML(_ExpressionXML.Elements().ElementAt(1))}
+						 )
+						)
+					Case "FUNCTIONCALLEXPR"
+						Return New FunctionCallExpr(
+						 _Identifier:=_ExpressionXML.@Identifier,
+						 _Arguments:=_ExpressionXML.Elements().Select(Of IExpression)(AddressOf ExprUtilities.ConstructExpressionFromXML).ToArray()
+						)
+					Case Else : Throw New DSValidationException("The _ExpressionXML's Tag Name was unaccounted-for", _ExpressionXML.Name.ToString())
+				End Select
+
+			Catch _Ex As Exception : Throw New DSException("@ConstructExpressionFromXML: " & _Ex.Message, _Ex) : End Try
+		End Function
+
 #Region "Expression Utility Functions"
 
 		''' <summary>Ensures that the Tokens are of permitted TokenTypes, and that there are equal numbers of opening and closing Brackets.</summary>
@@ -174,10 +209,10 @@
 				'This Call might start from e.g. TokenIndex 12. The call reports which TokkenIndex it got up to before returning, via Item1 of the Tuple
 				For _TokenIndex% = _TokensStartAt To (_Tokens.Length - 1) Step +1
 					Select Case _Tokens(_TokenIndex).Type
-						Case Runtime.Token.TokenType.NumericLiteral :	_LBLToReturn.Add(New LiteralExpr(Of Variables.DSNumber)(Variables.DSNumber.FromToken(_Tokens(_TokenIndex)), _Tokens(_TokenIndex)))
-						Case Runtime.Token.TokenType.StringLiteral :	_LBLToReturn.Add(New LiteralExpr(Of Variables.DSString)(Variables.DSString.FromToken(_Tokens(_TokenIndex)), _Tokens(_TokenIndex)))
-						Case Runtime.Token.TokenType.BooleanLiteral :	_LBLToReturn.Add(New LiteralExpr(Of Variables.DSBoolean)(Variables.DSBoolean.FromToken(_Tokens(_TokenIndex)), _Tokens(_TokenIndex)))
-						Case Runtime.Token.TokenType.DSOperator :		_LBLToReturn.Add(New LBLOperatorPlaceholder(_Tokens(_TokenIndex)))
+						Case Runtime.Token.TokenType.NumericLiteral : _LBLToReturn.Add(New LiteralExpr(Of Variables.DSNumber)(Variables.DSNumber.FromToken(_Tokens(_TokenIndex)), _Tokens(_TokenIndex)))
+						Case Runtime.Token.TokenType.StringLiteral : _LBLToReturn.Add(New LiteralExpr(Of Variables.DSString)(Variables.DSString.FromToken(_Tokens(_TokenIndex)), _Tokens(_TokenIndex)))
+						Case Runtime.Token.TokenType.BooleanLiteral : _LBLToReturn.Add(New LiteralExpr(Of Variables.DSBoolean)(Variables.DSBoolean.FromToken(_Tokens(_TokenIndex)), _Tokens(_TokenIndex)))
+						Case Runtime.Token.TokenType.DSOperator : _LBLToReturn.Add(New LBLOperatorPlaceholder(_Tokens(_TokenIndex)))
 						Case Runtime.Token.TokenType.GrammarChar
 
 							REM Should either be [ or ] or ) or ,

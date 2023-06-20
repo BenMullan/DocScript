@@ -43,16 +43,37 @@
 		Public ReadOnly Type As TokenType
 		Public ReadOnly LocationInSource As TokenLocation
 
+		''' <summary>Constructs a new Token from a Value string, TokenType, and Location-in-source</summary>
 		Public Sub New(ByVal _Value$, ByVal _Type As TokenType, ByVal _LocationLine As UInt16, ByVal _LocationColumn As UInt16)
-			Me.Value = _Value
-			Me.Type = _Type
+			Me.Value = _Value : Me.Type = _Type
 			Me.LocationInSource = (New Token.TokenLocation(_LocationLine, _LocationColumn))
-			'LogDebugMessage("Instanciated a New Token with Value [" & Me.Value & "] and Location [" & Me.LocationInSource.ToShortString() & "]", LogEvent.DSEventCatagory.Parsing)
 		End Sub
+
+		''' <summary>SideLoading Constructor: </summary>
+		Public Shared Function FromXML(ByVal _TokenXML As XElement) As Token
+			Try
+				Return New Token(
+				 _Value:=_TokenXML.@Value,
+				 _Type:=CType([Enum].Parse(GetType(Token.TokenType), _TokenXML.@Type), Token.TokenType),
+				 _LocationLine:=Convert.ToUInt16(_TokenXML.@LocationInSource.Split(","c).ElementAt(0)),
+				 _LocationColumn:=Convert.ToUInt16(_TokenXML.@LocationInSource.Split(","c).ElementAt(1))
+				)
+			Catch _Ex As Exception : Throw New DSException("@Token\FromXML: " & _Ex.Message, _Ex) : End Try
+		End Function
 
 		''' <summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
 		Public Overrides Function ToString() As String
 			Return Utilities.KVPSerialisation.GetKVPString({"Value", Me.Value}, {"Type", Me.Type.ToString()}, {"LocationInSource", Me.LocationInSource.ToString()})
+		End Function
+
+		''' <summary>Returns a KVPSerialised XML Object with the members of the current object</summary>
+		Public Function ToXML() As XElement
+			Return Utilities.KVPSerialisation.GetKVPXML(
+			 GetType(Token).Name,
+			 {"Value", Me.Value},
+			 {"Type", Me.Type.ToString()},
+			 {"LocationInSource", [String].Format("{0},{1}", Me.LocationInSource.Line.ToString(), Me.LocationInSource.Column.ToString())}
+			)
 		End Function
 
 	End Class

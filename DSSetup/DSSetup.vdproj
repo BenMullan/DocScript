@@ -274,7 +274,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DSCore, Version=4.2.5.1, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DSCore, Version=4.4.2.1, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_58A90369CB16C2533ED2AD5657E84150"
@@ -575,15 +575,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{1B5F8F3A-8982-45FD-856C-C1D825CEED45}"
-        "PackageCode" = "8:{892B26AC-6C1D-4CD0-97BC-BE0EF55FEDD0}"
+        "ProductCode" = "8:{1A5B89C4-BB6E-4099-B99F-713ADC0B7D89}"
+        "PackageCode" = "8:{687C7275-D63F-44EF-86F2-A1048B588700}"
         "UpgradeCode" = "8:{38DD944A-CBA2-4B8B-B9FB-7CD32B9B7DE7}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:4.8.2"
+        "ProductVersion" = "8:4.8.8"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://BenM.eu5.org/"

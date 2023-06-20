@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{774929EB-1250-4BBB-98A5-38ABCDBE1D0F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>DSExperimentation.RemotingExperiments</StartupObject>
+    <StartupObject>DSExperimentation.ParserExperiments</StartupObject>
     <RootNamespace>DSExperimentation</RootNamespace>
     <AssemblyName>DocScript.Experimentation</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -218,6 +218,7 @@
     <Content Include="Control.ICO" />
     <Content Include="DocScript.ICO" />
     <Content Include="MiscSource\DSSamplePrograms.XML" />
+    <Content Include="_ReadMe.txt" />
     <None Include="Resources\31082022_Example_ExprTree.png" />
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@
 		End Function
 
 		''' <summary>Returns a Serialised XML form of the Object's Key-Value Pairs specified</summary>
-		Public Function GetKVPXML(ByVal _TagName$, ByVal ParamArray _KeyValuePairs As String()()) As XElement
+		Public Function GetKVPXML(ByVal _TagName$, ByVal ParamArray _KeyValuePairs As [String]()()) As XElement
 			Try
 
 				REM Input:	{{"Line", "18"}, {"Column", "9"}}
@@ -31,7 +31,7 @@
 				Dim _XElementToReturn As New XElement(_TagName$)
 
 				For Each _KVP As String() In _KeyValuePairs
-					_XElementToReturn.SetAttributeValue(_KVP(0), _KVP(1))
+					_XElementToReturn.SetAttributeValue(_KVP.ElementAt(0), _KVP.ElementAt(1))
 				Next
 
 				Return _XElementToReturn

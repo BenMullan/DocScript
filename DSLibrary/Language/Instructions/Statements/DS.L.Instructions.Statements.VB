@@ -258,6 +258,30 @@ Namespace Language.Instructions.Statements
 			Catch _Ex As Exception : Throw New DSException("@GetSubStatementTokens_: " & _Ex.Message, _Ex) : End Try
 		End Function
 
+		''' <summary>Takes in VariableAssignment, VariableDeclaration, ReturnToCaller, FunctionCall, IfStatement, WhileStatement, and LoopStatement XML Nodes, and returns the equivalent IInstruciton Objects</summary>
+		Public Function GetStatementContentsFromXML(ByVal _IInstructionXElements As XElement()) As IInstruction()
+			Try
+
+				Dim _IInstructions As New List(Of IInstruction)()
+
+				For Each _IInstructionXElement As XElement In _IInstructionXElements
+					Select Case _IInstructionXElement.Name.ToString().ToUpper()
+						Case "VARIABLEDECLARATION" : _IInstructions.Add(VariableDeclaration.FromXML(_IInstructionXElement))
+						Case "VARIABLEASSIGNMENT" : _IInstructions.Add(VariableAssignment.FromXML(_IInstructionXElement))
+						Case "RETURNTOCALLER" : _IInstructions.Add(ReturnToCaller.FromXML(_IInstructionXElement))
+						Case "FUNCTIONCALL" : _IInstructions.Add(FunctionCall.FromXML(_IInstructionXElement))
+						Case "IFSTATEMENT" : _IInstructions.Add(IfStatement.FromXML(_IInstructionXElement))
+						Case "WHILESTATEMENT" : _IInstructions.Add(WhileStatement.FromXML(_IInstructionXElement))
+						Case "LOOPSTATEMENT" : _IInstructions.Add(LoopStatement.FromXML(_IInstructionXElement))
+						Case Else : Throw New DSValidationException("The XML IInstruction's Tag Name was unaccounted-for", _IInstructionXElement.Name.ToString())
+					End Select
+				Next
+
+				Return _IInstructions.ToArray()
+
+			Catch _Ex As Exception : Throw New DSException("@GetStatementContentsFromXML: " & _Ex.Message, _Ex) : End Try
+		End Function
+
 #End Region
 
 		''' <summary>

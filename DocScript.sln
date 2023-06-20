@@ -2,15 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1848F99C-92B2-4299-9F0D-6BCC6C501968}"
-	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		_Resources\Documentation\Conventions.txt = _Resources\Documentation\Conventions.txt
-		_Resources\DocScript.Signing.snk = _Resources\DocScript.Signing.snk
-		LICENSE.txt = LICENSE.txt
-		_Resources\OldAndUnneeded.VB = _Resources\OldAndUnneeded.VB
-		README.md = README.md
-	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSWindowsIDE", "DSWindowsIDE\DSWindowsIDE.vbproj", "{C006B85E-5269-4137-8979-8AC99F19158A}"
 EndProject
@@ -28,6 +19,34 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DSExperimentation", "DSExpe
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DSSetup", "DSSetup\DSSetup.vdproj", "{43D57956-89D5-42EC-957F-00C61BE321FC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSInteractive", "DSInteractive", "{52F74C4F-15D1-463C-8FD5-E4274F5DCE9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSDesktopComponents", "DSDesktopComponents", "{CA3714F9-2DBB-4DDC-B7CC-4EA61C22F518}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSPipeliningFiles", "DSPipeliningFiles", "{EC5F1333-BCB6-4A5D-B64C-00817FFC2C6A}"
+	ProjectSection(SolutionItems) = preProject
+		_Resources\DSPipelining\_CompileAll.PS1 = _Resources\DSPipelining\_CompileAll.PS1
+		_Resources\DSPipelining\DSExec.VB = _Resources\DSPipelining\DSExec.VB
+		_Resources\DSPipelining\DSLex.VB = _Resources\DSPipelining\DSLex.VB
+		_Resources\DSPipelining\DSParse.VB = _Resources\DSPipelining\DSParse.VB
+		_Resources\DSPipelining\GetText.VB = _Resources\DSPipelining\GetText.VB
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc.", "Misc.", "{349A1308-BE7C-4D4F-9E49-1FE5B5F2FE9E}"
+	ProjectSection(SolutionItems) = preProject
+		_Resources\DocScript.Signing.snk = _Resources\DocScript.Signing.snk
+		_Resources\OldAndUnneeded.VB = _Resources\OldAndUnneeded.VB
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocumentationFiles", "DocumentationFiles", "{B627F71C-6AEF-493B-BA2C-862743D9E316}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		_Resources\Documentation\Conventions.txt = _Resources\Documentation\Conventions.txt
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +55,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
+		Description = The master Solution for DocScript Desktop and Web!
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C006B85E-5269-4137-8979-8AC99F19158A}.Debug|Any CPU.ActiveCfg = Debug|x86
@@ -117,6 +137,17 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC5F1333-BCB6-4A5D-B64C-00817FFC2C6A} = {1848F99C-92B2-4299-9F0D-6BCC6C501968}
+		{349A1308-BE7C-4D4F-9E49-1FE5B5F2FE9E} = {1848F99C-92B2-4299-9F0D-6BCC6C501968}
+		{B627F71C-6AEF-493B-BA2C-862743D9E316} = {1848F99C-92B2-4299-9F0D-6BCC6C501968}
+		{D77A35C2-FE11-4206-9B6F-3D037620FF2B} = {CA3714F9-2DBB-4DDC-B7CC-4EA61C22F518}
+		{DB86A4F8-E66B-42ED-B4E0-2BA6020CB1E8} = {CA3714F9-2DBB-4DDC-B7CC-4EA61C22F518}
+		{43D57956-89D5-42EC-957F-00C61BE321FC} = {CA3714F9-2DBB-4DDC-B7CC-4EA61C22F518}
+		{C006B85E-5269-4137-8979-8AC99F19158A} = {CA3714F9-2DBB-4DDC-B7CC-4EA61C22F518}
+		{1DE7A26F-6C77-49EC-9C28-E55512C83BA2} = {52F74C4F-15D1-463C-8FD5-E4274F5DCE9D}
+		{3CBBBCA7-DFC4-4826-9990-7DF7D50FB8BD} = {52F74C4F-15D1-463C-8FD5-E4274F5DCE9D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B80D8DB-F894-42C8-B030-7568E2F2102B}

@@ -56,6 +56,7 @@
 				REM ╚═════════════════════════════════════════════╝
 
 				REM 1) Initialisation
+				'		- Remove a BOM (Byte-order Mark) from the start of the _RawSource, if present
 				'		- Attempt to automatically homogenise all LineBreaks to [CrLf]
 				'		- Ensure all LineBreaks are valid (CrLf)
 				'		- Load in Lines of Source
@@ -77,6 +78,12 @@
 				'		- Ensure all Statement Openings and Closings are balenced (Function to EndFunction, etc...)
 
 				REM		[_RawSource] → [_LinebreakHomogenisedSource] → [_RawSourceLines] → [_CleanSourceLines]		→	 [_SegmentedTokens] → [_NonNullTokens] → [_CleansedTokens] → [_TokensWithStringLiterals] → [_ClassifiedTokens]
+
+				'Remove a BOM (Byte-order Mark (sequence of leading bytes indicating the Unicode and Endianness characteristics for a Text File)) if present
+				If System.BitConverter.ToString(System.Text.Encoding.ASCII.GetBytes(_RawSource)).StartsWith("3F-3F-3F") Then
+					_RawSource = System.Text.Encoding.ASCII.GetString(System.Text.Encoding.ASCII.GetBytes(_RawSource).Skip(3).ToArray())
+					LogParsingMessage("A UTF8 BOM (Byte-order Mark) of [EF-BB-BF] was present at the start of the Raw Source, and has been removed")
+				End If
 
 				'Attempt automatic LineBreak Homogenisation: CrLf→Cr; Lf→Cr; Cr→CrLf
 				Dim _LinebreakHomogenisedSource$ = _RawSource.Replace(vbCrLf, vbCr).Replace(vbLf, vbCr).Replace(vbCr, vbCrLf)
@@ -325,7 +332,7 @@
 		End Function
 
 		''' <summary>
-		''' Takes in Tokens which may Problematic chars in their values, and removes these chars.
+		''' Takes in Tokens which may contain Problematic chars in their values, and removes these chars.
 		''' Then, removes any tokens which are part of newly-visable #Comment lines (which were previously undetected, because of a leading problematic-char).
 		''' Then, ensures that all remaining characters in all Tokens' Values are valid.
 		''' </summary>
@@ -407,7 +414,7 @@
 		End Function
 
 		''' <summary>Takes in some Tokens which may have SLITs in them, and returns a version of that List(Of Token) which has the origional StringLiterals again</summary>
-		Private Function ReplaceSLITsWithStringLiterals_(ByRef _TokensWithSLITs As List(Of Token), ByVal _PreviouslyExtractedStringLiterals As String()) As List(Of Token)
+		Private Function ReplaceSLITsWithStringLiterals_(ByRef _TokensWithSLITs As List(Of Token), ByVal _PreviouslyExtractedStringLiterals As [String]()) As List(Of Token)
 			Try
 
 				LogParsingMessage("Began Resubstituting SLITs with StringLiterals...")
@@ -416,7 +423,7 @@
 				Dim _NumberOfSLITsRemoved As UInt16 = 0
 
 				Dim _SLITMatchEvaluator As New System.Text.RegularExpressions.MatchEvaluator(
-				 Function(_Match As System.Text.RegularExpressions.Match) As String
+				 Function(_Match As System.Text.RegularExpressions.Match) As [String]
 
 					 REM The _Match looks like:				$SLIT_0$
 					 REM That needs to be replaced with:	"Origional String Literal"
@@ -457,7 +464,7 @@
 				Next
 
 				REM On leaving that Loop, the number of [_TokensWithSLITs] and [_TokensWithStringLiteralsToReturn] should be equal
-				LogParsingMessage(String.Format("Ensuring No. SLIT-containing Token(s) ({0}) is equal to No. StringLiteral-containing one(s) ({1}). Result: {2}", _TokensWithSLITs.Count.ToString(), _TokensWithStringLiteralsToReturn.Count.ToString(), IIf(_TokensWithSLITs.Count = _TokensWithStringLiteralsToReturn.Count, "True (Valid)", "False (Invalid)")), LogEvent.DSEventSeverity.Debug)
+				LogParsingMessage([String].Format("Ensuring No. SLIT-containing Token(s) ({0}) is equal to No. StringLiteral-containing one(s) ({1}). Result: {2}", _TokensWithSLITs.Count.ToString(), _TokensWithStringLiteralsToReturn.Count.ToString(), IIf(_TokensWithSLITs.Count = _TokensWithStringLiteralsToReturn.Count, "True (Valid)", "False (Invalid)")), LogEvent.DSEventSeverity.Debug)
 				If Not (_TokensWithSLITs.Count = _TokensWithStringLiteralsToReturn.Count) Then Throw New DSValidationException("The number of [SLIT-containing Tokens] was not equal to the number of [StringLiteral-containing Tokens] after the StringLiteral-Insertion Loop. This means that not all String Literals were successfully resubstituted.", "[_TokensWithStringLiteralsToReturn]")
 
 				LogParsingMessage("...Replaced " & _NumberOfSLITsRemoved.ToString() & " SLIT(s) with StringLiteral(s)")
@@ -563,6 +570,15 @@
 			Return _Source_ContainingSemiColonsAndTicks _
 			 .Replace(Language.Constants.LineBreak_SubstitutionChar_ForFlattenedSource, Language.Constants.LineBreak) _
 			 .Replace(Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar, Language.Constants.StringLiteralStartEndChar)
+
+		End Function
+
+		''' <summary>Returns the standardised Tokens' XML for an array of Tokens output from the Parser. Used for DS-Pipelining.</summary>
+		Public Function GetTokensXML(ByRef _Tokens As Token()) As XElement
+
+			Return _Tokens _
+			.Select(Function(_Token As Token) _Token.ToXML()) _
+			.ToArray().WrapIn("Tokens")
 
 		End Function
 

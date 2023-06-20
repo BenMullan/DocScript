@@ -96,6 +96,8 @@ DSCore
 	<summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is Nothing (null)</summary>
 </member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.Contents">
 	<summary>The Instructions which are executed if the ConditionExpr resolves to True</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetContentsAndElseContents_(DocScript.Runtime.Token[])">
@@ -104,6 +106,8 @@ DSCore
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.IfStatement">
@@ -220,12 +224,16 @@ DSCore
 	<param name="_ResultantSymbolTablesState">For IStatements, this should NOT contain the ScopedVariables member</param>
 </member><member name="T:DocScript.Language.Instructions.ExecutionResult">
 	<summary>Represents the result of a call to Execute() of an IInstruction, or Run() on a DSFunction. Contains data such as weather or not to Return.</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.LoopStatement">
@@ -280,12 +288,16 @@ DSCore
 	<summary>Maps the OperatorChars (as defined in the Language-level Constants) to their Binary- and Unary-Operator(s)</summary>
 </member><member name="T:DocScript.Language.Expressions.Operators.OperatorUtilities">
 	<summary>Contains the DSOperators Declaration, and several Utility Methods</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableDeclaration.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableDeclaration.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableDeclaration.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.VariableDeclaration">
@@ -339,12 +351,16 @@ DSCore
 	<summary>Holds a dictionary of Identifiers to [SymbolTableEntry]s. All Identifiers are ToUpper()-ed.</summary>
 </member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
 	<summary>If there wasn't an associated Expr in the source, then this is Nothing (null)</summary>
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.ReturnToCaller">
@@ -541,7 +557,7 @@ DSCore
 	<summary>Splits the _CleanSourceLines up into Tokens, each of which leave this Function with an "Unresolved" TokenType</summary>
 </member><member name="M:DocScript.Runtime.Parser.RemoveProblematicChars_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
 	<summary>
- Takes in Tokens which may Problematic chars in their values, and removes these chars.
+ Takes in Tokens which may contain Problematic chars in their values, and removes these chars.
  Then, removes any tokens which are part of newly-visable #Comment lines (which were previously undetected, because of a leading problematic-char).
  Then, ensures that all remaining characters in all Tokens' Values are valid.
  </summary>
@@ -560,8 +576,12 @@ DSCore
  Takes in flattened source, and expands it; replaces [;] with [LineBreaks (CrLf)], and replaces [`] with ["].
  For example, DocScript-Live uses this method, so the line [Output("Ben");Output("Ryan")] becomes two seperate lines.
  </summary>
+</member><member name="M:DocScript.Runtime.Parser.GetTokensXML(DocScript.Runtime.Token[]@)">
+	<summary>Returns the standardised Tokens' XML for an array of Tokens output from the Parser. Used for DS-Pipelining.</summary>
 </member><member name="T:DocScript.Runtime.Parser">
 	<summary>Contains Constants and Methods for the first stage in the DocScript Interpretation Process</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -571,6 +591,8 @@ DSCore
 	<remarks>Sounds rather Win32-y, dosen't it?</remarks>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.FunctionCall">
@@ -682,22 +704,30 @@ DSCore
 	<summary>
  Provides methods for Key-Value Pair Serialisation
  </summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableAssignment.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableAssignment.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableAssignment.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.VariableAssignment">
 	<summary>Represents E.g. [Name : "Ben"]</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.WhileStatement">
@@ -981,6 +1011,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) Returns a version of the _XElement wrapped in an XML Parent Node with name _OuterNodeName$</summary>
 </member><member name="M:DocScript.CompilerExtentions.XMLObjectExtentions.WrapIn(System.Xml.Linq.XElement[],System.String)">
 	<summary>(MullNet CompilerExtention) Returns a new XElement which contains the _XElements</summary>
+</member><member name="M:DocScript.CompilerExtentions.XMLObjectExtentions.FirstOrEmptyNode(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})">
+	<summary>(MullNet CompilerExtention) Returns the first in the series of XElements, otherwise an XElement that looks like: &lt;Empty/&gt;</summary>
 </member><member name="M:DocScript.CompilerExtentions.DocScriptObjectExtentions.GetValuesAndLocationsString(DocScript.Runtime.Token[])">
 	<summary>(MullNet CompilerExtention) Produces a simple serialisation of the _Tokens with just their Values and Locations in the form [Raw: "A:", WithLocations: {["A" @14,6], [":" @14,7]}]</summary>
 </member><member name="M:DocScript.CompilerExtentions.DocScriptObjectExtentions.ReconstructIntoSource(DocScript.Runtime.Token[],System.String)">
@@ -1064,6 +1096,11 @@ DSCore
 	<summary>Constructs a Tree for an Expression, from the Tokens which make up that Expr.</summary>
 </member><member name="M:DocScript.Language.Expressions.ExprUtilities.GetTreeViewNodeFromExpr(DocScript.Language.Expressions.IExpression@)">
 	<summary>Constructs a WinForms TreeView Node from a constructed IExpression</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ConstructExpressionFromXML(System.Xml.Linq.XElement)">
+	<summary>
+ Constructs a Tree for an Expression, from an XML Expression Serialisation, as produced by IExpression.GetExprTreeNodeXML().
+ The XElement passed in should have one of these Tag Names: OperatorExpr, LiteralExpr, FunctionCallExpr, VariableExpr.
+ </summary>
 </member><member name="M:DocScript.Language.Expressions.ExprUtilities.PerformInitialValidationOnRawTokens_(DocScript.Runtime.Token[]@)">
 	<summary>Ensures that the Tokens are of permitted TokenTypes, and that there are equal numbers of opening and closing Brackets.</summary>
 </member><member name="M:DocScript.Language.Expressions.ExprUtilities.ProduceLBL_(DocScript.Runtime.Token[]@,System.Int32)">
@@ -1086,8 +1123,14 @@ DSCore
 	<summary>Returns a Shortened String, in the Form (E.g.) [14,7]</summary>
 </member><member name="T:DocScript.Runtime.Token.TokenLocation">
 	<summary>Represents the original location of a Token in the Source</summary>
+</member><member name="M:DocScript.Runtime.Token.#ctor(System.String,DocScript.Runtime.Token.TokenType,System.UInt16,System.UInt16)">
+	<summary>Constructs a new Token from a Value string, TokenType, and Location-in-source</summary>
+</member><member name="M:DocScript.Runtime.Token.FromXML(System.Xml.Linq.XElement)">
+	<summary>SideLoading Constructor: </summary>
 </member><member name="M:DocScript.Runtime.Token.ToString">
 	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
+</member><member name="M:DocScript.Runtime.Token.ToXML">
+	<summary>Returns a KVPSerialised XML Object with the members of the current object</summary>
 </member><member name="T:DocScript.Runtime.Token">
 	<summary>Represents a Segmented String with a TokenType, from the Source of a DocScript Program</summary>
 </member><member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
@@ -1139,6 +1182,10 @@ DSCore
 	<summary>The DataType must be an IDataValue-based DocScript DataType e.g. DSBoolean</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.#ctor(System.String,System.Type)">
 	<summary>The DataType must be a DocScript DataType e.g. &lt;Number&gt;. Use the IDataValue Types herefor.</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.GetProgramTreeNodeXML">
+	<summary>Returns an XML Representation of the Parameter, with the Identifier and DataType</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.ToString">
 	<summary>Returns what the Argument would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Parameter">
@@ -1149,6 +1196,8 @@ DSCore
 	<summary>Returns a KVP-Serialised String to represent the current Object</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Signature">
 	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor">
+	<summary>For internal use only; used by FromXML()</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -1164,6 +1213,8 @@ DSCore
 	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End.</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.DSFunction">
@@ -1178,6 +1229,8 @@ DSCore
 	<summary>Takes in some Tokens which begin with a Statement, and returns only the Tokens for that Statement.</summary>
 	<param name="_AllRemainingTokens">Must start with a Statement-Opening Keyword</param>
 	<param name="_IStatementType">Either IfStatement, WhileStatement, or LoopStatement</param>
+</member><member name="M:DocScript.Language.Instructions.Statements.StatementUtilities.GetStatementContentsFromXML(System.Xml.Linq.XElement[])">
+	<summary>Takes in VariableAssignment, VariableDeclaration, ReturnToCaller, FunctionCall, IfStatement, WhileStatement, and LoopStatement XML Nodes, and returns the equivalent IInstruciton Objects</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.StatementUtilities.ReconstructStatementContentsAsSource(DocScript.Language.Instructions.IInstruction[]@)">
 	<summary>
  Recursivly reconstructs the IInstructions as DocScript Source.
@@ -1211,8 +1264,10 @@ DSCore
 	<summary>The Global VariableDeclarations from the DocScript Source</summary>
 </member><member name="F:DocScript.Runtime.Program.Name">
 	<summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member><member name="M:DocScript.Runtime.Program.#ctor(DocScript.Language.Instructions.VariableDeclaration[]@,DocScript.Language.Instructions.Statements.DSFunction[]@,DocScript.Runtime.ExecutionContext)">
+	<summary>(Subordinate Constructor) Creates a New Program Object, from already-constructed Global Variable Declarations and Functions. Used by FromProgramTreeXML().</summary>
 </member><member name="M:DocScript.Runtime.Program.#ctor(DocScript.Runtime.Token[],DocScript.Runtime.ExecutionContext)">
-	<summary>Instanciates a New DocScript Program from Tokens</summary>
+	<summary>(Main Constructor) Instanciates a New DocScript Program from Tokens</summary>
 	<param name="_ExecutionContext">
  Can be Nothing (null), if you never intend on running the Program. (I.e. just using it to Product a Program Tree etc...)
  The ExeCxt is passed in as a constructor argument, instead of an argument to Run(),
@@ -1222,6 +1277,10 @@ DSCore
  </param>
 </member><member name="M:DocScript.Runtime.Program.FromSource(System.String,DocScript.Runtime.ExecutionContext@)">
 	<summary>SideLoading Constructor: Instanciates a New DocScript Program from DocScript Source</summary>
+</member><member name="M:DocScript.Runtime.Program.FromTokensXML(System.Xml.Linq.XElement@,DocScript.Runtime.ExecutionContext@)">
+	<summary>SideLoading Constructor: Instanciates a New DocScript Program from a series of XML Tokens, as produced by the DocScript.Runtime.Parser.GetTokensXML() Function</summary>
+</member><member name="M:DocScript.Runtime.Program.FromProgramTreeXML(System.Xml.Linq.XElement@,DocScript.Runtime.ExecutionContext@)">
+	<summary>SideLoading Constructor: Instanciates a New DocScript Program from a serialised Program Tree, as generated by Program.ProgramTreeXML</summary>
 </member><member name="M:DocScript.Runtime.Program.Run(System.String[])">
 	<summary>
  Executes the DocScript EntryPoint Function Main(), passing in any CLAs, and returning the ExitCode if there is one.

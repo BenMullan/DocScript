@@ -13,8 +13,12 @@
 
 		Protected ReadOnly Tokens_ As Runtime.Token()
 
+		''' <summary>For internal use only; used by FromXML()</summary>
+		Protected Sub New()
+		End Sub
+
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
-		Sub New(ByRef _Tokens As Runtime.Token())
+		Public Sub New(ByRef _Tokens As Runtime.Token())
 			Me.Tokens_ = _Tokens : Me.ProcessTokensToInitialiseFields()
 		End Sub
 
@@ -132,6 +136,19 @@
 
 			Return _XElementToReturn
 
+		End Function
+
+		''' <summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As VariableDeclaration
+			Try
+
+				Return New VariableDeclaration() With {
+				 .DataType = Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_IInstructionXElement.@DataType),
+				 .Identifier = _IInstructionXElement.@Identifier,
+				 .AssignmentExpr = If(_IInstructionXElement.<AssignmentExpr>.First().Elements().Count() = 1, Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<AssignmentExpr>.First().Elements().First()), Nothing)
+				}
+
+			Catch _Ex As Exception : Throw New DSException("@VariableDeclaration\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function
 
 		''' <summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>

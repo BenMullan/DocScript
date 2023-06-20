@@ -32,6 +32,9 @@ Partial Class ParserExperiments
 		Me.Label3 = New System.Windows.Forms.Label()
 		Me.Label4 = New System.Windows.Forms.Label()
 		Me.DseFormChooser1 = New DSExperimentation.DSEFormChooser()
+		Me.Button2 = New System.Windows.Forms.Button()
+		Me.Button3 = New System.Windows.Forms.Button()
+		Me.Button4 = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'SourceTextBox
@@ -127,14 +130,44 @@ Partial Class ParserExperiments
 		Me.DseFormChooser1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
 		Me.DseFormChooser1.Location = New System.Drawing.Point(638, 12)
 		Me.DseFormChooser1.Name = "DseFormChooser1"
-		Me.DseFormChooser1.Size = New System.Drawing.Size(146, 146)
+		Me.DseFormChooser1.Size = New System.Drawing.Size(157, 285)
 		Me.DseFormChooser1.TabIndex = 4
+		'
+		'Button2
+		'
+		Me.Button2.Location = New System.Drawing.Point(471, 470)
+		Me.Button2.Name = "Button2"
+		Me.Button2.Size = New System.Drawing.Size(161, 23)
+		Me.Button2.TabIndex = 5
+		Me.Button2.Text = "Get Tokens' XML"
+		Me.Button2.UseVisualStyleBackColor = True
+		'
+		'Button3
+		'
+		Me.Button3.Location = New System.Drawing.Point(471, 488)
+		Me.Button3.Name = "Button3"
+		Me.Button3.Size = New System.Drawing.Size(161, 23)
+		Me.Button3.TabIndex = 5
+		Me.Button3.Text = "TokensXML to Program"
+		Me.Button3.UseVisualStyleBackColor = True
+		'
+		'Button4
+		'
+		Me.Button4.Location = New System.Drawing.Point(638, 470)
+		Me.Button4.Name = "Button4"
+		Me.Button4.Size = New System.Drawing.Size(161, 23)
+		Me.Button4.TabIndex = 5
+		Me.Button4.Text = "Program From ProgTreeXML"
+		Me.Button4.UseVisualStyleBackColor = True
 		'
 		'ParserExperiments
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(793, 523)
+		Me.ClientSize = New System.Drawing.Size(809, 523)
+		Me.Controls.Add(Me.Button4)
+		Me.Controls.Add(Me.Button3)
+		Me.Controls.Add(Me.Button2)
 		Me.Controls.Add(Me.DseFormChooser1)
 		Me.Controls.Add(Me.Button1)
 		Me.Controls.Add(Me.ParseButton)
@@ -161,4 +194,7 @@ Partial Class ParserExperiments
 	Friend WithEvents Label3 As System.Windows.Forms.Label
 	Friend WithEvents Label4 As System.Windows.Forms.Label
 	Friend WithEvents DseFormChooser1 As DSExperimentation.DSEFormChooser
+	Friend WithEvents Button2 As System.Windows.Forms.Button
+	Friend WithEvents Button3 As System.Windows.Forms.Button
+	Friend WithEvents Button4 As System.Windows.Forms.Button
 End Class
