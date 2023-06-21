@@ -61,9 +61,9 @@
 		Public Const DataType_Number$ = "NUMBER"
 		Public Const DataType_Boolean$ = "BOOLEAN"
 		Public Const ArrayModifierChar As Char = "@"c
-		Public Const DataType_StringArray = DataType_String & ArrayModifierChar
-		Public Const DataType_NumberArray = DataType_Number & ArrayModifierChar
-		Public Const DataType_BooleanArray = DataType_Boolean & ArrayModifierChar
+		Public Const DataType_StringArray$ = DataType_String & ArrayModifierChar
+		Public Const DataType_NumberArray$ = DataType_Number & ArrayModifierChar
+		Public Const DataType_BooleanArray$ = DataType_Boolean & ArrayModifierChar
 		Public Shared ReadOnly AllDataTypes$() = {DataType_Void, DataType_String, DataType_Number, DataType_Boolean, DataType_StringArray, DataType_NumberArray, DataType_BooleanArray}
 		Public Shared ReadOnly AllNonArrayDataTypes$() = {DataType_Void, DataType_String, DataType_Number, DataType_Boolean}
 
