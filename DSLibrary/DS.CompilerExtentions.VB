@@ -1025,14 +1025,28 @@ Namespace CompilerExtentions
 				'	    </Contents>
 				'	</DSFunction>
 
-				REM XMLComponent to ConsoleColors mapping:
+				REM XMLComponent to ConsoleColors mapping for Light-backgrounds:
 				'	</>=		Blue
 				'	TagName		DarkRed
 				'	AttrKey		Red
 				'	"AttrValue"	Blue
 
-				Dim _Console_PreviousBackgroundColour As ConsoleColor = Console.BackgroundColor
-				Console.BackgroundColor = ConsoleColor.Gray
+				REM _ConsoleColour_*
+				Dim _CC_XMLGrammarChar, _CC_TagName, _CC_AttrKey, _CC_AttrValue As ConsoleColor
+
+				If Convert.ToInt32(Console.BackgroundColor) < 7 Then
+					'The Console has a dark Background: https://journaldev.nyc3.digitaloceanspaces.com/2018/03/android-daynightmode-colors-nightmode.png
+					_CC_XMLGrammarChar = ConsoleColor.Yellow
+					_CC_TagName = ConsoleColor.Yellow
+					_CC_AttrKey = ConsoleColor.White
+					_CC_AttrValue = ConsoleColor.Green
+				Else
+					'The Console has a light Background: https://help.seagullscientific.com/2019/en/Content/Resources/Images/XML_sample_file.GIF
+					_CC_XMLGrammarChar = ConsoleColor.Blue
+					_CC_TagName = ConsoleColor.DarkRed
+					_CC_AttrKey = ConsoleColor.Red
+					_CC_AttrValue = ConsoleColor.Blue
+				End If
 
 				Dim _XElementStringChars As [Char]() = System.Text.RegularExpressions.Regex.Replace(input:=_XElement.ToString(), pattern:="^(\s\s)+", evaluator:=Function(_Match As System.Text.RegularExpressions.Match) String.Join("", _TabChar.Repeat(Convert.ToUInt64(_Match.Length \ 2))), options:=Text.RegularExpressions.RegexOptions.Multiline).ToCharArray()
 				Dim _CurrentlyInStringLiteral As [Boolean] = False			'Either on a " or in the middle of two of them
@@ -1046,11 +1060,11 @@ Namespace CompilerExtentions
 							'If this is the start of a StringLiteral, then _CurrentlyInStringLiteral becomes True
 							'If this is the  end  of a StringLiteral, then _CurrentlyInStringLiteral becomes False
 							_CurrentlyInStringLiteral = Not _CurrentlyInStringLiteral
-							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+							UsefulMethods.ConsoleWriteInColour(_Char, _CC_AttrValue)
 
 						Case _CurrentlyInStringLiteral
-							'In the Middle of a String Literal
-							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+							'In the Middle of a String Literal (AttrValue)
+							UsefulMethods.ConsoleWriteInColour(_Char, _CC_AttrValue)
 
 						Case (_Char = " "c) AndAlso ( _
 						   Not {"/"c, " "c}.Contains(_XElementStringChars.ElementAtOrDefault(_CharIndex + 1)) _
@@ -1066,25 +1080,23 @@ Namespace CompilerExtentions
 						Case _Char = "="c
 							'End of AttrName
 							_CurrentlyBetweenSpaceAndEquals = False
-							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+							UsefulMethods.ConsoleWriteInColour(_Char, _CC_XMLGrammarChar)
 
 						Case _CurrentlyBetweenSpaceAndEquals
-							'In the Middle of an AttrName
-							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Red)
+							'In the Middle of an AttrName (Key)
+							UsefulMethods.ConsoleWriteInColour(_Char, _CC_AttrKey)
 
 						Case {"<"c, ">"c, "/"c}.Contains(_Char)
 							'XML Grammar Char
-							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.Blue)
+							UsefulMethods.ConsoleWriteInColour(_Char, _CC_XMLGrammarChar)
 
 						Case Else
 							'XML TagName
-							UsefulMethods.ConsoleWriteInColour(_Char, ConsoleColor.DarkRed)
+							UsefulMethods.ConsoleWriteInColour(_Char, _CC_TagName)
 
 							'Case Else : Throw New Exception("The character in the XML represented an unaccounted-for syntax component: " & _Char)
 					End Select
 				Next _CharIndex
-
-				Console.BackgroundColor = _Console_PreviousBackgroundColour
 
 			Catch _Ex As Exception : Throw New DSException("@PrintToConsoleWithColourFormatting (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Sub

@@ -1,0 +1,30 @@
+﻿#EquationSolver.DS - Determines the value of a QuestionMark in an Expression e.g. "? + 430 = 817"
+#Ben Mullan (c) 2023
+
+Function <Void> Main ()
+	While (True)
+		Output( DetermineQMValue(Input("Enter a maths equation with a question-mark on the left." & Const_CrLf() & "Example: 14 + ? = 99")) )
+	EndWhile
+EndFunction
+
+Function <Number> DetermineQMValue (<String> _ExprWithQM)
+	
+	# "x" is not a valid DS Operator
+	_ExprWithQM : DS_String_Replace(_ExprWithQM, "x", "*")
+	
+	#Example _ExprWithQM: "? + 430 = 817"
+	<String@> _SplitExpr :		DS_String_Split(_ExprWithQM, " = ")
+	<String> _ExprToEval :		DS_StringArray_At(_SplitExpr, 0)
+	<Number> _TargetAnswer :	DS_StringArray_At(_SplitExpr, 1)
+	
+	#Increment the ? value by one, until the _ExprToEval produces the _TargetAnswer
+	<Number> _CurrentQMValue : 0
+	While (True)
+		If ( DS_Number_FromExprString(DS_String_Replace(_ExprToEval, "?", _CurrentQMValue)) = _TargetAnswer )
+			Return _CurrentQMValue
+		Else
+			_CurrentQMValue : _CurrentQMValue + 1
+		EndIf
+	EndWhile
+	
+EndFunction
