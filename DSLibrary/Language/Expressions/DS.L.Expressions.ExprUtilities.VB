@@ -385,7 +385,7 @@
 				'We can't do this ^^^ here because a recursive call could be made which contains no contents.
 				'However, if there are no items in the LBL, then the subsequent logic won't work, so we should just return
 				If _LBL.Length = 0 Then
-					LogDebugMessage("The LBL passed to ValidateLBL_() was empty. Returning straight awas as there is nothing to validate", LogEvent.DSEventCatagory.Lexing)
+					LogDebugMessage("The LBL passed to ValidateLBL_() was empty. Returning straight away as there is nothing to validate", LogEvent.DSEventCatagory.Lexing)
 					Return
 				End If
 
@@ -430,18 +430,18 @@
 				REM		{FunctionCall | BracketedExpr} {*Literal | Variable}
 				REM		{FunctionCall | BracketedExpr} {FunctionCall | BracketedExpr}
 
-				Dim _IsLiteralOrVariable As Func(Of IExpression, Boolean) = _
-				 Function(_LBLComponent As IExpression) As Boolean
-					 Return {GetType(VariableExpr), GetType(LiteralExpr(Of Variables.DSBoolean)), GetType(LiteralExpr(Of Variables.DSNumber)), GetType(LiteralExpr(Of Variables.DSString))}.Contains(_LBLComponent.GetType())
-				 End Function
+				Dim _IsLiteralOrVariable As Func(Of IExpression, [Boolean]) = _
+				   Function(_LBLComponent As IExpression) As [Boolean]
+					   Return {GetType(VariableExpr), GetType(LiteralExpr(Of Variables.DSBoolean)), GetType(LiteralExpr(Of Variables.DSNumber)), GetType(LiteralExpr(Of Variables.DSString))}.Contains(_LBLComponent.GetType())
+				   End Function
 
-				Dim _IsFunctionCallOrBracketedExpr As Func(Of IExpression, Boolean) = _
-				 Function(_LBLComponent As IExpression) As Boolean
+				Dim _IsFunctionCallOrBracketedExpr As Func(Of IExpression, [Boolean]) = _
+				 Function(_LBLComponent As IExpression) As [Boolean]
 					 Return {GetType(LBLFunctionCallPlaceholder), GetType(LBLBracketedExprPlaceholder)}.Contains(_LBLComponent.GetType())
 				 End Function
 
 				'These return True if the Pattern matches (so True if the LBL is invalid)
-				Dim _InvalidPatternDetectors As New Dictionary(Of String, Func(Of IExpression, IExpression, Boolean))() From {
+				Dim _InvalidPatternDetectors As New Dictionary(Of String, Func(Of IExpression, IExpression, [Boolean]))() From {
 				 {"[An Argument Seperator (" & Constants.FunctionArgumentSeperator & ")] followed by [another Argument Seperator]", Function(_A As IExpression, _B As IExpression) ((_A.GetType() = GetType(LBLArgumentSeperatorPlaceholder)) AndAlso (_B.GetType() = GetType(LBLArgumentSeperatorPlaceholder)))},
 				 {"An Empty Bracketed Expr.", Function(_A As IExpression, _B As IExpression) {_A, _B}.Any(Function(_LBLComp As IExpression) (_LBLComp.GetType() = GetType(LBLBracketedExprPlaceholder)) AndAlso (CType(_LBLComp, LBLBracketedExprPlaceholder).Contents.Length = 0))},
 				 {"Two Binary Operators next to each other", Function(_A As IExpression, _B As IExpression) ((_A.GetType() = GetType(LBLOperatorPlaceholder)) AndAlso Operators.OperatorUtilities.IsBinaryOperator(CType(_A, LBLOperatorPlaceholder).OperatorToken.Value.First())) AndAlso ((_B.GetType() = GetType(LBLOperatorPlaceholder)) AndAlso Operators.OperatorUtilities.IsBinaryOperator(CType(_B, LBLOperatorPlaceholder).OperatorToken.Value.First()))},
@@ -471,7 +471,7 @@
 
 				REM Put the current _LBL through the InvalidPatternDetectors
 				For _LBLComponentIndex% = 0 To (_LBL.Length - 2) Step (+1)
-					For Each _InvalidPatternDetector As KeyValuePair(Of String, Func(Of IExpression, IExpression, Boolean)) In _InvalidPatternDetectors
+					For Each _InvalidPatternDetector As KeyValuePair(Of String, Func(Of IExpression, IExpression, [Boolean])) In _InvalidPatternDetectors
 						If _InvalidPatternDetector.Value.Invoke(_LBL(_LBLComponentIndex), _LBL(_LBLComponentIndex + 1)) Then _
 						 Throw New DSLBLValidationException("The LBL contained an Invalid Pattern", _InvalidPatternDetector.Key, {_LBL(_LBLComponentIndex), _LBL(_LBLComponentIndex + 1)})
 					Next

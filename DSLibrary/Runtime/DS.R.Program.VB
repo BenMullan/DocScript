@@ -429,7 +429,7 @@
 
 		''' <summary>Accounts for differences in System Drive letters and WinDir locations, and then looks in %WINDIR%\Microsoft.NET\Framework64\v4.0.30319\vbc.exe</summary>
 		Public Shared ReadOnly Property DefaultVbcExe_ForCurrentSystem As IO.FileInfo
-			Get	'dir %WINDIR%\Microsoft.NET\Framework64\vbc.exe /s /b
+			Get	'To List all VBC.EXEs on the current windows installation: dir %WINDIR%\Microsoft.NET\Framework64\vbc.exe /s /b
 
 				Dim _VBCFile As New IO.FileInfo(
 				 IO.Path.Combine(
@@ -493,8 +493,8 @@
 				 "<Assembly: System.Reflection.AssemblyCopyright(""" & Me.CopyrightMessage & """)>" & vbCrLf &
 				 "<Assembly: System.Reflection.AssemblyTrademark(""" & Me.Author & """)>" & vbCrLf &
 				 "<Assembly: System.Reflection.AssemblyCompany(""" & Me.Author & """)>" & vbCrLf &
-				 "<Assembly: System.Reflection.AssemblyFileVersion(""" & Me.Version.ToString() & """)>" & vbCrLf &
-				 "<Assembly: System.Reflection.AssemblyVersion(""" & Me.Version.ToString() & """)>" & vbCrLf &
+				 "<Assembly: System.Reflection.AssemblyFileVersion(""" & If(Me.Version, "1.0.0.0") & """)>" & vbCrLf &
+				 "<Assembly: System.Reflection.AssemblyVersion(""" & If(Me.Version, "1.0.0.0") & """)>" & vbCrLf &
 				 "<Assembly: System.Resources.NeutralResourcesLanguageAttribute(""en-GB"")>" & vbCrLf &
 				 "<Assembly: System.Runtime.InteropServices.ComVisible(False)>" & vbCrLf &
 				 vbCrLf &
@@ -504,7 +504,7 @@
 				 vbTab & vbTab & "Try" & vbCrLf &
 				 vbCrLf &
 				 vbTab & vbTab & vbTab & "Dim [_ExeCxtToUse] As [DocScript].[Runtime].[ExecutionContext] = _" & vbCrLf &
-				 vbTab & vbTab & vbTab & vbTab & "[DocScript].[Runtime].[ExecutionContext].[" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "GUI", "CLI") & "Default]" & vbCrLf &
+				 vbTab & vbTab & vbTab & vbTab & "[DocScript].[Runtime].[ExecutionContext].[" & If(Me.ExecutionContext = Runtime.ExecutionContext.GUIDefault, "GUI", "CLI") & "Default]" & vbCrLf &
 				 vbCrLf &
 				 vbTab & vbTab & vbTab & "Dim [_Program] As [DocScript].[Runtime].[Program] = _" & vbCrLf &
 				 vbTab & vbTab & vbTab & vbTab & "[DocScript].[Runtime].[Program].[FromSource]([_Source]:=[DSPackage].[DSSource], [_ExeCxt]:=[_ExeCxtToUse])" & vbCrLf &
@@ -513,7 +513,7 @@
 				 vbCrLf &
 				 vbTab & vbTab & "Catch [_DSRuntimeEx] As [System].[Exception]" & vbCrLf &
 				 vbTab & vbTab & vbTab & "Dim [_ErrorMsg] As [System].[String] = ""A Runtime Error has occured in the compiled DocScript Program:"" & [vbCrLf] & [_DSRuntimeEx].Message" & vbCrLf &
-				 vbTab & vbTab & vbTab & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "[Microsoft].[VisualBasic].[Interaction].[MsgBox]([_ErrorMsg], [Microsoft].[VisualBasic].[MsgBoxStyle].[Critical])", "[DocScript].[CompilerExtentions].[UsefulMethods].[ConsoleWriteInColour]([_ErrorMsg], [ConsoleColor].[Red])") & vbCrLf &
+				 vbTab & vbTab & vbTab & If(Me.ExecutionContext = Runtime.ExecutionContext.GUIDefault, "[Microsoft].[VisualBasic].[Interaction].[MsgBox]([_ErrorMsg], [Microsoft].[VisualBasic].[MsgBoxStyle].[Critical])", "[DocScript].[CompilerExtentions].[UsefulMethods].[ConsoleWriteInColour]([_ErrorMsg], [ConsoleColor].[Red])") & vbCrLf &
 				 vbTab & vbTab & vbTab & "Return -1" & vbCrLf &
 				 vbTab & vbTab & "End Try" & vbCrLf &
 				 vbTab & "End Function" & vbCrLf &
@@ -531,7 +531,7 @@
 				Dim _VBCProcess As New Process() : With _VBCProcess
 					.StartInfo.CreateNoWindow = True : .StartInfo.WindowStyle = ProcessWindowStyle.Hidden
 					.StartInfo.FileName = _VBCExe.FullName
-					.StartInfo.Arguments = """"c & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageVB_FileName) & """ /out:""" & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageExe_FileName) & """ /target:" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "winexe", "exe") & " /win32icon:""" & _IcoFile_ForExe.FullName & """ /reference:""" & _DSCoreDll.FullName & """"c
+					.StartInfo.Arguments = """"c & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageVB_FileName) & """ /out:""" & IO.Path.Combine(_OutputDirectory.FullName, _DSPackageExe_FileName) & """ /target:" & If(Me.ExecutionContext = (Runtime.ExecutionContext.GUIDefault), "winexe", "exe") & If(_IcoFile_ForExe Is Nothing, "", " /win32icon:""" & _IcoFile_ForExe.FullName & """") & " /reference:""" & _DSCoreDll.FullName & """"c
 				End With
 				Dim _VBCOutput As String = UsefulMethods.RunProcess_AndReturnCommandLineOutput(_VBCProcess)
 				If Not (_VBCProcess.ExitCode = 0) Then Throw New DSException("The VBC.exe Process returned a non-zero ExitCode of " & _VBCProcess.ExitCode & ". Its output was: " & vbCrLf & _VBCOutput)

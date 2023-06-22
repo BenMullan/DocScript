@@ -37,8 +37,8 @@
 			'Global Var Decs
 			For Each _VarDec As DocScript.Language.Instructions.VariableDeclaration In _Program.GlobalVarDecs
 				_GlobalVarDecsNode.Nodes.Add(New TreeNode(Text:=
-					 DocScript.Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_VarDec.DataType) & DocScript.Language.Constants.ClosingDataTypeBracket & " " & _VarDec.Identifier & If(_VarDec.AssignmentExpr Is Nothing, " (Unsssigned)", " : " & _VarDec.AssignmentExpr.ToString())
-					 ))
+				  DocScript.Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_VarDec.DataType) & DocScript.Language.Constants.ClosingDataTypeBracket & " " & _VarDec.Identifier & If(_VarDec.AssignmentExpr Is Nothing, " (Unsssigned)", " : " & _VarDec.AssignmentExpr.ToString())
+				  ))
 			Next
 
 			'Functions
@@ -83,8 +83,8 @@
 		InitialiseDocScriptStuff()
 
 		MsgBox("IsBalenced: " & DocScript.CompilerExtentions.UsefulMethods.ContainsWellBalencedPairs(Of String)(
-	   {"Open", "Null", "Dull", "kfjsdhf", "Null", "Close"},
-	   New Tuple(Of String, String)("Open", "Close")
+		  {"Open", "Null", "Dull", "kfjsdhf", "Null", "Close"},
+		  New Tuple(Of String, String)("Open", "Close")
 		 ))
 
 	End Sub
@@ -179,5 +179,23 @@
 		End Function
 
 	End Class
+
+	Private Sub Button5_Click(sender As System.Object, e As System.EventArgs) Handles Button5.Click
+
+		Dim _ProgTreeXMLString$ = My.Computer.FileSystem.ReadAllText("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Solution\DSExperimentation\bin\Debug\HelloWorld.DSProgramXML")
+		Dim _ProgTreeXML As System.Xml.Linq.XElement = System.Xml.Linq.XElement.Parse(_ProgTreeXMLString)
+		Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromProgramTreeXML(_ProgTreeXML, _ExeCxt:=DocScript.Runtime.ExecutionContext.CLIDefault)
+
+		_Program.CompileToEXE(
+		 _OutputDirectory:=(New IO.FileInfo("Dodge.exe")).Directory,
+		 _FinalExeFile_NameOnly:=(New IO.FileInfo("Dodge.exe")).Name,
+		 _VBCExe:=DocScript.Runtime.Program.DefaultVbcExe_ForCurrentSystem,
+		 _ILMergeExe:=New IO.FileInfo(IO.Path.Combine(DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
+		 _DSCoreDll:=New IO.FileInfo(IO.Path.Combine(DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
+		 _IcoFile_ForExe:=Nothing,
+		 _DeleteIntermediateFiles:=True
+		)
+
+	End Sub
 
 End Class

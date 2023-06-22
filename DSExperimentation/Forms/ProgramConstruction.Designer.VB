@@ -22,9 +22,9 @@ Partial Class ProgramConstruction
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
-		Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Global Variable Declarations")
-		Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Functions")
-		Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Program", New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2})
+		Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Global Variable Declarations")
+		Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Functions")
+		Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Program", New System.Windows.Forms.TreeNode() {TreeNode4, TreeNode5})
 		Me.SourceTextBox = New System.Windows.Forms.TextBox()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.ConstructProgButton = New System.Windows.Forms.Button()
@@ -43,6 +43,7 @@ Partial Class ProgramConstruction
 		Me.TheDseFormChooser = New DSExperimentation.DSEFormChooser()
 		Me.SSFRTButton = New System.Windows.Forms.Button()
 		Me.Button4 = New System.Windows.Forms.Button()
+		Me.Button5 = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'SourceTextBox
@@ -57,8 +58,8 @@ Partial Class ProgramConstruction
 		Me.SourceTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
 		Me.SourceTextBox.Size = New System.Drawing.Size(533, 146)
 		Me.SourceTextBox.TabIndex = 0
-		Me.SourceTextBox.Text = "#TestProgram.DS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<String> Name : ""Ben"" & "" "" & ""Mullan""" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<Number@> Ages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Functi" &
-	"on <String> GetName ()" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "EndFunction"
+		Me.SourceTextBox.Text = "#TestProgram.DS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<String> Name : ""Ben"" & "" "" & ""Mullan""" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<Number@> Ages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Functi" & _
+		  "on <String> GetName ()" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "EndFunction"
 		'
 		'Label1
 		'
@@ -82,18 +83,18 @@ Partial Class ProgramConstruction
 		'
 		Me.ProgramTreeView.Location = New System.Drawing.Point(12, 177)
 		Me.ProgramTreeView.Name = "ProgramTreeView"
-		TreeNode1.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-		TreeNode1.Name = "GlobalVarDecs"
-		TreeNode1.Text = "Global Variable Declarations"
-		TreeNode2.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-		TreeNode2.Name = "Functions"
-		TreeNode2.Text = "Functions"
-		TreeNode3.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-		TreeNode3.Checked = True
-		TreeNode3.Name = "Program"
-		TreeNode3.Text = "Program"
-		TreeNode3.ToolTipText = "The Root of the DocScript Program"
-		Me.ProgramTreeView.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
+		TreeNode4.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+		TreeNode4.Name = "GlobalVarDecs"
+		TreeNode4.Text = "Global Variable Declarations"
+		TreeNode5.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+		TreeNode5.Name = "Functions"
+		TreeNode5.Text = "Functions"
+		TreeNode6.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+		TreeNode6.Checked = True
+		TreeNode6.Name = "Program"
+		TreeNode6.Text = "Program"
+		TreeNode6.ToolTipText = "The Root of the DocScript Program"
+		Me.ProgramTreeView.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode6})
 		Me.ProgramTreeView.Size = New System.Drawing.Size(533, 152)
 		Me.ProgramTreeView.TabIndex = 4
 		'
@@ -243,11 +244,21 @@ Partial Class ProgramConstruction
 		Me.Button4.Text = "Dialog"
 		Me.Button4.UseVisualStyleBackColor = True
 		'
+		'Button5
+		'
+		Me.Button5.Location = New System.Drawing.Point(551, 481)
+		Me.Button5.Name = "Button5"
+		Me.Button5.Size = New System.Drawing.Size(158, 23)
+		Me.Button5.TabIndex = 17
+		Me.Button5.Text = "Compile NRE"
+		Me.Button5.UseVisualStyleBackColor = True
+		'
 		'ProgramConstruction
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(721, 486)
+		Me.ClientSize = New System.Drawing.Size(721, 528)
+		Me.Controls.Add(Me.Button5)
 		Me.Controls.Add(Me.SSFRTButton)
 		Me.Controls.Add(Me.Button4)
 		Me.Controls.Add(Me.IOLWButton)
@@ -290,4 +301,5 @@ Partial Class ProgramConstruction
 	Friend WithEvents IOLWButton As System.Windows.Forms.Button
 	Friend WithEvents SSFRTButton As System.Windows.Forms.Button
 	Friend WithEvents Button4 As Button
+	Friend WithEvents Button5 As System.Windows.Forms.Button
 End Class

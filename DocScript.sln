@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSPipeliningFiles", "DSPipeliningFiles", "{EC5F1333-BCB6-4A5D-B64C-00817FFC2C6A}"
 	ProjectSection(SolutionItems) = preProject
 		_Resources\DSPipelining\_CompileAll.PS1 = _Resources\DSPipelining\_CompileAll.PS1
+		_Resources\DSPipelining\DSCompile.VB = _Resources\DSPipelining\DSCompile.VB
 		_Resources\DSPipelining\DSExec.VB = _Resources\DSPipelining\DSExec.VB
 		_Resources\DSPipelining\DSLex.VB = _Resources\DSPipelining\DSLex.VB
 		_Resources\DSPipelining\DSParse.VB = _Resources\DSPipelining\DSParse.VB

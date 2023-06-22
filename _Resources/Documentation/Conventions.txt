@@ -7,8 +7,8 @@ DocScript Sub-Products:
 	- DS-CLI			Windows Command-line Interpreter program
 	- DS-IDE			Windows GUI IDE program
 	- DS-Expr			Windows GUI standalone expression-resolution utility
-	- DS-Interactive	The web-based multi-client Execution Session implementation of DocScript
-	- DS-Remoting		(Part of DS-IDE) Enables DocScript Programs to be executed on remote computers
+	- DS-Interactive	The web-based multi-client Execution Session system
+	- DS-Remoting		(Part of DS-IDE) Enables DocScript Programs to be easily executed on remote computers
 	- DS-Compilation	(Part of DS-IDE) Enables DocScript Programs to be compiled to standalone exe files
 	- DS-Pipelining		A set of modules allowing the user to see each stage in the interpretation process (See \_Resources\DSPipelining\)
 	- DS-Logging		The centralised logging system for all DocScript product. Logs to GUI, CLI, Windows-Event-Log, Text File, or MsgBox
