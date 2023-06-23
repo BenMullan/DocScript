@@ -500,7 +500,7 @@
 
 				REM Remove the CEP's Record in the {_ESID}_CEPs Table
 				Dim _SQLQueryRunner As New DocScript.Utilities.SQLQueryRunner(DSIConfig.DocScriptSQLServer)
-				_SQLQueryRunner.ExecuteQuery(SQLQueries_.Delete_ExecutionSession_CEP(_ESID), New SqlClient.SqlParameter("TheID", SqlDbType.Int) With {.Value = _CEPID.Extract_UInt32()})
+				_SQLQueryRunner.ExecuteQuery(SQLQueries_.Delete_ExecutionSession_CEP(_ESID), New SqlClient.SqlParameter("TheID", SqlDbType.Int) With {.Value = _CEPID.ExtractUInt32()})
 
 			Catch _Ex As Exception : Throw New DSException("@DeleteExecutionSessionCEP: " & _Ex.Message, _Ex) : End Try
 		End Sub

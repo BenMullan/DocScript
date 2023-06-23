@@ -120,7 +120,7 @@
 								'This is because sending an actual empty string would cause the Server to think that
 								'No ?InputResponse had been specified with a value.
 								'Therefore, we need to replace $__NULL__$ with "", using the If() call
-								DatabaseInteraction.AddExecutionSessionInputEvent_ResponsePart(_Request.QueryString!ESID, _Request.QueryString!InputEventID.Extract_UInt32(), If(_Request.QueryString!InputResponse = DBContent.NullValue_Placeholder, "", _Request.QueryString!InputResponse))
+								DatabaseInteraction.AddExecutionSessionInputEvent_ResponsePart(_Request.QueryString!ESID, _Request.QueryString!InputEventID.ExtractUInt32(), If(_Request.QueryString!InputResponse = DBContent.NullValue_Placeholder, "", _Request.QueryString!InputResponse))
 								APIResponse.FromValidRequest({"ResponseWasAccepted", "True"}).Send(_Response)
 
 							End If

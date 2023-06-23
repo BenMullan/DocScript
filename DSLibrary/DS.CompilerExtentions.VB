@@ -370,10 +370,10 @@ Namespace CompilerExtentions
 
 		''' <summary>(MullNet CompilerExtention) Filters for digit-chars, then attempts to parse an UInt32</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
-		Public Function Extract_UInt32(ByVal _String$) As UInt32
+		Public Function ExtractUInt32(ByVal _String$) As UInt32
 			Try
 				Return UInt32.Parse(_String.OnlyAllowTheseChars("0123456789".ToCharArray()))
-			Catch _Ex As Exception : Throw New DSException("@Extract_UInt32 (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+			Catch _Ex As Exception : Throw New DSException("@ExtractUInt32 (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Function
 
 		''' <summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string without this.</summary>
@@ -429,6 +429,16 @@ Namespace CompilerExtentions
 			 _CamelCaseString.ToCharArray().Select(Of [String])(Function(_Char As [Char]) If([Char].IsUpper(_Char), " "c & _Char, _Char.ToString())).ToArray()
 			).WithLeadingWhiteSpaceRemoved()
 
+		End Function
+
+	End Module
+
+	Public Module NumericExtentions
+
+		''' <summary>(MullNet CompilerExtention) Determines if _Number is a Po2, via: (x &amp; (x - 1)) == 0</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function IsPowerOfTwo(ByVal _Number As UInt32) As [Boolean]
+			Return ((CLng(_Number) And CLng(_Number - 1)) = 0)
 		End Function
 
 	End Module

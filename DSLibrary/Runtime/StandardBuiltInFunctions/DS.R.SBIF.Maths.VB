@@ -74,6 +74,36 @@ Namespace Runtime
 		End Function)
 		) With {.[Description] = "Determines weather or not _A is greater than _B"}
 
+		Public Const BIF_Maths_Bitshift_Left_Identifier$ = MathsBIFs_IdentifierStart_ & "Bitshift_Left"	'Public because it's used by DS.R.Optimisation
+		Private Shared ReadOnly BIF_Maths_Bitshift_Left_ As New BuiltInFunction(BIF_Maths_Bitshift_Left_Identifier$, {New DSFunction.Parameter("_Input", GetType(DSNumber)), New DSFunction.Parameter("_ShiftCount", GetType(DSNumber))}, GetType(DSNumber), New BuiltInFunctionDelegate(
+		Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Maths_Bitshift_Left_Identifier)
+
+			_ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSNumber(
+			  CULng(_Arguments.ElementAt(0).Coerce(Of DSNumber)().Value) << CUShort(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+			)
+
+			Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		End Function)
+		) With {.[Description] = "Returns _Input shifted left by _ShiftCount places"}
+
+		Private Const BIF_Maths_Bitshift_Right_Identifier_$ = MathsBIFs_IdentifierStart_ & "Bitshift_Right"
+		Private Shared ReadOnly BIF_Maths_Bitshift_Right_ As New BuiltInFunction(BIF_Maths_Bitshift_Right_Identifier_$, {New DSFunction.Parameter("_Input", GetType(DSNumber)), New DSFunction.Parameter("_ShiftCount", GetType(DSNumber))}, GetType(DSNumber), New BuiltInFunctionDelegate(
+		Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Maths_Bitshift_Right_Identifier_)
+
+			_ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSNumber(
+			  CULng(_Arguments.ElementAt(0).Coerce(Of DSNumber)().Value) >> CUShort(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)
+			)
+
+			Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		End Function)
+		) With {.[Description] = "Returns _Input shifted right by _ShiftCount places"}
+
 #End Region
 
 #End Region
@@ -83,7 +113,9 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_Maths_Round_,
 		 StandardBuiltInFunctions.BIF_Maths_GetPi_,
 		 StandardBuiltInFunctions.BIF_Maths_LessThan_,
-		 StandardBuiltInFunctions.BIF_Maths_GreaterThan_
+		 StandardBuiltInFunctions.BIF_Maths_GreaterThan_,
+		 StandardBuiltInFunctions.BIF_Maths_Bitshift_Left_,
+		 StandardBuiltInFunctions.BIF_Maths_Bitshift_Right_
 		}
 
 	End Class

@@ -880,7 +880,7 @@ DSCore
 	<summary>(MullNet CompilerExtention) Computes and Returns the Base64-Representation of the _InputString</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.Base64_ToPlainText(System.String)">
 	<summary>(MullNet CompilerExtention) Computes and Returns the PlainText, from a Base64-Encoded _InputString</summary>
-</member><member name="M:DocScript.CompilerExtentions.StringExtentions.Extract_UInt32(System.String)">
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.ExtractUInt32(System.String)">
 	<summary>(MullNet CompilerExtention) Filters for digit-chars, then attempts to parse an UInt32</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.WithoutBackslashOnEnd(System.String)">
 	<summary>(MullNet CompilerExtention) If the _String ends with a [\], then returns the string without this.</summary>
@@ -892,6 +892,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.CamelCaseToSpacedString(System.String)">
 	<summary>(MullNet CompilerExtention) E.g. "MyNameIsBen" → "My Name Is Ben"</summary>
+</member><member name="M:DocScript.CompilerExtentions.NumericExtentions.IsPowerOfTwo(System.UInt32)">
+	<summary>(MullNet CompilerExtention) Determines if _Number is a Po2, via: (x &amp; (x - 1)) == 0</summary>
 </member><member name="M:DocScript.CompilerExtentions.DateTimeExtentions.GetLogSerialisation(System.DateTime@)">
 	<summary>(MullNet CompilerExtention) Gets a short Date and Time String suitable for Logs, in the form "21-07 12:00:08.625"</summary>
 </member><member name="M:DocScript.CompilerExtentions.ControlExtentions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
@@ -1266,8 +1268,12 @@ DSCore
 	<summary>
  Applies the following optimisations:
  	- Constant Expression Evaluation (e.g. [5 + 4] → [9])
- 	- *
+ 	- Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])
  </summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.SubstitutePowerOfTwoMultiplication_WithBitshift_(DocScript.Language.Expressions.IExpression)">
+	<summary>Converts Multiplications by powers of two into BitShifts where possible</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.SubstituteConstantExpr_WithEvaluationThereof_(DocScript.Language.Expressions.IExpression)">
+	<summary>Performs Compile-time Evaluation where possible</summary>
 </member><member name="T:DocScript.Runtime.Optimisation.ComponentOptimiser">
 	<summary>
  The reason this is a Class and not just methods in a Module, is because the PerformedOptimisations are specific to the optimisation of a given Component (Expression, IInstruction, or Program).

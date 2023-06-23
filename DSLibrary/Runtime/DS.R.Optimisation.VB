@@ -5,7 +5,7 @@ Namespace Runtime
 
 	REM Possible Optimisations to implement:
 	'	- Constant Expression (compile-time) Evaluation (e.g. [5 + 4] → [9])
-	'	- Bitwise-shift instead of power-of-two multiplications (e.g. [14 * 8] → [14 << 3])
+	'	- Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])		'Same could be done for Po2 Division
 	'	- Branchless-ing
 	'	- Redundant call/statement removal
 	'	- Constant Substitution (instead of variable reference)
@@ -156,22 +156,89 @@ Namespace Runtime
 			''' <summary>
 			''' Applies the following optimisations:
 			''' 	- Constant Expression Evaluation (e.g. [5 + 4] → [9])
-			''' 	- *
+			''' 	- Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])
 			''' </summary>
 			Public Function OptimiseExpression(ByVal _InputExpression As IExpression) As IExpression
 				Try : LogLexingMessage("Optimising Expression: " & _InputExpression.ToString() & "...")
 
 					REM If the Expression is an OperatorExpr, with all it's operands of type LiteralExpr, then it can undergo compile-time-evaluation optimisation
 					_InputExpression = Me.SubstituteConstantExpr_WithEvaluationThereof_(_InputExpression)
+					_InputExpression = Me.SubstitutePowerOfTwoMultiplication_WithBitshift_(_InputExpression)
 
 					LogLexingMessage("...Finished optimising Expression. Report: " & Me.PerformedOptimisationsReport)
-					OptimiseExpression = _InputExpression
+					Return _InputExpression
 
 				Catch _Ex As Exception : Throw New DSException("@OptimiseExpression: " & _Ex.Message, _Ex) : End Try
 			End Function
 
+			''' <summary>Converts Multiplications by powers of two into BitShifts where possible</summary>
+			Private Function SubstitutePowerOfTwoMultiplication_WithBitshift_(ByVal _InputExpression As IExpression) As IExpression
+				Try
+
+					REM Examples:
+					'	(There will never be two constants; this will have been removed by the CompileTimeEval stage)
+					'	Age * 8			Maths_Bitshift_Left(Age, 3)
+					'	F(9 * 2) * 4	Maths_Bitshift_Left(F(Maths_Bitshift_Left(9, 1)), 2)
+
+					If (TypeOf _InputExpression Is OperatorExpr) AndAlso _
+					 (CType(_InputExpression, OperatorExpr).SubExpressions.Count() = 2) AndAlso _
+					 (TypeOf CType(_InputExpression, OperatorExpr).SubExpressions.ElementAt(1) Is LiteralExpr(Of DSNumber)) AndAlso _
+					 ((CType(CType(_InputExpression, OperatorExpr).SubExpressions.ElementAt(1), LiteralExpr(Of DSNumber)).LiteralValue.Value Mod 1) = 0) AndAlso _
+					 (CType(CType(_InputExpression, OperatorExpr).SubExpressions.ElementAt(1), LiteralExpr(Of DSNumber)).LiteralValue.Value > 1) AndAlso _
+					 CType(CType(_InputExpression, OperatorExpr).SubExpressions.ElementAt(1), LiteralExpr(Of DSNumber)).LiteralValue.Value.ToString().ExtractUInt32().IsPowerOfTwo() _
+					Then
+
+						REM We now know that:
+						'	- We have an OperatorExpr...
+						'	- ...With two operands...
+						'	- ...And the second operand is:
+						'		- A DSNumber...
+						'		- ...With an integral value...
+						'		- ...Which is greater than one...
+						'		- ...And a Power-of-two (Po2)
+
+						LogLexingMessage("This Expression will be optimised to a Bitshift operation, from ↓" & vbCrLf & _InputExpression.ToString())
+						Me.PerformedOptimisations.Item(OptimisationAction.BitShiftForPowerOfTwoMultiplication) = True
+
+						REM Therefore, we can replace it with a FunctionCallExpr to the Maths_Bitshift_Left() BIF
+						Return New FunctionCallExpr(
+						 _TargetFunction_Identifier:=DocScript.Runtime.StandardBuiltInFunctions.BIF_Maths_Bitshift_Left_Identifier,
+						 _Arguments:={
+						  CType(_InputExpression, OperatorExpr).SubExpressions.ElementAt(0),
+						  New LiteralExpr(Of DSNumber)(New DSNumber(System.Math.Log(CType(CType(_InputExpression, OperatorExpr).SubExpressions.ElementAt(1), LiteralExpr(Of DSNumber)).LiteralValue.Value.ToString().ExtractUInt32(), 2)))
+						 }
+						)
+
+					Else
+
+						REM The current _InputExpression didn't meet the nessecary criteria, but if it has Children, then they might
+
+						'Only ICompoundExpressions have children
+						If Not _InputExpression.ImplementsInterface(Of ICompoundExpression)() Then Return _InputExpression
+
+						Dim _SubExprs_SubstitutedWithBitshiftsWherePossible As IExpression() = CType(_InputExpression, ICompoundExpression) _
+						 .SubExpressions.Select(AddressOf Me.SubstitutePowerOfTwoMultiplication_WithBitshift_).ToArray()
+
+						REM Now re-assemble those Sub-Expressions into an ICompoundExpression to return
+						Select Case _InputExpression.GetType()
+							Case GetType(FunctionCallExpr) : Return New FunctionCallExpr(CType(_InputExpression, FunctionCallExpr).TargetFunction_Identifier, _SubExprs_SubstitutedWithBitshiftsWherePossible)
+							Case GetType(OperatorExpr) : Return New OperatorExpr(CType(_InputExpression, OperatorExpr).OperatorChar, _SubExprs_SubstitutedWithBitshiftsWherePossible)
+							Case Else : Throw New DSValidationException("The ICompoundExpression Type was unaccounted-for. The resolved-where-possible SubExpressions cannot be re-assembled into their parent Expression", _InputExpression.GetType().FullName)
+						End Select
+
+					End If
+
+				Catch _Ex As Exception : Throw New DSException("@SubstitutePowerOfTwoMultiplication_WithBitshift_: " & _Ex.Message, _Ex) : End Try
+			End Function
+
+			''' <summary>Performs Compile-time Evaluation where possible</summary>
 			Private Function SubstituteConstantExpr_WithEvaluationThereof_(ByVal _InputExpression As IExpression) As IExpression
 				Try
+
+					REM Examples:
+					'	5 + [4 - 2]				7
+					'	F(5) ' False			(No Change)
+					'	F(5 + 4)				F(9)
 
 					REM We must be passed one of these: LiteralExpr, VariableExpr, FunctionCallExpr, OperatorExpr
 					If Not Language.Expressions.ExprUtilities.ExprTree_PermittedIExprTypes.Contains(_InputExpression.GetType()) _
@@ -215,11 +282,6 @@ Namespace Runtime
 						End Select
 
 					End Try
-
-					REM Examples:
-					'	5 + [4 - 2]				7
-					'	F(5) ' False			(No Change)
-					'	F(5 + 4)				F(9)
 
 				Catch _Ex As Exception : Throw New DSException("@SubstituteConstantExpr_WithEvaluationThereof_: " & _Ex.Message, _Ex) : End Try
 			End Function

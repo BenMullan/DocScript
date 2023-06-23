@@ -69,10 +69,10 @@
 			REM Returns:		[...ESState], [...ESTimeEnded], [...MissingLogEvents], [...MissingOutputEvents], [...MissingInputEvents], [...MissingCEPs], [...InputIsRequired], [...InputPrompt], [...InputEventID]
 
 			Dim _ESID$ = _Request.QueryString!ESID,
-			_Client_LogEventsCount As UInt32 = _Request.QueryString("LogEventsCount").Extract_UInt32(),
-			_Client_OutputEventsCount As UInt32 = _Request.QueryString("OutputEventsCount").Extract_UInt32(),
-			_Client_InputEventsCount As UInt32 = _Request.QueryString("InputEventsCount").Extract_UInt32(),
-			_Client_CEPsCount As UInt32 = _Request.QueryString("CEPsCount").Extract_UInt32()
+			_Client_LogEventsCount As UInt32 = _Request.QueryString("LogEventsCount").ExtractUInt32(),
+			_Client_OutputEventsCount As UInt32 = _Request.QueryString("OutputEventsCount").ExtractUInt32(),
+			_Client_InputEventsCount As UInt32 = _Request.QueryString("InputEventsCount").ExtractUInt32(),
+			_Client_CEPsCount As UInt32 = _Request.QueryString("CEPsCount").ExtractUInt32()
 
 			Dim _ExistantExecutionSessions As XElement() = DocScript.WebParts.DatabaseInteraction.GetExistingExecutionSessions()
 

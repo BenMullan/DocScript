@@ -463,7 +463,7 @@
 		 Me.TargetComputer_TextBox.Text,
 		 Me.TargetUsername_TextBox.Text,
 		 Me.TargetPassword_TextBox.Text,
-		 If(Me.InteractiveMode_UseCustomSession_RadioButton.Checked, " "c & Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Value.ToString().Extract_UInt32().ToString(), ""),
+		 If(Me.InteractiveMode_UseCustomSession_RadioButton.Checked, " "c & Me.InteractiveMode_CustomSessionNumber_NumericUpDown.Value.ToString().ExtractUInt32().ToString(), ""),
 		 (New IO.DirectoryInfo("\\" & Me.TargetComputer_TextBox.Text & "\"c & Me.TargetUNCDirectory_TextBox.Text)).FullName.WithoutBackslashOnEnd(),
 		 DocScript.Runtime.Remoting.DSCLI_EXE_FileName,
 		 If(Me.InteractiveMode_UseGUIExecution_CheckBox.Checked, " /GUI", ""),
