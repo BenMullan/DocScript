@@ -173,6 +173,9 @@
 		''' <summary>Used when Compiling the DocScript Program to an EXE</summary>
 		Public Name$, Description$, Version$, CopyrightMessage$, Author$
 
+		''' <summary>Indicates that the Program has undergone DocScript Runtime Optimisation</summary>
+		Public HasBeenOptimised As [Boolean] = False
+
 #End Region
 
 		''' <summary>(Subordinate Constructor) Creates a New Program Object, from already-constructed Global Variable Declarations and Functions. Used by FromProgramTreeXML().</summary>

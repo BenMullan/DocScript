@@ -20,9 +20,9 @@
 			LogLexingMessage("Instanciated a New SymbolTables Snapshot with " & _BottomStack.SymbolTables_.Count.ToString() & " SymTbls on the BottomStack")
 		End Sub
 
-		''' <summary>PROTECTED CONSTRUCTOR: FromSymbolTablesArray (This dosen't need to be made [Public], does it?)</summary>
+		''' <summary>PROTECTED CONSTRUCTOR: FromSymbolTablesArray</summary>
 		Protected Sub New(ByVal _SymTbls As SymbolTable())
-			Me.SymbolTables_ = _SymTbls.ToList() : EnsureObjectIsInValidState()
+			Me.SymbolTables_ = _SymTbls.ToList() : Me.EnsureObjectIsInValidState()
 		End Sub
 
 		''' <summary>Returns all but the Topmost SymbolTable in the current SymTbls' Snapshot</summary>
@@ -162,6 +162,7 @@
 			REM Ensure that the same identifier does not appear in multiple SymTbls
 			Dim _AllIdentifiers_FromAllSymTbls As New List(Of String)
 			Me.SymbolTables_.ForEach(Sub(_SymTbl As SymbolTable) _SymTbl.Entries_ReadOnlyCopy.ForEachItem(Sub(_Entry As KeyValuePair(Of String, SymbolTable.ISymbolTableEntry)) _AllIdentifiers_FromAllSymTbls.Add(_Entry.Key.ToUpper())))
+
 			If Not _AllIdentifiers_FromAllSymTbls.ToArray().AllElementsAreUnique() Then Throw New DSValidationException("At least one Identifier appeared in multiple SymbolTables in the Snapshot", "(The Snapshot's SymbolTables' Identifiers)")
 
 		End Sub
@@ -178,7 +179,7 @@
 			Return DocScript.Utilities.KVPSerialisation.GetKVPString({"SymbolTablesCount", Me.SymbolTables_.Count.ToString()})
 		End Function
 
-		''' <summary>Generatess a New Empty SymTblsSnpSht</summary>
+		''' <summary>Generates a New Empty SymTblsSnpSht</summary>
 		Public Shared ReadOnly Property Empty As SymbolTablesSnapshot
 			Get
 				Return (New SymbolTablesSnapshot({}))

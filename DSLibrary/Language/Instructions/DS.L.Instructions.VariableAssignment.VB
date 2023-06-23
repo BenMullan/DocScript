@@ -6,14 +6,15 @@
 #Region "Declarations specific to this IInstruction"
 
 		Public TargetVariable_Identifier As [String]
-		Public AssignmentExpr As Language.Expressions.IExpression
+		Public AssignmentExpr As Language.Expressions.IExpression 'Never [Nothing]; there is always an Assignment in an AssignmentExpr
 
 #End Region
 
 		Protected ReadOnly Tokens_ As Runtime.Token()
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _TargetVariable_Identifier$, ByVal _AssignmentExpr As Expressions.IExpression)
+			Me.TargetVariable_Identifier = _TargetVariable_Identifier : Me.AssignmentExpr = _AssignmentExpr
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -105,10 +106,10 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As VariableAssignment
 			Try
 
-				Return New VariableAssignment() With {
-				 .TargetVariable_Identifier = _IInstructionXElement.@TargetVariable_Identifier,
-				 .AssignmentExpr = Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<AssignmentExpr>.First().Elements().First())
-				}
+				Return New VariableAssignment(
+				 _TargetVariable_Identifier:=_IInstructionXElement.@TargetVariable_Identifier,
+				 _AssignmentExpr:=Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<AssignmentExpr>.First().Elements().First())
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@VariableAssignment\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

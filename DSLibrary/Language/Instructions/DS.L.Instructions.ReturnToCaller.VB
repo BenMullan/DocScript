@@ -12,8 +12,9 @@
 
 		Protected ReadOnly Tokens_ As Runtime.Token()
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _ReturnValueExpr As Expressions.IExpression)
+			Me.ReturnValueExpr = _ReturnValueExpr
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -100,9 +101,9 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As ReturnToCaller
 			Try
 
-				Return New ReturnToCaller() With {
-				 .ReturnValueExpr = If(_IInstructionXElement.<ReturnValueExpr>.First().Elements().Count() = 1, Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ReturnValueExpr>.First().Elements().First()), Nothing)
-				}
+				Return New ReturnToCaller(
+				 _ReturnValueExpr:=If(_IInstructionXElement.<ReturnValueExpr>.First().Elements().Count() = 1, Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ReturnValueExpr>.First().Elements().First()), Nothing)
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@ReturnToCaller\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

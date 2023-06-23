@@ -67,6 +67,12 @@ Namespace CompilerExtentions
 			Return _Object
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) Determines if the _Object Implements _TInterface</summary>
+		<System.Runtime.CompilerServices.Extension()>
+		Public Function ImplementsInterface(Of _TInterface)(ByVal _Object As [Object]) As [Boolean]
+			Return (TypeOf _Object Is _TInterface)
+		End Function
+
 	End Module
 
 	Public Module StringExtentions
@@ -412,6 +418,17 @@ Namespace CompilerExtentions
 				Debug.WriteLine("The File path [" & _Path & "] is not valid or does not exist: " & _Ex.Message)
 				Return False
 			End Try
+		End Function
+
+		''' <summary>(MullNet CompilerExtention) E.g. "MyNameIsBen" → "My Name Is Ben"</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function CamelCaseToSpacedString$(ByVal _CamelCaseString$)
+
+			Return [String].Join(
+			 "",
+			 _CamelCaseString.ToCharArray().Select(Of [String])(Function(_Char As [Char]) If([Char].IsUpper(_Char), " "c & _Char, _Char.ToString())).ToArray()
+			).WithLeadingWhiteSpaceRemoved()
+
 		End Function
 
 	End Module
@@ -1048,7 +1065,7 @@ Namespace CompilerExtentions
 					_CC_AttrValue = ConsoleColor.Blue
 				End If
 
-				Dim _XElementStringChars As [Char]() = System.Text.RegularExpressions.Regex.Replace(input:=_XElement.ToString(), pattern:="^(\s\s)+", evaluator:=Function(_Match As System.Text.RegularExpressions.Match) String.Join("", _TabChar.Repeat(Convert.ToUInt64(_Match.Length \ 2))), options:=Text.RegularExpressions.RegexOptions.Multiline).ToCharArray()
+				Dim _XElementStringChars As [Char]() = _XElement.ToTabFormattedString(_TabChar).ToCharArray()
 				Dim _CurrentlyInStringLiteral As [Boolean] = False			'Either on a " or in the middle of two of them
 				Dim _CurrentlyBetweenSpaceAndEquals As [Boolean] = False	'Indicates that we've currently on an AttrName
 
@@ -1100,6 +1117,24 @@ Namespace CompilerExtentions
 
 			Catch _Ex As Exception : Throw New DSException("@PrintToConsoleWithColourFormatting (CompilerExtention): " & _Ex.Message, _Ex) : End Try
 		End Sub
+
+		''' <summary>(MullNet CompilerExtention) Produces a properly-formatted Tabbed-in serialisation of _XElement</summary>
+		''' <param name="_TabChar">The character to use for Indenting the XML</param>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function ToTabFormattedString(ByVal _XElement As XElement, Optional ByVal _TabChar$ = vbTab) As [String]
+			Try
+
+				REM For every 2 spaces, use a Tab.
+
+				Return System.Text.RegularExpressions.Regex.Replace(
+				 input:=_XElement.ToString(),
+				 pattern:="^(\s\s)+",
+				 evaluator:=Function(_Match As System.Text.RegularExpressions.Match) String.Join("", _TabChar.Repeat(Convert.ToUInt64(_Match.Length \ 2))),
+				 options:=Text.RegularExpressions.RegexOptions.Multiline
+				)
+
+			Catch _Ex As Exception : Throw New DSException("@ToTabFormattedString (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
 
 	End Module
 
@@ -1309,11 +1344,16 @@ Namespace CompilerExtentions
 		Public Function FreeConsole() As Boolean
 		End Function
 
+		''' <summary>(MullNet UsefulMethod) Returns: 0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</summary>
+		Public Function GetAlphabetAndNumericChars() As [Char]()
+			GetAlphabetAndNumericChars = "0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray()
+		End Function
+
 		''' <summary>(MullNet UsefulMethod) Returns a random String using the Chars 0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</summary>
 		Public Function GetRandomString(Optional ByVal _WantedLength As UInt16 = 8US) As String
 
 			Dim _StringToReturn$ = String.Empty
-			Dim _PossibleCharacters As Char() = "0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray()
+			Dim _PossibleCharacters As [Char]() = UsefulMethods.GetAlphabetAndNumericChars()
 			Dim _RandomNumber As New Random(Seed:=DateTime.Now.Millisecond)
 
 			For _CurrentCharacter% = 1 To _WantedLength Step +1
@@ -1398,6 +1438,12 @@ Namespace CompilerExtentions
 
 		End Function
 
+		''' <summary>(MullNet UsefulMethod) Returns the file (path) of the current exe</summary>
+		Public Function GetExecutingAssemblyFilePath() As IO.FileInfo
+			Return New IO.FileInfo(System.Reflection.Assembly.GetEntryAssembly().Location)
+		End Function
+
+
 		''' <summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. Returns both the STDOUT and STDERR.</summary>
 		Public Function RunProcess_AndReturnCommandLineOutput(ByVal _ProcessImageFile As IO.FileInfo, Optional ByVal _Process_CLAs$ = "") As String
 			Try
@@ -1472,7 +1518,7 @@ Namespace CompilerExtentions
 
 				 'Form
 				 Dim _SimpleTextForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 700, .Height = 500, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
-				 _SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = System.Windows.Forms.DockStyle.Fill, .Text = _Text, .ReadOnly = True, .ScrollBars = Windows.Forms.ScrollBars.Both})
+				 _SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = System.Windows.Forms.DockStyle.Fill, .Text = _Text, .ReadOnly = True, .ScrollBars = Windows.Forms.ScrollBars.Both, .Font = New Drawing.Font("Consolas", 12)})
 				 AddHandler _SimpleTextForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleTextForm.Close()
 
 				 'MenuStrip, with Copy-Button

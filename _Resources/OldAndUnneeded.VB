@@ -5,6 +5,46 @@
 
 
 
+
+				REM If the Expression is an OperatorExpr, then it can only be optimised on the current level, if its child(ren) are LiteralExprs.
+				REM Otherwise, its child(ren) may be OperatorExprs, which can be
+
+
+				If TypeOf _InputExpression Is FunctionCallExpr Then
+
+				End If
+
+				' with all it's operands of type LiteralExpr, then it can undergo compile-time-evaluation optimisation
+				If _
+				 (TypeOf _InputExpression Is Language.Expressions.OperatorExpr) _
+				 AndAlso _
+				 CType(_InputExpression, Language.Expressions.OperatorExpr).SubExpressions.All(Function(_Operand As Language.Expressions.IExpression) True) _
+				Then
+					Dim _OperatorExpr As Language.Expressions.OperatorExpr = CType(_InputExpression, Language.Expressions.OperatorExpr)
+
+				End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 DocScript.CompilerExtentions.UsefulMethods.ConsoleErrorWriteLineInColour("DSParse: Provide StdIn via piping, or by typing here and pressing [Ctrl + Z], [Enter] to submit...", ConsoleColor.Blue)
 
 

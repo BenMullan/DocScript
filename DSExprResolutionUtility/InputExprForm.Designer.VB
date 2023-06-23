@@ -32,6 +32,7 @@ Partial Class InputExprForm
 		Me.TheMenuStrip = New System.Windows.Forms.MenuStrip()
 		Me.TheStatusStrip = New System.Windows.Forms.StatusStrip()
 		Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+		Me.OptimiseLinkLabel = New System.Windows.Forms.LinkLabel()
 		Me.TheStatusStrip.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -47,7 +48,7 @@ Partial Class InputExprForm
 		'ExprInputTextBox
 		'
 		Me.ExprInputTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-					Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.ExprInputTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
 		Me.ExprInputTextBox.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.ExprInputTextBox.Location = New System.Drawing.Point(49, 44)
@@ -103,12 +104,25 @@ Partial Class InputExprForm
 		Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(64, 17)
 		Me.ToolStripStatusLabel1.Text = "Status: Idle"
 		'
+		'OptimiseLinkLabel
+		'
+		Me.OptimiseLinkLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.OptimiseLinkLabel.AutoSize = True
+		Me.OptimiseLinkLabel.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+		Me.OptimiseLinkLabel.Location = New System.Drawing.Point(374, 4)
+		Me.OptimiseLinkLabel.Name = "OptimiseLinkLabel"
+		Me.OptimiseLinkLabel.Size = New System.Drawing.Size(56, 13)
+		Me.OptimiseLinkLabel.TabIndex = 6
+		Me.OptimiseLinkLabel.TabStop = True
+		Me.OptimiseLinkLabel.Text = "&Optimise..."
+		'
 		'InputExprForm
 		'
 		Me.AcceptButton = Me.ResolveButton
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(434, 102)
+		Me.Controls.Add(Me.OptimiseLinkLabel)
 		Me.Controls.Add(Me.TheStatusStrip)
 		Me.Controls.Add(Me.GenerateExprTreeButton)
 		Me.Controls.Add(Me.Label1)
@@ -138,4 +152,5 @@ Partial Class InputExprForm
 	Friend WithEvents TheMenuStrip As System.Windows.Forms.MenuStrip
 	Friend WithEvents TheStatusStrip As System.Windows.Forms.StatusStrip
 	Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+	Friend WithEvents OptimiseLinkLabel As System.Windows.Forms.LinkLabel
 End Class

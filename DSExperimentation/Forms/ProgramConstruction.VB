@@ -198,4 +198,17 @@
 
 	End Sub
 
+	Private Sub Button6_Click(sender As System.Object, e As System.EventArgs) Handles Button6.Click
+
+		Dim _ProgTreeXMLString$ = My.Computer.FileSystem.ReadAllText("D:\Benedict\Documents\SchoolWork\Projects\DocScript\Solution\DSExperimentation\bin\Debug\Optimisable.DSProgramXML")
+		Dim _ProgTreeXML As System.Xml.Linq.XElement = System.Xml.Linq.XElement.Parse(_ProgTreeXMLString)
+		Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromProgramTreeXML(_ProgTreeXML, _ExeCxt:=Nothing)
+
+		Dim _OptimisedProgram As DocScript.Runtime.Program = (New DocScript.Runtime.Optimisation.ComponentOptimiser()).OptimiseProgram(_Program)
+		Dim _OptimisedProgramTreeXML As System.Xml.Linq.XElement = _OptimisedProgram.ProgramTreeXML
+
+		MsgBox(_OptimisedProgramTreeXML.ToTabFormattedString())
+
+	End Sub
+
 End Class

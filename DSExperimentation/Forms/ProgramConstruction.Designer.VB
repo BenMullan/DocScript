@@ -44,6 +44,7 @@ Partial Class ProgramConstruction
 		Me.SSFRTButton = New System.Windows.Forms.Button()
 		Me.Button4 = New System.Windows.Forms.Button()
 		Me.Button5 = New System.Windows.Forms.Button()
+		Me.Button6 = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'SourceTextBox
@@ -253,11 +254,21 @@ Partial Class ProgramConstruction
 		Me.Button5.Text = "Compile NRE"
 		Me.Button5.UseVisualStyleBackColor = True
 		'
+		'Button6
+		'
+		Me.Button6.Location = New System.Drawing.Point(397, 493)
+		Me.Button6.Name = "Button6"
+		Me.Button6.Size = New System.Drawing.Size(148, 23)
+		Me.Button6.TabIndex = 18
+		Me.Button6.Text = "DSOptimise"
+		Me.Button6.UseVisualStyleBackColor = True
+		'
 		'ProgramConstruction
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(721, 528)
+		Me.Controls.Add(Me.Button6)
 		Me.Controls.Add(Me.Button5)
 		Me.Controls.Add(Me.SSFRTButton)
 		Me.Controls.Add(Me.Button4)
@@ -302,4 +313,5 @@ Partial Class ProgramConstruction
 	Friend WithEvents SSFRTButton As System.Windows.Forms.Button
 	Friend WithEvents Button4 As Button
 	Friend WithEvents Button5 As System.Windows.Forms.Button
+	Friend WithEvents Button6 As System.Windows.Forms.Button
 End Class

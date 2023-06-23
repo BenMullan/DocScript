@@ -23,8 +23,9 @@
 
 #End Region
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _ConditionExpr As Expressions.IExpression, ByVal _Contents As List(Of IInstruction))
+			Me.ConditionExpr = _ConditionExpr : Me.Contents_ = _Contents
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -218,10 +219,10 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As WhileStatement
 			Try
 
-				Return New WhileStatement() With {
-				 .ConditionExpr = Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ConditionExpr>.First().Elements().First()),
-				 .Contents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList()
-				}
+				Return New WhileStatement(
+				 _ConditionExpr:=Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ConditionExpr>.First().Elements().First()),
+				 _Contents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList()
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@WhileStatement\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

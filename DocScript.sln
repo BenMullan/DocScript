@@ -29,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSPipeliningFiles", "DSPipe
 		_Resources\DSPipelining\DSCompile.VB = _Resources\DSPipelining\DSCompile.VB
 		_Resources\DSPipelining\DSExec.VB = _Resources\DSPipelining\DSExec.VB
 		_Resources\DSPipelining\DSLex.VB = _Resources\DSPipelining\DSLex.VB
+		_Resources\DSPipelining\DSOptimise.VB = _Resources\DSPipelining\DSOptimise.VB
 		_Resources\DSPipelining\DSParse.VB = _Resources\DSPipelining\DSParse.VB
 		_Resources\DSPipelining\GetText.VB = _Resources\DSPipelining\GetText.VB
 	EndProjectSection

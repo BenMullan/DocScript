@@ -18,8 +18,9 @@
 
 		Private ReadOnly Expr_PermittedTokenTypes_ As Runtime.Token.TokenType() = {Runtime.Token.TokenType.BooleanLiteral, Runtime.Token.TokenType.DSOperator, Runtime.Token.TokenType.GrammarChar, Runtime.Token.TokenType.Identifier, Runtime.Token.TokenType.NumericLiteral, Runtime.Token.TokenType.StringLiteral}
 		Private ReadOnly LBL_PermittedIExprTypes_ As Type() = {GetType(LBLArgumentSeperatorPlaceholder), GetType(LBLBracketedExprPlaceholder), GetType(LBLFunctionCallPlaceholder), GetType(LBLOperatorPlaceholder), GetType(LiteralExpr(Of Variables.DSBoolean)), GetType(LiteralExpr(Of Variables.DSNumber)), GetType(LiteralExpr(Of Variables.DSString)), GetType(VariableExpr)}
-		Private ReadOnly ExprTree_PermittedIExprTypes_ As Type() = {GetType(FunctionCallExpr), GetType(OperatorExpr), GetType(LiteralExpr(Of Variables.DSBoolean)), GetType(LiteralExpr(Of Variables.DSNumber)), GetType(LiteralExpr(Of Variables.DSString)), GetType(VariableExpr)}
 		Private ReadOnly IOTCollapsing_PostRecursiveFuncCallAndBracketedExprCollapse_PermittedIExprTypes_ As Type() = {GetType(LiteralExpr(Of Variables.DSBoolean)), GetType(LiteralExpr(Of Variables.DSNumber)), GetType(LiteralExpr(Of Variables.DSString)), GetType(VariableExpr), GetType(FunctionCallExpr), GetType(LBLOperatorPlaceholder), GetType(OperatorExpr)}
+
+		Public ReadOnly ExprTree_PermittedIExprTypes As Type() = {GetType(FunctionCallExpr), GetType(OperatorExpr), GetType(LiteralExpr(Of Variables.DSBoolean)), GetType(LiteralExpr(Of Variables.DSNumber)), GetType(LiteralExpr(Of Variables.DSString)), GetType(VariableExpr)}
 
 #End Region
 
@@ -99,7 +100,7 @@
 					Case GetType(FunctionCallExpr)
 
 						Dim _Expr_AsFunctionCallExpr As FunctionCallExpr = CType(_Expr, FunctionCallExpr)
-						_TreeNodeToReturn = New Windows.Forms.TreeNode(_Expr_AsFunctionCallExpr.Identifier & Constants.OpeningFunctionBracket & If(_Expr_AsFunctionCallExpr.SubExpressions.Length = 0, "", "...") & Constants.ClosingFunctionBracket) With {.BackColor = _ExprTreeNodeColours_.Item(_Expr.GetType())}
+						_TreeNodeToReturn = New Windows.Forms.TreeNode(_Expr_AsFunctionCallExpr.TargetFunction_Identifier & Constants.OpeningFunctionBracket & If(_Expr_AsFunctionCallExpr.SubExpressions.Length = 0, "", "...") & Constants.ClosingFunctionBracket) With {.BackColor = _ExprTreeNodeColours_.Item(_Expr.GetType())}
 
 						For Each _Argument As IExpression In _Expr_AsFunctionCallExpr.SubExpressions
 							_TreeNodeToReturn.Nodes.Add(GetTreeViewNodeFromExpr(_Argument))
@@ -148,7 +149,7 @@
 						)
 					Case "FUNCTIONCALLEXPR"
 						Return New FunctionCallExpr(
-						 _Identifier:=_ExpressionXML.@Identifier,
+						 _TargetFunction_Identifier:=_ExpressionXML.@Identifier,
 						 _Arguments:=_ExpressionXML.Elements().Select(Of IExpression)(AddressOf ExprUtilities.ConstructExpressionFromXML).ToArray()
 						)
 					Case Else : Throw New DSValidationException("The _ExpressionXML's Tag Name was unaccounted-for", _ExpressionXML.Name.ToString())
@@ -499,7 +500,7 @@
 		End Sub
 
 		'''<summary>Used by the CollapseToIOT_() Method to order the OperatorTuples</summary>
-		Private Class OperatorTupleComparer : Implements Global.System.Collections.Generic.IComparer(Of Tuple(Of Int32, Byte))
+		Private Class OperatorTupleComparer_ : Implements Global.System.Collections.Generic.IComparer(Of Tuple(Of Int32, [Byte]))
 
 			Public ReadOnly ReferanceCopyOf_ValidatedLBL As IExpression() 'Used to get the OperatorChar of the Operators to make sure Unary Operators go first. Passed hither in the Constructor
 
@@ -507,7 +508,7 @@
 				Me.ReferanceCopyOf_ValidatedLBL = _ValidatedLBL_RefCopy
 			End Sub
 
-			Public Function Compare(ByVal _X As System.Tuple(Of Integer, Byte), ByVal _Y As System.Tuple(Of Integer, Byte)) As Int32 Implements System.Collections.Generic.IComparer(Of System.Tuple(Of Integer, Byte)).Compare
+			Public Function Compare(ByVal _X As System.Tuple(Of Integer, Byte), ByVal _Y As System.Tuple(Of Int32, [Byte])) As Int32 Implements System.Collections.Generic.IComparer(Of System.Tuple(Of Integer, Byte)).Compare
 				Try
 
 					'Return Value:			(From MS .NET Docs)
@@ -634,7 +635,7 @@
 				LogLexingMessage("Collected " & _Unsorted_OperatorsInLBL.Count.ToString() & " OperatorTuple(s) from LBL; Ordering by Prescedance and Associativity...")
 
 				'Sort the list by Prescedance and Associativity (Lowest Index first where prescedance is the same)
-				Dim _Sorted_OperatorsInLBL As List(Of Tuple(Of Int32, Byte)) = _Unsorted_OperatorsInLBL.OrderBy(Of Tuple(Of Int32, Byte))(keySelector:=Function(_OperatorTuple As Tuple(Of Int32, Byte)) _OperatorTuple, comparer:=New OperatorTupleComparer(_ValidatedLBL)).ToList()
+				Dim _Sorted_OperatorsInLBL As List(Of Tuple(Of Int32, Byte)) = _Unsorted_OperatorsInLBL.OrderBy(Of Tuple(Of Int32, Byte))(keySelector:=Function(_OperatorTuple As Tuple(Of Int32, Byte)) _OperatorTuple, comparer:=New OperatorTupleComparer_(_ValidatedLBL)).ToList()
 				LogDebugMessage("Finished Ordering OperatorTuple(s):" & String.Join(", ", _Sorted_OperatorsInLBL.Select(Of String)(Function(_OperatorTuple As Tuple(Of Int32, Byte)) (CType(_ValidatedLBL(_OperatorTuple.Item1), LBLOperatorPlaceholder).OperatorToken.Value & ", " & _OperatorTuple.ToString()).InSquares())), LogEvent.DSEventCatagory.Lexing)
 
 				REM 3) Now the LBL Components Array will be gradually filled with Scanned Component Indicators (SCIs) as the ExprTree is constructed

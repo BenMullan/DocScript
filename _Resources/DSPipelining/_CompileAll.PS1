@@ -2,7 +2,7 @@
 
 $VBCPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\vbc.exe";
 Copy-Item "..\..\DSLibrary\bin\Release\DSCore.dll" -Destination ".\Binaries\"
-$DSPipelineBinaries = @("GetText", "DSParse", "DSLex", "DSExec", "DSCompile");
+$DSPipelineBinaries = @("GetText", "DSParse", "DSLex", "DSOptimise", "DSExec", "DSCompile");
 
 ForEach ($DSPipelineBinary In $DSPipelineBinaries) {
 	Write-Host "-------------------- Compiling $($DSPipelineBinary) --------------------";

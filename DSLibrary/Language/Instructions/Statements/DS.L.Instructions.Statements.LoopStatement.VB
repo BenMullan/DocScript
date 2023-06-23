@@ -23,8 +23,9 @@
 
 #End Region
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _CountExpr As Expressions.IExpression, ByVal _Contents As List(Of IInstruction))
+			Me.CountExpr = _CountExpr : Me.Contents_ = _Contents
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -215,10 +216,10 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As LoopStatement
 			Try
 
-				Return New LoopStatement() With {
-				 .CountExpr = Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<CountExpr>.First().Elements().First()),
-				 .Contents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList()
-				}
+				Return New LoopStatement(
+				 _CountExpr:=Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<CountExpr>.First().Elements().First()),
+				 _Contents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList()
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@LoopStatement\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

@@ -148,8 +148,7 @@
 
 		Public Sub New(ByVal _LiteralValue As TLiteral, Optional ByVal _SourceToken As Runtime.Token = Nothing)
 			If Not Variables.VariableUtilities.IsNonVoidFunctionReturnType(GetType(TLiteral)) Then Throw New Exception("The specified TLiteral is not a valid non-void IDataValue Type")
-			Me.SourceToken = _SourceToken
-			Me.LiteralValue = _LiteralValue
+			Me.SourceToken = _SourceToken : Me.LiteralValue = _LiteralValue
 		End Sub
 
 		Public Function Resolve(ByVal _InputSymbolTables As Runtime.SymbolTablesSnapshot) As Instructions.ExecutionResult Implements IExpression.Resolve
@@ -244,22 +243,24 @@
 	Public Class FunctionCallExpr : Implements ICompoundExpression
 
 		''' <summary>The Identifier of the target DSFunction or BIF</summary>
-		Public ReadOnly Identifier$
+		Public ReadOnly TargetFunction_Identifier$
 
 		''' <summary>The UNRESOLVED Arguments to apply to the Target Function at CallTime. SymbolTables are required to Resolve() these IExprs.</summary>
 		Protected ReadOnly Arguments_ As IExpression()
+
 		Public ReadOnly Property SubExpressions As IExpression() Implements ICompoundExpression.SubExpressions
 			Get
 				Return Me.Arguments_
 			End Get
 		End Property
 
-		Public Sub New(ByVal _Identifier$, ByVal _Arguments As IExpression())
+		''' <summary>_Identifier is the Identifier of the target DSFunction or BIF</summary>
+		Public Sub New(ByVal _TargetFunction_Identifier$, ByVal _Arguments As IExpression())
 
 			'We can only lookup how many Arguments the corrosponding DSFunction wants when we have the Symbol Table
 			'Therefore, this validation must occour later
 
-			Me.Identifier = _Identifier : Me.Arguments_ = _Arguments
+			Me.TargetFunction_Identifier = _TargetFunction_Identifier : Me.Arguments_ = _Arguments
 
 		End Sub
 
@@ -271,7 +272,7 @@
 
 			Return Instructions.FunctionCall.CallFunctionByName(
 			 _InputSymbolTables:=_InputSymbolTables,
-			 _TargetFunction_Identifier:=Me.Identifier,
+			 _TargetFunction_Identifier:=Me.TargetFunction_Identifier,
 			 _UnresolvedArguments:=Me.SubExpressions,
 			 _MustProduceReturnValue:=True
 			)
@@ -284,13 +285,13 @@
 
 		''' <summary>Returns what the Expression would have looked like in the Source</summary>
 		Public Overrides Function ToString() As String
-			Return Me.Identifier & Constants.OpeningFunctionBracket & String.Join(", ", Me.SubExpressions.Select(Of String)(Function(_Argument As IExpression) _Argument.ToString())) & Constants.ClosingFunctionBracket
+			Return Me.TargetFunction_Identifier & Constants.OpeningFunctionBracket & String.Join(", ", Me.SubExpressions.Select(Of String)(Function(_Argument As IExpression) _Argument.ToString())) & Constants.ClosingFunctionBracket
 		End Function
 
 		''' <summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
 		Public Function GetExprTreeNodeXML() As System.Xml.Linq.XElement Implements IExpression.GetExprTreeNodeXML
 
-			Dim _XElementToReturn As XElement = <FunctionCallExpr Identifier=<%= Me.Identifier %>/>
+			Dim _XElementToReturn As XElement = <FunctionCallExpr Identifier=<%= Me.TargetFunction_Identifier %>/>
 
 			For Each _Argument As IExpression In Me.SubExpressions
 				_XElementToReturn.Add(_Argument.GetExprTreeNodeXML())

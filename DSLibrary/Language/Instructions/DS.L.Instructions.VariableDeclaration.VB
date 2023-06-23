@@ -13,8 +13,9 @@
 
 		Protected ReadOnly Tokens_ As Runtime.Token()
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _Identifier$, ByVal _DataType As Type, ByVal _AssignmentExpr As Expressions.IExpression)
+			Me.Identifier = _Identifier : Me.DataType = _DataType : Me.AssignmentExpr = _AssignmentExpr
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -142,11 +143,11 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As VariableDeclaration
 			Try
 
-				Return New VariableDeclaration() With {
-				 .DataType = Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_IInstructionXElement.@DataType),
-				 .Identifier = _IInstructionXElement.@Identifier,
-				 .AssignmentExpr = If(_IInstructionXElement.<AssignmentExpr>.First().Elements().Count() = 1, Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<AssignmentExpr>.First().Elements().First()), Nothing)
-				}
+				Return New VariableDeclaration(
+				 _DataType:=Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_IInstructionXElement.@DataType),
+				 _Identifier:=_IInstructionXElement.@Identifier,
+				 _AssignmentExpr:=If(_IInstructionXElement.<AssignmentExpr>.First().Elements().Count() = 1, Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<AssignmentExpr>.First().Elements().First()), Nothing)
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@VariableDeclaration\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

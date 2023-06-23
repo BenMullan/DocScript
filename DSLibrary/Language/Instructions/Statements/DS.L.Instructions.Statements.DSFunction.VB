@@ -121,8 +121,10 @@
 
 #End Region
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _Identifier$, ByVal _ReturnType As Type, ByVal _Parameters As Parameter(), ByVal _Contents As List(Of IInstruction))
+			Me.Identifier = _Identifier : Me.ReturnType = _ReturnType : Me.Parameters = (New ObjectModel.ReadOnlyCollection(Of Parameter)(_Parameters.ToList()))
+			Me.Contents_ = _Contents.ToArray()
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -410,12 +412,12 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As DSFunction
 			Try
 
-				Return New DSFunction() With {
-				 .Identifier = _IInstructionXElement.@Identifier,
-				 .ReturnType = Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_IInstructionXElement.@ReturnType),
-				 .Parameters = New ObjectModel.ReadOnlyCollection(Of Parameter)(_IInstructionXElement.<Parameters>.First().<Parameter>.Select(Of DSFunction.Parameter)(AddressOf Parameter.FromXML).ToList()),
-				 .Contents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray())
-				}
+				Return New DSFunction(
+				 _Identifier:=_IInstructionXElement.@Identifier,
+				 _ReturnType:=Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(_IInstructionXElement.@ReturnType),
+				 _Parameters:=_IInstructionXElement.<Parameters>.First().<Parameter>.Select(Of DSFunction.Parameter)(AddressOf Parameter.FromXML).ToArray(),
+				 _Contents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList()
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@DSFunction\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

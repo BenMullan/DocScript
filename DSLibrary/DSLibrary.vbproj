@@ -134,6 +134,7 @@
     <Compile Include="Runtime\DS.R.BuiltInFunction.VB" />
     <Compile Include="Runtime\DS.R.Constants.VB" />
     <Compile Include="Runtime\DS.R.ExecutionContext.VB" />
+    <Compile Include="Runtime\DS.R.Optimisation.VB" />
     <Compile Include="Runtime\DS.R.Program.VB" />
     <Compile Include="Runtime\DS.R.SymbolTable.VB" />
     <Compile Include="Runtime\DS.R.SymbolTablesSnapshot.VB" />

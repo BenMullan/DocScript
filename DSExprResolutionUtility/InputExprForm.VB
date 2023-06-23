@@ -84,4 +84,13 @@
 
 #End Region
 
+	Public Sub ShowOptimisedExpression() Handles OptimiseLinkLabel.LinkClicked
+		Try
+			Dim _ComponentOptimiser As New DocScript.Runtime.Optimisation.ComponentOptimiser()
+			UsefulMethods.ShowTextInNewWindow("Optimised Expr.", _ComponentOptimiser.OptimiseExpression(Language.Expressions.ExprUtilities.ConstructExpressionFromTokens(Runtime.Parser.GetTokensFromSource(Me.ExprInputTextBox.Text))).ToString() & vbCrLf & vbCrLf & _ComponentOptimiser.PerformedOptimisationsReport)
+		Catch _Ex As Exception
+			MsgBox("An Exception was Thrown whilst resolving the Expression:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)
+		End Try
+	End Sub
+
 End Class

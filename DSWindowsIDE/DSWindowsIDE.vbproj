@@ -502,6 +502,9 @@
   <ItemGroup>
     <Resource Include="Images\DS_On_GitHub.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Optimise.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)..\DSCommandLineInterpreter\$(OutDir)DSCLI.exe $(ProjectDir)$(OutDir)

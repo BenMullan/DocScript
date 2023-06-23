@@ -171,6 +171,7 @@
 				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
 					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
 					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
+					<RibbonButton x:Name="OptimiseProgramButton" LargeImageSource="/DSIDE;component/Images/Optimise.PNG" Label="Optimise Program..." ToolTip="Launches a New instance of DSIDE with an Optimised version of the Program" />
 				</RibbonGroup>
 
 				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">

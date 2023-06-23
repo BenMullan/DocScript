@@ -12,8 +12,9 @@
 
 		Protected ReadOnly Tokens_ As Runtime.Token()
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _TargetFunction_Identifier$, ByVal _Arguments As Expressions.IExpression())
+			Me.TargetFunction_Identifier = _TargetFunction_Identifier : Me.Arguments = _Arguments
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -205,10 +206,10 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As FunctionCall
 			Try
 
-				Return New FunctionCall() With {
-				 .TargetFunction_Identifier = _IInstructionXElement.@TargetFunction_Identifier,
-				 .Arguments = _IInstructionXElement.<Arguments>.First().Elements().Select(Of Expressions.IExpression)(AddressOf Expressions.ExprUtilities.ConstructExpressionFromXML).ToArray()
-				}
+				Return New FunctionCall(
+				 _TargetFunction_Identifier:=_IInstructionXElement.@TargetFunction_Identifier,
+				 _Arguments:=_IInstructionXElement.<Arguments>.First().Elements().Select(Of Expressions.IExpression)(AddressOf Expressions.ExprUtilities.ConstructExpressionFromXML).ToArray()
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@FunctionCall\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

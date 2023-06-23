@@ -1,5 +1,5 @@
 ﻿#HelloWorld.DS
 Function <Number> Main (<String@> _CLAs)
-	Output("Hello, World!")
+	Output("Hello, " & "World!")
 	Return 0
 EndFunction

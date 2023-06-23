@@ -8,7 +8,7 @@
 		Public ConditionExpr As Language.Expressions.IExpression
 
 		Protected ElseContents_ As List(Of IInstruction) = Nothing 'Not Initialised unless there is an Else Clause in the Tokens
-		''' <summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is Nothing (null)</summary>
+		''' <summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is [Nothing] (null)</summary>
 		Public ReadOnly Property ElseContents As System.Collections.ObjectModel.ReadOnlyCollection(Of IInstruction)
 			Get
 				If Me.ElseContents_ Is Nothing Then Return Nothing
@@ -33,8 +33,9 @@
 
 #End Region
 
-		''' <summary>For internal use only; used by FromXML()</summary>
-		Protected Sub New()
+		''' <summary>Constructs the IInstruction from an existing instance</summary>
+		Public Sub New(ByVal _ConditionExpr As Expressions.IExpression, ByVal _Contents As List(Of IInstruction), ByVal _ElseContents As List(Of IInstruction))
+			Me.ConditionExpr = _ConditionExpr : Me.Contents_ = _Contents : Me.ElseContents_ = _ElseContents
 		End Sub
 
 		''' <summary>Constructs the IInstruction from its Tokens</summary>
@@ -349,11 +350,11 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As IfStatement
 			Try
 
-				Return New IfStatement() With {
-				 .ConditionExpr = Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ConditionExpr>.First().Elements().First()),
-				 .Contents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList(),
-				 .ElseContents_ = StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<ElseContents>.First().Elements().ToArray()).ToList()
-				}
+				Return New IfStatement(
+				 _ConditionExpr:=Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ConditionExpr>.First().Elements().First()),
+				 _Contents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList(),
+				 _ElseContents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<ElseContents>.First().Elements().ToArray()).ToList()
+				)
 
 			Catch _Ex As Exception : Throw New DSException("@IfStatement\FromXML: " & _Ex.Message, _Ex) : End Try
 		End Function

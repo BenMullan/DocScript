@@ -127,12 +127,6 @@
     <Compile Include="UtilityForms\ResolveExprForm.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilityForms\ViewExprXMLForm.Designer.VB">
-      <DependentUpon>ViewExprXMLForm.VB</DependentUpon>
-    </Compile>
-    <Compile Include="UtilityForms\ViewExprXMLForm.VB">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SplashScreen.resx">
@@ -152,9 +146,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\ResolveExprForm.resx">
       <DependentUpon>ResolveExprForm.VB</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UtilityForms\ViewExprXMLForm.resx">
-      <DependentUpon>ViewExprXMLForm.VB</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

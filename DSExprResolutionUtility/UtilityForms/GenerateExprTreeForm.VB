@@ -38,8 +38,7 @@
 				InputExprForm.DocScriptLoggingMode = Logging.BuiltInLogEventHandlers.SilenceAll
 			End If
 
-			Dim _NewViewExprXMLForm As New ViewExprXMLForm(Me.Expression)
-			_NewViewExprXMLForm.Show()
+			UsefulMethods.ShowTextInNewWindow("Expr. Tree XML", Me.Expression.GetExprTreeNodeXML().ToTabFormattedString())
 
 		Catch _Ex As Exception
 			MsgBox("An Exception was Thrown whilst generating and viewing the Expression XML:" & vbCrLf & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name)

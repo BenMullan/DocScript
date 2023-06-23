@@ -32,10 +32,12 @@ DSCore
 	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
 </member><member name="T:DocScript.Language.Expressions.VariableExpr">
 	<summary>Represents an Expr which is the result of reading a Variable's value from a SymbolTable</summary>
-</member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.Identifier">
+</member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.TargetFunction_Identifier">
 	<summary>The Identifier of the target DSFunction or BIF</summary>
 </member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.Arguments_">
 	<summary>The UNRESOLVED Arguments to apply to the Target Function at CallTime. SymbolTables are required to Resolve() these IExprs.</summary>
+</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.#ctor(System.String,DocScript.Language.Expressions.IExpression[])">
+	<summary>_Identifier is the Identifier of the target DSFunction or BIF</summary>
 </member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.ToString">
 	<summary>Returns what the Expression would have looked like in the Source</summary>
 </member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.GetExprTreeNodeXML">
@@ -93,11 +95,11 @@ DSCore
 </member><member name="T:DocScript.Logging.LogUtilities.LogEventSubmissionResult">
 	<summary>Holds Data concerning the success of submitting a LogEvent</summary>
 </member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.ElseContents">
-	<summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is Nothing (null)</summary>
+	<summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is [Nothing] (null)</summary>
 </member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.Contents">
 	<summary>The Instructions which are executed if the ConditionExpr resolves to True</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction},System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetContentsAndElseContents_(DocScript.Runtime.Token[])">
@@ -125,7 +127,7 @@ DSCore
  ----------------------------------------------------------------------------------------------------------
  </summary>
 </member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.#ctor(DocScript.Runtime.SymbolTable[])">
-	<summary>PROTECTED CONSTRUCTOR: FromSymbolTablesArray (This dosen't need to be made [Public], does it?)</summary>
+	<summary>PROTECTED CONSTRUCTOR: FromSymbolTablesArray</summary>
 </member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.BottomStack">
 	<summary>Returns all but the Topmost SymbolTable in the current SymTbls' Snapshot</summary>
 </member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Topmost">
@@ -153,7 +155,7 @@ DSCore
 </member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.ToString">
 	<summary>Produces a DS-KVP Human-readable String for the SymTblSnpSht</summary>
 </member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Empty">
-	<summary>Generatess a New Empty SymTblsSnpSht</summary>
+	<summary>Generates a New Empty SymTblsSnpSht</summary>
 </member><member name="T:DocScript.Runtime.SymbolTablesSnapshot">
 	<summary>Represents the State of one or more SymbolTables at a given point during the execution of a DocScript program</summary>
 </member><member name="F:DocScript.Utilities.MicroHTTPServer.Port">
@@ -224,8 +226,8 @@ DSCore
 	<param name="_ResultantSymbolTablesState">For IStatements, this should NOT contain the ScopedVariables member</param>
 </member><member name="T:DocScript.Language.Instructions.ExecutionResult">
 	<summary>Represents the result of a call to Execute() of an IInstruction, or Run() on a DSFunction. Contains data such as weather or not to Return.</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -288,8 +290,8 @@ DSCore
 	<summary>Maps the OperatorChars (as defined in the Language-level Constants) to their Binary- and Unary-Operator(s)</summary>
 </member><member name="T:DocScript.Language.Expressions.Operators.OperatorUtilities">
 	<summary>Contains the DSOperators Declaration, and several Utility Methods</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(System.String,System.Type,DocScript.Language.Expressions.IExpression)">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableDeclaration.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -351,8 +353,8 @@ DSCore
 	<summary>Holds a dictionary of Identifiers to [SymbolTableEntry]s. All Identifiers are ToUpper()-ed.</summary>
 </member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
 	<summary>If there wasn't an associated Expr in the source, then this is Nothing (null)</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Language.Expressions.IExpression)">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.ReturnToCaller.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -580,8 +582,8 @@ DSCore
 	<summary>Returns the standardised Tokens' XML for an array of Tokens output from the Parser. Used for DS-Pipelining.</summary>
 </member><member name="T:DocScript.Runtime.Parser">
 	<summary>Contains Constants and Methods for the first stage in the DocScript Interpretation Process</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(System.String,DocScript.Language.Expressions.IExpression[])">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.FunctionCall.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -704,8 +706,8 @@ DSCore
 	<summary>
  Provides methods for Key-Value Pair Serialisation
  </summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(System.String,DocScript.Language.Expressions.IExpression)">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.VariableAssignment.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -718,8 +720,8 @@ DSCore
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.VariableAssignment">
 	<summary>Represents E.g. [Name : "Ben"]</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -790,6 +792,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) Ensures that the _Object IsNot Nothing, Throwing a NullReferanceException with the _MessageIfNull if it is</summary>
 </member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.MustNotBeNothing``1(``0@,System.Action)">
 	<summary>(MullNet CompilerExtention) Determines if the _Object Is Nothing, Invoke()-ing the _ActionIfNull if it is</summary>
+</member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.ImplementsInterface``1(System.Object)">
+	<summary>(MullNet CompilerExtention) Determines if the _Object Implements _TInterface</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.SplitAtWithoutRemoving(System.String,System.Char[])">
 	<summary>
  (MullNet CompilerExtention) Splits the String whenever one of the _CharsAtWhichToSplitString occours, but the _CharAtWhichToSplitString stays in each New String
@@ -886,6 +890,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.IsValidFilePath_AndThatFileExists(System.String)">
 	<summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.CamelCaseToSpacedString(System.String)">
+	<summary>(MullNet CompilerExtention) E.g. "MyNameIsBen" → "My Name Is Ben"</summary>
 </member><member name="M:DocScript.CompilerExtentions.DateTimeExtentions.GetLogSerialisation(System.DateTime@)">
 	<summary>(MullNet CompilerExtention) Gets a short Date and Time String suitable for Logs, in the form "21-07 12:00:08.625"</summary>
 </member><member name="M:DocScript.CompilerExtentions.ControlExtentions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
@@ -1016,6 +1022,9 @@ DSCore
 </member><member name="M:DocScript.CompilerExtentions.XMLObjectExtentions.WriteToConsoleWithXMLColourFormatting(System.Xml.Linq.XElement,System.String)">
 	<summary>(MullNet CompilerExtention) Writes the XElement onto the current Process's Console, using coloured formatting.</summary>
 	<param name="_TabChar">The character to use for Indenting the XML</param>
+</member><member name="M:DocScript.CompilerExtentions.XMLObjectExtentions.ToTabFormattedString(System.Xml.Linq.XElement,System.String)">
+	<summary>(MullNet CompilerExtention) Produces a properly-formatted Tabbed-in serialisation of _XElement</summary>
+	<param name="_TabChar">The character to use for Indenting the XML</param>
 </member><member name="M:DocScript.CompilerExtentions.DocScriptObjectExtentions.GetValuesAndLocationsString(DocScript.Runtime.Token[])">
 	<summary>(MullNet CompilerExtention) Produces a simple serialisation of the _Tokens with just their Values and Locations in the form [Raw: "A:", WithLocations: {["A" @14,6], [":" @14,7]}]</summary>
 </member><member name="M:DocScript.CompilerExtentions.DocScriptObjectExtentions.ReconstructIntoSource(DocScript.Runtime.Token[],System.String)">
@@ -1067,6 +1076,8 @@ DSCore
 	<summary>(MullNet UsefulMethod) For Procuring a Console if DS Console Logging has been selected</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.FreeConsole">
 	<summary>(MullNet UsefulMethod) Hides the active console window. Much easier than using ShowWindow on the current process.</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.GetAlphabetAndNumericChars">
+	<summary>(MullNet UsefulMethod) Returns: 0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.GetRandomString(System.UInt16)">
 	<summary>(MullNet UsefulMethod) Returns a random String using the Chars 0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RequestFilePath_WithSaveFileDialog(System.String,System.Tuple{System.String,System.String}[],System.String)">
@@ -1082,6 +1093,8 @@ DSCore
 	<param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory">
 	<summary>(MullNet UsefulMethod) Returns the directory of the current exe</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyFilePath">
+	<summary>(MullNet UsefulMethod) Returns the file (path) of the current exe</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.IO.FileInfo,System.String)">
 	<summary>(MullNet UsefulMethod) Executes the process, capturing and returning the CLI Output. Returns both the STDOUT and STDERR.</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RunProcess_AndReturnCommandLineOutput(System.Diagnostics.Process@)">
@@ -1112,7 +1125,7 @@ DSCore
 	<summary>Removes and one-child BracketedExprs, recursively inside BracketedExprs and FunctionCalls too</summary>
 </member><member name="M:DocScript.Language.Expressions.ExprUtilities.ValidateLBL_(DocScript.Language.Expressions.IExpression[])">
 	<summary>Ensures there are no occourances of Illegal patterns in the LBL</summary>
-</member><member name="T:DocScript.Language.Expressions.ExprUtilities.OperatorTupleComparer">
+</member><member name="T:DocScript.Language.Expressions.ExprUtilities.OperatorTupleComparer_">
 	<summary>Used by the CollapseToIOT_() Method to order the OperatorTuples</summary>
 </member><member name="M:DocScript.Language.Expressions.ExprUtilities.CollapseToIOT_(DocScript.Language.Expressions.IExpression[])">
 	<summary>Removes LBL-Only IExprs and forms the Expr. Tree and adds in the [OperatorExpr]s and [FunctionCallExpr]s</summary>
@@ -1199,8 +1212,8 @@ DSCore
 	<summary>Returns a KVP-Serialised String to represent the current Object</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Signature">
 	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor">
-	<summary>For internal use only; used by FromXML()</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(System.String,System.Type,DocScript.Language.Instructions.Statements.DSFunction.Parameter[],System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
@@ -1245,6 +1258,23 @@ DSCore
  ((((...In the form of a {LineBreak} betwixt each IInstruciton.ToString().))))
  </para>
 	</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseProgram(DocScript.Runtime.Program)">
+	<summary>Returns an optimised version of _Program</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseStatementContents_(DocScript.Language.Instructions.IInstruction[])">
+	<summary>Recursively optimises the Contents of an IStatement</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseExpression(DocScript.Language.Expressions.IExpression)">
+	<summary>
+ Applies the following optimisations:
+ 	- Constant Expression Evaluation (e.g. [5 + 4] → [9])
+ 	- *
+ </summary>
+</member><member name="T:DocScript.Runtime.Optimisation.ComponentOptimiser">
+	<summary>
+ The reason this is a Class and not just methods in a Module, is because the PerformedOptimisations are specific to the optimisation of a given Component (Expression, IInstruction, or Program).
+ If the PerformedOptimisations dictionary was just floating in the Module, then the tracking of which optimisations have occured would break in a multi-threaded scenario.
+ </summary>
+</member><member name="T:DocScript.Runtime.Optimisation">
+	<summary>Contains resources for optimising a DocScript Program to make it run more efficiently</summary>
 </member><member name="F:DocScript.Runtime.Program.ValidEntryPointFunction_Signature_Unadorned">
 	<summary>The plain EntryPoint with no Input or Output. Used by Program.IsEntryPointFunctionSignature()</summary>
 </member><member name="F:DocScript.Runtime.Program.ValidEntryPointFunction_Signature_OSInterop">
@@ -1267,6 +1297,8 @@ DSCore
 	<summary>The Global VariableDeclarations from the DocScript Source</summary>
 </member><member name="F:DocScript.Runtime.Program.Name">
 	<summary>Used when Compiling the DocScript Program to an EXE</summary>
+</member><member name="F:DocScript.Runtime.Program.HasBeenOptimised">
+	<summary>Indicates that the Program has undergone DocScript Runtime Optimisation</summary>
 </member><member name="M:DocScript.Runtime.Program.#ctor(DocScript.Language.Instructions.VariableDeclaration[]@,DocScript.Language.Instructions.Statements.DSFunction[]@,DocScript.Runtime.ExecutionContext)">
 	<summary>(Subordinate Constructor) Creates a New Program Object, from already-constructed Global Variable Declarations and Functions. Used by FromProgramTreeXML().</summary>
 </member><member name="M:DocScript.Runtime.Program.#ctor(DocScript.Runtime.Token[],DocScript.Runtime.ExecutionContext)">
