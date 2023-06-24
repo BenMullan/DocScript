@@ -6,6 +6,69 @@
 
 
 
+
+					If _IInstructions.OfType(Of ReturnToCaller)().Count() > 0 Then
+
+						Dim _Index_OfFirstReturnToCaller% = _IInstructions.IndexOfFirstWhere(Function(_IInstruction As IInstruction) TypeOf _IInstruction Is ReturnToCaller)
+						If _Index_OfFirstReturnToCaller < (_IInstructions.Length - 1) Then
+
+
+							Return _IInstructions.Take(_Index_OfFirstReturnToCaller + 1).ToArray()
+
+						End If
+
+					End If
+
+					REM If we're here, then the current level of IInstructions dosen't have a ReturnToCaller as the non-final Instruction...
+					REM ...But Child Statements of the _IInstructions might
+
+					Dim _IInstructions_WithUnreachableSubStatementInstructionsRemovedWherePossible As New List(Of IInstruction)()
+
+					For Each _IInstruction As IInstruction In _IInstructions
+						If _IInstruction.ImplementsInterface(Of Statements.IStatement)() Then
+
+							REM It's an IStatement with child Instructions; return it, with all its child Instructions put through RemoveUnreachableIInstructions_()
+							Dim _SubStatementInstructions_WithUnreachableOnesRemoved As IInstruction() = _
+							 Me.RemoveUnreachableIInstructions_(CType(_IInstruction, Statements.IStatement).Contents.ToArray())
+
+							Select Case _IInstruction.GetType()
+								Case GetType(Statements.IfStatement)
+								Case GetType(Statements.LoopStatement)
+								Case GetType(Statements.WhileStatement)
+								Case Else : Throw New DSValidationException("The IStatement Type was unaccounted-for", _IInstruction.GetType().FullName)
+							End Select
+
+						Else
+
+							REM It's not an IStatement and dosen't contain child Instructions; Add() it as it is
+							_IInstructions_WithUnreachableSubStatementInstructionsRemovedWherePossible.Add(_IInstruction)
+
+						End If
+					Next
+
+					Return _IInstructions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				REM If the Expression is an OperatorExpr, then it can only be optimised on the current level, if its child(ren) are LiteralExprs.
 				REM Otherwise, its child(ren) may be OperatorExprs, which can be
 

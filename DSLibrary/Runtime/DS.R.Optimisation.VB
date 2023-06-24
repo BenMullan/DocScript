@@ -4,13 +4,14 @@ Imports DocScript.Language.Expressions, DocScript.Language.Variables, DocScript.
 Namespace Runtime
 
 	REM Possible Optimisations to implement:
-	'	- Constant Expression (compile-time) Evaluation (e.g. [5 + 4] → [9])
-	'	- Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])		'Same could be done for Po2 Division
+	'	- [DONE] Constant Expression (compile-time) Evaluation (e.g. [5 + 4] → [9])
+	'	- [DONE] Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])		'Same could be done for Po2 Division
 	'	- Branchless-ing
 	'	- Redundant call/statement removal
 	'	- Constant Substitution (instead of variable reference)
-	'	- Unreachable code elimination
+	'	- [DONE] Unreachable code elimination
 	'	- Loop unrolling (e.g. if there are only two iterations)
+	'	- Recursion to Iteration
 
 	REM Interesting, but not relevant for DS: 
 	'	- Optimising the linking order, to reduce paging for larger programs
@@ -36,24 +37,24 @@ Namespace Runtime
 				RecursionToIteration
 			End Enum
 
-			Public ReadOnly PerformedOptimisations As New Dictionary(Of OptimisationAction, [Boolean])() From {
-			 {OptimisationAction.ConstantExpressionEvaluation, False},
-			 {OptimisationAction.BitShiftForPowerOfTwoMultiplication, False},
-			 {OptimisationAction.ConversionToBranchless, False},
-			 {OptimisationAction.RedundantCallOrStatementRemoval, False},
-			 {OptimisationAction.ConstToLiteralSubstitution, False},
-			 {OptimisationAction.UnreachableCodeElimination, False},
-			 {OptimisationAction.LoopUnrolling, False},
-			 {OptimisationAction.RecursionToIteration, False}
+			Public ReadOnly PerformedOptimisationsTally As New Dictionary(Of OptimisationAction, UInt64)() From {
+			 {OptimisationAction.ConstantExpressionEvaluation, 0},
+			 {OptimisationAction.BitShiftForPowerOfTwoMultiplication, 0},
+			 {OptimisationAction.ConversionToBranchless, 0},
+			 {OptimisationAction.RedundantCallOrStatementRemoval, 0},
+			 {OptimisationAction.ConstToLiteralSubstitution, 0},
+			 {OptimisationAction.UnreachableCodeElimination, 0},
+			 {OptimisationAction.LoopUnrolling, 0},
+			 {OptimisationAction.RecursionToIteration, 0}
 			}
 
 			Public ReadOnly Property PerformedOptimisationsReport As [String]
 				Get
 
 					Return _
-					 "---------- Optimisation Report ----------" & vbCrLf & _
-					 String.Join(vbCrLf, Me.PerformedOptimisations.ToArray().Select(Of [String])(
-					  Function(_OptimisationAction_ToPerformedFlag As KeyValuePair(Of OptimisationAction, [Boolean])) (_OptimisationAction_ToPerformedFlag.Key.ToString("G").CamelCaseToSpacedString() & ":").PadRight(totalWidth:=Me.PerformedOptimisations.Keys.Select(Of Int32)(Function(_OptimisationAction As OptimisationAction) _OptimisationAction.ToString("G").CamelCaseToSpacedString().Length + 6).Max()) & If(_OptimisationAction_ToPerformedFlag.Value, "Performed", "Not Applicable")
+					 "---------- Optimisation Report (Tally) ----------" & vbCrLf & _
+					 String.Join(vbCrLf, Me.PerformedOptimisationsTally.ToArray().Select(Of [String])(
+					  Function(_OptimisationAction_ToPerformedFlag As KeyValuePair(Of OptimisationAction, UInt64)) (_OptimisationAction_ToPerformedFlag.Key.ToString("G").CamelCaseToSpacedString() & ":").PadRight(totalWidth:=Me.PerformedOptimisationsTally.Keys.Select(Of Int32)(Function(_OptimisationAction As OptimisationAction) _OptimisationAction.ToString("G").CamelCaseToSpacedString().Length + 6).Max()) & _OptimisationAction_ToPerformedFlag.Value
 					 ).ToArray())
 
 				End Get
@@ -61,12 +62,12 @@ Namespace Runtime
 
 			''' <summary>Returns an optimised version of _Program</summary>
 			Public Function OptimiseProgram(ByVal _UnoptimisedProgram As Runtime.Program) As Runtime.Program
-				Try
+				Try : LogLexingMessage("Optimising this Program: " & _UnoptimisedProgram.ToString())
 
 					REM Replace each GlobalVarDec Expression with an optimised version
 					'(For some reason, AddressOf dosen't work here)
 					Dim _OptimisedGlobalVarDecs As VariableDeclaration() = _
-					 Me.OptimiseStatementContents_(_UnoptimisedProgram.GlobalVarDecs.ToArray()) _
+					 Me.ApplyExpressionOptimisationToStatementContents_(_UnoptimisedProgram.GlobalVarDecs.ToArray()) _
 					.Select(Of VariableDeclaration)(Function(_IInstruction As IInstruction) _IInstruction.MustBe(Of VariableDeclaration)()).ToArray()
 
 					REM Replace each DSFunction with an optimised version
@@ -75,10 +76,10 @@ Namespace Runtime
 					 _Identifier:=_UnoptimisedDSFunction.Identifier,
 					 _ReturnType:=_UnoptimisedDSFunction.ReturnType,
 					 _Parameters:=_UnoptimisedDSFunction.Parameters.ToArray(),
-					 _Contents:=Me.OptimiseStatementContents_(_UnoptimisedDSFunction.Contents.ToArray()).ToList()
+					 _Contents:=Me.OptimiseStatementContents(_UnoptimisedDSFunction.Contents.ToArray()).ToList()
 					)).ToArray()
 
-					LogLexingMessage("...Finished optimising Program. Report: " & Me.PerformedOptimisationsReport)
+					LogLexingMessage("...Finished optimising Program. Report: " & Me.PerformedOptimisationsReport, LogEvent.DSEventSeverity.Infomation)
 
 					REM Return a New Program(), with the Optimisations in-place
 					Return New Program(_OptimisedGlobalVarDecs, _OptimisedDSFunctions, _UnoptimisedProgram.ExecutionContext) With {
@@ -90,8 +91,27 @@ Namespace Runtime
 				Catch _Ex As Exception : Throw New DSException("@OptimiseProgram: " & _Ex.Message, _Ex) : End Try
 			End Function
 
-			''' <summary>Recursively optimises the Contents of an IStatement</summary>
-			Private Function OptimiseStatementContents_(ByVal _UnoptimisedIInstructions As IInstruction()) As IInstruction()
+#Region "IInstruction Optimisation"
+
+			''' <summary>
+			''' Applies the following optimisations:
+			''' 	- Removal of unreachable instructions
+			''' 	- (Expression-based optimisation on any Expressions contained within the _IInstructions)
+			''' </summary>
+			Public Function OptimiseStatementContents(ByVal _IInstructions As IInstruction()) As IInstruction()
+				Try : LogLexingMessage("Optimising Statement Contents comprising " & _IInstructions.Length.ToString() & " IInstructions...")
+
+					_IInstructions = Me.RemoveUnreachableIInstructions_(_IInstructions)
+					_IInstructions = Me.ApplyExpressionOptimisationToStatementContents_(_IInstructions)
+
+					LogLexingMessage("...Finished optimising StatementContents. Report: " & Me.PerformedOptimisationsReport)
+					Return _IInstructions
+
+				Catch _Ex As Exception : Throw New DSException("@OptimiseStatementContents: " & _Ex.Message, _Ex) : End Try
+			End Function
+
+			''' <summary>Recursively puts any IExpressions contained in the Instructions through OptimiseExpression()</summary>
+			Private Function ApplyExpressionOptimisationToStatementContents_(ByVal _UnoptimisedIInstructions As IInstruction()) As IInstruction()
 				Try
 
 					Dim _OptimisedIInstructions As New List(Of IInstruction)()
@@ -126,20 +146,20 @@ Namespace Runtime
 							Case GetType(Statements.IfStatement)
 								_OptimisedIInstructions.Add(New Statements.IfStatement(
 								 _ConditionExpr:=Me.OptimiseExpression(CType(_IInstruction, Statements.IfStatement).ConditionExpr),
-								 _Contents:=Me.OptimiseStatementContents_(CType(_IInstruction, Statements.IfStatement).Contents.ToArray()).ToList(),
-								 _ElseContents:=If(CType(_IInstruction, Statements.IfStatement).ElseContents Is Nothing, Nothing, Me.OptimiseStatementContents_(CType(_IInstruction, Statements.IfStatement).ElseContents.ToArray()).ToList())
+								 _Contents:=Me.ApplyExpressionOptimisationToStatementContents_(CType(_IInstruction, Statements.IfStatement).Contents.ToArray()).ToList(),
+								 _ElseContents:=If(CType(_IInstruction, Statements.IfStatement).ElseContents Is Nothing, Nothing, Me.ApplyExpressionOptimisationToStatementContents_(CType(_IInstruction, Statements.IfStatement).ElseContents.ToArray()).ToList())
 								))
 
 							Case GetType(Statements.LoopStatement)
 								_OptimisedIInstructions.Add(New Statements.LoopStatement(
 								 _CountExpr:=Me.OptimiseExpression(CType(_IInstruction, Statements.LoopStatement).CountExpr),
-								 _Contents:=Me.OptimiseStatementContents_(CType(_IInstruction, Statements.IfStatement).Contents.ToArray()).ToList()
+								 _Contents:=Me.ApplyExpressionOptimisationToStatementContents_(CType(_IInstruction, Statements.LoopStatement).Contents.ToArray()).ToList()
 								))
 
 							Case GetType(Statements.WhileStatement)
 								_OptimisedIInstructions.Add(New Statements.WhileStatement(
 								 _ConditionExpr:=Me.OptimiseExpression(CType(_IInstruction, Statements.WhileStatement).ConditionExpr),
-								 _Contents:=Me.OptimiseStatementContents_(CType(_IInstruction, Statements.WhileStatement).Contents.ToArray()).ToList()
+								 _Contents:=Me.ApplyExpressionOptimisationToStatementContents_(CType(_IInstruction, Statements.WhileStatement).Contents.ToArray()).ToList()
 								))
 
 							Case Else : Throw New DSValidationException("The Statement-Contents Instruction could not be optimised because its Type was unaccounted-for", _IInstruction.GetType().FullName)
@@ -151,6 +171,74 @@ Namespace Runtime
 				Catch _Ex As Exception : Throw New DSException("@OptimiseStatementContents_: " & _Ex.Message, _Ex) : End Try
 			End Function
 
+			''' <summary>Recursively optimises the Contents of an IStatement. This is not an OptimisationAction itself, but passes the IInstructions through other OptimisationActions.</summary>
+			Private Function RemoveUnreachableIInstructions_(ByVal _IInstructions As IInstruction()) As IInstruction()
+				Try
+
+					REM Only deal with IInstructions which are reachable
+					Dim _ReachableInstructions As IInstruction() = _IInstructions
+					If (_IInstructions.OfType(Of ReturnToCaller)().Count() > 0) _
+					 AndAlso (_IInstructions.IndexOfFirstWhere(Function(_IInstruction As IInstruction) TypeOf _IInstruction Is ReturnToCaller) < (_IInstructions.Length - 1)) _
+					Then _ReachableInstructions = _IInstructions.UpToAndIncluding(Function(_IInstruction As IInstruction) TypeOf _IInstruction Is ReturnToCaller)
+
+					REM Determine if any Instructions have been skiped
+					If _ReachableInstructions.Count() < _IInstructions.Count() Then
+						LogLexingMessage((_IInstructions.Count() - _ReachableInstructions.Count()).ToString() & " Unreachable Instruction(s) will be removed")
+						Me.PerformedOptimisationsTally.Item(OptimisationAction.UnreachableCodeElimination) += 1UL
+					End If
+
+					REM The _ReachableInstructions may contain some IStatement Instructions.
+					REM These should have their Contents/ElseContents put through RemoveUnreachableIInstructions_() before being returned.
+					REM All the Instructions to return will be added to _IInstructionsToReturn
+
+					Dim _IInstructionsToReturn As New List(Of IInstruction)()
+
+					For Each _IInstruction As IInstruction In _ReachableInstructions
+						If _IInstruction.ImplementsInterface(Of Statements.IStatement)() Then
+
+							REM It's an IStatement with child Instructions; Add() it, with all its child Instructions put through RemoveUnreachableIInstructions_()
+							Dim _SubStatementInstructions_WithUnreachableOnesRemoved As IInstruction() = _
+							 Me.RemoveUnreachableIInstructions_(CType(_IInstruction, Statements.IStatement).Contents.ToArray())
+
+							Select Case _IInstruction.GetType()
+
+								Case GetType(Statements.IfStatement)
+									_IInstructionsToReturn.Add(New Statements.IfStatement(
+									 _ConditionExpr:=CType(_IInstruction, Statements.IfStatement).ConditionExpr,
+									 _Contents:=Me.RemoveUnreachableIInstructions_(CType(_IInstruction, Statements.IfStatement).Contents.ToArray()).ToList(),
+									 _ElseContents:=If(CType(_IInstruction, Statements.IfStatement).ElseContents Is Nothing, Nothing, Me.RemoveUnreachableIInstructions_(CType(_IInstruction, Statements.IfStatement).ElseContents.ToArray()).ToList())
+									))
+
+								Case GetType(Statements.LoopStatement)
+									_IInstructionsToReturn.Add(New Statements.LoopStatement(
+									 _CountExpr:=CType(_IInstruction, Statements.LoopStatement).CountExpr,
+									 _Contents:=Me.RemoveUnreachableIInstructions_(CType(_IInstruction, Statements.LoopStatement).Contents.ToArray()).ToList()
+									))
+
+								Case GetType(Statements.WhileStatement)
+									_IInstructionsToReturn.Add(New Statements.WhileStatement(
+									 _ConditionExpr:=CType(_IInstruction, Statements.WhileStatement).ConditionExpr,
+									 _Contents:=Me.RemoveUnreachableIInstructions_(CType(_IInstruction, Statements.WhileStatement).Contents.ToArray()).ToList()
+									))
+
+								Case Else : Throw New DSValidationException("The IStatement Type was unaccounted-for", _IInstruction.GetType().FullName)
+							End Select
+
+						Else
+
+							REM It's not an IStatement and dosen't contain child Instructions; Add() it as it is
+							_IInstructionsToReturn.Add(_IInstruction)
+
+						End If
+					Next
+
+					Return _IInstructionsToReturn.ToArray()
+
+				Catch _Ex As Exception : Throw New DSException("@RemoveUnreachableIInstructions_: " & _Ex.Message, _Ex) : End Try
+			End Function
+
+#End Region
+
 #Region "Expression Optimisation"
 
 			''' <summary>
@@ -161,7 +249,6 @@ Namespace Runtime
 			Public Function OptimiseExpression(ByVal _InputExpression As IExpression) As IExpression
 				Try : LogLexingMessage("Optimising Expression: " & _InputExpression.ToString() & "...")
 
-					REM If the Expression is an OperatorExpr, with all it's operands of type LiteralExpr, then it can undergo compile-time-evaluation optimisation
 					_InputExpression = Me.SubstituteConstantExpr_WithEvaluationThereof_(_InputExpression)
 					_InputExpression = Me.SubstitutePowerOfTwoMultiplication_WithBitshift_(_InputExpression)
 
@@ -198,7 +285,7 @@ Namespace Runtime
 						'		- ...And a Power-of-two (Po2)
 
 						LogLexingMessage("This Expression will be optimised to a Bitshift operation, from ↓" & vbCrLf & _InputExpression.ToString())
-						Me.PerformedOptimisations.Item(OptimisationAction.BitShiftForPowerOfTwoMultiplication) = True
+						Me.PerformedOptimisationsTally.Item(OptimisationAction.BitShiftForPowerOfTwoMultiplication) += 1US
 
 						REM Therefore, we can replace it with a FunctionCallExpr to the Maths_Bitshift_Left() BIF
 						Return New FunctionCallExpr(
@@ -259,7 +346,7 @@ Namespace Runtime
 						.IExpression_ResolutionResult.MustNotBeNothing("The Expression was resolvable at compile-time, but resolved to [Nothing]. Expression: " & vbCrLf & _InputExpression.ToString())
 
 						LogLexingMessage("The Input Expression was successfully resolved from ↓" & vbCrLf & _InputExpression.ToString() & "to ↓" & vbCrLf & _ResolvedExpr.ToString())
-						Me.PerformedOptimisations.Item(OptimisationAction.ConstantExpressionEvaluation) = True
+						Me.PerformedOptimisationsTally.Item(OptimisationAction.ConstantExpressionEvaluation) += 1UL
 
 						Select Case _ResolvedExpr.GetType()
 							Case GetType(DSString) : Return New LiteralExpr(Of DSString)(CType(_ResolvedExpr, DSString))

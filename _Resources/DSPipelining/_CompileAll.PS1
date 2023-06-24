@@ -1,4 +1,5 @@
 #Compiles all of the DSPipeline Binaries
+#This script should automatically be run when the DSSetup Project is built from the Solution
 
 $VBCPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\vbc.exe";
 Copy-Item "..\..\DSLibrary\bin\Release\DSCore.dll" -Destination ".\Binaries\"
@@ -9,4 +10,4 @@ ForEach ($DSPipelineBinary In $DSPipelineBinaries) {
 	& "$($VBCPath)" "$($DSPipelineBinary).VB" /out:".\Binaries\$($DSPipelineBinary).exe" /target:exe /reference:".\Binaries\DSCore.dll" /nologo
 }
 
-Read-Host "Press Enter to continue...";
+#Read-Host "Press Enter to continue...";

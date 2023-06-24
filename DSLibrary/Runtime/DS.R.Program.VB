@@ -565,7 +565,7 @@
 
 		''' <summary>Produces a DS-KVP Human-readable String for the Object</summary>
 		Public Overrides Function ToString() As String
-			Return DocScript.Utilities.KVPSerialisation.GetKVPString({"GlobalVarDecsCount", Me.GlobalVarDecs.Count.ToString()}, {"FunctionsCount", Me.Functions.Count.ToString()})
+			Return DocScript.Utilities.KVPSerialisation.GetKVPString({"Name", If(Me.Name, "(Untitled)")}, {"GlobalVarDecsCount", Me.GlobalVarDecs.Count.ToString()}, {"FunctionsCount", Me.Functions.Count.ToString()})
 		End Function
 
 		''' <summary>Gets the XML form of the DocScript Program, including all Global Variable Declarations, and Functions with their XML Contents.</summary>

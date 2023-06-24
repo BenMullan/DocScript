@@ -1527,7 +1527,7 @@ Namespace CompilerExtentions
 			 Sub()
 
 				 'Form
-				 Dim _SimpleTextForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 700, .Height = 500, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
+				 Dim _SimpleTextForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 800, .Height = 400, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
 				 _SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = System.Windows.Forms.DockStyle.Fill, .Text = _Text, .ReadOnly = True, .ScrollBars = Windows.Forms.ScrollBars.Both, .Font = New Drawing.Font("Consolas", 12)})
 				 AddHandler _SimpleTextForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleTextForm.Close()
 

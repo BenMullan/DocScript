@@ -85,7 +85,7 @@
 				 New Utilities.CLAManager.CLADatum("LogToFile", "[Flag+Datum] Writes Events from the DocScript Log to the specified Text File during Interpretation", False, True, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.TextFile(New IO.FileInfo(_Value))),
 				 New Utilities.CLAManager.CLADatum("ProcessDebugEvents", "[Flag] Processes and shows Debugging Messages in the Log (if the Log is shown)", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.ProcessDebugEvents = True),
 				 New Utilities.CLAManager.CLADatum("GUI", "[Flag] Indicates that the GUI ExecutionContext will be used instead of the CLI one", False, False, Sub(_Value$) EntryPoint.ExeCxt_ToUse = DocScript.Runtime.ExecutionContext.GUIDefault),
-				 New Utilities.CLAManager.CLADatum("HideConsoleBeforeExecution", "[Flag] Indicates that DSCLI should relinquish its Win32 Console, when Execution of the DocScript Program begins. (Only valid for the /Run action, and if the DSCLI process isn't launched from cmd)", False, False, Sub(_Value$) EntryPoint.HideConsoleBeforeExecution = True),
+				 New Utilities.CLAManager.CLADatum("HideConsoleBeforeExecution", "[Flag] Indicates that DSCLI should relinquish its Win32 Console, when Execution of the DocScript Program begins. (Only valid for the /Run action, and if the DSCLI process isn't launched by another Console process)", False, False, Sub(_Value$) EntryPoint.HideConsoleBeforeExecution = True),
 				 New Utilities.CLAManager.CLADatum("PromptBeforeExit", "[Flag] Shows ""Press [Enter] to continue..."" before exiting the DSCLI Process", False, False, Sub(_Value$) EntryPoint.PromptBeforeExit = True)
 				)
 

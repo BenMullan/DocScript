@@ -1262,8 +1262,16 @@ DSCore
 	</summary>
 </member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseProgram(DocScript.Runtime.Program)">
 	<summary>Returns an optimised version of _Program</summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseStatementContents_(DocScript.Language.Instructions.IInstruction[])">
-	<summary>Recursively optimises the Contents of an IStatement</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseStatementContents(DocScript.Language.Instructions.IInstruction[])">
+	<summary>
+ Applies the following optimisations:
+ 	- Removal of unreachable instructions
+ 	- (Expression-based optimisation on any Expressions contained within the _IInstructions)
+ </summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.ApplyExpressionOptimisationToStatementContents_(DocScript.Language.Instructions.IInstruction[])">
+	<summary>Recursively puts any IExpressions contained in the Instructions through OptimiseExpression()</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.RemoveUnreachableIInstructions_(DocScript.Language.Instructions.IInstruction[])">
+	<summary>Recursively optimises the Contents of an IStatement. This is not an OptimisationAction itself, but passes the IInstructions through other OptimisationActions.</summary>
 </member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseExpression(DocScript.Language.Expressions.IExpression)">
 	<summary>
  Applies the following optimisations:
