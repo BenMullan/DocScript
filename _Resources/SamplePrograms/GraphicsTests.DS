@@ -1,0 +1,21 @@
+﻿#GraphicsTests.VB
+#A demonstration of DocScript's GUI abilities.
+
+Function <Void> Main ()
+	
+	<String@> _Names : DS_String_Split("Ben,Ryan,Alex,Tom,Chloe,Andy", ",")
+	Graphics_TextWindow("Names...", DS_StringArray_Serialise(_Names, Const_CrLf()))
+	DS_Sleep(1000)
+	
+	<String> _FilePath : "C:\Windows\System32\drivers\etc\hosts"
+	Graphics_TextWindowFromFile("Hosts on Localhost", _FilePath)
+	DS_Sleep(1000)
+	
+	<String> _ImageFile : "D:\Benedict\Documents\SchoolWork\Projects\DocScript\Development Logging and Evidence\HotDSIDEs.png"
+	Graphics_ImageWindow("Hot DSIDEs", _ImageFile)
+	DS_Sleep(1000)
+	
+	<String> _URL : "C:\"
+	Graphics_URLWindow("Explorer Window", "C:\")
+	
+EndFunction

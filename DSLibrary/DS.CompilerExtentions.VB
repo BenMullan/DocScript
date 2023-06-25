@@ -1519,7 +1519,7 @@ Namespace CompilerExtentions
 
 		End Function
 
-		''' <summary>(MullNet UsefulMethod) Shows the _Text in a Form with a Copy button at the top. This is all done in a NEW STA Thread.</summary>
+		''' <summary>(MullNet UsefulMethod) Shows the _Text in a Form with a Copy and SaveAs button at the top. This is all done in a NEW STA Thread.</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Sub ShowTextInNewWindow(ByVal _WindowTitle$, ByVal _Text$)
 
@@ -1531,17 +1531,80 @@ Namespace CompilerExtentions
 				 _SimpleTextForm.Controls.Add(New Windows.Forms.TextBox() With {.Multiline = True, .Dock = System.Windows.Forms.DockStyle.Fill, .Text = _Text, .ReadOnly = True, .ScrollBars = Windows.Forms.ScrollBars.Both, .Font = New Drawing.Font("Consolas", 12)})
 				 AddHandler _SimpleTextForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleTextForm.Close()
 
-				 'MenuStrip, with Copy-Button
+				 'MenuStrip, with Copy-Button and SaveAs-Button
 				 Dim _MainMenuStrip As New Windows.Forms.MenuStrip() With {.BackColor = System.Drawing.SystemColors.GradientInactiveCaption}
-				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Copy", image:=Nothing, onClick:=Sub() My.Computer.Clipboard.SetText(_Text)))
-				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:=Sub() Call (Sub(_SelectedFile As IO.FileInfo) If _SelectedFile IsNot Nothing Then My.Computer.FileSystem.WriteAllText(_SelectedFile.FullName, _Text, False)).Invoke(UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {}))))
+				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Copy", image:=Nothing, onClick:= _
+				   Sub()
+					   My.Computer.Clipboard.SetText(_Text) : MsgBox("The text was copied to the Clipboard", MsgBoxStyle.Information)
+				   End Sub
+				  ))
+				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:= _
+				   Sub()
+					   Try
+						   Call (Sub(_SelectedFile As IO.FileInfo) If _SelectedFile IsNot Nothing Then My.Computer.FileSystem.WriteAllText(_SelectedFile.FullName, _Text, False)).Invoke(UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {}))
+					   Catch _Ex As Exception : MsgBox("The File could not be saved" & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : End Try
+				   End Sub
+				   ))
+
 				 _SimpleTextForm.Controls.Add(_MainMenuStrip) : _SimpleTextForm.MainMenuStrip = _MainMenuStrip
-
-				 REM !!!
-				 REM There should be Try-Statements for the SaveAs!
-				 REM !!!
-
 				 Call (_SimpleTextForm).ShowDialog()
+
+			 End Sub)
+
+			_STAThread.SetApartmentState(Threading.ApartmentState.STA) : _STAThread.Start()
+
+		End Sub
+
+		''' <summary>(MullNet UsefulMethod) Shows the _Image in a Form with a Copy and SaveAs button at the top. This is all done in a NEW STA Thread.</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Sub ShowImageInNewWindow(ByVal _WindowTitle$, ByVal _Image As Drawing.Bitmap)
+
+			Dim _STAThread As New Threading.Thread(
+			 Sub()
+
+				 'Form
+				 Dim _SimpleImageForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 600, .Height = 400, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
+				 _SimpleImageForm.Controls.Add(New Windows.Forms.PictureBox() With {.Dock = System.Windows.Forms.DockStyle.Fill, .Image = _Image, .SizeMode = Windows.Forms.PictureBoxSizeMode.Zoom})
+				 AddHandler _SimpleImageForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleImageForm.Close()
+
+				 'MenuStrip, with Copy-Button and SaveAs-Button
+				 Dim _MainMenuStrip As New Windows.Forms.MenuStrip() With {.BackColor = System.Drawing.SystemColors.GradientInactiveCaption}
+				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Copy", image:=Nothing, onClick:= _
+				   Sub()
+					   My.Computer.Clipboard.SetImage(_Image) : MsgBox("The Bitmap was copied to the Clipboard", MsgBoxStyle.Information)
+				   End Sub
+				  ))
+				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:= _
+				   Sub()
+					   Try
+						   Dim _SelectedFile As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {New Tuple(Of [String], [String])("Portable Network Graphics", "PNG")})
+						   If _SelectedFile IsNot Nothing Then _Image.Save(_SelectedFile.FullName, Drawing.Imaging.ImageFormat.Png)
+					   Catch _Ex As Exception : MsgBox("The File could not be saved" & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : End Try
+				   End Sub
+				   ))
+
+				 _SimpleImageForm.Controls.Add(_MainMenuStrip) : _SimpleImageForm.MainMenuStrip = _MainMenuStrip
+				 Call (_SimpleImageForm).ShowDialog()
+
+			 End Sub)
+
+			_STAThread.SetApartmentState(Threading.ApartmentState.STA) : _STAThread.Start()
+
+		End Sub
+
+		''' <summary>(MullNet UsefulMethod) Shows the Contents of the URL (a Web address, local HTML file, or file directory) in a Form. This is all done in a NEW STA Thread.</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Sub ShowURLContentsInNewWindow(ByVal _WindowTitle$, ByVal _URL$)
+
+			Dim _STAThread As New Threading.Thread(
+			 Sub()
+
+				 'Form
+				 Dim _SimpleIExploreForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 600, .Height = 400, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
+				 _SimpleIExploreForm.Controls.Add(New Windows.Forms.WebBrowser() With {.Dock = System.Windows.Forms.DockStyle.Fill, .Url = New System.Uri(_URL)})
+				 AddHandler _SimpleIExploreForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleIExploreForm.Close()
+
+				 Call (_SimpleIExploreForm).ShowDialog()
 
 			 End Sub)
 

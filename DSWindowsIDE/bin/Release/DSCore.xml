@@ -6,7 +6,9 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="T:DocScript.Language.Expressions.IExpression">
+<member name="F:DocScript.Runtime.StandardBuiltInFunctions.Graphics">
+	<summary>DS-Graphics</summary>
+</member><member name="T:DocScript.Language.Expressions.IExpression">
 	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
 </member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
 	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
@@ -1104,7 +1106,11 @@ DSCore
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.Result_OrFalseOnException(System.Func{System.Boolean}@)">
 	<summary>(MullNet UsefulMethod) Attempts to resolve the Function to a value of type Boolean, but returns False if an Exception is Thrown whilst attempting to perform this resolution</summary>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ShowTextInNewWindow(System.String,System.String)">
-	<summary>(MullNet UsefulMethod) Shows the _Text in a Form with a Copy button at the top. This is all done in a NEW STA Thread.</summary>
+	<summary>(MullNet UsefulMethod) Shows the _Text in a Form with a Copy and SaveAs button at the top. This is all done in a NEW STA Thread.</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ShowImageInNewWindow(System.String,System.Drawing.Bitmap)">
+	<summary>(MullNet UsefulMethod) Shows the _Image in a Form with a Copy and SaveAs button at the top. This is all done in a NEW STA Thread.</summary>
+</member><member name="M:DocScript.CompilerExtentions.UsefulMethods.ShowURLContentsInNewWindow(System.String,System.String)">
+	<summary>(MullNet UsefulMethod) Shows the Contents of the URL (a Web address, local HTML file, or file directory) in a Form. This is all done in a NEW STA Thread.</summary>
 </member><member name="T:DocScript.CompilerExtentions.UsefulMethods">
 	<summary>
  Non-CompilerExtention Useful Methods which need to be accessible without Namespace qualification

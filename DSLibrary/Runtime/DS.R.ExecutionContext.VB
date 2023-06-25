@@ -225,6 +225,7 @@
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[DS]) _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[Const]) _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[Debug]) _
+				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[Graphics]) _
 				  .ToArray()
 
 			End Get

@@ -12,6 +12,7 @@ DocScript Sub-Products:
 	- DS-Compilation	(Part of DS-IDE) Enables DocScript Programs to be compiled to standalone exe files
 	- DS-Optimisation	Performs a series of Optimisation Actions on a Program, to make it run more efficiently (See DS.R.Optimisation.VB)
 	- DS-Pipelining		A set of modules allowing the user to see each stage in the interpretation process (See \_Resources\DSPipelining\)
+	- DS-Graphics		The Graphics_* BIFs permit basic text and image GUIs
 	- DS-Logging		The centralised logging system for all DocScript product. Logs to GUI, CLI, Windows-Event-Log, Text File, or MsgBox
 	- DS-Setup			The MSI Installer for DocScript Desktop Components (DS-IDE, DS-CLI, DS-Expr)
 
