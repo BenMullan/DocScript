@@ -617,7 +617,10 @@ Class MainWindow
 	End Sub
 
 	Public Sub RunInDSCLI() Handles RunInDSCLIButton.Click
-		Dim _DSCLI_ExeFile As New IO.FileInfo((New System.IO.FileInfo(System.Environment.GetCommandLineArgs().ElementAt(0))).DirectoryName & "\DSCLI.exe") 'CLA[0] is the Full Path to the current Process's Binary Image.
+
+		'CLA[0] is the Full Path to the current Process's Binary Image.
+		Dim _DSCLI_ExeFile As New IO.FileInfo((New System.IO.FileInfo(System.Environment.GetCommandLineArgs().ElementAt(0))).DirectoryName & "\DSCLI.exe")
+
 		Try
 
 			REM Ensure that we have a CurrentlyOpenFile
@@ -632,6 +635,7 @@ Class MainWindow
 		Catch _Ex As Exception
 			MsgBox("On attempting to launch " & _DSCLI_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message & vbCrLf & vbCrLf & "Note that the [Run in DSCLI] feature is designed only to work when the DocScript binaries exist within the same directory, such as when DocScript has been installed via the .msi setup program.", MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
+
 	End Sub
 
 	Public Sub ShowAboutBox() Handles AboutMenuItem.Click

@@ -405,7 +405,7 @@
 				LogParsingMessage("Checking that all Characters in the post-SLIT-stage non-comment-line Tokens are valid")
 				For Each _Token As Token In _NonCommentLineTokens
 					If Not _Token.Value.ToCharArray().All(Function(_Char As Char) Parser.ValidSLITStageTokenChars_.ToCharArray().Contains(_Char)) Then _
-					 Throw New DSValidationException("An Invalid Character was found in the Source within a Token located at " & _Token.LocationInSource.ToString() & ". Character codes: " & _Token.Value.ToCharArray().Select(Of Int32)(AddressOf AscW).ToArray().GetStandardArraySerialisation() & vbCrLf & "Note that some invalid characters are invisible such as a zero width no-break space. Use a UniCode Loopup website to determine what the errant character is, from the character code.", _Token.Value)
+					 Throw New DSValidationException("An Invalid Character was found in the Source within a Token located at " & _Token.LocationInSource.ToString() & ". Character codes: " & _Token.Value.ToCharArray().Select(Of Int32)(AddressOf AscW).ToArray().GetStandardArraySerialisation() & vbCrLf & "Note that some invalid characters are invisible such as a zero width no-break space. Use a UniCode Loopup website to determine what the errant character is, from the character code." & If(_Token.Value.Contains(Language.Constants.CommentCharacter), vbCrLf & vbCrLf & "Note that comments (starting with " & Language.Constants.CommentCharacter & ") are only permitted at the start of a logical line, and not mid-way through one.", [String].Empty), _Token.Value)
 				Next
 
 				Return _NonCommentLineTokens
@@ -501,7 +501,7 @@
 					REM		2) We tried all the RegExps, and none of them fit
 					REM	We can determine which eventuality is the case by checking the _CurrentToken_HasBeenClassified Variable
 
-					If Not _CurrentToken_HasBeenClassified Then Throw New DSValidationException("A Token could not be classified with a TokenType. Its Location in the Source is " & _UnclassifiedToken.LocationInSource.ToString(), _UnclassifiedToken.Value)
+					If Not _CurrentToken_HasBeenClassified Then Throw New DSValidationException("A Token could not be classified with a TokenType. Its Location in the Source is " & _UnclassifiedToken.LocationInSource.ToString() & vbCrLf & "Note that DocScript numeric literals only support up to 4 decimal places; 8.4322 is a valid literal whereas 8.43221 is not.", _UnclassifiedToken.Value)
 
 				Next
 

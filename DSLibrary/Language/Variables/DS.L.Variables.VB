@@ -193,7 +193,7 @@
 
 		''' <summary>Returns a string to represent the Literal for the IDataValue</summary>
 		Public Overrides Function ToString() As String
-			Return Me.Value.ToString()
+			Return Me.Value.ToString(format:="G", provider:=System.Globalization.CultureInfo.CreateSpecificCulture("en-GB")).Replace("-"c, DocScript.Language.Constants.OperatorChar_NumericalInvertPolarity)
 		End Function
 
 	End Class
