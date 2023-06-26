@@ -245,6 +245,28 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Determines if the _WholeString contains the _SubString within it"}
 
+		Private Const BIF_DS_String_StartsWith_Identifier_$ = DSBIFs_IdentifierStart_ & "String_StartsWith"
+		Private Shared ReadOnly BIF_DS_String_StartsWith_ As New BuiltInFunction(BIF_DS_String_StartsWith_Identifier_$, {New DSFunction.Parameter("_WholeString", GetType(DSString)), New DSFunction.Parameter("_SubString", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_StartsWith_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(_Arguments.ElementAt(0).Coerce(Of DSString)().Value.StartsWith(_Arguments.ElementAt(1).Coerce(Of DSString)().Value))
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Determines if the _WholeString starts with the _SubString"}
+
+		Private Const BIF_DS_String_EndsWith_Identifier_$ = DSBIFs_IdentifierStart_ & "String_EndsWith"
+		Private Shared ReadOnly BIF_DS_String_EndsWith_ As New BuiltInFunction(BIF_DS_String_EndsWith_Identifier_$, {New DSFunction.Parameter("_WholeString", GetType(DSString)), New DSFunction.Parameter("_SubString", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_EndsWith_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(_Arguments.ElementAt(0).Coerce(Of DSString)().Value.EndsWith(_Arguments.ElementAt(1).Coerce(Of DSString)().Value))
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Determines if the _WholeString ends with the _SubString"}
+
 		Private Const BIF_DS_String_If_Identifier_$ = DSBIFs_IdentifierStart_ & "String_If"
 		Private Shared ReadOnly BIF_DS_String_If_ As New BuiltInFunction(BIF_DS_String_If_Identifier_$, {New DSFunction.Parameter("_ConditionExpr", GetType(DSBoolean)), New DSFunction.Parameter("_TruePart", GetType(DSString)), New DSFunction.Parameter("_FalsePart", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -941,6 +963,8 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_DS_String_Length_,
 		 StandardBuiltInFunctions.BIF_DS_String_At_,
 		 StandardBuiltInFunctions.BIF_DS_String_Contains_,
+		 StandardBuiltInFunctions.BIF_DS_String_StartsWith_,
+		 StandardBuiltInFunctions.BIF_DS_String_EndsWith_,
 		 StandardBuiltInFunctions.BIF_DS_String_If_,
 		 StandardBuiltInFunctions.BIF_DS_String_GetRandom_,
 		 StandardBuiltInFunctions.BIF_DS_String_ToChars_,

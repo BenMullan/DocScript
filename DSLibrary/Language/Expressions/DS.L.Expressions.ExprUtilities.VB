@@ -479,7 +479,7 @@
 				Next
 
 				REM Also ensure that the _LBL dosen't begin or end with a Binary Operator, and dosen't end with a Unary Operator...
-				If (_LBL.First().GetType() = GetType(LBLOperatorPlaceholder)) AndAlso Operators.OperatorUtilities.IsBinaryOperator(CType(_LBL.First(), LBLOperatorPlaceholder).OperatorToken.Value.First()) Then Throw New DSLBLValidationException("An LBL Component was Invalid in its location", "A Binary Operator at the start of the LBL", {_LBL.First()})
+				If (_LBL.First().GetType() = GetType(LBLOperatorPlaceholder)) AndAlso Operators.OperatorUtilities.IsBinaryOperator(CType(_LBL.First(), LBLOperatorPlaceholder).OperatorToken.Value.First()) Then Throw New DSLBLValidationException("An LBL Component was Invalid in its location", "A Binary Operator at the start of the LBL; note that the DocScript Operator for unary numeric polarity inversion (e.g. in specifying a negative numeric literal) is not """ & Language.Constants.OperatorChar_NumericalSubtraction & """, but rather, """ & Language.Constants.OperatorChar_NumericalInvertPolarity & """"c, {_LBL.First()})
 				If (_LBL.Last().GetType() = GetType(LBLOperatorPlaceholder)) AndAlso Operators.OperatorUtilities.IsBinaryOperator(CType(_LBL.Last(), LBLOperatorPlaceholder).OperatorToken.Value.First()) Then Throw New DSLBLValidationException("An LBL Component was Invalid in its location", "A Binary Operator at the end of the LBL", {_LBL.Last()})
 				If (_LBL.Last().GetType() = GetType(LBLOperatorPlaceholder)) AndAlso Operators.OperatorUtilities.IsUnaryOperator(CType(_LBL.Last(), LBLOperatorPlaceholder).OperatorToken.Value.First()) Then Throw New DSLBLValidationException("An LBL Component was Invalid in its location", "A Unary Operator at the end of the LBL", {_LBL.Last()})
 

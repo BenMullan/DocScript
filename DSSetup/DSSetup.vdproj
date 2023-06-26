@@ -28,13 +28,13 @@
         "Entry"
         {
         "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
-        "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
+        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
-        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
+        "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,31 +106,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6779BBF64B26AD86C8379EA7505EFC60"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_764A664958FC42AE866B5FA25D1F57C1"
+        "OwnerKey" = "8:_BE2EDD7C04F5FAD74C4E7EFA3B8340E1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +118,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BE2EDD7C04F5FAD74C4E7EFA3B8340E1"
+        "OwnerKey" = "8:_764A664958FC42AE866B5FA25D1F57C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6779BBF64B26AD86C8379EA7505EFC60"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -254,9 +254,14 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DSCore, Version=4.7.2.2, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DSCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_447CBFCA3A4FADD8B04F48474427CFA8"
+                    {
+                    "Name" = "8:DSCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:DSCore.dll"
             "TargetName" = "8:"
@@ -303,6 +308,11 @@
             "AssemblyAsmDisplayName" = "8:ICSharpCode.AvalonEdit, Version=4.3.1.9429, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_6779BBF64B26AD86C8379EA7505EFC60"
+                    {
+                    "Name" = "8:ICSharpCode.AvalonEdit.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ICSharpCode.AvalonEdit.dll"
             "TargetName" = "8:"
@@ -565,15 +575,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{1583F594-83CF-4C17-8D40-2AD6A9CBF94E}"
-        "PackageCode" = "8:{A708C625-0819-4ED0-9678-0417EC1BBD08}"
+        "ProductCode" = "8:{63190DFB-E80C-4474-803A-6EAE1664146B}"
+        "PackageCode" = "8:{36FB9D2F-CF07-470D-814E-C2E3C30C2910}"
         "UpgradeCode" = "8:{38DD944A-CBA2-4B8B-B9FB-7CD32B9B7DE7}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:5.0.0"
+        "ProductVersion" = "8:5.1.0"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://BenM.eu5.org/"
@@ -1129,7 +1139,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2351DCD170EE4C788E505F216D8FAFB8"
             {
-            "SourcePath" = "8:..\\DSWindowsIDE\\obj\\x86\\Debug\\DSIDE.exe"
+            "SourcePath" = "8:..\\DSWindowsIDE\\obj\\x86\\Release\\DSIDE.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
@@ -1157,7 +1167,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_810849982C7846FD8829BCD18E62A99F"
             {
-            "SourcePath" = "8:..\\DSExprResolutionUtility\\obj\\x86\\Debug\\DSExpr.exe"
+            "SourcePath" = "8:..\\DSExprResolutionUtility\\obj\\x86\\Release\\DSExpr.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
@@ -1185,7 +1195,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BB8A82CAFED843588D464DBB1E40E2A9"
             {
-            "SourcePath" = "8:..\\DSCommandLineInterpreter\\obj\\x86\\Debug\\DSCLI.exe"
+            "SourcePath" = "8:..\\DSCommandLineInterpreter\\obj\\x86\\Release\\DSCLI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
