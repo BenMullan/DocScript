@@ -56,6 +56,24 @@ Namespace Runtime
 
 #End Region
 
+		Private Const BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$ = DebugBIFs_IdentifierStart_ & "StartDSLiveSessionFromCurrentExecutionState"
+		Private Shared ReadOnly BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_ As New BuiltInFunction(BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$, {}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$)
+
+			 REM Save the _SymTbls to an XML File in AppData
+			 Dim _SymTblsXMLFile_FullPath$ = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DocScript", "DSSymbolTableStates_" & UsefulMethods.GetRandomString(6) & ".XML")
+			 My.Computer.FileSystem.WriteAllText(_SymTblsXMLFile_FullPath$, _SymTbls.ToXML().ToTabFormattedString(), append:=False)
+
+			 REM Start DSLive with the SymTbls XML
+			 Process.Start(UsefulMethods.GetExecutingAssemblyDirectory.FileHereIn("DSCLI.exe").FullName, "/Live /DSLiveSymbolTablesFile:""" & _SymTblsXMLFile_FullPath$ & """"c)
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Copies the current SymbolTables' States (including all variables and Functions) into a new DSLive Session. This allows immediate expressions to be resolved based on the current Execution State. The SymbolTables are saved to a small File in AppData\Roaming\."}
+
 		Private Const BIF_Debug_GetStackTrace_Identifier_$ = DebugBIFs_IdentifierStart_ & "GetStackTrace"
 		Private Shared ReadOnly BIF_Debug_GetStackTrace_ As New BuiltInFunction(BIF_Debug_GetStackTrace_Identifier_$, {}, GetType(DSString), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -94,6 +112,7 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_Debug_SymbolExists_,
 		 StandardBuiltInFunctions.BIF_Debug_GetVisibleSymbols_,
 		 StandardBuiltInFunctions.BIF_Debug_ShowSymbolTables_,
+		 StandardBuiltInFunctions.BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_,
 		 StandardBuiltInFunctions.BIF_Debug_GetStackTrace_,
 		 StandardBuiltInFunctions.BIF_Debug_GetBIFDescription_
 		}

@@ -231,21 +231,20 @@ Class MainWindow
 		If Not ((_TextCompositionEA.Text.First() = "_"c) OrElse [Char].IsUpper(_TextCompositionEA.Text.First())) Then Return
 
 		Me.IntelliSenseWindow_ = New Global.ICSharpCode.AvalonEdit.CodeCompletion.CompletionWindow(Me.SourceTextEditor.TextArea) With {.Width = 250, .CloseWhenCaretAtBeginning = True, .ExpectInsertionBeforeStart = False}
-		Dim _DSIntellisenseEntries As IList(Of Global.ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData) = Me.IntelliSenseWindow_.CompletionList.CompletionData
+		Dim _DSIntellisenseEntries As New List(Of Global.ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData)()
 
-		REM Add a note about Parsing to get Identifiers added
-		_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:="(Parse to load Identifiers: F1)", _Description:="", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Identifier))
+		REM !!!!!
+		REM Bottom of IntelliSense List
+		REM !!!!!
 
-		REM Identifiers in currently-cached Tokens
-		If Me.Cached_Tokens IsNot Nothing Then
-			For Each _IdentifierToken As Runtime.Token In Me.Cached_Tokens.Where(Function(_Token As Runtime.Token) _Token.Type = Runtime.Token.TokenType.Identifier)
-				_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_IdentifierToken.Value, _Description:="[Identifier]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Identifier))
-			Next
-		End If
+		REM BIFs
+		For Each _BIF As DocScript.Runtime.BuiltInFunction In Me.CurrentExecutionContext.BuiltInFunctions
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_BIF.Identifier, _Description:="[Built-in Function] " & DocScript.Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_BIF.ReturnType).InTitleCase() & DocScript.Language.Constants.ClosingDataTypeBracket & " "c & _BIF.TemplateCall & vbCrLf & _BIF.Description, _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.BuiltInFunction))
+		Next
 
-		REM Non-array DataTypes
-		For Each _DataType$ In Global.DocScript.Language.Constants.AllNonArrayDataTypes
-			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_DataType.InTitleCase(), _Description:="[Data Type]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.DataType))
+		REM StatementEnds
+		For Each _StatementEnd$ In Global.DocScript.Language.Constants.AllStatementEnds
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_StatementEnd.InTitleCase().Replace("if", "If").Replace("loop", "Loop").Replace("while", "While").Replace("function", "Function"), _Description:="[Statement End]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Keyword))
 		Next
 
 		REM Keywords
@@ -253,15 +252,32 @@ Class MainWindow
 			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_Keyword.InTitleCase(), _Description:="[Keyword]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Keyword))
 		Next
 
-		REM StatementEnds
-		For Each _StatementEnd$ In Global.DocScript.Language.Constants.AllStatementEnds
-			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_StatementEnd.InTitleCase(), _Description:="[Statement End]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Keyword))
+		REM Non-array DataTypes
+		For Each _DataType$ In Global.DocScript.Language.Constants.AllNonArrayDataTypes
+			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_DataType.InTitleCase(), _Description:="[Data Type]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.DataType))
 		Next
 
-		REM BIFs
-		For Each _BIF As DocScript.Runtime.BuiltInFunction In Me.CurrentExecutionContext.BuiltInFunctions
-			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_BIF.Identifier, _Description:="[Built-in Function] " & _BIF.TemplateCall & vbCrLf & _BIF.Description, _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.BuiltInFunction))
-		Next
+		REM Identifiers in currently-cached Tokens
+		REM At this point, we could be adding Identifiers that are already in the IntelliSense Entries; avoid this with a list of already-added entries' identifiers
+		Dim _AlreadyAddedIntelliSenseEntries_Identifiers As List(Of [String]) = _DSIntellisenseEntries.Select(Of [String])(Function(_IntelliSenseEntry As ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData) _IntelliSenseEntry.Text.ToUpper()).ToList()
+		If Me.Cached_Tokens IsNot Nothing Then
+			For Each _IdentifierToken As Runtime.Token In Me.Cached_Tokens.Where(Function(_Token As Runtime.Token) _Token.Type = Runtime.Token.TokenType.Identifier)
+				If Not _AlreadyAddedIntelliSenseEntries_Identifiers.Contains(_IdentifierToken.Value.ToUpper()) Then
+					_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_IdentifierToken.Value, _Description:="[Identifier]", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Identifier))
+					_AlreadyAddedIntelliSenseEntries_Identifiers.Add(_IdentifierToken.Value.ToUpper())
+				End If
+			Next
+		End If
+
+		REM Add a note about Parsing to get Identifiers added
+		_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:="(Parse to load Identifiers: F1)", _Description:="", _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.Identifier))
+
+		REM !!!!!
+		REM Top of IntelliSense List
+		REM !!!!!
+
+		_DSIntellisenseEntries.Reverse()
+		_DSIntellisenseEntries.ForEach(AddressOf Me.IntelliSenseWindow_.CompletionList.CompletionData.Add)
 
 		Me.IntelliSenseWindow_.Show()
 		AddHandler Me.IntelliSenseWindow_.Closed, Sub() Me.IntelliSenseWindow_ = Nothing
@@ -634,6 +650,19 @@ Class MainWindow
 
 		Catch _Ex As Exception
 			MsgBox("On attempting to launch " & _DSCLI_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message & vbCrLf & vbCrLf & "Note that the [Run in DSCLI] feature is designed only to work when the DocScript binaries exist within the same directory, such as when DocScript has been installed via the .msi setup program.", MsgBoxStyle.Critical, _Ex.GetType().Name)
+		End Try
+
+	End Sub
+
+	Public Sub StartNewDSLiveSession() Handles StartDSLiveSessionButton.Click
+
+		'CLA[0] is the Full Path to the current Process's Binary Image.
+		Dim _DSCLI_ExeFile As New IO.FileInfo((New System.IO.FileInfo(System.Environment.GetCommandLineArgs().ElementAt(0))).DirectoryName & "\DSCLI.exe")
+
+		Try
+			Process.Start(_DSCLI_ExeFile.FullName, "/Live")
+		Catch _Ex As Exception
+			MsgBox("On attempting to launch " & _DSCLI_ExeFile.FullName.InSquares() & ":" & vbCrLf & vbCrLf & _Ex.Message & vbCrLf & vbCrLf & "Note that the Start-DSLive-from-DSIDE feature is designed only to work when the DocScript binaries exist within the same directory, such as when DocScript has been installed via the .msi setup program.", MsgBoxStyle.Critical, _Ex.GetType().Name)
 		End Try
 
 	End Sub

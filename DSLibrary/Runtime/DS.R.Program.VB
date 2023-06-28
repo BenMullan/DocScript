@@ -113,7 +113,7 @@
 				For Each _BIF As Runtime.BuiltInFunction In _ExeCxt.BuiltInFunctions
 					_SymTbl_ToReturn.AddEntry(
 					 _BIF.Identifier,
-					 New Runtime.SymbolTable.SymbolTableEntry(Of BuiltInFunction)(_BIF, SymbolTable.SymbolTableEntry(Of Global.DocScript.Runtime.BuiltInFunction).SymbolTableEntryFlags.None)
+					 New Runtime.SymbolTable.SymbolTableEntry(Of BuiltInFunction)(_BIF, Global.DocScript.Runtime.SymbolTable.SymbolTableEntryFlags.None)
 					)
 				Next
 

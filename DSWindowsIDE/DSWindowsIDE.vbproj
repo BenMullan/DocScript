@@ -485,9 +485,6 @@
     <None Include="Images\TargetOptions.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\Desktop.PNG" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Images\PsExec_NotActuallyTheLogoForItButStill.PNG" />
   </ItemGroup>
   <ItemGroup>
@@ -504,6 +501,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Optimise.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSLive.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DSLogging.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Desktop.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

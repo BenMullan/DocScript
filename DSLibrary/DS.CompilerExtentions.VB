@@ -1134,12 +1134,12 @@ Namespace CompilerExtentions
 		Public Function ToTabFormattedString(ByVal _XElement As XElement, Optional ByVal _TabChar$ = vbTab) As [String]
 			Try
 
-				REM For every 2 spaces, use a Tab.
+				REM For every 2 spaces, use a Tab
 
 				Return System.Text.RegularExpressions.Regex.Replace(
 				 input:=_XElement.ToString(),
 				 pattern:="^(\s\s)+",
-				 evaluator:=Function(_Match As System.Text.RegularExpressions.Match) String.Join("", _TabChar.Repeat(Convert.ToUInt64(_Match.Length \ 2))),
+				 evaluator:=Function(_Match As System.Text.RegularExpressions.Match) [String].Join("", _TabChar.Repeat(Convert.ToUInt64(_Match.Length \ 2))),
 				 options:=Text.RegularExpressions.RegexOptions.Multiline
 				)
 
@@ -1409,7 +1409,7 @@ Namespace CompilerExtentions
 		End Function
 
 		''' <summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a OpenFileDialog, and returns the Selected File, or NOTHING.</summary>
-		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
+		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of [String], [String])("All Files", "*")</param>
 		''' <param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
 		Public Function RequestFilePath_WithOpenFileDialog(ByVal _FileDialog_Title$, ByVal _TargetFileExtentions As Tuple(Of String, String)(), Optional ByVal _InitialDirectory$ = Nothing) As IO.FileInfo
 			Try

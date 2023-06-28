@@ -5,7 +5,7 @@
 
 		Public Delegate Function BuiltInFunctionDelegate(ByVal _SymTbls As SymbolTablesSnapshot, ByVal _Arguments As DocScript.Language.Variables.IDataValue()) As Language.Instructions.ExecutionResult
 
-		Public ReadOnly [Identifier] As String
+		Public ReadOnly [Identifier] As [String]
 		Public ReadOnly [ExpectedParameters] As ObjectModel.ReadOnlyCollection(Of DocScript.Language.Instructions.Statements.DSFunction.Parameter) 'Struct \w an Ident. and a Type
 		Public ReadOnly [ReturnType] As Type
 		Public ReadOnly [Action] As BuiltInFunctionDelegate
@@ -78,6 +78,11 @@
 		''' <summary>Produces a DS-KVP Human-readable String for the Object</summary>
 		Public Overrides Function ToString() As String
 			Return DocScript.Utilities.KVPSerialisation.GetKVPString({"Identifier", Me.Identifier}, {"Description", Me.Description}, {"ExpectedParameters.Count", Me.ExpectedParameters.Count.ToString()}, {"ReturnType", Me.ReturnType.Name}, {"TemplateCall", Me.TemplateCall}, {"Action", Me.Action.ToString()}, {"Action.Method.Name", Me.Action.Method.Name})
+		End Function
+
+		''' <summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements Runtime.SymbolTable.ISymbolTableValue.ToXML
+			Return <BuiltInFunction TargetBIF=<%= Me.Identifier %>/>
 		End Function
 
 	End Class

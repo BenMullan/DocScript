@@ -39,6 +39,7 @@
 	Public ActionWhenReady As DSCLIActionToPerform = DSCLIActionToPerform.Unresolved
 	Public HideConsoleBeforeExecution As [Boolean] = False
 	Public PromptBeforeExit As [Boolean] = False
+	Public SymbolTablesXMLFile_ForDSLiveSession As IO.FileInfo = Nothing
 
 #End Region
 
@@ -85,6 +86,7 @@
 				 New Utilities.CLAManager.CLADatum("LogToFile", "[Flag+Datum] Writes Events from the DocScript Log to the specified Text File during Interpretation", False, True, Sub(_Value$) DocScript.Logging.LogUtilities.CurrentLogEventHandler = DocScript.Logging.LogUtilities.BuiltInLogEventHandlers.TextFile(New IO.FileInfo(_Value))),
 				 New Utilities.CLAManager.CLADatum("ProcessDebugEvents", "[Flag] Processes and shows Debugging Messages in the Log (if the Log is shown)", False, False, Sub(_Value$) DocScript.Logging.LogUtilities.ProcessDebugEvents = True),
 				 New Utilities.CLAManager.CLADatum("GUI", "[Flag] Indicates that the GUI ExecutionContext will be used instead of the CLI one", False, False, Sub(_Value$) EntryPoint.ExeCxt_ToUse = DocScript.Runtime.ExecutionContext.GUIDefault),
+				 New Utilities.CLAManager.CLADatum("DSLiveSymbolTablesFile", "[Flag+Datum] A path to a DocScript SymbolTables' States XML File, such as can be produced by the SymbolTableExplorer Window in DSISE, or via Debug_StartDSLiveSessionFromCurrentExecutionState(). The SymbolTables' Entries are loaded into the DSLive Session.", False, True, Sub(_Value$) EntryPoint.SymbolTablesXMLFile_ForDSLiveSession = New IO.FileInfo(_Value)),
 				 New Utilities.CLAManager.CLADatum("HideConsoleBeforeExecution", "[Flag] Indicates that DSCLI should relinquish its Win32 Console, when Execution of the DocScript Program begins. (Only valid for the /Run action, and if the DSCLI process isn't launched by another Console process)", False, False, Sub(_Value$) EntryPoint.HideConsoleBeforeExecution = True),
 				 New Utilities.CLAManager.CLADatum("PromptBeforeExit", "[Flag] Shows ""Press [Enter] to continue..."" before exiting the DSCLI Process", False, False, Sub(_Value$) EntryPoint.PromptBeforeExit = True)
 				)
@@ -150,15 +152,36 @@
 
 	Public Sub EnterDSLiveSession()
 
+		REM Print the Start-up Banner
 		UsefulMethods.ConsoleWriteLineInColour(EntryPoint.DSLive_StartupText, _ForegroundColour:=ConsoleColor.DarkBlue, _BackgroundColour:=ConsoleColor.Gray)
-		Dim _Session_SymTbls As DocScript.Runtime.SymbolTablesSnapshot = Program.GenerateGlobalSymbolTable(EntryPoint.ExeCxt_ToUse).SnapshotContainingJustThis
 
+		REM Determine what the contents of the SymbolTables should be
+		Dim _Session_SymTbls As DocScript.Runtime.SymbolTablesSnapshot
+		If EntryPoint.SymbolTablesXMLFile_ForDSLiveSession Is Nothing Then
+			_Session_SymTbls = DocScript.Runtime.Program.GenerateGlobalSymbolTable(EntryPoint.ExeCxt_ToUse).SnapshotContainingJustThis
+		Else
+
+			Console.Out.WriteLine("Loading Symbol Tables from file: " & EntryPoint.SymbolTablesXMLFile_ForDSLiveSession.FullName)
+			_Session_SymTbls = Runtime.SymbolTablesSnapshot.FromXML(XElement.Load(EntryPoint.SymbolTablesXMLFile_ForDSLiveSession.FullName))
+
+			Dim _NonBIFEntries_DatatypesAndIdentifiersStrings$() = _Session_SymTbls.AllEntriesInAllSymbolTables_ReadOnlyCopy _
+			   .Where(Function(_Entry As KeyValuePair(Of [String], SymbolTable.ISymbolTableEntry)) _Entry.Value.GetType() <> GetType(SymbolTable.SymbolTableEntry(Of BuiltInFunction))) _
+			   .Select(Function(_Entry As KeyValuePair(Of [String], SymbolTable.ISymbolTableEntry)) (_Entry.Value.GetType().GetGenericArguments().First().Name.Replace("`1", "") & If(_Entry.Value.GetType().GetGenericArguments().First().IsGenericType, "→" & _Entry.Value.GetType().GetGenericArguments().First().GetGenericArguments().First().Name, "")).PadRight(18) & _Entry.Key) _
+			   .ToArray()
+
+			Console.Out.WriteLine("Loaded " & _NonBIFEntries_DatatypesAndIdentifiersStrings.Count().ToString() & " entries (excluding BIFs) from SymbolTables XML:")
+			_NonBIFEntries_DatatypesAndIdentifiersStrings.ToList().ForEach(AddressOf Console.Out.WriteLine)
+			Console.Out.WriteLine()
+
+		End If
+
+		REM Enter the (infinite) prompt-response loop
 		While True
 
 			Try
 
 				REM Request Console Input. This may be piped, in which case end the process if the line is null.
-				UsefulMethods.ConsoleWriteInColour("DS>", _ForegroundColour:=ConsoleColor.Gray, _BackgroundColour:=ConsoleColor.DarkGray) : Console.Write(" "c)
+				UsefulMethods.ConsoleWriteInColour("DS>", _ForegroundColour:=ConsoleColor.Gray, _BackgroundColour:=ConsoleColor.DarkGray) : Console.Out.Write(" "c)
 				Dim _LineReadFromConsole As [String] = Console.ReadLine()
 				If _LineReadFromConsole Is Nothing Then : UsefulMethods.ConsoleWriteLineInColour("Ending the DSCLI Process, because the Console Input was [Nothing]. This may be because the input to DSCLI was piped.", _ForegroundColour:=ConsoleColor.Red, _BackgroundColour:=ConsoleColor.Gray) : Environment.Exit(exitCode:=-2) : End If
 				Dim _DSLiveInputCommand_UnflattenedAndTrimmed As [String] = Parser.UnflattenSource(_LineReadFromConsole.WithLeadingWhiteSpaceRemoved().WithTrailingWhiteSpaceRemoved())

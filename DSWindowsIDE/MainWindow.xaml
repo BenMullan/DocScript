@@ -36,7 +36,7 @@
 			<RibbonTab x:Name="HomeTab" Header="Home" KeyTip="H">
 
 				<!-- File -->
-				<RibbonGroup Header="File">
+				<RibbonGroup Header="File" LargeImageSource="/DSIDE;component/Images/Save.PNG">
 					<RibbonButton x:Name="NewButton" SmallImageSource="/DSIDE;component/Images/New.PNG" Label="New" ToolTip="Ctrl + N, or Ctrl + Shift + N for a new DSIDE Instance..." />
 					<RibbonButton x:Name="OpenButton" SmallImageSource="/DSIDE;component/Images/Open.PNG" Label="Open..." ToolTip="Ctrl + O, or Ctrl + Shift + O to open the containing-folder of the current DocScript File..." />
 					<RibbonButton x:Name="SaveAsButton" SmallImageSource="/DSIDE;component/Images/SaveAs.PNG" Label="Save As..." ToolTip="Ctrl + Shift + S" />
@@ -44,7 +44,7 @@
 				</RibbonGroup>
 
 				<!-- Edit -->
-				<RibbonGroup Header="Edit">
+				<RibbonGroup Header="Edit" LargeImageSource="/DSIDE;component/Images/Cut.PNG">
 					<RibbonButton x:Name="CutButton" Command="Cut" SmallImageSource="/DSIDE;component/Images/Cut.PNG" Label="Cut" ToolTip="Ctrl + X" />
 					<RibbonButton x:Name="CopyButton" Command="Copy" SmallImageSource="/DSIDE;component/Images/Copy.PNG" Label="Copy" ToolTip="Ctrl + C" />
 					<RibbonButton x:Name="PasteButton" Command="Paste" SmallImageSource="/DSIDE;component/Images/Paste.PNG" Label="Paste" ToolTip="Ctrl + V" />
@@ -120,7 +120,7 @@
 				</RibbonGroup>
 
 				<!-- Interpretation -->
-				<RibbonGroup Header="Interpretation">
+				<RibbonGroup Header="Interpretation" LargeImageSource="/DSIDE;component/Images/Run.PNG">
 					<RibbonButton x:Name="RunButton"		LargeImageSource="/DSIDE;component/Images/Run.PNG"			Label="Run (F5)"		ToolTipTitle="Begin Interpretation" ToolTipDescription="Runs the 3 stages of DocScript Interpretation, in a new thread." ToolTipFooterDescription="Use the seperate buttons to the side hereof to carry out each stage individually." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" CanAddToQuickAccessToolBarDirectly="True" />
 					<RibbonButton x:Name="ParseButton"		SmallImageSource="/DSIDE;component/Images/Parse.PNG"		Label="Parse (F1)"		ToolTip="Creates and caches Tokens from the raw Source. Becomes GREEN when cached Tokens are currently present." />
 					<RibbonButton x:Name="LexButton"		SmallImageSource="/DSIDE;component/Images/Construct.PNG"	Label="Construct (F2)"	ToolTip="Constructs and caches a New DocScript.Runtime.Program() from the parsed Tokens. Becomes GREEN when a cached Program is currently present." />
@@ -128,7 +128,7 @@
 				</RibbonGroup>
 
 				<!-- View -->
-				<RibbonGroup Header="View">
+				<RibbonGroup Header="View" LargeImageSource="/DSIDE;component/Images/ZoomIn.PNG">
 					<RibbonButton x:Name="ZoomInButton" SmallImageSource="/DSIDE;component/Images/ZoomIn.PNG" Label="Zoom In" />
 					<RibbonButton x:Name="ZoomOutButton" SmallImageSource="/DSIDE;component/Images/ZoomOut.PNG" Label="Zoom Out" />
 					<RibbonButton x:Name="FullScreenButton" SmallImageSource="/DSIDE;component/Images/FullScreen.PNG" Label="Full Screen" />
@@ -140,24 +140,24 @@
 			<RibbonTab x:Name="ViewPlusTab" Header="ViewPlus" KeyTip="V">
 
 				<!-- Reset All -->
-				<RibbonGroup Header="Global">
+				<RibbonGroup Header="Global" LargeImageSource="/DSIDE;component/Images/FullScreen.PNG">
 					<RibbonButton x:Name="ResetAllTextTransformationsButton" LargeImageSource="/DSIDE;component/Images/Back.PNG" Label="Reset All" />
 				</RibbonGroup>
 
 				<!-- Zoom -->
-				<RibbonGroup Header="Zoom">
+				<RibbonGroup Header="Zoom" LargeImageSource="/DSIDE;component/Images/FullScreen.PNG">
 					<TextBlock x:Name="ZoomValueText" Text="Zoom: (1)" Margin="2,2,0,15" />
 					<Slider x:Name="ZoomValueSlider" Minimum="0.5" Maximum="5" Value="1" Width="150" />
 				</RibbonGroup>
 
 				<!-- Skew -->
-				<RibbonGroup Header="Skew">
+				<RibbonGroup Header="Skew" LargeImageSource="/DSIDE;component/Images/FullScreen.PNG">
 					<TextBlock x:Name="SkewValueText" Text="Skew: (0)" Margin="2,2,0,15" />
 					<Slider x:Name="SkewValueSlider" Minimum="-50" Maximum="50" Value="0" Width="150" />
 				</RibbonGroup>
 
 				<!-- Rotate -->
-				<RibbonGroup Header="Rotate">
+				<RibbonGroup Header="Rotate" LargeImageSource="/DSIDE;component/Images/FullScreen.PNG">
 					<TextBlock x:Name="RotateValueText" Text="Rotate: (0)" Margin="2,2,0,15" />
 					<Slider x:Name="RotateValueSlider" Minimum="-90" Maximum="180" Value="0" Width="150" />
 					<RibbonButton x:Name="AnimateTextRotationButton" LargeImageSource="/DSIDE;component/Images/Rotate.PNG" Label="Animate" ToolTipTitle="Rotation Animation" ToolTipDescription="Rotates the Source TextBox&#x0d;&#x0a;360* around and then stops." ToolTipFooterDescription="Ctrl + Click to animate forever..." ToolTipFooterTitle="Options" ToolTipImageSource="/DSIDE;component/Images/Info32.PNG" />
@@ -168,18 +168,18 @@
 			<!-- The Program RibbonTab -->
 			<RibbonTab x:Name="ProgramTab" Header="Program" KeyTip="P">
 
-				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced">
-					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
-					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
-					<RibbonButton x:Name="OptimiseProgramButton" LargeImageSource="/DSIDE;component/Images/Optimise.PNG" Label="Optimise Program..." ToolTip="Launches a New instance of DSIDE with an Optimised version of the Program" />
+				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG">
+					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" SmallImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
+					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" SmallImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
+					<RibbonButton x:Name="OptimiseProgramButton" LargeImageSource="/DSIDE;component/Images/Optimise.PNG" SmallImageSource="/DSIDE;component/Images/Optimise.PNG" Label="Optimise Program..." ToolTip="Launches a New instance of DSIDE with an Optimised version of the Program" />
 				</RibbonGroup>
 
-				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop">
+				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop" LargeImageSource="/DSIDE;component/Images/About.PNG">
 					<Label Content="Command-line Arguments:"/>
 					<TextBox x:Name="ProgramCLAsTextBox" Width="250" TextWrapping="Wrap" AcceptsReturn="False" VerticalScrollBarVisibility="Hidden" />
 				</RibbonGroup>
-				
-				<RibbonGroup Header="Debug">
+
+				<RibbonGroup Header="Debug" LargeImageSource="/DSIDE;component/Images/Construct.PNG">
 					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
 					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
 				</RibbonGroup>
@@ -189,21 +189,21 @@
 			<!-- The DocScript RibbonTab -->
 			<RibbonTab x:Name="DocScriptTab" Header="DocScript" KeyTip="D">
 
-				<RibbonGroup x:Name="AnaylseGroup" Header="Analyse">
-					<RibbonButton x:Name="GenerateTokensTableButton" LargeImageSource="/DSIDE;component/Images/Tokens.PNG" Label="View Cached Tokens..." ToolTip="Ctrl + Shift + K. Becomes GREEN when cached Tokens are currently present." />
-					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T. Becomes GREEN when a cached Program is currently present." />
-					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R. Becomes GREEN when a cached ExecutionResult is currently present." />
+				<RibbonGroup x:Name="AnaylseGroup" Header="Analyse" LargeImageSource="/DSIDE;component/Images/ApplySyntaxHighlighting.PNG">
+					<RibbonButton x:Name="GenerateTokensTableButton" LargeImageSource="/DSIDE;component/Images/Tokens.PNG" SmallImageSource="/DSIDE;component/Images/Tokens.PNG" Label="View Cached Tokens..." ToolTip="Ctrl + Shift + K. Becomes GREEN when cached Tokens are currently present." />
+					<RibbonButton x:Name="GenerateProgTreeButton" LargeImageSource="/DSIDE;component/Images/ProgramTree.ICO" SmallImageSource="/DSIDE;component/Images/ProgramTree.ICO" Label="Generate Program Tree..." ToolTip="Ctrl + Shift + T. Becomes GREEN when a cached Program is currently present." />
+					<RibbonButton x:Name="GenerateExeResTreeButton" LargeImageSource="/DSIDE;component/Images/HereArror.ico" SmallImageSource="/DSIDE;component/Images/HereArror.ico" Label="Explore Execution Result..." ToolTip="Ctrl + Shift + R. Becomes GREEN when a cached ExecutionResult is currently present." />
 				</RibbonGroup>
 
-				<RibbonGroup x:Name="UtilitiesGroup" Header="Utilities">
+				<RibbonGroup x:Name="UtilitiesGroup" Header="Utilities" LargeImageSource="/DSIDE;component/Images/Expression.PNG">
 					<RibbonButton x:Name="ViewBIFsButton" SmallImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
 					<RibbonButton x:Name="OpenDSExprButton" SmallImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch Expr Resolver..." ToolTip="Ctrl + Shift + E" />
 					<RibbonButton x:Name="LaunchNewRemoteFileExplorerButton" SmallImageSource="/DSIDE;component/Images/Open.PNG" Label="Remote File Explorer..." ToolTip="Ctrl + Shift + F" />
+					<RibbonButton x:Name="StartDSLiveSessionButton" LargeImageSource="/DSIDE;component/Images/DSLive.PNG" Label="DocScript Live Session..." ToolTip="Runs DSCLI /Live. Use the Debug_StartDSLiveSessionFromCurrentExecutionState() BIF to inject the current SymbolTables into a DSLive session." />
 				</RibbonGroup>
-				
-				<RibbonGroup x:Name="LogginGroup" Header="Logging">
-					<!--<RibbonCheckBox Label="Show DocScript Log" x:Name="ShowDSLogCheckBox" />-->
-					<Label Content="Log Event Handler:"/><ComboBox Width="150" x:Name="LogEventHandlers_ComboBox" />
+
+				<RibbonGroup x:Name="LoggingGroup" Header="Log-Event Handler" LargeImageSource="/DSIDE;component/Images/DSLogging.PNG">
+					<ComboBox Width="150" x:Name="LogEventHandlers_ComboBox" Margin="5" />
 					<RibbonCheckBox Label="Process Debug Events" x:Name="ProcessDebugEventsCheckBox" />
 				</RibbonGroup>
 

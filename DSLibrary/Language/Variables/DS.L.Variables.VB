@@ -1,7 +1,9 @@
 ﻿Namespace Language.Variables
 
 	''' <summary>The Non-Generic Interface for all actual Values of an Expr or Variable</summary>
-	Public Interface IDataValue : End Interface
+	Public Interface IDataValue
+		Function ToXML() As XElement
+	End Interface
 
 	''' <summary>The Generic Interface for values of an Expr or Variable. Takes in the DotNetType for which the interface is a wrapper</summary>
 	Public Interface IDataValue(Of TDotNetType) : Inherits IDataValue
@@ -12,9 +14,9 @@
 #Region "IDataValue Implementations"
 
 	''' <summary>Represents a True or False value</summary>
-	Public Class DSBoolean : Implements IDataValue(Of Boolean), Runtime.SymbolTable.ISymbolTableValue
+	Public Class DSBoolean : Implements IDataValue(Of [Boolean]), Runtime.SymbolTable.ISymbolTableValue
 
-		Public Property Value As Boolean Implements IDataValue(Of Boolean).Value
+		Public Property Value As [Boolean] Implements IDataValue(Of [Boolean]).Value
 
 		Public Shared ReadOnly Property InstanceWithNullValue As DSBoolean
 			Get
@@ -22,7 +24,7 @@
 			End Get
 		End Property
 
-		Private Const NullValue_ As Boolean = False
+		Private Const NullValue_ As [Boolean] = False
 		Public ReadOnly Property NullValue As Boolean Implements IDataValue(Of Boolean).NullValue
 			Get
 				Return DSBoolean.NullValue_
@@ -46,6 +48,13 @@
 		''' <summary>Returns a string to represent the Literal for the IDataValue</summary>
 		Public Overrides Function ToString() As String
 			Return Me.Value.ToString()
+		End Function
+
+		''' <summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements Runtime.SymbolTable.ISymbolTableValue.ToXML, Language.Variables.IDataValue.ToXML
+			Dim _XElement As XElement = <DSBoolean/>
+			_XElement.Add(Me.Value.ToString())
+			Return _XElement
 		End Function
 
 	End Class
@@ -187,7 +196,7 @@
 
 		Public ReadOnly Property AsBasedNumber As DocScript.Language.Variables.BasedNumberSupport.BasedNumber
 			Get
-				Return New BasedNumber(Me.Value.ToString(), 10)
+				Return New BasedNumber(_Value:=Me.Value.ToString(), _Base:=10)
 			End Get
 		End Property
 
@@ -196,10 +205,17 @@
 			Return Me.Value.ToString(format:="G", provider:=System.Globalization.CultureInfo.CreateSpecificCulture("en-GB")).Replace("-"c, DocScript.Language.Constants.OperatorChar_NumericalInvertPolarity)
 		End Function
 
+		''' <summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements Runtime.SymbolTable.ISymbolTableValue.ToXML, Language.Variables.IDataValue.ToXML
+			Dim _XElement As XElement = <DSNumber/>
+			_XElement.Add(Me.Value.ToString())
+			Return _XElement
+		End Function
+
 	End Class
 
 	''' <summary>Represents a String of Chars</summary>
-	Public Class DSString : Implements IDataValue(Of String), Runtime.SymbolTable.ISymbolTableValue
+	Public Class DSString : Implements IDataValue(Of [String]), Runtime.SymbolTable.ISymbolTableValue
 
 		Public Property Value As [String] Implements IDataValue(Of String).Value
 
@@ -246,6 +262,13 @@
 		''' <summary>Returns a string to represent the Literal for the IDataValue</summary>
 		Public Overrides Function ToString() As String
 			Return Constants.StringLiteralStartEndChar & Me.Value & Constants.StringLiteralStartEndChar
+		End Function
+
+		''' <summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements Runtime.SymbolTable.ISymbolTableValue.ToXML, Language.Variables.IDataValue.ToXML
+			Dim _XElement As XElement = <DSString/>
+			_XElement.Add(Me.Value)
+			Return _XElement
 		End Function
 
 	End Class
@@ -296,14 +319,27 @@
 			Return "(Length: " & Me.Elements.Count.ToString() & ") " & String.Join(", ", Me.Elements.Select(Of String)(Function(_Element As TElement) _Element.ToString())).InCurlies()
 		End Function
 
+		''' <summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements Runtime.SymbolTable.ISymbolTableValue.ToXML, Language.Variables.IDataValue.ToXML
+			Dim _XElement As XElement = <DSArray ElementsType=<%= GetType(TElement).Name %>/>
+			_XElement.Add(Me.Elements.Select(Of XElement)(Function(_Element As IDataValue) _Element.ToXML()))
+			Return _XElement
+		End Function
+
 	End Class
 
 	''' <summary>Represents the absence of Data (Only valid as a Return Type for Functions)</summary>
 	Public Class Void : Implements IDataValue
 
+		''' <summary>Throws an Exception</summary>
 		Public Sub New()
-			Throw New DSInvalidCallException("A Void Object cannot be instanciated. It is only for use as a Placeholder Type", "DocScript\Language\Variables\Void\New()")
+			Throw New DSInvalidCallException("A Void Object cannot be instanciated. It is only for use as a Placeholder Type", "Global\DocScript\Language\Variables\Void\New()")
 		End Sub
+
+		''' <summary>Throws an Exception</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements IDataValue.ToXML
+			Throw New DSInvalidCallException("A Void Object cannot be serialised as XML. It is only for use as a Placeholder Type", "Global\DocScript\Language\Variables\Void\ToXML()")
+		End Function
 
 	End Class
 

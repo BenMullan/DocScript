@@ -297,12 +297,17 @@
 
 						'Coerce
 						Dim _Argument_CoercedToParameterType As Variables.IDataValue = _
-						Variables.TypeCoercion.CoerceIDV_IntoTargetIDVType_NoGenericModifier(_Arguments.ElementAt(_ArgumentIndex), Me.Parameters.ElementAt(_ArgumentIndex).DataType)
+						   Variables.TypeCoercion.CoerceIDV_IntoTargetIDVType_NoGenericModifier(_InputIDV:=_Arguments.ElementAt(_ArgumentIndex), _TargetOutputType:=Me.Parameters.ElementAt(_ArgumentIndex).DataType)
+
+						'Generate SymTblEntry with Argument Flag
+						Dim _Argument_SymTblEntry As Runtime.SymbolTable.ISymbolTableEntry = _
+						   Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=_Argument_CoercedToParameterType.MustNotBeNothing("The Argument was [Nothing]"), _NullValueType_IfInputIDVIsNothing:=Nothing)
+						_Argument_SymTblEntry.SetFlags(Runtime.SymbolTable.SymbolTableEntryFlags.DSFunctionParameter)
 
 						'Add to SymbolTable
 						_Modified_SymTbls.AddEntryToToTopmost(
 						 _Identifier:=Me.Parameters.ElementAt(_ArgumentIndex).Identifier,
-						 _Entry:=Runtime.SymbolTable.GetSymbolTableEntry_FromIDataValue(_InputIDV:=_Argument_CoercedToParameterType.MustNotBeNothing("The Argument was [Nothing]"), _NullValueType_IfInputIDVIsNothing:=Nothing)
+						 _Entry:=_Argument_SymTblEntry
 						)
 
 					Next
@@ -437,6 +442,11 @@
 			 [StatementUtilities].ReconstructStatementContentsAsSource(Me.Contents.ToArray()).TabbedInBy(1) & Constants.LineBreak & _
 			 Constants.StatementEnd_Function
 
+		End Function
+
+		''' <summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+		Public Function ToXML() As System.Xml.Linq.XElement Implements Runtime.SymbolTable.ISymbolTableValue.ToXML
+			Return Me.GetProgramTreeNodeXML()
 		End Function
 
 	End Class

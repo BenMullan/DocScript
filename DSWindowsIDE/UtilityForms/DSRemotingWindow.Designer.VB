@@ -148,8 +148,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Utility_LaunchNewRFE_LinkLabel.TabStop = True
 		Me.Utility_LaunchNewRFE_LinkLabel.Text = "Launch remote file explorer..."
 		Me.TheToolTipProvider.SetToolTip(Me.Utility_LaunchNewRFE_LinkLabel, "Launches an new DocScript Remote File Explorer, targeting the specified" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Computer" & _
-			  "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
-			  "w Thread.")
+		   "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
+		   "w Thread.")
 		'
 		'InteractiveIcon_PictureBox
 		'
@@ -173,7 +173,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Utility_StartRemoteShellSession_LinkLabel.TabStop = True
 		Me.Utility_StartRemoteShellSession_LinkLabel.Text = "Start PsExec cmd session..."
 		Me.TheToolTipProvider.SetToolTip(Me.Utility_StartRemoteShellSession_LinkLabel, "Launches a PsExec cmd.exe Session, using the currently-entered Computer, Username" & _
-			  ", Password, and PsExec path.")
+		   ", Password, and PsExec path.")
 		'
 		'ShellIcon_PictureBox
 		'
@@ -641,7 +641,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ConnectButton.TabIndex = 4
 		Me.ConnectButton.Text = "&Connect && Execute"
 		Me.TheToolTipProvider.SetToolTip(Me.ConnectButton, "Copies the DocScript Runtime files to the target," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and starts the DSCLI.exe inter" & _
-			  "preter process.")
+		   "preter process.")
 		Me.ConnectButton.UseVisualStyleBackColor = True
 		'
 		'ShowHideOptionsButton
@@ -652,8 +652,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ShowHideOptionsButton.TabIndex = 5
 		Me.ShowHideOptionsButton.Text = "Hide &Options"
 		Me.TheToolTipProvider.SetToolTip(Me.ShowHideOptionsButton, "By default, the Interactive mode will be used with GUI Execution," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and you will b" & _
-			  "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
-			  "")
+		   "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
+		   "")
 		Me.ShowHideOptionsButton.UseVisualStyleBackColor = True
 		'
 		'DSRemotingBanner_PictureBox

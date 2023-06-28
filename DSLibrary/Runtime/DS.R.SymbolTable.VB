@@ -3,29 +3,35 @@
 	''' <summary>Holds a dictionary of Identifiers to [SymbolTableEntry]s. All Identifiers are ToUpper()-ed.</summary>
 	Public Class SymbolTable
 
+		''' <summary>Implemented by: DSString, DSNumber, DSBoolean, DSArray(Of *), DSFunction, BuiltInFunction</summary>
+		Public Interface ISymbolTableValue
+			Function ToXML() As XElement
+		End Interface
+
 		''' <summary>Implemented by all derivatives of SymbolTableEntry(Of TValue), no matter what Type of Value they hold</summary>
 		Public Interface ISymbolTableEntry
 			Sub UpdateValue(ByVal _NewValue As ISymbolTableValue)
+			Sub SetFlags(ByVal _Flags As SymbolTableEntryFlags)
 			Function Value_ToString() As [String]
+			Function ToXML() As XElement
 		End Interface
 
-		''' <summary>Implemented by: DSString, DSNumber, DSBoolean, DSArray(Of *), DSFunction, BuiltInFunction</summary>
-		Public Interface ISymbolTableValue : End Interface
+		''' <summary>To be BitWise Or-ed together if needed, though SymbolTableEntry(Of TValue).ToString() and ...ToXML() may not correctly read OR'd Bits</summary>
+		Public Enum SymbolTableEntryFlags As [Byte]
+			[None] = 0
+			[DSFunctionParameter] = 1 'Nessecary because we'd have no way of knowing if the Value is for an Argument or a Local Variable if it's <Number> or <String> etc...
+		End Enum
 
 		''' <summary>Represents an Entry in a SymbolTable with a Value, FlagSet, and - implicitly - a Value Type.
-		''' NOTE THAT THE IDENTIFIER FOR THE ENTRY IS STORED IN THE SYMBOLTABLE AS A DICTIONARY KEY.</summary>
+		''' NOTE THAT THE IDENTIFIER FOR THE ENTRY IS STORED IN THE SYMBOLTABLE AS A DICTIONARY KEY (not in this class itself).</summary>
 		Public Class SymbolTableEntry(Of TValue As {ISymbolTableValue}) : Implements ISymbolTableEntry
 
-			REM To be BitWise Or-ed together if needed
-			Public Enum SymbolTableEntryFlags As Byte
-				[None] = 0
-				[DSFunctionParameter] = 1 'Nessecary because we'd have no way of knowing if the Value is for an Argument or a Local Variable if it's <Number> or <String> etc...
-			End Enum
+			Protected SetFlags_HasBeenCalled_ As [Boolean] = False
 
-			Public ReadOnly Flags As SymbolTableEntryFlags = SymbolTableEntry(Of TValue).SymbolTableEntryFlags.None
+			Public Flags As SymbolTableEntryFlags
 			Public Value As TValue
 
-			Public Sub New(ByVal _Value As TValue, Optional ByVal _Flags As SymbolTableEntryFlags = SymbolTableEntry(Of TValue).SymbolTableEntryFlags.None)
+			Public Sub New(ByVal _Value As TValue, Optional ByVal _Flags As SymbolTableEntryFlags = SymbolTableEntryFlags.None)
 				Me.Flags = _Flags : Me.Value = _Value
 			End Sub
 
@@ -43,7 +49,7 @@
 
 			''' <summary>Returns a KVP String to represent the Object</summary>
 			Public Overrides Function ToString() As String
-				Return DocScript.Utilities.KVPSerialisation.GetKVPString({"ValueType", Me.Value.GetType().Name}, {"Flags", Convert.ToString(CByte(Me.Flags), 2)})
+				Return DocScript.Utilities.KVPSerialisation.GetKVPString({"ValueType", Me.Value.GetType().Name}, {"Flags", Convert.ToString(value:=CByte(Me.Flags), toBase:=10)})
 			End Function
 
 			''' <summary>Returns the ToString() of the Value. Implemented in the Interface, so that a preview of the Value can be retreived, even when the Type of the Value is unknown.</summary>
@@ -51,11 +57,67 @@
 				Return Me.Value.ToString()
 			End Function
 
-		End Class '</SymbolTableEntry>
+			''' <summary>MAY ONLY BE CALLED ONCE (per instance). Sets the Flags of the SymbolTableEntry, without having to know what the TValue of the Entry is.</summary>
+			Public Sub SetFlags(_Flags As SymbolTableEntryFlags) Implements ISymbolTableEntry.SetFlags
+				If Me.SetFlags_HasBeenCalled_ Then Throw New DSException("SetFlags() had already been called on the SymbolTableEntry with value: " & Me.Value_ToString())
+				Me.Flags = _Flags : Me.SetFlags_HasBeenCalled_ = True
+			End Sub
+
+			''' <summary>Returns the Flags and the Value's XML</summary>
+			Public Function ToXML() As System.Xml.Linq.XElement Implements ISymbolTableEntry.ToXML
+				Dim _SymTblEntry_XElement As XElement = <SymbolTableEntryValue ValueType=<%= GetType(TValue).Name %> Flags=<%= Convert.ToString(value:=CByte(Me.Flags), toBase:=10) %>/>
+				_SymTblEntry_XElement.Add(Me.Value.ToXML())
+				Return _SymTblEntry_XElement
+			End Function
+
+		End Class
+
+		''' <summary>Takes in XML with the TagName SymbolTableEntryValue, containing an ISymbolTableValue as an XML child. BIFs are read from the CLIDefault ExecutionContext, because the AllStandardBuiltInFunctions Property does not include the I/O Delegates.</summary>
+		Public Shared Function ConstructSymbolTableEntryFromXML(ByVal _XML As XElement) As ISymbolTableEntry
+			Try
+
+				REM We should have received: <SymbolTableEntryValue ValueType="BuiltInFunction" Flags="0"> ...
+				REM As a child of _XML, there should be an XElement for the SymTblEntry's Value (e.g. <DSString>...</DSString>)
+				REM We can't use GetSymbolTableEntry_FromIDataValue(), because the Value could be a BIF or DSFunction, which aren't IDVs
+
+				Dim _Flags As SymbolTableEntryFlags = CType(CByte(_XML.@Flags), SymbolTableEntryFlags)
+
+				Select Case _XML.Elements().First().Name.ToString().ToUpper()
+					Case "DSSTRING"
+						Return New SymbolTableEntry(Of Language.Variables.DSString)(New Language.Variables.DSString(_XML.Elements().First().Value), _Flags)
+					Case "DSNUMBER"
+						Return New SymbolTableEntry(Of Language.Variables.DSNumber)(New Language.Variables.DSNumber(Convert.ToDouble(_XML.Elements().First().Value)), _Flags)
+					Case "DSBOOLEAN"
+						Return New SymbolTableEntry(Of Language.Variables.DSBoolean)(New Language.Variables.DSBoolean(_XML.Elements().First().Value.ToUpper() = [Boolean].TrueString.ToUpper()), _Flags)
+					Case "DSARRAY"
+
+						REM _XML.Elements().First().Elements()	← These XElements are like <DSString>...</DSString>, <DSString>...</DSString>, <DSString>...</DSString>
+						Select Case _XML.Elements().First().@ElementsType.ToUpper()
+							Case "DSSTRING"
+								Return New SymbolTableEntry(Of Language.Variables.DSArray(Of Language.Variables.DSString))(New Language.Variables.DSArray(Of Language.Variables.DSString)((From _DSStringXElement As XElement In _XML.Elements().First().Elements() Select New Language.Variables.DSString(_DSStringXElement.Value)).ToArray()), _Flags)
+							Case "DSNUMBER"
+								Return New SymbolTableEntry(Of Language.Variables.DSArray(Of Language.Variables.DSNumber))(New Language.Variables.DSArray(Of Language.Variables.DSNumber)((From _DSNumberXElement As XElement In _XML.Elements().First().Elements() Select New Language.Variables.DSNumber(Convert.ToDouble(_DSNumberXElement.Value))).ToArray()), _Flags)
+							Case "DSBOOLEAN"
+								Return New SymbolTableEntry(Of Language.Variables.DSArray(Of Language.Variables.DSBoolean))(New Language.Variables.DSArray(Of Language.Variables.DSBoolean)((From _DSBooleanXElement As XElement In _XML.Elements().First().Elements() Select New Language.Variables.DSBoolean(_DSBooleanXElement.Value.ToUpper() = [Boolean].TrueString.ToUpper())).ToArray()), _Flags)
+							Case Else : Throw New DSValidationException("The DSArray's Elements' DataType was unaccounted-for", _XML.Elements().First().@ElementsType)
+						End Select
+
+					Case "BUILTINFUNCTION"
+						If Not Global.DocScript.Runtime.ExecutionContext.CLIDefault.BuiltInFunctions.Select(Of [String])(Function(_BIF As BuiltInFunction) _BIF.Identifier.ToUpper()).Contains(_XML.Elements().First().@TargetBIF.ToUpper()) Then Throw New DSValidationException("The BIF could not be found in the BuiltInFunctions of the CLIDefault ExecutionContext", _XML.Elements().First().@TargetBIF)
+						Return New SymbolTableEntry(Of BuiltInFunction)(ExecutionContext.CLIDefault.BuiltInFunctions.First(Function(_BIF As BuiltInFunction) _BIF.Identifier.ToUpper() = _XML.Elements().First().@TargetBIF.ToUpper()), _Flags)
+					Case "DSFUNCTION"
+						Return New SymbolTableEntry(Of Language.Instructions.Statements.DSFunction)(Language.Instructions.Statements.DSFunction.FromXML(_XML.Elements().First()), _Flags)
+					Case Else : Throw New DSValidationException("The SymbolTableEntryValue's Type was unaccounted-for", _XML.Elements().First().Name.ToString())
+				End Select
+
+			Catch _Ex As Exception : Throw New DSException("@SymbolTable\ConstructSymbolTableEntryFromXML: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+		REM Initialised by a Constructor-Argument
+		Public ReadOnly Description$
 
 		REM The Identifiers must be ToUpper()-ed
-		Protected Entries_ As New Dictionary(Of String, ISymbolTableEntry)()
-		Public ReadOnly Description$ 'Initialised via the Public-facing Constructor
+		Protected Entries_ As New Dictionary(Of [String], ISymbolTableEntry)()
 
 		REM The fact that the [SymbolTableEntry]s are stored in a Dictionary, means that there cannot - by design - be two identical identifiers
 		Public Sub New(ByVal _Description$)
@@ -144,7 +206,41 @@
 			Return DocScript.Utilities.KVPSerialisation.GetKVPString({"Description", Me.Description}, {"EntriesCount", Me.Entries_.Count.ToString()})
 		End Function
 
-#Region "(Shared) Entry Type-Checking Functions"
+		''' <summary>Produces an XML representation for the Object</summary>
+		Public Function ToXML() As XElement
+
+			Dim _SymTblXElement As XElement = <SymbolTable Description=<%= Me.Description %>/>
+
+			For Each _Entry As KeyValuePair(Of [String], ISymbolTableEntry) In Me.Entries_
+				Dim _EntryXElement As XElement = <SymbolTableEntry Identifier=<%= _Entry.Key %>/>
+				_EntryXElement.Add(_Entry.Value.ToXML()) : _SymTblXElement.Add(_EntryXElement)
+			Next
+
+			Return _SymTblXElement
+
+		End Function
+
+		''' <summary>Constructs an instance of the class from its XML representation</summary>
+		Public Shared Function FromXML(ByVal _XML As XElement) As SymbolTable
+			Try
+
+				REM We should have received: <SymbolTable Description="Global Symbol Table"> ...
+
+				Dim _NewSymTbl As New SymbolTable(_XML.@Description)
+
+				For Each _SymTblEntry_XElement As XElement In _XML.<SymbolTableEntry>
+
+					REM _SymTblEntry_XElement looks like: <SymbolTableEntry Identifier="MATHS_ROUND"> ...
+					_NewSymTbl.AddEntry(_Identifier:=_SymTblEntry_XElement.@Identifier, _Entry:=SymbolTable.ConstructSymbolTableEntryFromXML(_SymTblEntry_XElement.<SymbolTableEntryValue>.First()))
+
+				Next
+
+				Return _NewSymTbl
+
+			Catch _Ex As Exception : Throw New DSException("@SymbolTable\FromXML: " & _Ex.Message, _Ex) : End Try
+		End Function
+
+#Region "(Shared) Entry-Type-Checking Functions"
 
 		Public Shared ReadOnly Property IsFunctionEntry(ByVal _Entry As ISymbolTableEntry) As Boolean
 			Get

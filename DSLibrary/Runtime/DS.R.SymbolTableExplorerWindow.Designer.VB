@@ -31,6 +31,7 @@
 			Me.TheImageList = New System.Windows.Forms.ImageList(Me.components)
 			Me.TheMainMenu = New System.Windows.Forms.MainMenu(Me.components)
 			Me.SaveAsMenuItem = New System.Windows.Forms.MenuItem()
+			Me.OpenMenuItem = New System.Windows.Forms.MenuItem()
 			Me.SuspendLayout()
 			'
 			'ContinueButton
@@ -69,12 +70,17 @@
 			'
 			'TheMainMenu
 			'
-			Me.TheMainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SaveAsMenuItem})
+			Me.TheMainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SaveAsMenuItem, Me.OpenMenuItem})
 			'
 			'SaveAsMenuItem
 			'
 			Me.SaveAsMenuItem.Index = 0
 			Me.SaveAsMenuItem.Text = "&Save As..."
+			'
+			'OpenMenuItem
+			'
+			Me.OpenMenuItem.Index = 1
+			Me.OpenMenuItem.Text = "&Open..."
 			'
 			'SymbolTableExplorerWindow
 			'
@@ -99,6 +105,7 @@
 		Friend WithEvents TheImageList As System.Windows.Forms.ImageList
 		Friend WithEvents TheMainMenu As System.Windows.Forms.MainMenu
 		Friend WithEvents SaveAsMenuItem As System.Windows.Forms.MenuItem
+		Friend WithEvents OpenMenuItem As System.Windows.Forms.MenuItem
 
 	End Class
 
