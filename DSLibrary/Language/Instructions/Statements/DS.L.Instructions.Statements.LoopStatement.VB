@@ -229,12 +229,16 @@
 
 			REM E.g.
 			'	LOOP (COUNT_EXPR)
+			'		
 			'		OUTPUT("H_2 O")
+			'		
 			'	ENDLOOP
 
 			Return _
 			 Constants.Keyword_Loop & Constants.Space & Constants.OpeningFunctionBracket & Me.CountExpr.ToString() & Constants.ClosingFunctionBracket & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 ReconstructStatementContentsAsSource(Me.Contents.ToArray()).TabbedInBy(1) & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 Constants.StatementEnd_Loop
 
 		End Function

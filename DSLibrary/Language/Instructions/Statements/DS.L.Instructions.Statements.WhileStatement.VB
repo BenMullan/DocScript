@@ -232,12 +232,16 @@
 
 			REM E.g.
 			'	WHILE (CONDITION_EXPR)
+			'		
 			'		OUTPUT("H_2 O")
+			'		
 			'	ENDWHILE
 
 			Return _
 			 Constants.Keyword_While & Constants.Space & Constants.OpeningFunctionBracket & Me.ConditionExpr.ToString() & Constants.ClosingFunctionBracket & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 [StatementUtilities].ReconstructStatementContentsAsSource(Me.Contents.ToArray()).TabbedInBy(1) & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 Constants.StatementEnd_While
 
 		End Function

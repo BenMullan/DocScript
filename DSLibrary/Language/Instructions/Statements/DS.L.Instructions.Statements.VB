@@ -287,6 +287,7 @@ Namespace Language.Instructions.Statements
 		''' <summary>
 		''' Recursivly reconstructs the IInstructions as DocScript Source.
 		''' Keywords all become UPPERCASE, and Tabs are inserted according to SubStatement Depth
+		''' Update 02072023: In what's returned, there is NO WHITESPACE on either side of the returned String
 		''' <para>
 		''' (actually that's not done herein, but rather, in the ToString() Methods of the Statement Classes...)
 		''' ((...But the return value from this function has the same effect applied...))
@@ -294,29 +295,19 @@ Namespace Language.Instructions.Statements
 		''' ((((...In the form of a {LineBreak} betwixt each IInstruciton.ToString().))))
 		''' </para>
 		''' </summary>
-		Public Function ReconstructStatementContentsAsSource(ByRef _StatementContents As IInstruction()) As String
+		Public Function ReconstructStatementContentsAsSource(ByRef _StatementContents As IInstruction()) As [String]
 
 			REM E.g. Input:
-			'	[IfStatement] (2 Children)
+			'	(2 Children of an IfStatement)
 
 			REM E.g. Output:
-			'	IF (CONDITION)
-			'
-			'		OUTPUT("Hello, World!")
-			'		NAME = INPUT("Enter Name:")
-			'
-			'	ENDIF
+			'	OUTPUT("Hello, World!")
+			'	NAME : INPUT("Enter Name:")
 
-			Dim _SourceToReturn$ = Language.Constants.LineBreak	'This is so that the Statement has a LineBreak AFTER its header. (The IStatement's ToString() itself will add one for AFTER the contents).
-
-			For Each _Instruction As IInstruction In _StatementContents
-				_SourceToReturn &= _Instruction.ToString() & Language.Constants.LineBreak
-			Next
-
-			REM Remove the last LineBreak, if the Loop iterated at all
-			If _StatementContents.Length >= 1 Then _SourceToReturn = _SourceToReturn.WithTrailingWhiteSpaceRemoved()
-
-			Return _SourceToReturn
+			Return _StatementContents.Aggregate(Of [String])(
+			 seed:="",
+			 func:=Function(_ConstructedSourceSoFar$, _CurrentIInstruction As IInstruction) _ConstructedSourceSoFar & _CurrentIInstruction.ToString() & Language.Constants.LineBreak
+			).WithTrailingWhiteSpaceRemoved()
 
 		End Function
 

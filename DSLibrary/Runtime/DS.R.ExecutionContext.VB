@@ -186,11 +186,22 @@
 
 				Static _CLIDefault_InputDelegate_ As Func(Of String, String) = _
 				 Function(_Prompt$) As String
-					 Console.Write(_Prompt) : Return Console.ReadLine()
+
+					 REM Attempt to get input via the Console
+					 System.Console.Out.Write(_Prompt)
+					 Dim _ReadLine_Response$ = System.Console.In.ReadLine()	'Can return [Nothing], e.g. if Ctrl + Z is pressed
+					 If _ReadLine_Response IsNot Nothing Then Return _ReadLine_Response
+
+					 REM If we're here, stdin provided [Nothing]; use the GUI.
+					 Try 'We may be unable to call InputBox, e.g. in a PsExec session
+						 System.Console.Out.WriteLine() 'Otherwise the next Output() will be on the same line as the current _Prompt
+						 Return Microsoft.VisualBasic.Interaction.InputBox("The Console failed to provide an input value. Provide one here instead." & vbCrLf & vbCrLf & _Prompt, "DocScript CLI Input Failure")
+					 Catch _Ex As Exception : Throw New DSException("The Console failed to provide an input value, and a GUI Input-Box cannot be shown either: " & _Ex.Message) : End Try
+
 				 End Function
 
 				Static _CLIDefault_OutputDelegate_ As Action(Of String) = _
-				 AddressOf Console.WriteLine
+				 AddressOf System.Console.Out.WriteLine
 
 				Return New ExecutionContext(
 				 _ID:="DS_BuiltInExeCxt_CLIDefault",

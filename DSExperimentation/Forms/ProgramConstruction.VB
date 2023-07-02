@@ -211,4 +211,28 @@
 
 	End Sub
 
+	Private Sub DSProgXMLToSource_Testing_() Handles Button7.Click
+
+		Dim _ProgTreeXMLString$ = My.Computer.FileSystem.ReadAllText(
+		 "D:\Benedict\Documents\SchoolWork\Projects\DocScript\Solution\DSExperimentation\bin\Debug\NegativeLiterals.DSProgramXML"
+		)
+		Dim _ProgTreeXML As System.Xml.Linq.XElement = System.Xml.Linq.XElement.Parse(_ProgTreeXMLString)
+		Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromProgramTreeXML(_ProgTreeXML, _ExeCxt:=Nothing)
+
+		Dim _ReconstructedSource$ = _Program.ReconstructedSource
+
+		MsgBox(_ReconstructedSource)
+
+	End Sub
+
+	Private Sub Button8_Click(sender As System.Object, e As System.EventArgs) Handles Button8.Click
+
+		Dim _ProgTreeXMLString$ = "D:\Benedict\Documents\SchoolWork\Projects\DocScript\Solution\DSExperimentation\bin\Debug\AIT_Reconstructed.DSProgramXML".ReadTextFromThisFile()
+		Dim _ProgTreeXML As System.Xml.Linq.XElement = System.Xml.Linq.XElement.Parse(_ProgTreeXMLString)
+		Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromProgramTreeXML(_ProgTreeXML, _ExeCxt:=DocScript.Runtime.ExecutionContext.CLIDefault)
+
+		_Program.Run({})
+
+	End Sub
+
 End Class

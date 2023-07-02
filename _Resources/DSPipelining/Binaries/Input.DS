@@ -1,0 +1,5 @@
+﻿#HelloWorld.DS
+Function <Void> Main ()
+	<String> _Name : Input("Your name, Sir?")
+	Output("Most kind, " & _Name)
+EndFunction

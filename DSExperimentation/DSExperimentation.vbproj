@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{774929EB-1250-4BBB-98A5-38ABCDBE1D0F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>DSExperimentation.ParserExperiments</StartupObject>
+    <StartupObject>DSExperimentation.ProgramConstruction</StartupObject>
     <RootNamespace>DSExperimentation</RootNamespace>
     <AssemblyName>DocScript.Experimentation</AssemblyName>
     <FileAlignment>512</FileAlignment>

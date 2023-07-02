@@ -54,10 +54,12 @@ Class MainWindow
 		If (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewFile()									'Ctrl + N
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenFile()									'Ctrl + O
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFile()									'Ctrl + S
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.B) Then : Me.InsertBreakPoint()							'Ctrl + B
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.H) Then : Me.ShowHelpWindow()							'Ctrl + H
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F4) Then : Me.AskToSaveUnsavedSource_ThenExitDSIDE()	'Ctrl + F4
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.LaunchDSCompilationWindow()				'Ctrl + F5
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Shift) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.LaunchDSRemotingWindow()					'Shift + F5
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.RunInDSCLI()							'Ctrl + Shift + F5
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.N) Then : Me.StartNewDSIDEInstance()				'Ctrl + Shift + N
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.O) Then : Me.OpenContainingFolder()					'Ctrl + Shift + O
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFileAs()							'Ctrl + Shift + S
@@ -68,6 +70,8 @@ Class MainWindow
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.H) Then : Call (New PictorialHelpWindow()).Show()	'Ctrl + Shift + H
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.F) Then : Me.ShowNewRemoteFileExplorerWindow()		'Ctrl + Shift + F
 		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.E) Then : Me.LaunchDSExpr()							'Ctrl + Shift + E
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.P) Then : Me.OptimiseCurrentProgram_AndLaunch()		'Ctrl + Shift + P
+		ElseIf (Keyboard.Modifiers = (ModifierKeys.Control Or ModifierKeys.Shift)) AndAlso (_KeyEventArgs.Key = Key.L) Then : Me.StartNewDSLiveSession()				'Ctrl + Shift + L
 		ElseIf _KeyEventArgs.Key = Key.F1 Then : Me.ParseCurrentSource()	'F1
 		ElseIf _KeyEventArgs.Key = Key.F2 Then : Me.LexCachedTokens()		'F2
 		ElseIf _KeyEventArgs.Key = Key.F3 Then : Me.ExecuteCachedProgram()	'F3
@@ -150,7 +154,7 @@ Class MainWindow
 				 End If
 
 				 'Don't constantly check for cancellation; it would be too CPU-heavy
-				 System.Threading.Thread.SpinWait(10)
+				 System.Threading.Thread.SpinWait(iterations:=5)
 
 			 End While
 
@@ -669,7 +673,7 @@ Class MainWindow
 	End Sub
 
 	Public Sub InsertBreakPoint() Handles InsertBreakPointButton.Click
-		Me.InsertTextAtCursor(Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_ & DocScript.Language.Constants.OpeningFunctionBracket & DocScript.Language.Constants.ClosingFunctionBracket & DocScript.Language.Constants.LineBreak & [vbTab])
+		Me.InsertTextAtCursor(DocScript.Language.Constants.LineBreak & [vbTab] & Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_ & DocScript.Language.Constants.OpeningFunctionBracket & DocScript.Language.Constants.ClosingFunctionBracket & DocScript.Language.Constants.LineBreak & [vbTab])
 	End Sub
 
 	Public Sub ShowAboutBox() Handles AboutMenuItem.Click
@@ -680,7 +684,7 @@ Class MainWindow
 		Process.Start("https://github.com/BenMullan/DocScript/")
 	End Sub
 
-	Public Sub LaunchDSOnYouTube() Handles DSGitHubMenuItem.Click
+	Public Sub LaunchDSOnYouTube() Handles DSYouTubeMenuItem.Click
 		Process.Start("https://www.youtube.com/watch?v=ybl5pVSJOOk")
 	End Sub
 
@@ -1083,7 +1087,7 @@ Class MainWindow
 		End Try
 	End Sub
 
-	Public Sub LaunchOptimisedVersionOfCurrentProgram() Handles OptimiseProgramButton.Click
+	Public Sub OptimiseCurrentProgram_AndLaunch() Handles OptimiseProgramButton.Click
 		Try
 
 			'Show a *kind* message if there isn't any source

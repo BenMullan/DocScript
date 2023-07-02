@@ -134,7 +134,7 @@
 					Case "LITERALEXPR"
 						Select Case _ExpressionXML.@LiteralType
 							Case "STRING" : Return New LiteralExpr(Of Variables.DSString)(New Variables.DSString(_ExpressionXML.@LiteralValue.WithFirstCharacterRemoved().WithLastCharacterRemoved()))
-							Case "NUMBER" : Return New LiteralExpr(Of Variables.DSNumber)(New Variables.DSNumber(Convert.ToDouble(_ExpressionXML.@LiteralValue)))
+							Case "NUMBER" : Return New LiteralExpr(Of Variables.DSNumber)(New Variables.DSNumber(Convert.ToDouble(_ExpressionXML.@LiteralValue.Replace(Language.Constants.OperatorChar_NumericalInvertPolarity, "-"c))))
 							Case "BOOLEAN" : Return New LiteralExpr(Of Variables.DSBoolean)(New Variables.DSBoolean(_ExpressionXML.@LiteralValue.ToUpper() = Boolean.TrueString.ToUpper()))
 							Case Else : Throw New DSValidationException("The LiteralExpr's Data-Type was unaccounted-for", _ExpressionXML.@LiteralType)
 						End Select

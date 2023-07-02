@@ -28,7 +28,7 @@
 					<RibbonApplicationMenuItem Header="About..." x:Name="AboutMenuItem" ImageSource="Images\About.PNG" />
 					<RibbonApplicationMenuItem Header="Help!" x:Name="HelpMenuItem" ImageSource="Images\Help.PNG" ToolTip="Ctrl + H (Ctrl + Shift + H for Pictorial-Help)" />
 					<RibbonApplicationMenuItem Header="DocScript on GitHub..." x:Name="DSGitHubMenuItem" ImageSource="Images\DS_On_GitHub.PNG" ToolTip="Source Control homepage for DocScript." />
-					<RibbonApplicationMenuItem Header="DocScript in 3 Minutes..." x:Name="DSYouTubeMenuItem" ImageSource="Images\DS_On_YouTube.PNG" ToolTip="Short DocScript introduction video." />
+					<RibbonApplicationMenuItem Header="DocScript in 3 Minutes..." x:Name="DSYouTubeMenuItem" ImageSource="Images\YouTube.PNG" ToolTip="Short DocScript introduction video." />
 					<RibbonApplicationMenuItem Header="Exit" x:Name="ExitMenuItem" ImageSource="Images\Exit.PNG" ToolTip="Esc" />
 				</RibbonApplicationMenu>
 			</Ribbon.ApplicationMenu>
@@ -130,8 +130,8 @@
 
 				<!-- View -->
 				<RibbonGroup Header="View" LargeImageSource="/DSIDE;component/Images/ZoomIn.PNG">
-					<RibbonButton x:Name="ZoomInButton" SmallImageSource="/DSIDE;component/Images/ZoomIn.PNG" Label="Zoom In" />
-					<RibbonButton x:Name="ZoomOutButton" SmallImageSource="/DSIDE;component/Images/ZoomOut.PNG" Label="Zoom Out" />
+					<RibbonButton x:Name="ZoomInButton" SmallImageSource="/DSIDE;component/Images/ZoomIn.PNG" Label="Zoom In" ToolTip="Also try: Ctrl + {Scroll}" />
+					<RibbonButton x:Name="ZoomOutButton" SmallImageSource="/DSIDE;component/Images/ZoomOut.PNG" Label="Zoom Out" ToolTip="Also try: Ctrl + {Scroll}" />
 					<RibbonButton x:Name="FullScreenButton" SmallImageSource="/DSIDE;component/Images/FullScreen.PNG" Label="Full Screen" />
 				</RibbonGroup>
 
@@ -142,7 +142,7 @@
 
 				<!-- Reset All -->
 				<RibbonGroup Header="Global" LargeImageSource="/DSIDE;component/Images/FullScreen.PNG">
-					<RibbonButton x:Name="ResetAllTextTransformationsButton" LargeImageSource="/DSIDE;component/Images/Back.PNG" Label="Reset All" />
+					<RibbonButton x:Name="ResetAllTextTransformationsButton" LargeImageSource="/DSIDE;component/Images/Back.PNG" Label="Reset All" ToolTip="Sets the ViewPlus sliders back to their standard values" />
 				</RibbonGroup>
 
 				<!-- Zoom -->
@@ -172,7 +172,7 @@
 				<RibbonGroup x:Name="AdvancedGroup" Header="Advanced" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG">
 					<RibbonButton x:Name="DSCompilationButton" LargeImageSource="/DSIDE;component/Images/DSCompilation.PNG" SmallImageSource="/DSIDE;component/Images/DSCompilation.PNG" Label="Compile to exe..." ToolTip="Ctrl + F5" />
 					<RibbonButton x:Name="DSRemotingButton" LargeImageSource="/DSIDE;component/Images/DSRemoting.PNG" SmallImageSource="/DSIDE;component/Images/DSRemoting.PNG" Label="Execute on remote machine..." ToolTip="Shift + F5" />
-					<RibbonButton x:Name="OptimiseProgramButton" LargeImageSource="/DSIDE;component/Images/Optimise.PNG" SmallImageSource="/DSIDE;component/Images/Optimise.PNG" Label="Optimise Program..." ToolTip="Launches a New instance of DSIDE with an Optimised version of the Program" />
+					<RibbonButton x:Name="OptimiseProgramButton" LargeImageSource="/DSIDE;component/Images/Optimise.PNG" SmallImageSource="/DSIDE;component/Images/Optimise.PNG" Label="Optimise Program..." ToolTip="Ctrl + Shift + P. Launches a New instance of DSIDE with an Optimised version of the Program" />
 				</RibbonGroup>
 
 				<RibbonGroup x:Name="OSInteropGroup" Header="OS-Interop" LargeImageSource="/DSIDE;component/Images/About.PNG">
@@ -181,9 +181,9 @@
 				</RibbonGroup>
 
 				<RibbonGroup Header="Debug" LargeImageSource="/DSIDE;component/Images/Construct.PNG">
-					<RibbonButton x:Name="InsertBreakPointButton" LargeImageSource="/DSIDE;component/Images/BreakPoint.PNG" Label="Insert BreakPoint" />
-					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
-					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
+					<RibbonButton x:Name="InsertBreakPointButton" LargeImageSource="/DSIDE;component/Images/BreakPoint.PNG" Label="Insert BreakPoint" ToolTip="Ctrl + B" />
+					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." ToolTip="Ctrl + Shift + F5" />
+					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." ToolTip="Use Break() instead." />
 				</RibbonGroup>
 
 			</RibbonTab>
@@ -201,7 +201,7 @@
 					<RibbonButton x:Name="ViewBIFsButton" SmallImageSource="/DSIDE;component/Images/BuiltInFunction.PNG" Label="Explore Built-in Functions..." ToolTip="Ctrl + Shift + B" />
 					<RibbonButton x:Name="OpenDSExprButton" SmallImageSource="/DSIDE;component/Images/DSExpr.PNG" Label="Launch Expr Resolver..." ToolTip="Ctrl + Shift + E" />
 					<RibbonButton x:Name="LaunchNewRemoteFileExplorerButton" SmallImageSource="/DSIDE;component/Images/Open.PNG" Label="Remote File Explorer..." ToolTip="Ctrl + Shift + F" />
-					<RibbonButton x:Name="StartDSLiveSessionButton" LargeImageSource="/DSIDE;component/Images/DSLive.PNG" Label="DocScript Live Session..." ToolTip="Runs DSCLI /Live. Use the Debug_StartDSLiveSessionFromCurrentExecutionState() BIF to inject the current SymbolTables into a DSLive session." />
+					<RibbonButton x:Name="StartDSLiveSessionButton" LargeImageSource="/DSIDE;component/Images/DSLive.PNG" Label="DocScript Live Session..." ToolTip="Ctrl + Shift + L. Runs DSCLI /Live. Use the Debug_StartDSLiveSessionFromCurrentExecutionState() BIF to inject the current SymbolTables into a DSLive session." />
 				</RibbonGroup>
 
 				<RibbonGroup x:Name="LoggingGroup" Header="Log-Event Handler" LargeImageSource="/DSIDE;component/Images/DSLogging.PNG">

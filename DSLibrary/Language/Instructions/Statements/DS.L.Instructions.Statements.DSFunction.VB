@@ -432,14 +432,18 @@
 
 			REM E.g.
 			'	FUNCTION <NUMBER> MAIN (<STRING@> _CLAS)
+			'		
 			'		OUTPUT("Hello, World!")
 			'		RETURN 0
+			'		
 			'	ENDFUNCTION
 
 			Return _
 			 Constants.Keyword_Function & Constants.Space & Constants.OpeningDataTypeBracket & Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(Me.ReturnType) & Constants.ClosingDataTypeBracket & Constants.Space & Me.Identifier & Constants.Space & Constants.OpeningFunctionBracket & _
-			 If(Me.Parameters.Count = 0, "", String.Join(Constants.FunctionArgumentSeperator & Constants.Space, Me.Parameters.Select(Function(_Parameter As Parameter) _Parameter.ToString()))) & Constants.ClosingFunctionBracket & Constants.LineBreak & _
+			 If(Me.Parameters.Count = 0, "", [String].Join(Constants.FunctionArgumentSeperator & Constants.Space, Me.Parameters.Select(Function(_Parameter As Parameter) _Parameter.ToString()))) & Constants.ClosingFunctionBracket & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 [StatementUtilities].ReconstructStatementContentsAsSource(Me.Contents.ToArray()).TabbedInBy(1) & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 Constants.StatementEnd_Function
 
 		End Function

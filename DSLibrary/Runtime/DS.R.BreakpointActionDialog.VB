@@ -113,6 +113,10 @@
 
 #End Region
 
+		Protected Sub IgnoreAllFutureBreakPointsCheckBox_CheckedChanged_() Handles IgnoreAllFutureBreakPointsCheckBox.CheckedChanged
+			DocScript.Runtime.StandardBuiltInFunctions.IgnoreBreakpoints = Me.IgnoreAllFutureBreakPointsCheckBox.Checked
+		End Sub
+
 	End Class
 
 End Namespace

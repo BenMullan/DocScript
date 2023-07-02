@@ -516,6 +516,9 @@
   <ItemGroup>
     <Resource Include="Images\BreakPoint.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\YouTube.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)..\DSCommandLineInterpreter\$(OutDir)DSCLI.exe $(ProjectDir)$(OutDir)

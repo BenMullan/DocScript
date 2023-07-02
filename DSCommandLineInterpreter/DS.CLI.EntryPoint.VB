@@ -97,7 +97,7 @@
 			End If
 
 			REM Ensure that we have an Action to perform
-			If EntryPoint.ActionWhenReady = DSCLIActionToPerform.Unresolved Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("An Action must be specified (e.g. /Live or /Run or /GetProgramTree). Use /? for Examples!")
+			If EntryPoint.ActionWhenReady = DSCLIActionToPerform.Unresolved Then Throw New DocScript.Exceptions.DSCLANotSpecifiedException("An Action must be specified (e.g. /Live or /Run or /GetProgramTree). If A file was specified as a CLA, it was not found. Use /? for Examples!")
 
 			REM If the specified [ActionWhenReady] requires source, then ensure we've been given some source to interpret
 			If {DSCLIActionToPerform.Run, DSCLIActionToPerform.GetProgramTree}.Contains(EntryPoint.ActionWhenReady) _

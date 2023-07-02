@@ -23,7 +23,7 @@ Public Module DSCompile
 			 _DeleteIntermediateFiles:=True
 			)
 
-			Console.Out.Write("DSCompile: Successfully compiled " & (New IO.FileInfo(_CLAs.ElementAt(0))).FullName)
+			DocScript.CompilerExtentions.UsefulMethods.ConsoleErrorWriteLineInColour("DSCompile: Successfully compiled " & (New IO.FileInfo(_CLAs.ElementAt(0))).FullName, ConsoleColor.Green)
 			Return 0
 
 		Catch _Ex As Exception

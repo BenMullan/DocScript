@@ -950,6 +950,8 @@ DSCore
 	<summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.IsValidFilePath_AndThatFileExists(System.String)">
 	<summary>(MullNet CompilerExtention) E.g. "hello world" → "Hello World". E.g. "HELLO WORLD" → "Hello World"</summary>
+</member><member name="M:DocScript.CompilerExtentions.StringExtentions.ReadTextFromThisFile(System.String)">
+	<summary>(MullNet CompilerExtention) Returns the Text from the _FilePath</summary>
 </member><member name="M:DocScript.CompilerExtentions.StringExtentions.CamelCaseToSpacedString(System.String)">
 	<summary>(MullNet CompilerExtention) E.g. "MyNameIsBen" → "My Name Is Ben"</summary>
 </member><member name="M:DocScript.CompilerExtentions.NumericExtentions.IsPowerOfTwo(System.UInt32)">
@@ -1248,6 +1250,8 @@ DSCore
 	<summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
 </member><member name="T:DocScript.Runtime.Remoting">
 	<summary>Contains resources for executing DocScript programs on remote computers</summary>
+</member><member name="P:DocScript.Runtime.StandardBuiltInFunctions.IgnoreBreakpoints">
+	<summary>Indicates that the "Break()" BIF should silently be skipped, instead of showing the Breakpoint-Action-Dialog.</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_">
 	<summary>Needs to be publicly visible for DSIDE's [Insert Breakpoint] Button</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_">
@@ -1328,6 +1332,7 @@ DSCore
 	<summary>
  Recursivly reconstructs the IInstructions as DocScript Source.
  Keywords all become UPPERCASE, and Tabs are inserted according to SubStatement Depth
+ Update 02072023: In what's returned, there is NO WHITESPACE on either side of the returned String
  <para>
  (actually that's not done herein, but rather, in the ToString() Methods of the Statement Classes...)
  ((...But the return value from this function has the same effect applied...))

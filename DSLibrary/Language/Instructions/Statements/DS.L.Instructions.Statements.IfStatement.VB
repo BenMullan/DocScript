@@ -7,7 +7,13 @@
 
 		Public ConditionExpr As Language.Expressions.IExpression
 
-		Protected ElseContents_ As List(Of IInstruction) = Nothing 'Not Initialised unless there is an Else Clause in the Tokens
+		'Not Initialised unless there is an Else Clause in the Tokens
+		'This means that there is a difference between:
+		'	[An IfStatement without the Else Keyword even there]
+		'And:
+		'	[An IfStatement with an Else Clause, but with no IInstructions therein]
+		Protected ElseContents_ As List(Of IInstruction) = Nothing
+
 		''' <summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is [Nothing] (null)</summary>
 		Public ReadOnly Property ElseContents As System.Collections.ObjectModel.ReadOnlyCollection(Of IInstruction)
 			Get
@@ -350,10 +356,13 @@
 		Public Shared Function FromXML(ByVal _IInstructionXElement As XElement) As IfStatement
 			Try
 
+				Dim _ElseContents As List(Of IInstruction) = _
+				 StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<ElseContents>.First().Elements().ToArray()).ToList()
+
 				Return New IfStatement(
 				 _ConditionExpr:=Expressions.ExprUtilities.ConstructExpressionFromXML(_IInstructionXElement.<ConditionExpr>.First().Elements().First()),
 				 _Contents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<Contents>.First().Elements().ToArray()).ToList(),
-				 _ElseContents:=StatementUtilities.GetStatementContentsFromXML(_IInstructionXElement.<ElseContents>.First().Elements().ToArray()).ToList()
+				 _ElseContents:=If(_ElseContents.Count = 0, Nothing, _ElseContents)
 				)
 
 			Catch _Ex As Exception : Throw New DSException("@IfStatement\FromXML: " & _Ex.Message, _Ex) : End Try
@@ -364,14 +373,22 @@
 
 			REM E.g.
 			'	IF (CONDITION_EXPR)
+			'		
 			'		OUTPUT("H_2 O")
+			'	
+			'	ELSE
+			'		
+			'		OUTPUT("H_2 O_2")
+			'		
 			'	ENDIF
 
 			Return _
 			 Constants.Keyword_If & Constants.Space & Constants.OpeningFunctionBracket & Me.ConditionExpr.ToString() & Constants.ClosingFunctionBracket & Constants.LineBreak & _
+			 Constants.LineBreak & _
 			 ReconstructStatementContentsAsSource(Me.Contents.ToArray()).TabbedInBy(1) & Constants.LineBreak & _
-			If(Me.ElseContents Is Nothing, "", Constants.Keyword_Else & Constants.LineBreak & ReconstructStatementContentsAsSource(Me.ElseContents.ToArray()).TabbedInBy(1) & Constants.LineBreak) & _
-			Constants.StatementEnd_If
+			 Constants.LineBreak & _
+			 If(Me.ElseContents Is Nothing, "", Constants.Keyword_Else & Constants.LineBreak & Constants.LineBreak & ReconstructStatementContentsAsSource(Me.ElseContents.ToArray()).TabbedInBy(1) & Constants.LineBreak & Constants.LineBreak) & _
+			 Constants.StatementEnd_If
 
 		End Function
 

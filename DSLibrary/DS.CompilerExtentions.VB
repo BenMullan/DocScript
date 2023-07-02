@@ -420,6 +420,14 @@ Namespace CompilerExtentions
 			End Try
 		End Function
 
+		''' <summary>(MullNet CompilerExtention) Returns the Text from the _FilePath</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function ReadTextFromThisFile$(ByVal _FilePath$)
+			Try
+				Return My.Computer.FileSystem.ReadAllText(_FilePath)
+			Catch _Ex As Exception : Throw New DSException("@ReadTextFromThisFile (CompilerExtention): " & _Ex.Message, _Ex) : End Try
+		End Function
+
 		''' <summary>(MullNet CompilerExtention) E.g. "MyNameIsBen" → "My Name Is Ben"</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Function CamelCaseToSpacedString$(ByVal _CamelCaseString$)
@@ -1026,9 +1034,9 @@ Namespace CompilerExtentions
 			Try
 
 				Return If(
-					(_XElements IsNot Nothing) AndAlso (_XElements.Count() > 0),
-					_XElements.First(),
-					<Empty/>
+				 (_XElements IsNot Nothing) AndAlso (_XElements.Count() > 0),
+				 _XElements.First(),
+				 <Empty/>
 				)
 
 			Catch _Ex As Exception : Throw New DSException("@FirstOrEmptyNode (CompilerExtention): " & _Ex.Message, _Ex) : End Try

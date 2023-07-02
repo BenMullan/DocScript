@@ -8,6 +8,11 @@ Namespace Runtime
 
 #Region "Individual BIF Member Declarations"
 
+#Region "Breakpoint Handling"
+
+		''' <summary>Indicates that the "Break()" BIF should silently be skipped, instead of showing the Breakpoint-Action-Dialog.</summary>
+		Public Shared Property IgnoreBreakpoints As [Boolean] = False
+
 		''' <summary>Needs to be publicly visible for DSIDE's [Insert Breakpoint] Button</summary>
 		Public Const BIF_Break_Identifier_ = "Break"
 
@@ -19,12 +24,15 @@ Namespace Runtime
 			 Dim _ExeRes As Language.Instructions.ExecutionResult = Language.Instructions.ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Break_Identifier_$)
 
 			 REM The BreakpointActionDialog may return modified SymTbls, e.g. from the [Edit in DSLive] feature
-			 _SymTbls = DocScript.Runtime.BreakpointActionDialog.Show_AndReturnModifiedSymTbls(_SymTbls)
+			 If Not StandardBuiltInFunctions.IgnoreBreakpoints _
+			   Then _SymTbls = DocScript.Runtime.BreakpointActionDialog.Show_AndReturnModifiedSymTbls(_SymTbls)
 
 			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
 		 End Function)
 		) With {.[Description] = "Shows the BreakPoint-Action-Dialog, and only continues execution when this Dialog is dismissed"}
+
+#End Region
 
 #Region "SymbolTable-Related"
 
@@ -83,11 +91,12 @@ Namespace Runtime
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$)
 
 			 REM Save the _SymTbls to an XML File in AppData
-			 Dim _SymTblsXMLFile_FullPath$ = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DocScript", "DSSymbolTableStates_" & UsefulMethods.GetRandomString(6) & ".XML")
-			 My.Computer.FileSystem.WriteAllText(_SymTblsXMLFile_FullPath$, _SymTbls.ToXML().ToTabFormattedString(), append:=False)
+			 Dim _SymTblsXMLFile As New IO.FileInfo(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DocScript", "DSSymbolTableStates_" & UsefulMethods.GetRandomString(6) & ".XML"))
+			 If Not _SymTblsXMLFile.Directory.Exists Then Call _SymTblsXMLFile.Directory.Create()
+			 My.Computer.FileSystem.WriteAllText(_SymTblsXMLFile.FullName, _SymTbls.ToXML().ToTabFormattedString(), append:=False)
 
 			 REM Start DSLive with the SymTbls XML
-			 Process.Start(UsefulMethods.GetExecutingAssemblyDirectory.FileHereIn("DSCLI.exe").FullName, "/Live /DSLiveSymbolTablesFile:""" & _SymTblsXMLFile_FullPath$ & """"c)
+			 Process.Start(UsefulMethods.GetExecutingAssemblyDirectory.FileHereIn("DSCLI.exe").FullName, "/Live /DSLiveSymbolTablesFile:""" & _SymTblsXMLFile.FullName & """"c)
 
 			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
