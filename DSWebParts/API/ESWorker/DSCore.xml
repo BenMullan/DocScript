@@ -248,6 +248,18 @@ DSCore
 	<summary>Represents E.g. [Loop (10) ... EndLoop]</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.DS">
 	<summary>DocScript Language Utilities</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.Show_AndReturnModifiedSymTbls(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Shows the Dialog, and returns only after one of the actions has been performed, or the dialog has been dismissed.</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_ViewSymTbls_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_CopyToDSLive_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_EditInDSLive_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_ContinueExec_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="T:DocScript.Runtime.BreakpointActionDialog">
+	<summary>The Window shown when "Break()" is called from the DocScript Program.</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Maths">
 	<summary>Maths-related Functions such as Rounding, getting Pi, or finding the maximum of two numbers</summary>
 </member><member name="T:DocScript.Runtime.StandardBuiltInFunctions">
@@ -626,7 +638,23 @@ DSCore
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:DocScript.My.Resources.Resources.BreakPoint">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.ContinueExec">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:DocScript.My.Resources.Resources.Delete">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.DSLive">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.SymbolTables">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -1220,6 +1248,15 @@ DSCore
 	<summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
 </member><member name="T:DocScript.Runtime.Remoting">
 	<summary>Contains resources for executing DocScript programs on remote computers</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_">
+	<summary>Needs to be publicly visible for DSIDE's [Insert Breakpoint] Button</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_">
+	<summary>The DSIDE BIF to pause execution and e.g. inspect the current variables. In the DebugBIF's File, but not a member of the Debug Namespace</summary>
+	<remarks>Does NOT start with "Debug_"</remarks>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Debug_ShowSymbolTables_Identifier_">
+	<summary>Needs to be publically visible for the BreakpointActionDialog</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_">
+	<summary>Needs to be publically visible for the BreakpointActionDialog</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Debug">
 	<summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
 </member><member name="T:DocScript.Language.Constants">
@@ -1322,7 +1359,7 @@ DSCore
 	<summary>Performs Compile-time Evaluation where possible</summary>
 </member><member name="T:DocScript.Runtime.Optimisation.ComponentOptimiser">
 	<summary>
- The reason this is a Class and not just methods in a Module, is because the PerformedOptimisations are specific to the optimisation of a given Component (Expression, IInstruction, or Program).
+ The reason this is a Class, and not just methods in a Module, is because the PerformedOptimisationsTally is specific to the optimisation of a given Component (Expression, IInstruction, or Program).
  If the PerformedOptimisations dictionary was just floating in the Module, then the tracking of which optimisations have occured would break in a multi-threaded scenario.
  </summary>
 </member><member name="T:DocScript.Runtime.Optimisation">
@@ -1432,12 +1469,13 @@ DSCore
 	<summary>When retreived, this Property Concatenates the IO BIFs in.</summary>
 </member><member name="M:DocScript.Runtime.ExecutionContext.#ctor(System.String,System.IO.DirectoryInfo,System.Func{System.String,System.String},System.Action{System.String},DocScript.Runtime.BuiltInFunction[])">
 	<summary>Note that the OutputError() Delegate should be set with an inline With Statement, as it is not taken in as a Constructor Argument</summary>
+	<param name="_ID">Example: "DS_BuiltInExeCxt_CLIDefault"</param>
 </member><member name="P:DocScript.Runtime.ExecutionContext.InputBIF_(System.Func{System.String,System.String})">
 	<summary>Wraps the InputDelegate in a DocScript BIF</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.OutputBIF_(System.Action{System.String})">
 	<summary>Wraps the OutputDelegate in a DocScript BIF</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.OutputErrorBIF_">
-	<summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used.</summary>
+	<summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used, but with a different Identifier.</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.CLIDefault">
 	<summary>Uses Console.Write()&amp;Console.ReadLine() and Console.WriteLine()</summary>
 </member><member name="P:DocScript.Runtime.ExecutionContext.GUIDefault">

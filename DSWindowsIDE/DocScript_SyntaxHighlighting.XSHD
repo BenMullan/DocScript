@@ -93,8 +93,9 @@
 		</Keywords>
 
 		<!-- Special Words -->
-		<Keywords fontWeight="bold" fontStyle="italic" foreground="Red">
+		<Keywords fontWeight="bold" foreground="Red" background="Yellow">
 			<Word>DocScript</Word>
+			<Word>Break()</Word>
 		</Keywords>
 
 	</RuleSet>

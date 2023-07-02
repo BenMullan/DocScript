@@ -19,28 +19,28 @@
 
 		REM Add EventHandlers for the File-Browsing-Dialogs
 		AddHandler Me.BrowseForEXEOutputFilePath_Button.Click,
-		   Sub()
-			   Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
-			   Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Save (managed) EXE Output File as...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, _InitialDirectory:=If(If(Me.ProgramToCompile.Name IsNot Nothing, (New IO.FileInfo(Me.ProgramToCompile.Name)).Directory.Exists, False), (New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, Nothing))
-			   Me.OutputEXE_FullPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
-			   Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
-		   End Sub
+			Sub()
+				Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
+				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Save (managed) EXE Output File as...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, _InitialDirectory:=If(If(Me.ProgramToCompile.Name IsNot Nothing, (New IO.FileInfo(Me.ProgramToCompile.Name)).Directory.Exists, False), (New IO.FileInfo(Me.ProgramToCompile.Name)).DirectoryName, Nothing))
+				Me.OutputEXE_FullPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+				Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
+			End Sub
 
 		AddHandler Me.BrowseForIconFilePath_Button.Click,
-		 Sub()
-			 Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
-			 Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Browse for EXE Icon...", {New Tuple(Of String, String)("Windows Icons", "ICO")}, Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
-			 Me.IconFilePath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
-			 Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
-		 End Sub
+			Sub()
+				Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
+				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Browse for EXE Icon...", {New Tuple(Of String, String)("Windows Icons", "ICO")}, Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
+				Me.IconFilePath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+				Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
+			End Sub
 
 		AddHandler Me.BrowseForCustomVBCPath_Button.Click,
-		 Sub()
-			 Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
-			 Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Browse for custom VBC File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, Environment.GetFolderPath(Environment.SpecialFolder.Windows))
-			 Me.CustomVBCPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
-			 Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
-		 End Sub
+			Sub()
+				Me.Cursor = Forms.Cursors.WaitCursor : Me.Enabled = False
+				Dim _RequestedPath As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Browse for custom VBC File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")}, Environment.GetFolderPath(Environment.SpecialFolder.Windows))
+				Me.CustomVBCPath_TextBox.Text = If(_RequestedPath Is Nothing, "", _RequestedPath.FullName)
+				Me.Enabled = True : Me.Cursor = Forms.Cursors.Default
+			End Sub
 
 	End Sub
 
@@ -120,8 +120,8 @@
 			Me.ProgramToCompile _
 			.MustNotBeNothing() _
 			.CompileToEXE(
-			 _OutputDirectory:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Directory,
-			 _FinalExeFile_NameOnly:=(New IO.FileInfo(OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Name,
+			 _OutputDirectory:=(New IO.FileInfo(Me.OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Directory,
+			 _FinalExeFile_NameOnly:=(New IO.FileInfo(Me.OutputEXE_FullPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName))).Name,
 			 _VBCExe:=If(Me.UseCustomVBCPath_CheckBox.Checked, New IO.FileInfo(Me.CustomVBCPath_TextBox.Text.Replace(Placeholder_DSIDE_Dir, UsefulMethods.GetExecutingAssemblyDirectory().FullName)), Runtime.Program.DefaultVbcExe_ForCurrentSystem),
 			 _ILMergeExe:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
 			 _DSCoreDll:=New IO.FileInfo(IO.Path.Combine(UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
@@ -131,7 +131,7 @@
 
 			REM Provide Feedback, and open the exe in explorer
 			MsgBox("The DocScript Program compiled successfully", MsgBoxStyle.Information)
-			Process.Start("Explorer.exe", "/select,""" & OutputEXE_FullPath_TextBox.Text & """"c)
+			Process.Start("Explorer.exe", "/select,""" & Me.OutputEXE_FullPath_TextBox.Text & """"c)
 
 		Catch _Ex As Exception : MsgBox("The DocScript Source could not be compiled. Reason: " & vbCrLf & _Ex.Message, MsgBoxStyle.Critical)
 		Finally : Me.Enabled = True : Me.Cursor = Forms.Cursors.Default : End Try

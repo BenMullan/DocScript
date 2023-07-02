@@ -211,12 +211,14 @@
 			REM		have unique identifiers - this is done again in Run() before Execution
 			REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-			'All GlobalVarDecs and DSFunctions *and BIFs* must have unique identifiers
-			If Not _
-			 Me.Functions.Select(Of String)(Function(_DSFunction As Language.Instructions.Statements.DSFunction) _DSFunction.Identifier.ToUpper()) _
-			 .Concat(Me.GlobalVarDecs.Select(Of String)(Function(_VarDec As Language.Instructions.VariableDeclaration) _VarDec.Identifier.ToUpper())) _
-			 .Concat(If(Me.ExecutionContext Is Nothing, {}, Me.ExecutionContext.BuiltInFunctions.Select(Of String)(Function(_BIF As BuiltInFunction) _BIF.Identifier.ToUpper()))) _
-			 .ToArray().AllElementsAreUnique() _
+			'All GlobalVarDecs, DSFunctions, and BIFs, must have unique identifiers
+			Dim _GlblVarDecs_DSFuncs_AndBIFs_Identifiers$() = _
+			 Me.Functions.Select(Of [String])(Function(_DSFunction As Language.Instructions.Statements.DSFunction) _DSFunction.Identifier.ToUpper()) _
+			 .Concat(Me.GlobalVarDecs.Select(Of [String])(Function(_VarDec As Language.Instructions.VariableDeclaration) _VarDec.Identifier.ToUpper())) _
+			 .Concat(If(Me.ExecutionContext Is Nothing, {}, Me.ExecutionContext.BuiltInFunctions.Select(Of [String])(Function(_BIF As BuiltInFunction) _BIF.Identifier.ToUpper()))) _
+			 .ToArray()
+
+			If Not _GlblVarDecs_DSFuncs_AndBIFs_Identifiers.AllElementsAreUnique() _
 			 Then Throw New DSValidationException("All BuiltInFunctions, DocScript-defined Functions, and Global Variables must have unique identifiers (and they weren't all unique)", "(The entry identifiers which would have been added to the Global SymbolTable)")
 
 			'Ensure that there in exactly one Main() DSFunction
@@ -225,8 +227,8 @@
 			LogLexingMessage("Found an EntryPoint Function in the Program")
 
 			LogLexingMessage("Ensuring all Function and Global VariableDeclaration Identifiers are unique")
-			If Not Me.Functions.Select(Function(_DSFunction As DocScript.Language.Instructions.Statements.DSFunction) _DSFunction.Identifier.ToUpper()).ToArray().AllElementsAreUnique() Then Throw New DSValidationException("All Functions within a DocScript Program must have unique Identifiers", String.Join(", ", Me.Functions.Select(Function(_DSFunction As DocScript.Language.Instructions.Statements.DSFunction) _DSFunction.Identifier.ToUpper()).ToArray()).InCurlies())
-			If Not Me.GlobalVarDecs.Select(Function(_GlblVarDec As DocScript.Language.Instructions.VariableDeclaration) _GlblVarDec.Identifier.ToUpper()).ToArray().AllElementsAreUnique() Then Throw New DSValidationException("All Global Variables within a DocScript Program must have unique Identifiers", String.Join(", ", Me.GlobalVarDecs.Select(Function(_GlblVarDec As DocScript.Language.Instructions.VariableDeclaration) _GlblVarDec.Identifier.ToUpper()).ToArray()).InCurlies())
+			If Not Me.Functions.Select(Function(_DSFunction As DocScript.Language.Instructions.Statements.DSFunction) _DSFunction.Identifier.ToUpper()).ToArray().AllElementsAreUnique() Then Throw New DSValidationException("All Functions within a DocScript Program must have unique Identifiers", [String].Join(", ", Me.Functions.Select(Function(_DSFunction As DocScript.Language.Instructions.Statements.DSFunction) _DSFunction.Identifier.ToUpper()).ToArray()).InCurlies())
+			If Not Me.GlobalVarDecs.Select(Function(_GlblVarDec As DocScript.Language.Instructions.VariableDeclaration) _GlblVarDec.Identifier.ToUpper()).ToArray().AllElementsAreUnique() Then Throw New DSValidationException("All Global Variables within a DocScript Program must have unique Identifiers", [String].Join(", ", Me.GlobalVarDecs.Select(Function(_GlblVarDec As DocScript.Language.Instructions.VariableDeclaration) _GlblVarDec.Identifier.ToUpper()).ToArray()).InCurlies())
 
 			LogLexingMessage("...Finished Program Construction (Lexing) with " & Me.Functions.Count.ToString() & " Function(s) and " & Me.GlobalVarDecs.Count.ToString() & " Global Variable Declaration(s).", LogEvent.DSEventSeverity.Infomation)
 

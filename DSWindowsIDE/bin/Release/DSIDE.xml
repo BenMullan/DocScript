@@ -180,9 +180,9 @@ MainWindow
  Starts the Task, then Returns. When finished, the UI is reset to the Idle state.
  Exceptions hence ↓ are MsgBoxed out
  </summary>
-	<param name="_TaskStatusDescription"></param>
+	<param name="_TaskStatusDescription">A present-progressive-tense verb, e.g. "Compiling". Appears in the Status Strip</param>
 	<param name="_Action">This MUST NOT Access UI Components without Me.InvokeIfRequired()</param>
-	<remarks></remarks>
+	<remarks>v3</remarks>
 </member><member name="P:DocScript.MainWindow.CurrentSource_IsSaved">
 	<summary>Automatically adjusts the Window Title</summary>
 </member><member name="M:DocScript.MainWindow.RunCurrentSource">

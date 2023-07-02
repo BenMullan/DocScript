@@ -21,7 +21,7 @@
 			DocScript.Interactive.ESWorker.ESWLogic.HostExecutionSession(_ESID:=EntryPoint.TargetExeSes_ESID)
 
 			'That HostExecutionSession() Method should Environment.Exit() with the correct ExitCode.
-			'Therefore, if we're here, then that hasn't happerened, so something's gone wrong.
+			'Therefore, if we're here, then that hasn't happened, so something's gone wrong.
 			Throw New DSException("The HostExecutionSession() Method did not cause the ESWorker Process to exit.")
 
 		Catch _Ex As Exception When True

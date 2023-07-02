@@ -13,7 +13,7 @@ Namespace Runtime
 	'	- Loop unrolling (e.g. if there are only two iterations)
 	'	- Recursion to Iteration
 
-	REM Interesting, but not relevant for DS: 
+	REM Interesting, but not relevant for DS:
 	'	- Optimising the linking order, to reduce paging for larger programs
 	'	- Struct-padding for memory alignment
 
@@ -21,7 +21,7 @@ Namespace Runtime
 	Public Module Optimisation
 
 		''' <summary>
-		''' The reason this is a Class and not just methods in a Module, is because the PerformedOptimisations are specific to the optimisation of a given Component (Expression, IInstruction, or Program).
+		''' The reason this is a Class, and not just methods in a Module, is because the PerformedOptimisationsTally is specific to the optimisation of a given Component (Expression, IInstruction, or Program).
 		''' If the PerformedOptimisations dictionary was just floating in the Module, then the tracking of which optimisations have occured would break in a multi-threaded scenario.
 		''' </summary>
 		Public Class ComponentOptimiser
@@ -51,11 +51,27 @@ Namespace Runtime
 			Public ReadOnly Property PerformedOptimisationsReport As [String]
 				Get
 
+					Dim _MaxOptimisationActionStringLength% = _
+					 Me.PerformedOptimisationsTally.Keys.Select(Of Int32)(Function(_OptimisationAction As OptimisationAction) _OptimisationAction.ToString("G").CamelCaseToSpacedString().Length).Max()
+
 					Return _
 					 "---------- Optimisation Report (Tally) ----------" & vbCrLf & _
-					 String.Join(vbCrLf, Me.PerformedOptimisationsTally.ToArray().Select(Of [String])(
-					  Function(_OptimisationAction_ToPerformedFlag As KeyValuePair(Of OptimisationAction, UInt64)) (_OptimisationAction_ToPerformedFlag.Key.ToString("G").CamelCaseToSpacedString() & ":").PadRight(totalWidth:=Me.PerformedOptimisationsTally.Keys.Select(Of Int32)(Function(_OptimisationAction As OptimisationAction) _OptimisationAction.ToString("G").CamelCaseToSpacedString().Length + 6).Max()) & _OptimisationAction_ToPerformedFlag.Value
+					 [String].Join(vbCrLf, Me.PerformedOptimisationsTally.ToArray().Select(Of [String])(
+					  Function(_OptimisationAction_ToPerformedFlag As KeyValuePair(Of OptimisationAction, UInt64)) As [String]
+						  Return (_OptimisationAction_ToPerformedFlag.Key.ToString("G").CamelCaseToSpacedString() & ":").PadRight(totalWidth:=_MaxOptimisationActionStringLength + 6, paddingChar:=" "c) & _OptimisationAction_ToPerformedFlag.Value
+					  End Function
 					 ).ToArray())
+
+					REM Example Output:
+					'	---------- Optimisation Report (Tally) ----------
+					'	Constant Expression Evaluation:                1
+					'	Bit Shift For Power Of Two Multiplication:     0
+					'	Conversion To Branchless:                      0
+					'	Redundant Call Or Statement Removal:           0
+					'	Const To Literal Substitution:                 0
+					'	Unreachable Code Elimination:                  0
+					'	Loop Unrolling:                                0
+					'	Recursion To Iteration:                        0
 
 				End Get
 			End Property

@@ -14,7 +14,7 @@ Class MainWindow
 			Me.Title = "DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
 			Me.CurrentExecutionContext = DocScript.Runtime.ExecutionContext.GUIDefault
 
-			RegisterCodeSnippetInsertion_EventHandlers_()
+			Me.RegisterCodeSnippetInsertion_EventHandlers_()
 			Me.InitialiseTextEditorControl_()
 			Me.PopulateLogEventHandlersComboBox()
 
@@ -82,18 +82,18 @@ Class MainWindow
 
 	Protected Sub RegisterCodeSnippetInsertion_EventHandlers_()
 
-		AddHandler Insert_SampleProgram_HelloWorld.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_HelloWorld, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
-		AddHandler Insert_SampleProgram_BeepSleepRepeat.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_BeepSleepRepeat, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
-		AddHandler Insert_SampleProgram_DebuggingExample.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_DebuggingExample, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
+		AddHandler Me.Insert_SampleProgram_HelloWorld.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_HelloWorld, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
+		AddHandler Me.Insert_SampleProgram_BeepSleepRepeat.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_BeepSleepRepeat, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
+		AddHandler Me.Insert_SampleProgram_DebuggingExample.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.SampleProgram_DebuggingExample, _SetSourceSavedFlag_IfThisIsTheFirstTextPutIntoTheEditor:=True)
 
-		AddHandler Insert_EntryPoint_Unadorned.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.EntryPoint_Unadorned)
-		AddHandler Insert_EntryPoint_OSInterop.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.EntryPoint_OSInterop)
+		AddHandler Me.Insert_EntryPoint_Unadorned.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.EntryPoint_Unadorned)
+		AddHandler Me.Insert_EntryPoint_OSInterop.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.EntryPoint_OSInterop)
 
-		AddHandler Insert_Loop_ConditionControlled.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_ConditionControlled)
-		AddHandler Insert_Loop_CountControlled_While.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_CountControlled_While)
-		AddHandler Insert_Loop_CountControlled_Loop.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_CountControlled_Loop)
-		AddHandler Insert_Loop_ArrayIteration.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_ArrayIteration)
-		AddHandler Insert_IfElseStatement.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.IfElseStatement)
+		AddHandler Me.Insert_Loop_ConditionControlled.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_ConditionControlled)
+		AddHandler Me.Insert_Loop_CountControlled_While.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_CountControlled_While)
+		AddHandler Me.Insert_Loop_CountControlled_Loop.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_CountControlled_Loop)
+		AddHandler Me.Insert_Loop_ArrayIteration.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.Loop_ArrayIteration)
+		AddHandler Me.Insert_IfElseStatement.Click, Sub() Me.InsertTextAtCursor(PredefinedSnippets.IfElseStatement)
 
 	End Sub
 
@@ -101,9 +101,9 @@ Class MainWindow
 	''' Starts the Task, then Returns. When finished, the UI is reset to the Idle state.
 	''' Exceptions hence ↓ are MsgBoxed out
 	''' </summary>
-	''' <param name="_TaskStatusDescription"></param>
+	''' <param name="_TaskStatusDescription">A present-progressive-tense verb, e.g. "Compiling". Appears in the Status Strip</param>
 	''' <param name="_Action">This MUST NOT Access UI Components without Me.InvokeIfRequired()</param>
-	''' <remarks></remarks>
+	''' <remarks>v3</remarks>
 	Public Sub StartBackgroundWorker(ByVal _TaskStatusDescription$, ByVal _Action As System.Action)
 
 		Me.LoadingUIComponents_SetForTaskStart(_TaskStatusDescription)
@@ -149,7 +149,8 @@ Class MainWindow
 					 _DoWorkEA.Cancel = True
 				 End If
 
-				 System.Threading.Thread.SpinWait(1)
+				 'Don't constantly check for cancellation; it would be too CPU-heavy
+				 System.Threading.Thread.SpinWait(10)
 
 			 End While
 
@@ -667,12 +668,20 @@ Class MainWindow
 
 	End Sub
 
+	Public Sub InsertBreakPoint() Handles InsertBreakPointButton.Click
+		Me.InsertTextAtCursor(Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_ & DocScript.Language.Constants.OpeningFunctionBracket & DocScript.Language.Constants.ClosingFunctionBracket & DocScript.Language.Constants.LineBreak & [vbTab])
+	End Sub
+
 	Public Sub ShowAboutBox() Handles AboutMenuItem.Click
 		Call (New DSAboutBox()).ShowDialog()
 	End Sub
 
 	Public Sub LaunchDSOnGitHub() Handles DSGitHubMenuItem.Click
 		Process.Start("https://github.com/BenMullan/DocScript/")
+	End Sub
+
+	Public Sub LaunchDSOnYouTube() Handles DSGitHubMenuItem.Click
+		Process.Start("https://www.youtube.com/watch?v=ybl5pVSJOOk")
 	End Sub
 
 	Public Sub ShowHelpWindow() Handles HelpMenuItem.Click, PaneHelpButton.Click
@@ -704,7 +713,7 @@ Class MainWindow
 	End Sub
 
 	Public Sub ShowSymbolTableViewingMsgBox() Handles ViewSymTblButton.Click
-		MsgBox("This feature has been moved." & vbCrLf & vbCrLf & "Call ""Debug_ShowSymbolTables()"" from the DocScript Program, where you wish to inspect the Symbol-Tables' current states.", MsgBoxStyle.Information, "DS-IDE")
+		MsgBox("This feature has been moved." & vbCrLf & vbCrLf & "Call ""Debug_ShowSymbolTables()"" or ""Break()"" from the DocScript Program, where you wish to inspect the Symbol-Tables' current states.", MsgBoxStyle.Information, "DS-IDE")
 	End Sub
 
 #Region "Window Closure Handling"
@@ -847,12 +856,12 @@ Class MainWindow
 		 : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Constructed Program with " & Me.Cached_Program.Functions.Count.ToString() & " Function(s) and " & Me.Cached_Program.GlobalVarDecs.Count.ToString() & " Global VarDec(s)")
 	 End Sub
 
-	Public ReadOnly InterpretationPayload_Execute As Action(Of [String]()) = _
-	  Sub(_CLAs$())
-		  : Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Executing...")
+	Public ReadOnly InterpretationPayload_Execute As Action(Of [String]()) =
+	  Sub(_CLAs As [String]())
+		  Me.InvokeIfRequired(Sub() Me.StatusLabel.Text = "Status: Executing...")
 		  Me.Cached_ProgramExeRes = Me.Cached_Program.Run(_CLAs)
-		  : Me.InvokeIfRequired(Sub() Me.UpdateInterpretationButtonsState_(InterpretationStage_.Execution))
-		  : Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
+		  Me.InvokeIfRequired(Sub() Me.UpdateInterpretationButtonsState_(InterpretationStage_.Execution))
+		  Me.InvokeIfRequired(Sub() Me.LastPerformedAction_InfoText.Text = "Execution finished after " & Me.Cached_ProgramExeRes.ExecutionTimeMS.ToString() & "ms with ExitCode " & Me.Cached_ProgramExeRes.ReturnStatus.Program_ExitCode.ToString())
 	  End Sub
 
 #End Region

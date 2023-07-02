@@ -119,9 +119,11 @@
 			Dim _Win32_NetworkResourceObject As New NETRESOURCE() With {.dwType = RESOURCETYPE_DISK, .lpRemoteName = _UNCPath}
 			Dim _StupidWin32ReturnedErrorCode% = Remoting.WNetUseConnection(IntPtr.Zero, _Win32_NetworkResourceObject, _Password$, _Username$, 0, Nothing, Nothing, Nothing)
 
-			If _StupidWin32ReturnedErrorCode% = NO_ERROR Then : Return Nothing
-			Else : Return GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode%)
-			End If
+			Return If(
+				_StupidWin32ReturnedErrorCode% = NO_ERROR,
+				Nothing,
+				GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode%)
+			)
 
 		End Function
 
@@ -130,28 +132,30 @@
 
 			Dim _StupidWin32ReturnedErrorCode% = WNetCancelConnection(_UNCPath, _ForceDisconnection)
 
-			If _StupidWin32ReturnedErrorCode = NO_ERROR Then : Return Nothing
-			Else : Return GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode)
-			End If
+			Return If(
+				_StupidWin32ReturnedErrorCode = NO_ERROR,
+				Nothing,
+				GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode)
+			)
 
 		End Function
 
 #Region "WINAPI DLL Imports (Do not alter the member Identifiers)"
 
 		<System.Runtime.InteropServices.DllImport("Mpr.dll")>
-		Private Function WNetUseConnection(ByVal hwndOwner As IntPtr, ByVal lpNetResource As NETRESOURCE, ByVal lpPassword As String, ByVal lpUserID As String, ByVal dwFlags As Integer, ByVal lpAccessName As String, ByVal lpBufferSize As String, ByVal lpResult As String) As Integer
+		Private Function WNetUseConnection(ByVal hwndOwner As IntPtr, ByVal lpNetResource As NETRESOURCE, ByVal lpPassword As String, ByVal lpUserID As String, ByVal dwFlags As Int32, ByVal lpAccessName As String, ByVal lpBufferSize As String, ByVal lpResult As String) As Int32
 		End Function
 
 		<System.Runtime.InteropServices.DllImport("Mpr.dll")>
-		Private Function WNetCancelConnection(ByVal lpName As String, ByVal fForce As Boolean) As Integer
+		Private Function WNetCancelConnection(ByVal lpName As String, ByVal fForce As Boolean) As Int32
 		End Function
 
 		<System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)>
 		Private Class NETRESOURCE
-			Public dwScope As Integer = 0
-			Public dwType As Integer = 0
-			Public dwDisplayType As Integer = 0
-			Public dwUsage As Integer = 0
+			Public dwScope As Int32 = 0
+			Public dwType As Int32 = 0
+			Public dwDisplayType As Int32 = 0
+			Public dwUsage As Int32 = 0
 			Public lpLocalName As String = ""
 			Public lpRemoteName As String = ""
 			Public lpComment As String = ""
@@ -188,34 +192,34 @@
 		Private Const ERROR_OPEN_FILES% = 2401
 		Private Const ERROR_DEVICE_IN_USE% = 2404
 
-		Private Win32_NetworkErrors_ As New Dictionary(Of [Int32], [String])() From {
-		 {ERROR_ACCESS_DENIED, "Error: Access Denied"},
-		 {ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
-		 {ERROR_BAD_DEVICE, "Error: Bad Device"},
-		 {ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
-		 {ERROR_BAD_PROVIDER, "Error: Bad Provider"},
-		 {ERROR_CANCELLED, "Error: Cancelled"},
-		 {ERROR_EXTENDED_ERROR, "Error: Extended Error"},
-		 {ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
-		 {ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
-		 {ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
-		 {ERROR_MORE_DATA, "Error: More Data"},
-		 {ERROR_NO_MORE_ITEMS, "Error: No More Items"},
-		 {ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
-		 {ERROR_NO_NETWORK, "Error: No Network"},
-		 {ERROR_BAD_PROFILE, "Error: Bad Profile"},
-		 {ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
-		 {ERROR_DEVICE_IN_USE, "Error: Device In Use"},
-		 {ERROR_NOT_CONNECTED, "Error: Not Connected"},
-		 {ERROR_OPEN_FILES, "Error: Open Files"},
-		 {ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
+		Private ReadOnly Win32_NetworkErrors_ As New Dictionary(Of [Int32], [String])() From {
+			{ERROR_ACCESS_DENIED, "Error: Access Denied"},
+			{ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
+			{ERROR_BAD_DEVICE, "Error: Bad Device"},
+			{ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
+			{ERROR_BAD_PROVIDER, "Error: Bad Provider"},
+			{ERROR_CANCELLED, "Error: Cancelled"},
+			{ERROR_EXTENDED_ERROR, "Error: Extended Error"},
+			{ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
+			{ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
+			{ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
+			{ERROR_MORE_DATA, "Error: More Data"},
+			{ERROR_NO_MORE_ITEMS, "Error: No More Items"},
+			{ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
+			{ERROR_NO_NETWORK, "Error: No Network"},
+			{ERROR_BAD_PROFILE, "Error: Bad Profile"},
+			{ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
+			{ERROR_DEVICE_IN_USE, "Error: Device In Use"},
+			{ERROR_NOT_CONNECTED, "Error: Not Connected"},
+			{ERROR_OPEN_FILES, "Error: Open Files"},
+			{ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
 		}
 
 		Private Function GetWin32NetworkErrorDescriptionText_FromErrorCode_$(ByVal _WinNT_ErrorCode%)
 
 			Return Remoting.Win32_NetworkErrors_.ItemOrDefault(
-			 _Key:=_WinNT_ErrorCode,
-			 _DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
+				_Key:=_WinNT_ErrorCode,
+				_DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
 			)
 
 		End Function

@@ -3,7 +3,7 @@
 	Public ReadOnly Property ESWorkerExecutionContext(ByVal _ESID$) As DocScript.Runtime.ExecutionContext
 		Get
 			Return New DocScript.Runtime.ExecutionContext(
-				_ID:="DS_Interactive_ESWorkerExeCxt",
+			 _ID:="DS_Interactive_ESWorkerExeCxt",
 			 _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
 			 _InputDelegate:=ExecutionContextResources.ESWorkerInputDelegate,
 			 _OutputDelegate:=ExecutionContextResources.ESWorkerOutputDelegate,
@@ -12,7 +12,7 @@
 		End Get
 	End Property
 
-	Public ReadOnly ESWorkerInputDelegate As Func(Of String, String) = _
+	Public ReadOnly ESWorkerInputDelegate As Func(Of [String], [String]) = _
 	 Function(_Prompt$) As String
 
 		 REM Write the "InputPrompt" and "TimeSubmitted" to the [{ESID}_Inputs] Table
@@ -30,8 +30,8 @@
 
 				 'Return the InputResponse present in the {ESID}_Inputs Table
 				 Return WebParts.DatabaseInteraction.GetExecutionSesionInputEvents(EntryPoint.TargetExeSes_ESID) _
-				   .First(Function(_InputEvent As XElement) _InputEvent.@ID = _TargetInputEvent_ID) _
-				   .@InputResponse
+				.First(Function(_InputEvent As XElement) _InputEvent.@ID = _TargetInputEvent_ID) _
+				.@InputResponse
 
 			 End If
 

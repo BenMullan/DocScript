@@ -185,9 +185,11 @@ Module NetworkShare
 
 	Function ConnectToShare(ByVal uri As String, ByVal username As String, ByVal password As String) As String
 
-		Dim nr As NETRESOURCE = New NETRESOURCE()
-		nr.dwType = RESOURCETYPE_DISK
-		nr.lpRemoteName = uri
+		Dim nr As New NETRESOURCE() With {
+			.dwType = RESOURCETYPE_DISK,
+			.lpRemoteName = uri
+		}
+
 		Dim ret As Integer = WNetUseConnection(IntPtr.Zero, nr, password, username, 0, Nothing, Nothing, Nothing)
 
 		If ret = NO_ERROR Then

@@ -7,6 +7,49 @@
 
 
 
+
+Public Module DSIDEExecutionContextResources
+
+	''' <summary>Differs from the GUIDefault ExecutionContext, because the DSIDE_Break() BIF is included herein.</summary>
+	Public ReadOnly DSIDEExecutionContext As New DocScript.Runtime.ExecutionContext(
+	 _ID:="DS_IDE_ExeCxt",
+	 _RootFolder:=New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory()),
+	 _InputDelegate:=Runtime.ExecutionContext.GUIDefault.InputDelegate,
+	 _OutputDelegate:=DSIDEExecutionContextResources.OutputDelegate_,
+	 _BuiltInFunctions:=Runtime.ExecutionContext.AllStandardBuiltInFunctions.Concat({DSIDEExecutionContextResources.BIF_DSIDE_Break_}).ToArray()
+	)
+
+	''' <summary>Differs from the GUIDefault OutputDelegate in that the MessageBox is not a ServiceNotification, and therefore uses VisualStyles</summary>
+	Private OutputDelegate_ As Action(Of [String]) = _
+	  Sub(_Message$) Global.System.Windows.Forms.MessageBox.Show(_Message, "DocScript Output", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information, Windows.Forms.MessageBoxDefaultButton.Button1)
+
+	''' <summary>The DSIDE BIF to pause execution and e.g. inspect the current variables. In the DebugBIF's File, but not a member of the Debug Namespace</summary>
+	Private Const BIF_DSIDE_Break_Identifier_$ = "DSIDE_Break"
+	Private ReadOnly BIF_DSIDE_Break_ As New Runtime.BuiltInFunction(BIF_DSIDE_Break_Identifier_$, {}, GetType(Language.Variables.Void), New Runtime.BuiltInFunction.BuiltInFunctionDelegate(
+	 Function(_SymTbls As Runtime.SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As Language.Instructions.ExecutionResult
+
+		 Dim _ExeRes As Language.Instructions.ExecutionResult = Language.Instructions.ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DSIDE_Break_Identifier_$)
+
+
+
+		 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+	 End Function)
+	) With {.[Description] = "Shows the BreakPoint-Action-Dialog, and only continues execution when this Dialog is dismissed"}
+
+End Module
+
+
+
+
+
+
+
+
+
+
+
+
 					If _IInstructions.OfType(Of ReturnToCaller)().Count() > 0 Then
 
 						Dim _Index_OfFirstReturnToCaller% = _IInstructions.IndexOfFirstWhere(Function(_IInstruction As IInstruction) TypeOf _IInstruction Is ReturnToCaller)

@@ -25,6 +25,8 @@ DSIExecutionSessionWorker
 	<returns>0=AllWasFine; 1=ExceptionWasThrown</returns>
 </member><member name="P:DocScript.Interactive.ESWorker.DSIBuiltInFunctions.All_DSI_BuiltInFunctions(System.String)">
 	<summary>DocScript Interactive BIFs - accessible via calling DSI_Name()</summary>
+</member><member name="M:DocScript.Interactive.ESWorker.ESWLogic.HostExecutionSession(System.String)">
+	<summary>Interacts with the DSI SQL Database to host the session, and then Environment.Exit()s.</summary>
 </member><member name="F:DocScript.Interactive.ESWorker.ESWLogic.IgnoreLogEvents_">
 	<summary>
  Indicates that LogEvents should not be processed for the time-being, because they are only being caused as a result of attempting to Log a previous Event.

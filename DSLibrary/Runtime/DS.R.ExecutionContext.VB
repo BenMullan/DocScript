@@ -54,6 +54,7 @@
 #End Region
 
 		''' <summary>Note that the OutputError() Delegate should be set with an inline With Statement, as it is not taken in as a Constructor Argument</summary>
+		''' <param name="_ID">Example: "DS_BuiltInExeCxt_CLIDefault"</param>
 		Public Sub New(ByVal _ID$, ByVal _RootFolder As IO.DirectoryInfo, ByVal _InputDelegate As Func(Of [String], [String]), ByVal _OutputDelegate As Action(Of [String]), ByVal _BuiltInFunctions As BuiltInFunction())
 
 			LogExecutionMessage(String.Format("Constructing an ExecutionContext with {0} BuitInFunctions and a RootFoler of {1}", _BuiltInFunctions.Length.ToString(), _RootFolder.FullName.InSquares()))
@@ -131,12 +132,25 @@
 			End Get
 		End Property
 
-		''' <summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used.</summary>
+		''' <summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used, but with a different Identifier.</summary>
 		Protected ReadOnly Property OutputErrorBIF_ As BuiltInFunction
 			Get
 				Try
 
-					If Me.OutputErrorDelegate Is Nothing Then : Return Me.OutputBIF_(Me.OutputDelegate)
+					If Me.OutputErrorDelegate Is Nothing Then
+
+						REM Modify the Identifier of the Output() BIF, so that there aren't two identical identifiers in the Symbol Table
+						Dim _Original_OutputBIF_ As BuiltInFunction = Me.OutputBIF_(Me.OutputDelegate)
+
+						Return New BuiltInFunction(
+						   _Identifier:=Runtime.Constants.OutputErrorFunction_Identifier,
+						   _ExpectedParameters:=_Original_OutputBIF_.ExpectedParameters.ToArray(),
+						   _ReturnType:=_Original_OutputBIF_.ReturnType,
+						   _Action:=_Original_OutputBIF_.Action
+						) With {
+						  .Description = _Original_OutputBIF_.Description
+						}
+
 					Else
 
 						Dim _BIFAction As BuiltInFunction.BuiltInFunctionDelegate = _

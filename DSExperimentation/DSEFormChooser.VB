@@ -20,12 +20,12 @@
 		Call (New SQLExperiments()).ShowDialog()
 	End Sub
 
-	Private Sub BIFExperimentsButton_Click() Handles BIFExperimentsButton.Click
-		Call (New BIFExperiments()).ShowDialog()
-	End Sub
-
 	Private Sub DSRemotingButton_Click(sender As System.Object, e As System.EventArgs) Handles DSRemotingButton.Click
 		Call (New RemotingExperiments()).ShowDialog()
+	End Sub
+
+	Private Sub BIFExperimentsButton_Click() Handles BIFExperimentsButton.Click
+		Call (New BIFExperiments()).ShowDialog()
 	End Sub
 
 End Class

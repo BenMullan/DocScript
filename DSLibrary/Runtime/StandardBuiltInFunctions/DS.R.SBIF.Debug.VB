@@ -8,6 +8,24 @@ Namespace Runtime
 
 #Region "Individual BIF Member Declarations"
 
+		''' <summary>Needs to be publicly visible for DSIDE's [Insert Breakpoint] Button</summary>
+		Public Const BIF_Break_Identifier_ = "Break"
+
+		''' <summary>The DSIDE BIF to pause execution and e.g. inspect the current variables. In the DebugBIF's File, but not a member of the Debug Namespace</summary>
+		''' <remarks>Does NOT start with "Debug_"</remarks>
+		Private Shared ReadOnly BIF_Break_ As New Runtime.BuiltInFunction(BIF_Break_Identifier_$, {}, GetType(Void), New Runtime.BuiltInFunction.BuiltInFunctionDelegate(
+		 Function(_SymTbls As Runtime.SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As Language.Instructions.ExecutionResult
+
+			 Dim _ExeRes As Language.Instructions.ExecutionResult = Language.Instructions.ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_Break_Identifier_$)
+
+			 REM The BreakpointActionDialog may return modified SymTbls, e.g. from the [Edit in DSLive] feature
+			 _SymTbls = DocScript.Runtime.BreakpointActionDialog.Show_AndReturnModifiedSymTbls(_SymTbls)
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Shows the BreakPoint-Action-Dialog, and only continues execution when this Dialog is dismissed"}
+
 #Region "SymbolTable-Related"
 
 		Private Const BIF_Debug_SymbolExists_Identifier_$ = DebugBIFs_IdentifierStart_ & "SymbolExists"
@@ -40,7 +58,8 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Returns all of the identifiers from currently-visible SymbolTable Entries"}
 
-		Private Const BIF_Debug_ShowSymbolTables_Identifier_$ = DebugBIFs_IdentifierStart_ & "ShowSymbolTables"
+		''' <summary>Needs to be publically visible for the BreakpointActionDialog</summary>
+		Public Const BIF_Debug_ShowSymbolTables_Identifier_$ = DebugBIFs_IdentifierStart_ & "ShowSymbolTables"
 		Private Shared ReadOnly BIF_Debug_ShowSymbolTables_ As New BuiltInFunction(BIF_Debug_ShowSymbolTables_Identifier_$, {}, GetType(Void), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
@@ -56,7 +75,8 @@ Namespace Runtime
 
 #End Region
 
-		Private Const BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$ = DebugBIFs_IdentifierStart_ & "StartDSLiveSessionFromCurrentExecutionState"
+		''' <summary>Needs to be publically visible for the BreakpointActionDialog</summary>
+		Public Const BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$ = DebugBIFs_IdentifierStart_ & "StartDSLiveSessionFromCurrentExecutionState"
 		Private Shared ReadOnly BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_ As New BuiltInFunction(BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_$, {}, GetType(Void), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
@@ -109,6 +129,7 @@ Namespace Runtime
 
 		''' <summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
 		Public Shared ReadOnly Debug As DocScript.Runtime.BuiltInFunction() = {
+		 StandardBuiltInFunctions.BIF_Break_,
 		 StandardBuiltInFunctions.BIF_Debug_SymbolExists_,
 		 StandardBuiltInFunctions.BIF_Debug_GetVisibleSymbols_,
 		 StandardBuiltInFunctions.BIF_Debug_ShowSymbolTables_,

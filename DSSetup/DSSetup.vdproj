@@ -34,13 +34,13 @@
         "Entry"
         {
         "MsmKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
-        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
+        "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
-        "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
+        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,31 +106,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BE2EDD7C04F5FAD74C4E7EFA3B8340E1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B62ED4B93A5B948D521765FC9D737871"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_764A664958FC42AE866B5FA25D1F57C1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
+        "OwnerKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +118,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_58A90369CB16C2533ED2AD5657E84150"
+        "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_764A664958FC42AE866B5FA25D1F57C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B62ED4B93A5B948D521765FC9D737871"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BE2EDD7C04F5FAD74C4E7EFA3B8340E1"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -277,11 +277,6 @@
             "AssemblyAsmDisplayName" = "8:DSCore, Version=5.1.2.0, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_58A90369CB16C2533ED2AD5657E84150"
-                    {
-                    "Name" = "8:DSCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DSCore.dll"
             "TargetName" = "8:"
@@ -308,11 +303,6 @@
             "AssemblyAsmDisplayName" = "8:ICSharpCode.AvalonEdit, Version=4.3.1.9429, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6779BBF64B26AD86C8379EA7505EFC60"
-                    {
-                    "Name" = "8:ICSharpCode.AvalonEdit.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:ICSharpCode.AvalonEdit.dll"
             "TargetName" = "8:"
@@ -575,15 +565,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{0A6C9E00-27B0-4A4B-9F2E-ECBB461A10EC}"
-        "PackageCode" = "8:{60292B3A-3219-4779-85C9-D7DEA757066E}"
+        "ProductCode" = "8:{F33E1C87-FA02-432E-BD3E-C7FDC5649203}"
+        "PackageCode" = "8:{97F84879-DF2D-4BC5-9A83-45D72E3B6FCD}"
         "UpgradeCode" = "8:{38DD944A-CBA2-4B8B-B9FB-7CD32B9B7DE7}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:5.2.1"
+        "ProductVersion" = "8:5.4.0"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://BenM.eu5.org/"

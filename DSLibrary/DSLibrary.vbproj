@@ -131,6 +131,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Runtime\DS.R.BreakpointActionDialog.Designer.VB">
+      <DependentUpon>DS.R.BreakpointActionDialog.VB</DependentUpon>
+    </Compile>
+    <Compile Include="Runtime\DS.R.BreakpointActionDialog.VB">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Runtime\DS.R.BuiltInFunction.VB" />
     <Compile Include="Runtime\DS.R.Constants.VB" />
     <Compile Include="Runtime\DS.R.ExecutionContext.VB" />
@@ -169,6 +175,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Runtime\DS.R.BreakpointActionDialog.resx">
+      <DependentUpon>DS.R.BreakpointActionDialog.VB</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Runtime\DS.R.SymbolTableExplorerWindow.resx">
       <DependentUpon>DS.R.SymbolTableExplorerWindow.VB</DependentUpon>
     </EmbeddedResource>
@@ -189,6 +198,10 @@
     <Compile Include="Utilities\DS.Utilities.KVPSerialisation.VB" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\BreakPoint.PNG" />
+    <None Include="Resources\SymbolTables.PNG" />
+    <None Include="Resources\DSLive.PNG" />
+    <None Include="Resources\ContinueExec.PNG" />
     <Content Include="Utilities\CLAManager\About.txt" />
   </ItemGroup>
   <ItemGroup>

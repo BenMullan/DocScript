@@ -66,7 +66,7 @@
 				 imageIndex:=0
 				)
 
-				Me.SymbolTables_TabControl.TabPages.Item(_TabKey).Controls.Add(GenerateListView_ForSymbolTable_(_SymTbl))
+				Me.SymbolTables_TabControl.TabPages.Item(_TabKey).Controls.Add(Me.GenerateListView_ForSymbolTable_(_SymTbl))
 
 			Next
 

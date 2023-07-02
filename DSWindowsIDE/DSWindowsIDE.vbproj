@@ -273,7 +273,9 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="DocScript.Signing.snk" />
-    <None Include="DocScript_SyntaxHighlighting.XSHD" />
+    <None Include="DocScript_SyntaxHighlighting.XSHD">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="My Project\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
@@ -510,6 +512,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Desktop.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BreakPoint.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

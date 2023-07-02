@@ -3,10 +3,12 @@
 	Private Sub DSAboutBox_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
 		REM Title
-		Dim ApplicationTitle As String
-		If My.Application.Info.Title <> "" Then : ApplicationTitle = My.Application.Info.Title
-		Else : ApplicationTitle = System.IO.Path.GetFileNameWithoutExtension(My.Application.Info.AssemblyName)
-		End If : Me.Text = String.Format("About {0}", ApplicationTitle)
+		Dim _ApplicationTitle$ = If(
+			Not [String].IsNullOrEmpty(My.Application.Info.Title),
+			My.Application.Info.Title,
+			System.IO.Path.GetFileNameWithoutExtension(My.Application.Info.AssemblyName)
+		)
+		Me.Text = [String].Format("About {0}", _ApplicationTitle)
 
 		REM Other Information
 		Me.LabelProductName.Text = My.Application.Info.ProductName
@@ -15,10 +17,9 @@
 		Me.LabelCompanyName.Text = My.Application.Info.CompanyName
 		Me.TextBoxDescription.Text = My.Application.Info.Description
 
-	End Sub
+		REM Close on [Ok]
+		AddHandler Me.OKButton.Click, Sub() Me.Close()
 
-	Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKButton.Click
-		Me.Close()
 	End Sub
 
 End Class

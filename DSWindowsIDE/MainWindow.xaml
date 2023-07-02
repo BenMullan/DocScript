@@ -28,6 +28,7 @@
 					<RibbonApplicationMenuItem Header="About..." x:Name="AboutMenuItem" ImageSource="Images\About.PNG" />
 					<RibbonApplicationMenuItem Header="Help!" x:Name="HelpMenuItem" ImageSource="Images\Help.PNG" ToolTip="Ctrl + H (Ctrl + Shift + H for Pictorial-Help)" />
 					<RibbonApplicationMenuItem Header="DocScript on GitHub..." x:Name="DSGitHubMenuItem" ImageSource="Images\DS_On_GitHub.PNG" ToolTip="Source Control homepage for DocScript." />
+					<RibbonApplicationMenuItem Header="DocScript in 3 Minutes..." x:Name="DSYouTubeMenuItem" ImageSource="Images\DS_On_YouTube.PNG" ToolTip="Short DocScript introduction video." />
 					<RibbonApplicationMenuItem Header="Exit" x:Name="ExitMenuItem" ImageSource="Images\Exit.PNG" ToolTip="Esc" />
 				</RibbonApplicationMenu>
 			</Ribbon.ApplicationMenu>
@@ -180,6 +181,7 @@
 				</RibbonGroup>
 
 				<RibbonGroup Header="Debug" LargeImageSource="/DSIDE;component/Images/Construct.PNG">
+					<RibbonButton x:Name="InsertBreakPointButton" LargeImageSource="/DSIDE;component/Images/BreakPoint.PNG" Label="Insert BreakPoint" />
 					<RibbonButton x:Name="RunInDSCLIButton" LargeImageSource="/DSIDE;component/Images/DSCLI.PNG" Label="Run in DS-CLI..." />
 					<RibbonButton x:Name="ViewSymTblButton" LargeImageSource="/DSIDE;component/Images/SymbolTables.PNG" Label="View Symbol Tables..." />
 				</RibbonGroup>
