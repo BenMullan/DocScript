@@ -62,7 +62,7 @@
 
 				Me.SymbolTables_StateToReturn = _BIF_ExeRes.ResultantSymbolTablesState
 
-			Catch _Ex As Exception : Throw New DSException("The SymbolTables cannot be shown: " & _Ex.Message) : End Try
+			Catch _Ex As Exception : MsgBox("The SymbolTables cannot be shown: " & _Ex.Message, MsgBoxStyle.Critical) : End Try
 		End Sub
 
 		''' <summary>Sets the [SymbolTables_StateToReturn] member</summary>
@@ -81,7 +81,7 @@
 
 				Me.SymbolTables_StateToReturn = _BIF_ExeRes.ResultantSymbolTablesState
 
-			Catch _Ex As Exception : Throw New DSException("The DSLive session could not be started: " & _Ex.Message) : End Try
+			Catch _Ex As Exception : MsgBox("The DSLive session could not be started: " & _Ex.Message, MsgBoxStyle.Critical) : End Try
 		End Sub
 
 		''' <summary>Sets the [SymbolTables_StateToReturn] member</summary>
@@ -102,7 +102,7 @@
 
 				'Me.SymbolTables_StateToReturn = _BIF_ExeRes.ResultantSymbolTablesState
 
-			Catch _Ex As Exception : Throw New DSException("The DSLive session could not be started: " & _Ex.Message) : End Try
+			Catch _Ex As Exception : MsgBox("The DSLive session could not be started: " & _Ex.Message, MsgBoxStyle.Critical) : End Try
 		End Sub
 
 		''' <summary>Sets the [SymbolTables_StateToReturn] member</summary>

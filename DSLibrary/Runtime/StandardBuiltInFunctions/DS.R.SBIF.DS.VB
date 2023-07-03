@@ -318,6 +318,20 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Splits the _String into individual characters, returning <String@>"}
 
+		Private Const BIF_DS_String_Repeat_Identifier_$ = DSBIFs_IdentifierStart_ & "String_Repeat"
+		Private Shared ReadOnly BIF_DS_String_Repeat_ As New BuiltInFunction(BIF_DS_String_Repeat_Identifier_$, {New DSFunction.Parameter("_StringDatum", GetType(DSString)), New DSFunction.Parameter("_Times", GetType(DSString))}, GetType(DSArray(Of DSString)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_String_Repeat_Identifier_$)
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue =
+			 New DSArray(Of DSString)(Enumerable.Repeat(Of DSString)(element:=_Arguments.ElementAt(0).Coerce(Of DSString)(), count:=CInt(_Arguments.ElementAt(1).Coerce(Of DSString)().Value)).ToArray())
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the _StringDatum, repeated _Times times"}
+
 #Region "LINQ-Style Methods"
 
 		Private Const BIF_DS_String_IndexOfFirst_Identifier_$ = DSBIFs_IdentifierStart_ & "String_IndexOfFirst"
@@ -401,6 +415,20 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Returns a random integral number, guaranteed to be no lower than the _LowerBound, and no higher than the _UpperBound"}
 
+		Private Const BIF_DS_Number_Repeat_Identifier_$ = DSBIFs_IdentifierStart_ & "Number_Repeat"
+		Private Shared ReadOnly BIF_DS_Number_Repeat_ As New BuiltInFunction(BIF_DS_Number_Repeat_Identifier_$, {New DSFunction.Parameter("_NumberDatum", GetType(DSNumber)), New DSFunction.Parameter("_Times", GetType(DSNumber))}, GetType(DSArray(Of DSNumber)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_Number_Repeat_Identifier_$)
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue =
+			 New DSArray(Of DSNumber)(Enumerable.Repeat(Of DSNumber)(element:=_Arguments.ElementAt(0).Coerce(Of DSNumber)(), count:=CInt(_Arguments.ElementAt(1).Coerce(Of DSNumber)().Value)).ToArray())
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the _NumberDatum, repeated _Times times"}
+
 #End Region
 
 #Region "DS_Boolean BIFs"
@@ -456,6 +484,25 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Returns the element at _Index in the _Array"}
+
+		Private Const BIF_DS_BooleanArray_Append_Identifier_$ = DSBIFs_IdentifierStart_ & "BooleanArray_Append"
+		Private Shared ReadOnly BIF_DS_BooleanArray_Append_ As New BuiltInFunction(BIF_DS_BooleanArray_Append_Identifier_$, {New DSFunction.Parameter("_ExistingBooleanArray", GetType(DSArray(Of DSBoolean))), New DSFunction.Parameter("_NewItem", GetType(DSBoolean))}, GetType(DSArray(Of DSBoolean)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_DS_BooleanArray_Append_Identifier_$)
+
+			 Dim _ArrayToReturn As New DSArray(Of DSBoolean)(
+			  _Arguments.ElementAt(0).Coerce(Of DSArray(Of DSBoolean))().Elements _
+			  .Concat({_Arguments.ElementAt(1).Coerce(Of DSBoolean)()}) _
+			  .ToArray()
+			 )
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = _ArrayToReturn
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns a new <Boolean@> with the items of the _ExistingBooleanArray, but with the _NewItem appended"}
 
 #Region "LINQ-Style Methods"
 
@@ -970,12 +1017,15 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_DS_String_ToChars_,
 		 StandardBuiltInFunctions.BIF_DS_String_IndexOfFirst_,
 		 StandardBuiltInFunctions.BIF_DS_String_OverwriteRange_,
+		 StandardBuiltInFunctions.BIF_DS_String_Repeat_,
 		 StandardBuiltInFunctions.BIF_DS_Number_ToBase_,
 		 StandardBuiltInFunctions.BIF_DS_Number_FromExprString_,
 		 StandardBuiltInFunctions.BIF_DS_Number_GetRandom_,
+		 StandardBuiltInFunctions.BIF_DS_Number_Repeat_,
 		 StandardBuiltInFunctions.BIF_DS_Boolean_Repeat_,
 		 StandardBuiltInFunctions.BIF_DS_BooleanArray_Length_,
 		 StandardBuiltInFunctions.BIF_DS_BooleanArray_At_,
+		 StandardBuiltInFunctions.BIF_DS_BooleanArray_Append_,
 		 StandardBuiltInFunctions.BIF_DS_BooleanArray_ForEach_,
 		 StandardBuiltInFunctions.BIF_DS_BooleanArray_ReplaceAt_,
 		 StandardBuiltInFunctions.BIF_DS_BooleanArray_SelectStrings_,

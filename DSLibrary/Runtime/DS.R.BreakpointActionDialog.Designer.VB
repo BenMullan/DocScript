@@ -52,7 +52,8 @@
 			Me.BreakPointIconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
 			Me.BreakPointIconPictureBox.TabIndex = 1
 			Me.BreakPointIconPictureBox.TabStop = False
-			Me.TheToolTipProvider.SetToolTip(Me.BreakPointIconPictureBox, "Dismiss this dialog to resume continous execution...")
+			Me.TheToolTipProvider.SetToolTip(Me.BreakPointIconPictureBox, "Dismiss this dialog to resume continous execution." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Tip: To dismiss this dialog" & _
+				  " WITHOUT applying any changes" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "made to the Symbols, use Alt + F4.")
 			'
 			'ContinueExecButton
 			'

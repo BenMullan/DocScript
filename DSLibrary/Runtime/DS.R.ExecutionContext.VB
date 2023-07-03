@@ -194,7 +194,7 @@
 
 					 REM If we're here, stdin provided [Nothing]; use the GUI.
 					 Try 'We may be unable to call InputBox, e.g. in a PsExec session
-						 System.Console.Out.WriteLine() 'Otherwise the next Output() will be on the same line as the current _Prompt
+						 System.Console.Out.WriteLine()	'Otherwise the next Output() will be on the same line as the current _Prompt
 						 Return Microsoft.VisualBasic.Interaction.InputBox("The Console failed to provide an input value. Provide one here instead." & vbCrLf & vbCrLf & _Prompt, "DocScript CLI Input Failure")
 					 Catch _Ex As Exception : Throw New DSException("The Console failed to provide an input value, and a GUI Input-Box cannot be shown either: " & _Ex.Message) : End Try
 
@@ -251,6 +251,7 @@
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[Const]) _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[Debug]) _
 				  .Concat(DocScript.Runtime.StandardBuiltInFunctions.[Graphics]) _
+				  .OrderBy(Of [String])(keySelector:=Function(_BIF As BuiltInFunction) _BIF.Identifier) _
 				  .ToArray()
 
 			End Get

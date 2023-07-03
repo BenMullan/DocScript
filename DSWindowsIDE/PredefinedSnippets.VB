@@ -15,18 +15,22 @@
 	 "EndFunction"
 
 	Public ReadOnly SampleProgram_DebuggingExample$ = _
-	  "#DebuggingExample.DS" & vbCrLf & _
-	  "Function <Number> Main (<String@> _CLAs)" & vbCrLf & _
-	  vbCrLf & _
-	  vbTab & "Loop (4)" & vbCrLf & _
-	  vbTab & vbTab & "<String> _Random : DS_String_GetRandom(5)" & vbCrLf & _
-	  vbTab & vbTab & "Debug_ShowSymbolTables()" & vbCrLf & _
-	  vbTab & "EndLoop" & vbCrLf & _
-	  vbTab & vbCrLf & _
-	  vbTab & "Output(Debug_GetStackTrace())" & vbCrLf & _
-	  vbTab & vbCrLf & _
-	  vbTab & "Return ~1" & vbCrLf & _
-	  "EndFunction"
+	  <S>#DebuggingExample.DS
+
+#This ↓ Entrypoint Function ↓ takes in command-line arguments,
+#	and returns an ExitCode to the operating system.
+
+Function &lt;Number&gt; Main (&lt;String@&gt; _CLAs)
+	
+	Loop (3)
+		&lt;String&gt; _Random : DS_String_GetRandom(5)
+		Debug_ShowSymbolTables()
+	EndLoop
+
+	Break()
+
+	Return 0
+EndFunction</S>.Value
 
 	Public ReadOnly EntryPoint_Unadorned$ = _
 	 "Function <Void> Main ()" & vbCrLf & _
