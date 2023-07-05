@@ -123,11 +123,19 @@ MainWindow
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:DocScript.My.Resources.Resources.Open">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:DocScript.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member><member name="P:DocScript.My.Resources.Resources.RemoteFileExplorer">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.Save">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

@@ -521,7 +521,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)..\DSCommandLineInterpreter\$(OutDir)DSCLI.exe $(ProjectDir)$(OutDir)
-copy $(ProjectDir)..\DSExprResolutionUtility\$(OutDir)DSExpr.exe $(ProjectDir)$(OutDir)</PostBuildEvent>
+    <PostBuildEvent>Copy /B /V /Y $(ProjectDir)..\DSCommandLineInterpreter\$(OutDir)DSCLI.exe $(ProjectDir)$(OutDir)
+Copy /B /V /Y $(ProjectDir)..\DSExprResolutionUtility\$(OutDir)DSExpr.exe $(ProjectDir)$(OutDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

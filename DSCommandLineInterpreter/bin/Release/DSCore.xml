@@ -1149,7 +1149,7 @@ DSCore
 	<param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
 	<param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
 	<remarks>
- E.g. UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")})
+ E.g. UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of [String], [String])("PE Binary Executables", "EXE")})
  </remarks>
 </member><member name="M:DocScript.CompilerExtentions.UsefulMethods.RequestFilePath_WithOpenFileDialog(System.String,System.Tuple{System.String,System.String}[],System.String)">
 	<summary>(MullNet UsefulMethod) Uses an STA Thread (Message-Pumping) to display a OpenFileDialog, and returns the Selected File, or NOTHING.</summary>
@@ -1237,13 +1237,27 @@ DSCore
 	<remarks></remarks>
 </member><member name="M:DocScript.Runtime.Remoting.DeleteFiles_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String,System.String[])">
 	<summary>
- Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+ Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted, using the specified credentials.
  </summary>
 	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
 	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
 	<param name="_UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
 	<param name="_NamesOfFilesWithinThatUNCDirectory_ToBeDeleted">E.g. {"File1.txt", "Folder\File2.PNG"}</param>
 	<remarks></remarks>
+</member><member name="M:DocScript.Runtime.Remoting.DeleteDirectory_FromRemoteComputer(System.IO.DirectoryInfo,System.String,System.String)">
+	<summary>
+ Deletes the _UNCDirectoryOnRemotePC_ToDelete, using the specified credentials. The contents of the directory are also deleted (recursively).
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC_ToDelete">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+</member><member name="M:DocScript.Runtime.Remoting.GetContents_OfRemoteDirectory(System.IO.DirectoryInfo,System.String,System.String)">
+	<summary>
+ Gets the directory-contents for the _UNCDirectoryOnRemotePC. FileSystemInfo is inherited by both FileInfo and DirectoryInfo.
+ </summary>
+	<param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+	<param name="_RemotePC_Password">E.g. "Pass!123"</param>
+	<param name="_UNCDirectoryOnRemotePC">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
 </member><member name="M:DocScript.Runtime.Remoting.AuthenticateWithNetworkFolder(System.String,System.String,System.String)">
 	<summary>Associates the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
 </member><member name="M:DocScript.Runtime.Remoting.RemoveCredentialsAssociatedWithNetworkFolder(System.String,System.Boolean)">

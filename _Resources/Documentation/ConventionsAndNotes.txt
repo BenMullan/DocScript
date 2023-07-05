@@ -31,7 +31,7 @@ DocScript Sub-Products:
 |_*_			|* is an Identifier for a Static (!= Shared) Item					|
 |T*				|* is a Generic Type Specifier										|
 |I*				|* is an Interface													|
-|__Unused__*	|* is a placeholder parameter, existent to match a delegate signat.	|
+|__Unused__*	|* is a placeholder parameter, there to match a delegate sig.		|
 |Ensures *		|Throws an Exception if * is not the case							|
 |DS*Exception	|* inherits from System.Exception									|
 |[*]			|WebParts API: * will be returned, as an XML Attr.					|

@@ -35,7 +35,7 @@ Namespace Runtime
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_File_Create_Identifier_$)
-			 IO.File.Create(_Arguments.First().Coerce(Of DSString)().Value)
+			 IO.File.Create(_Arguments.First().Coerce(Of DSString)().Value).Close()
 			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
 		 End Function)
@@ -52,6 +52,43 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Deletes the File at _FilePath"}
 
+		Private Const BIF_File_FullPathFromRelativePath_Identifier_$ = FileBIFs_IdentifierStart_ & "FullPathFromRelativePath"
+		Private Shared ReadOnly BIF_File_FullPathFromRelativePath_ As New BuiltInFunction(BIF_File_FullPathFromRelativePath_Identifier_$, {New DSFunction.Parameter("_RelativePath", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_File_FullPathFromRelativePath_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString((New IO.FileInfo(_Arguments.First().Coerce(Of DSString)().Value)).FullName)
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Determines what the full path to the file is, using the context of the current working directory. The Input can be a fully-resolved file path too; this won't break anything."}
+
+		Private Const BIF_File_Exists_Identifier_$ = FileBIFs_IdentifierStart_ & "Exists"
+		Private Shared ReadOnly BIF_File_Exists_ As New BuiltInFunction(BIF_File_Exists_Identifier_$, {New DSFunction.Parameter("_FilePath", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_File_Exists_Identifier_$)
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean((New IO.FileInfo(_Arguments.First().Coerce(Of DSString)().Value)).Exists)
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Determines if a file at _FilePath exists."}
+
+		Private Const BIF_File_Copy_Identifier_$ = FileBIFs_IdentifierStart_ & "Copy"
+		Private Shared ReadOnly BIF_File_Copy_ As New BuiltInFunction(BIF_File_Copy_Identifier_$, {New DSFunction.Parameter("_SourceFile", GetType(DSString)), New DSFunction.Parameter("_DestinationFile", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_File_Copy_Identifier_$)
+			 IO.File.Copy(
+			  sourceFileName:=_Arguments.ElementAt(0).Coerce(Of DSString)().Value,
+			  destFileName:=_Arguments.ElementAt(1).Coerce(Of DSString)().Value,
+			  overwrite:=True
+			 )
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Copies the _SourceFile to the _DestinationFile. Overwrites the _DestinationFile if it already exists. Use File_Delete() in order to ""Move"" a file."}
+
 #End Region
 
 		''' <summary>File-related Functions for Reading from, and Writing to, Files on Disk.</summary>
@@ -59,7 +96,10 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_File_ReadText_,
 		 StandardBuiltInFunctions.BIF_File_WriteText_,
 		 StandardBuiltInFunctions.BIF_File_Create_,
-		 StandardBuiltInFunctions.BIF_File_Delete_
+		 StandardBuiltInFunctions.BIF_File_Delete_,
+		 StandardBuiltInFunctions.BIF_File_FullPathFromRelativePath_,
+		 StandardBuiltInFunctions.BIF_File_Exists_,
+		 StandardBuiltInFunctions.BIF_File_Copy_
 		}
 
 	End Class

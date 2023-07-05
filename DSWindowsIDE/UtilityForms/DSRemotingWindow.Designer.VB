@@ -53,6 +53,15 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Label4 = New System.Windows.Forms.Label()
 		Me.TargetComputer_TextBox = New System.Windows.Forms.TextBox()
 		Me.Label3 = New System.Windows.Forms.Label()
+		Me.File_TabPage = New System.Windows.Forms.TabPage()
+		Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+		Me.OpenSessionButton = New System.Windows.Forms.Button()
+		Me.PictureBox2 = New System.Windows.Forms.PictureBox()
+		Me.Label12 = New System.Windows.Forms.Label()
+		Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+		Me.SaveSessionButton = New System.Windows.Forms.Button()
+		Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+		Me.Label11 = New System.Windows.Forms.Label()
 		Me.Shell_TabPage = New System.Windows.Forms.TabPage()
 		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
 		Me.Label9 = New System.Windows.Forms.Label()
@@ -75,11 +84,11 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.PictureBox7 = New System.Windows.Forms.PictureBox()
 		Me.ConnectButton = New System.Windows.Forms.Button()
 		Me.ShowHideOptionsButton = New System.Windows.Forms.Button()
-		Me.DSRemotingBanner_PictureBox = New System.Windows.Forms.PictureBox()
 		Me.TheToolTipProvider = New System.Windows.Forms.ToolTip(Me.components)
 		Me.SimpleMode_ComputerTextBox = New System.Windows.Forms.TextBox()
 		Me.SimpleMode_ComputerLabel = New System.Windows.Forms.Label()
 		Me.SimpleMode_InfoLabel = New System.Windows.Forms.Label()
+		Me.DSRemotingBanner_PictureBox = New System.Windows.Forms.PictureBox()
 		Me.TheTabControl.SuspendLayout()
 		Me.Mode_TabPage.SuspendLayout()
 		CType(Me.InteractiveIcon_PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,6 +99,11 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.HostGroupBox.SuspendLayout()
 		CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.File_TabPage.SuspendLayout()
+		Me.GroupBox6.SuspendLayout()
+		CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.GroupBox5.SuspendLayout()
+		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.Shell_TabPage.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
 		CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,6 +120,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		Me.TheTabControl.Controls.Add(Me.Mode_TabPage)
 		Me.TheTabControl.Controls.Add(Me.Target_TabPage)
+		Me.TheTabControl.Controls.Add(Me.File_TabPage)
 		Me.TheTabControl.Controls.Add(Me.Shell_TabPage)
 		Me.TheTabControl.Controls.Add(Me.Interactive_TabPage)
 		Me.TheTabControl.Location = New System.Drawing.Point(12, 90)
@@ -148,8 +163,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Utility_LaunchNewRFE_LinkLabel.TabStop = True
 		Me.Utility_LaunchNewRFE_LinkLabel.Text = "Launch remote file explorer..."
 		Me.TheToolTipProvider.SetToolTip(Me.Utility_LaunchNewRFE_LinkLabel, "Launches an new DocScript Remote File Explorer, targeting the specified" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Computer" & _
-		   "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
-		   "w Thread.")
+			  "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
+			  "w Thread.")
 		'
 		'InteractiveIcon_PictureBox
 		'
@@ -173,7 +188,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Utility_StartRemoteShellSession_LinkLabel.TabStop = True
 		Me.Utility_StartRemoteShellSession_LinkLabel.Text = "Start PsExec cmd session..."
 		Me.TheToolTipProvider.SetToolTip(Me.Utility_StartRemoteShellSession_LinkLabel, "Launches a PsExec cmd.exe Session, using the currently-entered Computer, Username" & _
-		   ", Password, and PsExec path.")
+			  ", Password, and PsExec path.")
 		'
 		'ShellIcon_PictureBox
 		'
@@ -302,7 +317,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Name = "DeleteDSFilesFromRemoteAtEnd_CheckBox"
 		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Size = New System.Drawing.Size(266, 17)
 		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.TabIndex = 4
-		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Text = "Delete DocScript files from remote computer at end"
+		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.Text = "&Delete DocScript files from remote computer at end"
 		Me.DeleteDSFilesFromRemoteAtEnd_CheckBox.UseVisualStyleBackColor = True
 		'
 		'PictureBox5
@@ -422,6 +437,103 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Label3.Size = New System.Drawing.Size(55, 13)
 		Me.Label3.TabIndex = 0
 		Me.Label3.Text = "Computer:"
+		'
+		'File_TabPage
+		'
+		Me.File_TabPage.Controls.Add(Me.GroupBox6)
+		Me.File_TabPage.Controls.Add(Me.GroupBox5)
+		Me.File_TabPage.Location = New System.Drawing.Point(4, 22)
+		Me.File_TabPage.Name = "File_TabPage"
+		Me.File_TabPage.Padding = New System.Windows.Forms.Padding(3)
+		Me.File_TabPage.Size = New System.Drawing.Size(372, 265)
+		Me.File_TabPage.TabIndex = 4
+		Me.File_TabPage.Text = "File"
+		Me.TheToolTipProvider.SetToolTip(Me.File_TabPage, "Save or Open a DSRemotingSession")
+		Me.File_TabPage.UseVisualStyleBackColor = True
+		'
+		'GroupBox6
+		'
+		Me.GroupBox6.Controls.Add(Me.OpenSessionButton)
+		Me.GroupBox6.Controls.Add(Me.PictureBox2)
+		Me.GroupBox6.Controls.Add(Me.Label12)
+		Me.GroupBox6.Location = New System.Drawing.Point(6, 101)
+		Me.GroupBox6.Name = "GroupBox6"
+		Me.GroupBox6.Size = New System.Drawing.Size(360, 89)
+		Me.GroupBox6.TabIndex = 1
+		Me.GroupBox6.TabStop = False
+		Me.GroupBox6.Text = "Open"
+		'
+		'OpenSessionButton
+		'
+		Me.OpenSessionButton.Location = New System.Drawing.Point(50, 52)
+		Me.OpenSessionButton.Name = "OpenSessionButton"
+		Me.OpenSessionButton.Size = New System.Drawing.Size(75, 23)
+		Me.OpenSessionButton.TabIndex = 2
+		Me.OpenSessionButton.Text = "&Open..."
+		Me.TheToolTipProvider.SetToolTip(Me.OpenSessionButton, "Ctrl + O")
+		Me.OpenSessionButton.UseVisualStyleBackColor = True
+		'
+		'PictureBox2
+		'
+		Me.PictureBox2.Image = Global.DocScript.My.Resources.Resources.Open
+		Me.PictureBox2.Location = New System.Drawing.Point(11, 20)
+		Me.PictureBox2.Name = "PictureBox2"
+		Me.PictureBox2.Size = New System.Drawing.Size(28, 37)
+		Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+		Me.PictureBox2.TabIndex = 1
+		Me.PictureBox2.TabStop = False
+		'
+		'Label12
+		'
+		Me.Label12.AutoSize = True
+		Me.Label12.Location = New System.Drawing.Point(47, 16)
+		Me.Label12.Name = "Label12"
+		Me.Label12.Size = New System.Drawing.Size(293, 26)
+		Me.Label12.TabIndex = 0
+		Me.Label12.Text = "Drag a *.DSRemotingSession file anywhere onto this window" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "to open it. Alternativ" & _
+		  "ely, use the button."
+		'
+		'GroupBox5
+		'
+		Me.GroupBox5.Controls.Add(Me.SaveSessionButton)
+		Me.GroupBox5.Controls.Add(Me.PictureBox1)
+		Me.GroupBox5.Controls.Add(Me.Label11)
+		Me.GroupBox5.Location = New System.Drawing.Point(6, 6)
+		Me.GroupBox5.Name = "GroupBox5"
+		Me.GroupBox5.Size = New System.Drawing.Size(360, 89)
+		Me.GroupBox5.TabIndex = 1
+		Me.GroupBox5.TabStop = False
+		Me.GroupBox5.Text = "Save"
+		'
+		'SaveSessionButton
+		'
+		Me.SaveSessionButton.Location = New System.Drawing.Point(50, 52)
+		Me.SaveSessionButton.Name = "SaveSessionButton"
+		Me.SaveSessionButton.Size = New System.Drawing.Size(75, 23)
+		Me.SaveSessionButton.TabIndex = 2
+		Me.SaveSessionButton.Text = "&Save..."
+		Me.TheToolTipProvider.SetToolTip(Me.SaveSessionButton, "Ctrl + S")
+		Me.SaveSessionButton.UseVisualStyleBackColor = True
+		'
+		'PictureBox1
+		'
+		Me.PictureBox1.Image = Global.DocScript.My.Resources.Resources.Save
+		Me.PictureBox1.Location = New System.Drawing.Point(11, 19)
+		Me.PictureBox1.Name = "PictureBox1"
+		Me.PictureBox1.Size = New System.Drawing.Size(28, 38)
+		Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+		Me.PictureBox1.TabIndex = 1
+		Me.PictureBox1.TabStop = False
+		'
+		'Label11
+		'
+		Me.Label11.AutoSize = True
+		Me.Label11.Location = New System.Drawing.Point(47, 16)
+		Me.Label11.Name = "Label11"
+		Me.Label11.Size = New System.Drawing.Size(292, 26)
+		Me.Label11.TabIndex = 0
+		Me.Label11.Text = "Connection settings for a DS-Remoting Session can be" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "saved to disk to be re-used" & _
+		  " later. This excludes the Program."
 		'
 		'Shell_TabPage
 		'
@@ -641,7 +753,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ConnectButton.TabIndex = 4
 		Me.ConnectButton.Text = "&Connect && Execute"
 		Me.TheToolTipProvider.SetToolTip(Me.ConnectButton, "Copies the DocScript Runtime files to the target," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and starts the DSCLI.exe inter" & _
-		   "preter process.")
+			  "preter process.")
 		Me.ConnectButton.UseVisualStyleBackColor = True
 		'
 		'ShowHideOptionsButton
@@ -652,19 +764,9 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ShowHideOptionsButton.TabIndex = 5
 		Me.ShowHideOptionsButton.Text = "Hide &Options"
 		Me.TheToolTipProvider.SetToolTip(Me.ShowHideOptionsButton, "By default, the Interactive mode will be used with GUI Execution," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and you will b" & _
-		   "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
-		   "")
+			  "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
+			  "")
 		Me.ShowHideOptionsButton.UseVisualStyleBackColor = True
-		'
-		'DSRemotingBanner_PictureBox
-		'
-		Me.DSRemotingBanner_PictureBox.Image = Global.DocScript.My.Resources.Resources.DSRemotingBanner
-		Me.DSRemotingBanner_PictureBox.Location = New System.Drawing.Point(-2, -2)
-		Me.DSRemotingBanner_PictureBox.Name = "DSRemotingBanner_PictureBox"
-		Me.DSRemotingBanner_PictureBox.Size = New System.Drawing.Size(408, 85)
-		Me.DSRemotingBanner_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-		Me.DSRemotingBanner_PictureBox.TabIndex = 1
-		Me.DSRemotingBanner_PictureBox.TabStop = False
 		'
 		'TheToolTipProvider
 		'
@@ -702,9 +804,20 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.SimpleMode_InfoLabel.Text = "You will be asked for credentials when you connect." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "DSR will use the ""Interactiv" & _
 		  "e"" mode, with the Console session."
 		'
+		'DSRemotingBanner_PictureBox
+		'
+		Me.DSRemotingBanner_PictureBox.Image = Global.DocScript.My.Resources.Resources.DSRemotingBanner
+		Me.DSRemotingBanner_PictureBox.Location = New System.Drawing.Point(-2, -2)
+		Me.DSRemotingBanner_PictureBox.Name = "DSRemotingBanner_PictureBox"
+		Me.DSRemotingBanner_PictureBox.Size = New System.Drawing.Size(408, 85)
+		Me.DSRemotingBanner_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+		Me.DSRemotingBanner_PictureBox.TabIndex = 1
+		Me.DSRemotingBanner_PictureBox.TabStop = False
+		'
 		'DSRemotingWindow
 		'
 		Me.AcceptButton = Me.ConnectButton
+		Me.AllowDrop = True
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(404, 562)
@@ -736,6 +849,13 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.HostGroupBox.ResumeLayout(False)
 		Me.HostGroupBox.PerformLayout()
 		CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.File_TabPage.ResumeLayout(False)
+		Me.GroupBox6.ResumeLayout(False)
+		Me.GroupBox6.PerformLayout()
+		CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.GroupBox5.ResumeLayout(False)
+		Me.GroupBox5.PerformLayout()
+		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.Shell_TabPage.ResumeLayout(False)
 		Me.GroupBox3.ResumeLayout(False)
 		Me.GroupBox3.PerformLayout()
@@ -811,5 +931,14 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 	Friend WithEvents InteractiveMode_HideConsoleBeforeExecution_CheckBox As System.Windows.Forms.CheckBox
 	Friend WithEvents Utility_StartRemoteShellSession_LinkLabel As System.Windows.Forms.LinkLabel
 	Friend WithEvents Utility_LaunchNewRFE_LinkLabel As System.Windows.Forms.LinkLabel
+	Friend WithEvents File_TabPage As System.Windows.Forms.TabPage
+	Friend WithEvents Label11 As System.Windows.Forms.Label
+	Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
+	Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+	Friend WithEvents SaveSessionButton As System.Windows.Forms.Button
+	Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
+	Friend WithEvents OpenSessionButton As System.Windows.Forms.Button
+	Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+	Friend WithEvents Label12 As System.Windows.Forms.Label
 
 End Class

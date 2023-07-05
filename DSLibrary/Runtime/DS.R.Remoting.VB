@@ -75,7 +75,7 @@
 		End Sub
 
 		''' <summary>
-		''' Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_IntoWhichFilesWillBeCopied, using the specified credentials.
+		''' Deletes each _NamesOfFilesWithinThatUNCDirectory_ToBeDeleted File, from the _UNCDirectoryOnRemotePC_FromWhichFilesWillBeDeleted, using the specified credentials.
 		''' </summary>
 		''' <param name="_RemotePC_Username">E.g. ".\Administrator"</param>
 		''' <param name="_RemotePC_Password">E.g. "Pass!123"</param>
@@ -111,6 +111,70 @@
 			Catch _Ex As Exception : Throw New DSException("@DeleteFiles_FromRemoteComputer: " & _Ex.Message, _Ex) : End Try
 		End Sub
 
+		''' <summary>
+		''' Deletes the _UNCDirectoryOnRemotePC_ToDelete, using the specified credentials. The contents of the directory are also deleted (recursively).
+		''' </summary>
+		''' <param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+		''' <param name="_RemotePC_Password">E.g. "Pass!123"</param>
+		''' <param name="_UNCDirectoryOnRemotePC_ToDelete">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+		Public Sub DeleteDirectory_FromRemoteComputer(
+		 ByVal _UNCDirectoryOnRemotePC_ToDelete As IO.DirectoryInfo,
+		 ByVal _RemotePC_Username$,
+		 ByVal _RemotePC_Password$
+		)
+			Try : LogSystemMessage("Deleting remote UNC Directory " & _UNCDirectoryOnRemotePC_ToDelete.FullName.WithBackslashOnEnd().InSquares(), LogEvent.DSEventSeverity.Infomation)
+
+				'Disconnect in case we are currently connected with our credentials
+				Remoting.RemoveCredentialsAssociatedWithNetworkFolder(_UNCDirectoryOnRemotePC_ToDelete.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=True)
+
+				'Connect \w new credentials
+				Remoting.AuthenticateWithNetworkFolder(
+				 _UNCPath:=_UNCDirectoryOnRemotePC_ToDelete.FullName.WithoutBackslashOnEnd(),
+				 _Username:=_RemotePC_Username,
+				 _Password:=_RemotePC_Password
+				)
+
+				'Use the open authenticated UNC Connection
+				_UNCDirectoryOnRemotePC_ToDelete.Delete(recursive:=True)
+
+				'Final Disconnection
+				Remoting.RemoveCredentialsAssociatedWithNetworkFolder(_UNCDirectoryOnRemotePC_ToDelete.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=False)
+
+			Catch _Ex As Exception : Throw New DSException("@DeleteDirectory_FromRemoteComputer: " & _Ex.Message, _Ex) : End Try
+		End Sub
+
+		''' <summary>
+		''' Gets the directory-contents for the _UNCDirectoryOnRemotePC. FileSystemInfo is inherited by both FileInfo and DirectoryInfo.
+		''' </summary>
+		''' <param name="_RemotePC_Username">E.g. ".\Administrator"</param>
+		''' <param name="_RemotePC_Password">E.g. "Pass!123"</param>
+		''' <param name="_UNCDirectoryOnRemotePC">E.g. "\\192.168.1.85\C$\Windows\DSRemoting\". The presence/absence of a trailing Backslash [\] is accounted-for.</param>
+		Public Function GetContents_OfRemoteDirectory(
+		 ByVal _UNCDirectoryOnRemotePC As IO.DirectoryInfo,
+		 ByVal _RemotePC_Username$,
+		 ByVal _RemotePC_Password$
+		) As IO.FileSystemInfo()
+			Try : LogSystemMessage("Listing FileSystem Objects in remote UNC Directory " & _UNCDirectoryOnRemotePC.FullName.WithBackslashOnEnd().InSquares(), LogEvent.DSEventSeverity.Infomation)
+
+				'Disconnect in case we are currently connected with our credentials
+				Remoting.RemoveCredentialsAssociatedWithNetworkFolder(_UNCDirectoryOnRemotePC.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=True)
+
+				'Connect \w new credentials
+				Remoting.AuthenticateWithNetworkFolder(
+				 _UNCPath:=_UNCDirectoryOnRemotePC.FullName.WithoutBackslashOnEnd(),
+				 _Username:=_RemotePC_Username,
+				 _Password:=_RemotePC_Password
+				)
+
+				'Use the open authenticated UNC Connection
+				Return _UNCDirectoryOnRemotePC.EnumerateFileSystemInfos().ToArray()
+
+				'Final Disconnection
+				Remoting.RemoveCredentialsAssociatedWithNetworkFolder(_UNCDirectoryOnRemotePC.FullName.WithoutBackslashOnEnd(), _ForceDisconnection:=False)
+
+			Catch _Ex As Exception : Throw New DSException("@GetContents_OfRemoteDirectory: " & _Ex.Message, _Ex) : End Try
+		End Function
+
 #Region "(Private) Authenticated Network Share Access Logic (Does not follow Private_ nomenclature)"
 
 		''' <summary>Associates the specified credentials with the specified share (e.g. _UNCPath:="\\192.168.1.5\C$")</summary>
@@ -120,9 +184,9 @@
 			Dim _StupidWin32ReturnedErrorCode% = Remoting.WNetUseConnection(IntPtr.Zero, _Win32_NetworkResourceObject, _Password$, _Username$, 0, Nothing, Nothing, Nothing)
 
 			Return If(
-				_StupidWin32ReturnedErrorCode% = NO_ERROR,
-				Nothing,
-				GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode%)
+			 _StupidWin32ReturnedErrorCode% = NO_ERROR,
+			 Nothing,
+			 GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode%)
 			)
 
 		End Function
@@ -133,9 +197,9 @@
 			Dim _StupidWin32ReturnedErrorCode% = WNetCancelConnection(_UNCPath, _ForceDisconnection)
 
 			Return If(
-				_StupidWin32ReturnedErrorCode = NO_ERROR,
-				Nothing,
-				GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode)
+			 _StupidWin32ReturnedErrorCode = NO_ERROR,
+			 Nothing,
+			 GetWin32NetworkErrorDescriptionText_FromErrorCode_(_StupidWin32ReturnedErrorCode)
 			)
 
 		End Function
@@ -193,33 +257,33 @@
 		Private Const ERROR_DEVICE_IN_USE% = 2404
 
 		Private ReadOnly Win32_NetworkErrors_ As New Dictionary(Of [Int32], [String])() From {
-			{ERROR_ACCESS_DENIED, "Error: Access Denied"},
-			{ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
-			{ERROR_BAD_DEVICE, "Error: Bad Device"},
-			{ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
-			{ERROR_BAD_PROVIDER, "Error: Bad Provider"},
-			{ERROR_CANCELLED, "Error: Cancelled"},
-			{ERROR_EXTENDED_ERROR, "Error: Extended Error"},
-			{ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
-			{ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
-			{ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
-			{ERROR_MORE_DATA, "Error: More Data"},
-			{ERROR_NO_MORE_ITEMS, "Error: No More Items"},
-			{ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
-			{ERROR_NO_NETWORK, "Error: No Network"},
-			{ERROR_BAD_PROFILE, "Error: Bad Profile"},
-			{ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
-			{ERROR_DEVICE_IN_USE, "Error: Device In Use"},
-			{ERROR_NOT_CONNECTED, "Error: Not Connected"},
-			{ERROR_OPEN_FILES, "Error: Open Files"},
-			{ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
+		 {ERROR_ACCESS_DENIED, "Error: Access Denied"},
+		 {ERROR_ALREADY_ASSIGNED, "Error: Already Assigned"},
+		 {ERROR_BAD_DEVICE, "Error: Bad Device"},
+		 {ERROR_BAD_NET_NAME, "Error: Bad Net Name"},
+		 {ERROR_BAD_PROVIDER, "Error: Bad Provider"},
+		 {ERROR_CANCELLED, "Error: Cancelled"},
+		 {ERROR_EXTENDED_ERROR, "Error: Extended Error"},
+		 {ERROR_INVALID_ADDRESS, "Error: Invalid Address"},
+		 {ERROR_INVALID_PARAMETER, "Error: Invalid Parameter"},
+		 {ERROR_INVALID_PASSWORD, "Error: Invalid Password"},
+		 {ERROR_MORE_DATA, "Error: More Data"},
+		 {ERROR_NO_MORE_ITEMS, "Error: No More Items"},
+		 {ERROR_NO_NET_OR_BAD_PATH, "Error: No Net Or Bad Path"},
+		 {ERROR_NO_NETWORK, "Error: No Network"},
+		 {ERROR_BAD_PROFILE, "Error: Bad Profile"},
+		 {ERROR_CANNOT_OPEN_PROFILE, "Error: Cannot Open Profile"},
+		 {ERROR_DEVICE_IN_USE, "Error: Device In Use"},
+		 {ERROR_NOT_CONNECTED, "Error: Not Connected"},
+		 {ERROR_OPEN_FILES, "Error: Open Files"},
+		 {ERROR_SESSION_CREDENTIAL_CONFLICT, "Error: Credential Conflict"}
 		}
 
 		Private Function GetWin32NetworkErrorDescriptionText_FromErrorCode_$(ByVal _WinNT_ErrorCode%)
 
 			Return Remoting.Win32_NetworkErrors_.ItemOrDefault(
-				_Key:=_WinNT_ErrorCode,
-				_DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
+			 _Key:=_WinNT_ErrorCode,
+			 _DefaultValue:=("Win32 Error " & _WinNT_ErrorCode.ToString())
 			)
 
 		End Function

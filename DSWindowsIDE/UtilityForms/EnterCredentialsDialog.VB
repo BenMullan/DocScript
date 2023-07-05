@@ -1,15 +1,25 @@
 ﻿Public Class EnterCredentialsDialog
 
-	Protected WindowClose_IsInitiatedByOkButton_ As Boolean = False
+#Region "Shared Members"
 
 	''' <summary>Item1 = Username; Item2 = Password</summary>
 	Public Shared Function Show_AndGetCredentials() As Tuple(Of String, String)
 
-		Dim _Dialog As New EnterCredentialsDialog()
-		_Dialog.ShowDialog() : _Dialog.Focus() : _Dialog.Activate() : _Dialog.BringToFront()
-		Return New Tuple(Of String, String)(_Dialog.UsernameTextBox.Text, _Dialog.PasswordTextBox.Text)
+		Dim _Dialog As New EnterCredentialsDialog() : _Dialog.ShowDialog()
+		Return New Tuple(Of [String], [String])(_Dialog.UsernameTextBox.Text, _Dialog.PasswordTextBox.Text)
 
 	End Function
+
+#End Region
+
+#Region "Instance Members"
+
+	Protected WindowClose_IsInitiatedByOkButton_ As [Boolean] = False
+
+	REM Seize focus from the ActionInProgressDialog
+	Public Sub MakeDialogFocused() Handles Me.[Shown]
+		Me.Focus() : Me.Activate() : Me.BringToFront()
+	End Sub
 
 	Public Sub DismissDialog_EnsuringRequiredFieldsAreSpecified() Handles OkButton.Click
 		If {Me.UsernameTextBox.Text, Me.PasswordTextBox.Text}.Contains(String.Empty) Then
@@ -35,5 +45,7 @@
 	Protected Sub ShowOrHidePasswordString_DependingOnCheckboxValue_() Handles ShowPassword_CheckBox.CheckedChanged
 		Me.PasswordTextBox.UseSystemPasswordChar = Not Me.ShowPassword_CheckBox.Checked
 	End Sub
+
+#End Region
 
 End Class

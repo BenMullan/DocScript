@@ -3,7 +3,7 @@
 
 Function <Void> Main ()
 	
-	<String@> _Names : DS_String_Split("Ben,Ryan,Alex,Tom,Chloe,Andy", ",")
+	<String@> _Names : DS_String_Split("William,Henry,Douglas,Ginger", ",")
 	Graphics_TextWindow("Names...", DS_StringArray_Serialise(_Names, Const_CrLf()))
 	DS_Sleep(1000)
 	
@@ -11,8 +11,8 @@ Function <Void> Main ()
 	Graphics_TextWindowFromFile("Hosts on Localhost", _FilePath)
 	DS_Sleep(1000)
 	
-	<String> _ImageFile : "D:\Benedict\Documents\SchoolWork\Projects\DocScript\Development Logging and Evidence\HotDSIDEs.png"
-	Graphics_ImageWindow("Hot DSIDEs", _ImageFile)
+	<String> _ImageFile : "C:\Windows\System32\oobe\background.bmp"
+	Graphics_ImageWindow("OOBE!", _ImageFile)
 	DS_Sleep(1000)
 	
 	<String> _URL : "C:\"

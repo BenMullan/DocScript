@@ -46,7 +46,7 @@ Class MainWindow
 	End Sub
 
 	''' <summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
-	Public Sub HandleShortcutKey(ByVal _Sender As Object, ByVal _KeyEventArgs As KeyEventArgs) Handles Me.KeyDown
+	Public Sub HandleShortcutKey(ByVal _Sender As [Object], ByVal _KeyEventArgs As KeyEventArgs) Handles Me.KeyDown
 
 		REM Do not process shortcut keys whilst a BackgroundThread is in progress
 		If Me.AbortBackgroundWorkerLink.Text = MainWindow.AbortButton_TextWhenEnabled Then Return
@@ -56,6 +56,7 @@ Class MainWindow
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.S) Then : Me.SaveFile()									'Ctrl + S
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.B) Then : Me.InsertBreakPoint()							'Ctrl + B
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.H) Then : Me.ShowHelpWindow()							'Ctrl + H
+		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.W) Then : Me.AskToSaveUnsavedSource_ThenExitDSIDE()		'Ctrl + W
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F4) Then : Me.AskToSaveUnsavedSource_ThenExitDSIDE()	'Ctrl + F4
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Control) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.LaunchDSCompilationWindow()				'Ctrl + F5
 		ElseIf (Keyboard.Modifiers = ModifierKeys.Shift) AndAlso (_KeyEventArgs.Key = Key.F5) Then : Me.LaunchDSRemotingWindow()					'Shift + F5
@@ -143,6 +144,7 @@ Class MainWindow
 				   End Try
 			   End Sub)
 
+			 _InnerWorkerThread.SetApartmentState(System.Threading.ApartmentState.STA)
 			 _InnerWorkerThread.Start()
 
 			 While _InnerWorkerThread.IsAlive
@@ -243,7 +245,7 @@ Class MainWindow
 		REM !!!!!
 
 		REM BIFs
-		For Each _BIF As DocScript.Runtime.BuiltInFunction In Me.CurrentExecutionContext.BuiltInFunctions
+		For Each _BIF As DocScript.Runtime.BuiltInFunction In Me.CurrentExecutionContext.BuiltInFunctions.Reverse()
 			_DSIntellisenseEntries.Add(New DSIntelliSenseEntry(_Text:=_BIF.Identifier, _Description:="[Built-in Function] " & DocScript.Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_BIF.ReturnType).InTitleCase() & DocScript.Language.Constants.ClosingDataTypeBracket & " "c & _BIF.TemplateCall & vbCrLf & _BIF.Description, _Image:=DSIntelliSenseEntry.DSIntellisenseEntryImage.BuiltInFunction))
 		Next
 

@@ -3,6 +3,47 @@
 #Region "DSWindowsIDE, and - at this point in time - rather a large amount more of random left-overs"
 
 
+		If Keyboard.Modifiers = ModifierKeys.Control Then
+
+			REM Ctrl + {Key}
+
+			Select Case _KeyEventArgs.Key
+				Case Key.O : Me.OpenFile()									'Ctrl + O
+				Case Key.S : Me.SaveFile()									'Ctrl + S
+				Case Key.B : Me.InsertBreakPoint()							'Ctrl + B
+				Case Key.H : Me.ShowHelpWindow()							'Ctrl + H
+				Case Key.W : Me.AskToSaveUnsavedSource_ThenExitDSIDE()		'Ctrl + H
+				Case Key.F4 : Me.AskToSaveUnsavedSource_ThenExitDSIDE()		'Ctrl + F4
+				Case Key.F5 : Me.LaunchDSCompilationWindow()				'Ctrl + F5
+			End Select
+
+		ElseIf Keyboard.Modifiers = ModifierKeys.Shift Then
+
+			REM Shift + {Key}
+
+		End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

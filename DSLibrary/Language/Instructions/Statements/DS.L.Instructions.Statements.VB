@@ -118,7 +118,7 @@ Namespace Language.Instructions.Statements
 							'This can be calculated by subtracting [the number of Tokens which occur after that Statement] from [the total number of Tokens wthat were orrigionally passed into this function].
 							'In heinzsight, it may have been better to just have the GetSubStatementFromRemainingTokens_() Method return [the number of Tokens in the just-constructed Statement]...
 
-							'**ChangeLog AMENDMENT 05122022: += Assignment changed to = assignment.
+							'**ChangeLog AMENDMENT 05122022: += changed to = assignment.
 							_TokenIndex = (_StatementContentsTokens.Length - _SubStatement_IStatement_And_LeftOverTokens.Item2.Length)
 							'MsgDebug("Just added a " & _DerivedInstructions.Last().GetType().Name & "; RemainingTokens:" & vbCrLf & _SubStatement_IStatement_And_LeftOverTokens.Item2.GetStandardArraySerialisation(vbCrLf))
 

@@ -1386,7 +1386,7 @@ Namespace CompilerExtentions
 		''' <param name="_TargetFileExtentions">E.g. ("Hypertext Markup", "HTML") or ("Plaintext", "TXT"). The [All Files (*.*)] Option is automatically added by this method. Instanciation: New Tuple(Of String, String)("All Files", "*")</param>
 		''' <param name="_InitialDirectory">E.g. Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)</param>
 		''' <remarks>
-		''' E.g. UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of String, String)("PE Binary Executables", "EXE")})
+		''' E.g. UsefulMethods.RequestFilePath_WithSaveFileDialog("Browse for EXE Output File...", {New Tuple(Of [String], [String])("PE Binary Executables", "EXE")})
 		''' </remarks>
 		Public Function RequestFilePath_WithSaveFileDialog(ByVal _FileDialog_Title$, ByVal _TargetFileExtentions As Tuple(Of String, String)(), Optional ByVal _InitialDirectory$ = Nothing) As IO.FileInfo
 			Try
@@ -1396,8 +1396,8 @@ Namespace CompilerExtentions
 				REM ↓ E.g.	Hypertext Markup (*.HTML)|*.HTML|All files (*.*)|*.*
 				Dim _FileDialog_Filter As [String] = String.Join("|", ( _
 				 From _DescriptionAndExtention As Tuple(Of [String], [String])
-				 In _TargetFileExtentions.Concat({New Tuple(Of String, String)("All Files", "*")})
-				 Select String.Format("{0} (*.{1})|*.{1}", _DescriptionAndExtention.Item1, _DescriptionAndExtention.Item2)
+				 In _TargetFileExtentions.Concat({New Tuple(Of [String], [String])("All Files", "*")})
+				 Select [String].Format("{0} (*.{1})|*.{1}", _DescriptionAndExtention.Item1, _DescriptionAndExtention.Item2)
 				).ToArray())
 
 				Dim _STAThread As New Threading.Thread(

@@ -29,7 +29,7 @@
 					<RibbonApplicationMenuItem Header="Help!" x:Name="HelpMenuItem" ImageSource="Images\Help.PNG" ToolTip="Ctrl + H (Ctrl + Shift + H for Pictorial-Help)" />
 					<RibbonApplicationMenuItem Header="DocScript on GitHub..." x:Name="DSGitHubMenuItem" ImageSource="Images\DS_On_GitHub.PNG" ToolTip="Source Control homepage for DocScript." />
 					<RibbonApplicationMenuItem Header="DocScript in 3 Minutes..." x:Name="DSYouTubeMenuItem" ImageSource="Images\YouTube.PNG" ToolTip="Short DocScript introduction video." />
-					<RibbonApplicationMenuItem Header="Exit" x:Name="ExitMenuItem" ImageSource="Images\Exit.PNG" ToolTip="Esc" />
+					<RibbonApplicationMenuItem Header="Exit" x:Name="ExitMenuItem" ImageSource="Images\Exit.PNG" ToolTip="Alt + F4, Ctrl + F4, or Ctrl + W" />
 				</RibbonApplicationMenu>
 			</Ribbon.ApplicationMenu>
 

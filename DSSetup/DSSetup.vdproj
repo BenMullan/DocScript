@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4AED3246881445E1B8F546385E34266D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4D50BED714354A10938969D438FA6482"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -254,7 +260,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DSCore, Version=5.4.7.0, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DSCore, Version=5.5.1.0, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_447CBFCA3A4FADD8B04F48474427CFA8"
@@ -279,6 +285,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4AED3246881445E1B8F546385E34266D"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\..\\Pictures\\Times and Projects\\Icons\\DSRemoting.ICO"
+            "TargetName" = "8:DSRemoting.ICO"
+            "Tag" = "8:"
+            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D50BED714354A10938969D438FA6482"
@@ -488,6 +514,22 @@
         }
         "FileType"
         {
+            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_553A613C76C54F1ABE683274BB8E6C16"
+            {
+            "Name" = "8:DocScript Remoting Session Connection Settings"
+            "Description" = "8:DocScript Remoting Session File"
+            "Extensions" = "8:DSRemotingSession"
+            "MIME" = "8:application/xml"
+            "Icon" = "8:_4AED3246881445E1B8F546385E34266D"
+            "IconIndex" = "3:0"
+                "Command"
+                {
+                "Command" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
+                }
+                "Verbs"
+                {
+                }
+            }
             "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_BE662C1592F54BA1AA3F6ADD42744A11"
             {
             "Name" = "8:DocScript Source File"
@@ -575,15 +617,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
-        "ProductCode" = "8:{07C750D3-18B9-4D0B-80D2-12EFAB963719}"
-        "PackageCode" = "8:{427017C0-E2DE-4F41-AFAC-C0520D2D8C38}"
+        "ProductCode" = "8:{B6748027-CA1F-4A49-8551-DDED068E4DFD}"
+        "PackageCode" = "8:{581A0287-5783-4C0A-BCE0-2328291A1421}"
         "UpgradeCode" = "8:{38DD944A-CBA2-4B8B-B9FB-7CD32B9B7DE7}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:5.4.7"
+        "ProductVersion" = "8:5.5.3"
         "Manufacturer" = "8:BenM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/BenMullan/DocScript/wiki"
