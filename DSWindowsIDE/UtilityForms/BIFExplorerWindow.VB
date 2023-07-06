@@ -2,7 +2,7 @@
 
 	Protected NumberOfBIFs_InsertedOntoIDEWindow As UInt16 = 0
 	Public ReadOnly Target_IDEWindow As Global.DocScript.MainWindow
-	Public ReadOnly Property BuiltInFunctions As DocScript.Runtime.BuiltInFunction()
+	Public ReadOnly Property AllBuiltInFunctions_FromMainWindow As DocScript.Runtime.BuiltInFunction()
 		Get
 			Return Me.Target_IDEWindow.CurrentExecutionContext.BuiltInFunctions.ToArray()
 		End Get
@@ -15,9 +15,20 @@
 
 		' Add any initialization after the InitializeComponent() call.
 		Me.Target_IDEWindow = _Target_IDEWindow
-		Me.PopulateListView_FromBIFs_()
-		Me.Text = "BuiltInFunction Explorer (" & Me.BuiltInFunctions.Length.ToString() & " BIFs)"
+		Me.PopulateListView_ForTheseBIFs_(Me.AllBuiltInFunctions_FromMainWindow)
+		Me.Text = "BuiltInFunction Explorer (" & Me.AllBuiltInFunctions_FromMainWindow.Length.ToString() & " BIFs)"
 
+	End Sub
+
+	Public Sub InitialiseWindow() Handles Me.Shown
+		Me.FilterTextBox.Focus()
+	End Sub
+
+	Public Sub FilterBIFsBySearchText() Handles FilterTextBox.TextChanged
+		Me.BIFsListView.Items.Clear()
+		Me.PopulateListView_ForTheseBIFs_(
+		 Me.AllBuiltInFunctions_FromMainWindow.Where(Function(_BIF As Runtime.BuiltInFunction) _BIF.Identifier.ToUpper().Contains(Me.FilterTextBox.Text.ToUpper())).ToArray()
+		)
 	End Sub
 
 #Region "Close the form on pressing [Esc]"
@@ -36,17 +47,22 @@
 
 #End Region
 
-	Protected Sub PopulateListView_FromBIFs_()
+	Protected Sub PopulateListView_ForTheseBIFs_(ByRef _BIFs As Runtime.BuiltInFunction())
 		Try
 
 			REM The "items" String[] is for each column...
-			For Each _BIF As Runtime.BuiltInFunction In Me.BuiltInFunctions
-				Me.BIFsListView.Items.Add(New Forms.ListViewItem(items:={
-				 _BIF.Identifier,
-				 _BIF.Description,
-				 Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_BIF.ReturnType) & Language.Constants.ClosingDataTypeBracket,
-				 String.Join(", ", _BIF.ExpectedParameters.Select(Of String)(Function(_Parameter As Language.Instructions.Statements.DSFunction.Parameter) Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_Parameter.DataType) & Language.Constants.ClosingDataTypeBracket & Language.Constants.Space & _Parameter.Identifier))
-				 }, imageKey:="BuiltInFunction"))
+			For Each _BIF As Runtime.BuiltInFunction In _BIFs
+				Me.BIFsListView.Items.Add(
+				 New Forms.ListViewItem(
+				 items:={
+				   _BIF.Identifier,
+				   _BIF.Description,
+				   Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_BIF.ReturnType) & Language.Constants.ClosingDataTypeBracket,
+				   [String].Join(", ", _BIF.ExpectedParameters.Select(Of [String])(Function(_Parameter As Language.Instructions.Statements.DSFunction.Parameter) Language.Constants.OpeningDataTypeBracket & DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(_Parameter.DataType) & Language.Constants.ClosingDataTypeBracket & Language.Constants.Space & _Parameter.Identifier))
+				   },
+				   imageKey:="BuiltInFunction"
+				   ) With {.ToolTipText = _BIF.TemplateCall}
+				  )
 			Next
 
 		Catch _Ex As Exception
@@ -62,7 +78,7 @@
 		Try
 
 			REM Join()-ing by CrLf puts each Call on a new Line
-			Me.Target_IDEWindow.InsertTextAtCursor([String].Join(vbCrLf, Me.BIFsListView.SelectedIndices.Cast(Of Int32)().Select(Of String)(Function(_SelectedBIF_Index As Int32) Me.BuiltInFunctions.ElementAt(_SelectedBIF_Index).TemplateCall)) & [vbCrLf])
+			Me.Target_IDEWindow.InsertTextAtCursor([String].Join(vbCrLf, Me.BIFsListView.SelectedItems.Cast(Of Forms.ListViewItem)().Select(Of [String])(Function(_SelectedBIFListViewRow As Forms.ListViewItem) Me.AllBuiltInFunctions_FromMainWindow.First(Function(_BIF As Runtime.BuiltInFunction) _BIF.Identifier.ToUpper() = _SelectedBIFListViewRow.SubItems.Item(index:=0).Text.ToUpper()).TemplateCall)) & [vbCrLf])
 			Me.NumberOfBIFs_InsertedOntoIDEWindow += Convert.ToUInt16(Me.BIFsListView.SelectedItems.Count)
 			Me.Text = "BuiltInFunction Explorer (" & Me.NumberOfBIFs_InsertedOntoIDEWindow.ToString() & " BIF(s) Inserted)"
 

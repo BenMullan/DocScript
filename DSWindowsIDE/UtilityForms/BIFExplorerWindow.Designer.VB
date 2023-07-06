@@ -27,20 +27,26 @@ Partial Class BIFExplorerWindow
 		Me.BIFsListView = New System.Windows.Forms.ListView()
 		Me.IdentifierColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
 		Me.DescriptionColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+		Me.ReturnTypeColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
 		Me.ParametersColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
 		Me.BIFExplorerImageList = New System.Windows.Forms.ImageList(Me.components)
-		Me.ReturnTypeColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+		Me.FilterTextBox = New System.Windows.Forms.TextBox()
+		Me.Label1 = New System.Windows.Forms.Label()
+		Me.TheToolTipProvider = New System.Windows.Forms.ToolTip(Me.components)
 		Me.SuspendLayout()
 		'
 		'BIFsListView
 		'
+		Me.BIFsListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+				  Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.BIFsListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.IdentifierColumn, Me.DescriptionColumn, Me.ReturnTypeColumn, Me.ParametersColumn})
-		Me.BIFsListView.Dock = System.Windows.Forms.DockStyle.Fill
 		Me.BIFsListView.FullRowSelect = True
 		Me.BIFsListView.LargeImageList = Me.BIFExplorerImageList
-		Me.BIFsListView.Location = New System.Drawing.Point(0, 0)
+		Me.BIFsListView.Location = New System.Drawing.Point(0, 38)
 		Me.BIFsListView.Name = "BIFsListView"
-		Me.BIFsListView.Size = New System.Drawing.Size(784, 362)
+		Me.BIFsListView.ShowItemToolTips = True
+		Me.BIFsListView.Size = New System.Drawing.Size(784, 324)
 		Me.BIFsListView.SmallImageList = Me.BIFExplorerImageList
 		Me.BIFsListView.TabIndex = 0
 		Me.BIFsListView.UseCompatibleStateImageBehavior = False
@@ -49,12 +55,17 @@ Partial Class BIFExplorerWindow
 		'IdentifierColumn
 		'
 		Me.IdentifierColumn.Text = "Identifier"
-		Me.IdentifierColumn.Width = 150
+		Me.IdentifierColumn.Width = 200
 		'
 		'DescriptionColumn
 		'
 		Me.DescriptionColumn.Text = "Description"
 		Me.DescriptionColumn.Width = 350
+		'
+		'ReturnTypeColumn
+		'
+		Me.ReturnTypeColumn.Text = "ReturnType"
+		Me.ReturnTypeColumn.Width = 100
 		'
 		'ParametersColumn
 		'
@@ -67,16 +78,40 @@ Partial Class BIFExplorerWindow
 		Me.BIFExplorerImageList.TransparentColor = System.Drawing.Color.Transparent
 		Me.BIFExplorerImageList.Images.SetKeyName(0, "BuiltInFunction")
 		'
-		'ReturnTypeColumn
+		'FilterTextBox
 		'
-		Me.ReturnTypeColumn.Text = "ReturnType"
-		Me.ReturnTypeColumn.Width = 100
+		Me.FilterTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.FilterTextBox.Location = New System.Drawing.Point(62, 10)
+		Me.FilterTextBox.Name = "FilterTextBox"
+		Me.FilterTextBox.Size = New System.Drawing.Size(710, 20)
+		Me.FilterTextBox.TabIndex = 1
+		'
+		'Label1
+		'
+		Me.Label1.AutoSize = True
+		Me.Label1.Location = New System.Drawing.Point(12, 13)
+		Me.Label1.Name = "Label1"
+		Me.Label1.Size = New System.Drawing.Size(44, 13)
+		Me.Label1.TabIndex = 2
+		Me.Label1.Text = "Search:"
+		'
+		'TheToolTipProvider
+		'
+		Me.TheToolTipProvider.AutoPopDelay = 500000
+		Me.TheToolTipProvider.InitialDelay = 0
+		Me.TheToolTipProvider.ReshowDelay = 1
+		Me.TheToolTipProvider.ShowAlways = True
+		Me.TheToolTipProvider.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
+		Me.TheToolTipProvider.ToolTipTitle = "Template Call"
 		'
 		'BIFExplorerWindow
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(784, 362)
+		Me.Controls.Add(Me.Label1)
+		Me.Controls.Add(Me.FilterTextBox)
 		Me.Controls.Add(Me.BIFsListView)
 		Me.HelpButton = True
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -86,6 +121,7 @@ Partial Class BIFExplorerWindow
 		Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
 		Me.Text = "BuiltInFunction Explorer"
 		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
 	End Sub
 	Friend WithEvents BIFsListView As System.Windows.Forms.ListView
@@ -94,4 +130,7 @@ Partial Class BIFExplorerWindow
 	Friend WithEvents ParametersColumn As System.Windows.Forms.ColumnHeader
 	Friend WithEvents BIFExplorerImageList As System.Windows.Forms.ImageList
 	Friend WithEvents ReturnTypeColumn As System.Windows.Forms.ColumnHeader
+	Friend WithEvents FilterTextBox As System.Windows.Forms.TextBox
+	Friend WithEvents Label1 As System.Windows.Forms.Label
+	Friend WithEvents TheToolTipProvider As System.Windows.Forms.ToolTip
 End Class

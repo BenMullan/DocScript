@@ -267,7 +267,7 @@
 			If _TargetFile IsNot Nothing Then My.Computer.FileSystem.WriteAllText(_TargetFile.FullName, Me.SerialisationForCurrentConnectionSettings.ToString(SaveOptions.None), [append]:=False)
 
 		Catch _Ex As Exception
-			MsgBox("The Connection Settings could not be saved because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal)
+			MsgBox("The Connection Settings could not be saved because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.MsgBoxSetForeground)
 		Finally
 			Me.Enabled = True : Me.Cursor = Forms.Cursors.Default : Me.Activate()
 		End Try
@@ -310,7 +310,7 @@
 			Me.Text = _TargetFile.Name
 
 		Catch _Ex As Exception
-			MsgBox("The Connection Settings could not be opened because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal)
+			MsgBox("The Connection Settings could not be opened because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.MsgBoxSetForeground)
 		Finally
 			Me.Enabled = True : Me.Cursor = Forms.Cursors.Default : Me.Activate()
 		End Try
@@ -335,7 +335,7 @@
 				Me.Text = (New IO.FileInfo(_Files.First())).Name
 			End If
 
-		Catch _Ex As Exception : MsgBox("The Connection Settings could not be opened via Drag-and-Drop because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.ApplicationModal)
+		Catch _Ex As Exception : MsgBox("The Connection Settings could not be opened via Drag-and-Drop because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.MsgBoxSetForeground)
 		Finally : Me.Enabled = True : Me.Cursor = Forms.Cursors.Default : Me.Activate()
 		End Try
 	End Sub
@@ -546,7 +546,7 @@
 			 & If(_DSR_Exception.Message.Contains("The process cannot access the file"), vbCrLf & vbCrLf & "Check that another DS-Remoting session is not already in-progress on the target. You could use the [Start PsExec cmd session...] link-button to tasklist and taskkill the currently-active remote DSCLI.exe process.", "") _
 			 & If(_DSR_Exception.Message.Contains("Logon failure"), vbCrLf & vbCrLf & "Ensure that the specified user account has the required permissions, and that the time is set correctly on the remote computer." & vbCrLf & "Perhaps attempt a different username syntax e.g. HOSTNAME\Username or .\Username or Username or Username@Domain." & vbCrLf & vbCrLf & "If currently using the HostName, try using the IP-Address instead.", "") _
 			 & If(_DSR_Exception.Message.Contains("Could not find file"), vbCrLf & vbCrLf & "Ensure that there are copies of DSCLI.exe and DSCore.dll in the same directory as DSIDE.exe. This feature is designed to work when DocScript is installed via the MSI.", ""),
-			 MsgBoxStyle.MsgBoxSetForeground Or MsgBoxStyle.Critical,
+			 MsgBoxStyle.SystemModal Or MsgBoxStyle.Critical,
 			 "DS-Remoting"
 			)
 

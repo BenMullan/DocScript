@@ -79,6 +79,8 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Plays the _WavFilePath as a Wav File"}
 
+#Region "ShellExecute() and CreateProcess() BIFs"
+
 		Private Const BIF_System_Run_Identifier_$ = SystemBIFs_IdentifierStart_ & "Run"
 		Private Shared ReadOnly BIF_System_Run_ As New BuiltInFunction(BIF_System_Run_Identifier_$, {New DSFunction.Parameter("_Command", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -90,8 +92,26 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Executes the _Command in the Shell"}
 
+		Private Const BIF_System_RunAndGetOutput_Identifier_$ = SystemBIFs_IdentifierStart_ & "RunAndGetOutput"
+		Private Shared ReadOnly BIF_System_RunAndGetOutput_ As New BuiltInFunction(BIF_System_RunAndGetOutput_Identifier_$, {New DSFunction.Parameter("_ExecutablePath", GetType(DSString)), New DSFunction.Parameter("_CLArguments", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_RunAndGetOutput_Identifier_$)
+
+			 Dim _ProcessOutput$ = UsefulMethods.RunProcess_AndReturnCommandLineOutput(
+			   New IO.FileInfo(_Arguments.ElementAt(0).Coerce(Of DSString)().Value),
+			   _Process_CLAs:=_Arguments.ElementAt(1).Coerce(Of DSString)().Value
+			 )
+
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(_ProcessOutput)
+
+			 Return (_ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls))
+
+		 End Function)
+		) With {.[Description] = "Runs the program at _ExecutablePath with the _CLArguments, waits for it to finish, and then returns the StdOut and StdErr text."}
+
 		Private Const BIF_System_RunInline_Identifier_$ = SystemBIFs_IdentifierStart_ & "RunInline"
-		Private Shared ReadOnly BIF_System_RunInline_ As New BuiltInFunction(BIF_System_RunInline_Identifier_$, {New DSFunction.Parameter("_Command", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		Private Shared ReadOnly BIF_System_RunInline_ As New BuiltInFunction(BIF_System_RunInline_Identifier_$, {New DSFunction.Parameter("_ExecutablePath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_RunInline_Identifier_$)
@@ -102,7 +122,23 @@ Namespace Runtime
 			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
 		 End Function)
-		) With {.[Description] = "Executes the _Command in the Shell, WITHOUT ShellExecute()"}
+		) With {.[Description] = "Executes the _ExecutablePath in the Shell, WITHOUT ShellExecute(). Arguments for the executable are NOT permitted here."}
+
+		Private Const BIF_System_RunInlineWithArguments_Identifier_$ = SystemBIFs_IdentifierStart_ & "RunInlineWithArguments"
+		Private Shared ReadOnly BIF_System_RunInlineWithArguments_ As New BuiltInFunction(BIF_System_RunInlineWithArguments_Identifier_$, {New DSFunction.Parameter("_ExecutablePath", GetType(DSString)), New DSFunction.Parameter("_CLArguments", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_RunInlineWithArguments_Identifier_$)
+
+			 Dim _NewInlineProcess As New Process() With {
+			   .StartInfo = (New ProcessStartInfo(fileName:=_Arguments.ElementAt(0).Coerce(Of DSString)().Value, arguments:=_Arguments.ElementAt(1).Coerce(Of DSString)().Value) With {.UseShellExecute = False})
+			 }
+			 _NewInlineProcess.Start() : _NewInlineProcess.WaitForExit()
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Executes the _ExecutablePath in the Shell, WITHOUT ShellExecute(). Arguments for the executable are specified in _CLArguments."}
 
 		Private Const BIF_System_OpenFile_Identifier_$ = SystemBIFs_IdentifierStart_ & "OpenFile"
 		Private Shared ReadOnly BIF_System_OpenFile_ As New BuiltInFunction(BIF_System_OpenFile_Identifier_$, {New DSFunction.Parameter("_FilePath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
@@ -114,6 +150,8 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Launches the _FilePath via the Shell"}
+
+#End Region
 
 		Private Const BIF_System_Curl_Identifier_$ = SystemBIFs_IdentifierStart_ & "Curl"
 		Private Shared ReadOnly BIF_System_Curl_ As New BuiltInFunction(BIF_System_Curl_Identifier_$, {New DSFunction.Parameter("_URL", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
@@ -194,6 +232,8 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_System_PlayWav_,
 		 StandardBuiltInFunctions.BIF_System_Run_,
 		 StandardBuiltInFunctions.BIF_System_RunInline_,
+		 StandardBuiltInFunctions.BIF_System_RunInlineWithArguments_,
+		 StandardBuiltInFunctions.BIF_System_RunAndGetOutput_,
 		 StandardBuiltInFunctions.BIF_System_OpenFile_,
 		 StandardBuiltInFunctions.BIF_System_Curl_,
 		 StandardBuiltInFunctions.BIF_System_Ping_,
