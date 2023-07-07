@@ -1,0 +1,37 @@
+﻿#DSRScreenView.Local.DS
+#Set the DSRScreenView.Remote.DS script running first.
+#Then run this one locally.
+
+#Computer and Credentials
+#Could set each one of these to assign to a constant
+<String> Computer : Input("Computer")
+<String> Username : Input("Username")
+<String> Password : Input("Password")
+
+#Retreive a screenshot every ↓ seconds...
+<Number> DelayBetweenScreenshots_Seconds : 5
+
+#Pick-up the Screenshot files from...
+<String> ScreenshotsDirectory :  "\\" & Computer & "\C$\Windows\DSRemoting\Screenshots\"
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#Connect
+	System_RegisterUNCCredentials( ScreenshotsDirectory, Username, Password )
+	
+	#Get PNGs
+	While (True)
+		
+		<String@> _AllFiles   : File_GetDirectoryContents( ScreenshotsDirectory )
+		<String@> _PNGFiles   : DS_StringArray_Where( _AllFiles, "DS_String_EndsWith(_Item, `.PNG`)" )
+		<Number@> _PNGNumbers : DS_StringArray_EachToNumber( DS_StringArray_SelectStrings(_PNGFiles, "DS_String_Replace(_Item, `.PNG`, ``)") )
+		<Number>  _HighestPNG : DS_NumberArray_Max( _PNGNumbers )
+		
+		Graphics_ClosePreviousImageWindow()
+		Graphics_CenterScreenImageWindow(_HighestPNG, ScreenshotsDirectory & _HighestPNG & ".PNG")
+		DS_Sleep(DelayBetweenScreenshots_Seconds * 1000)
+		
+	EndWhile
+	
+	Return 0
+EndFunction

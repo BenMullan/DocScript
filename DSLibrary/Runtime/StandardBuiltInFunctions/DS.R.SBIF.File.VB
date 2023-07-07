@@ -89,6 +89,28 @@ Namespace Runtime
 		 End Function)
 		) With {.[Description] = "Copies the _SourceFile to the _DestinationFile. Overwrites the _DestinationFile if it already exists. Use File_Delete() in order to ""Move"" a file."}
 
+#Region "Directory-related"
+
+		Private Const BIF_File_GetDirectoryContents_Identifier_$ = FileBIFs_IdentifierStart_ & "GetDirectoryContents"
+		Private Shared ReadOnly BIF_File_GetDirectoryContents_ As New BuiltInFunction(BIF_File_GetDirectoryContents_Identifier_$, {New DSFunction.Parameter("_DirectoryPath", GetType(DSString))}, GetType(DSArray(Of DSString)), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_File_GetDirectoryContents_Identifier_$)
+
+			 '(From _Item As [String] In IO.Directory.GetFileSystemEntries(path:=_Arguments.ElementAt(0).Coerce(Of DSString)().Value) Select New DSString(_Item)).ToArray()
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSArray(Of DSString)(
+			   (New IO.DirectoryInfo(path:=_Arguments.ElementAt(0).Coerce(Of DSString)().Value)).GetFiles().Select(Of DSString)(Function(_File As IO.FileInfo) New DSString(_File.Name)) _
+			   .Concat((New IO.DirectoryInfo(path:=_Arguments.ElementAt(0).Coerce(Of DSString)().Value)).GetDirectories().Select(Of DSString)(Function(_Dir As IO.DirectoryInfo) New DSString(_Dir.Name & "\"c))) _
+			   .ToArray()
+			)
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Returns the (relative) names of all Files and SubDirectories in the _DirectoryPath, with directories appearing in the form ""DirName\""."}
+
+#End Region
+
 #End Region
 
 		''' <summary>File-related Functions for Reading from, and Writing to, Files on Disk.</summary>
@@ -99,7 +121,8 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_File_Delete_,
 		 StandardBuiltInFunctions.BIF_File_FullPathFromRelativePath_,
 		 StandardBuiltInFunctions.BIF_File_Exists_,
-		 StandardBuiltInFunctions.BIF_File_Copy_
+		 StandardBuiltInFunctions.BIF_File_Copy_,
+		 StandardBuiltInFunctions.BIF_File_GetDirectoryContents_
 		}
 
 	End Class

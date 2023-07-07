@@ -1,0 +1,25 @@
+﻿#DSRScreenView.Remote.DS
+#Run this script on the remote computer using DSRemoting's Interactive mode.
+#View the screenshots with the DSRScreenView.Local.DS script.
+
+#Take a screenshot every ↓ seconds...
+<Number> DelayBetweenScreenshots_Seconds : 5
+
+#Save Screenshots in this ↓ directory...
+<String> ScreenshotsDirectory : System_GetCurrentInterpreterDirectory() & "Screenshots\"
+
+Function <Number> Main (<String@> _CLAs)
+	
+	<Number> _ShotsTaken : 0
+	
+	#For 50 iterations, take a Screenshot, and wait 5 seconds
+	Loop (500)
+		
+		Graphics_SaveScreenshot(ScreenshotsDirectory & [_ShotsTaken + 1] & ".PNG")
+		DS_Sleep(DelayBetweenScreenshots_Seconds * 1000)
+		_ShotsTaken : _ShotsTaken + 1
+		
+	EndLoop
+	
+	Return 0
+EndFunction

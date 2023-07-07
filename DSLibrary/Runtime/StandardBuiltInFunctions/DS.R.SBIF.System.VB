@@ -48,11 +48,12 @@ Namespace Runtime
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
 			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_GetCurrentInterpreterDirectory_Identifier_$)
-			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd())
+			 '_ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(UsefulMethods.GetExecutingAssemblyDirectory().FullName.WithBackslashOnEnd())
+			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSString(UsefulMethods.GetExecutingAssemblyFilePath().Directory.FullName.WithBackslashOnEnd())
 			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
 		 End Function)
-		) With {.[Description] = "Returns the directory in which the binary of the current Interpreter exists, with a Backslash on the end."}
+		) With {.[Description] = "Returns the directory in which the binary of the current Interpreter exists, with a Backslash on the end. Functionality altered 07072023."}
 
 #End Region
 
@@ -153,6 +154,8 @@ Namespace Runtime
 
 #End Region
 
+#Region "Network-related"
+
 		Private Const BIF_System_Curl_Identifier_$ = SystemBIFs_IdentifierStart_ & "Curl"
 		Private Shared ReadOnly BIF_System_Curl_ As New BuiltInFunction(BIF_System_Curl_Identifier_$, {New DSFunction.Parameter("_URL", GetType(DSString))}, GetType(DSString), New BuiltInFunctionDelegate(
 		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
@@ -178,6 +181,23 @@ Namespace Runtime
 
 		 End Function)
 		) With {.[Description] = "Attempts to ping the _HostnameOrIP. Returns True if this was successful, and otherwise, False."}
+
+		Private Const BIF_System_RegisterUNCCredentials_Identifier_$ = SystemBIFs_IdentifierStart_ & "RegisterUNCCredentials"
+		Private Shared ReadOnly BIF_System_RegisterUNCCredentials_ As New BuiltInFunction(BIF_System_RegisterUNCCredentials_Identifier_$, {New DSFunction.Parameter("_UNCPath", GetType(DSString)), New DSFunction.Parameter("_Username", GetType(DSString)), New DSFunction.Parameter("_Password", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_RegisterUNCCredentials_Identifier_$)
+
+			 DocScript.Runtime.Remoting.AuthenticateWithNetworkFolder(
+			   _UNCPath:=_Arguments.ElementAt(0).Coerce(Of DSString)().Value,
+			   _Username:=_Arguments.ElementAt(1).Coerce(Of DSString)().Value,
+			   _Password:=_Arguments.ElementAt(2).Coerce(Of DSString)().Value
+			)
+
+			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+		 End Function)
+		) With {.[Description] = "Associates the _Username and _Password as credentials for the _UNCPath, such as ""\\DC1\NetLogon\""."}
 
 #Region "Web Server Methods"
 
@@ -222,6 +242,8 @@ Namespace Runtime
 
 #End Region
 
+#End Region
+
 		''' <summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
 		Public Shared ReadOnly System As DocScript.Runtime.BuiltInFunction() = {
 		 StandardBuiltInFunctions.BIF_System_GetTime_,
@@ -238,7 +260,8 @@ Namespace Runtime
 		 StandardBuiltInFunctions.BIF_System_Curl_,
 		 StandardBuiltInFunctions.BIF_System_Ping_,
 		 StandardBuiltInFunctions.BIF_System_HostWebServerForString_,
-		 StandardBuiltInFunctions.BIF_System_HostWebServerForDirectory_
+		 StandardBuiltInFunctions.BIF_System_HostWebServerForDirectory_,
+		 StandardBuiltInFunctions.BIF_System_RegisterUNCCredentials_
 		}
 
 	End Class

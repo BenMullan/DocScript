@@ -1567,38 +1567,40 @@ Namespace CompilerExtentions
 		<Global.System.Runtime.CompilerServices.Extension()>
 		Public Sub ShowImageInNewWindow(ByVal _WindowTitle$, ByVal _Image As Drawing.Bitmap)
 
-			Dim _STAThread As New Threading.Thread(
-			 Sub()
-
-				 'Form
-				 Dim _SimpleImageForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 600, .Height = 400, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
-				 _SimpleImageForm.Controls.Add(New Windows.Forms.PictureBox() With {.Dock = System.Windows.Forms.DockStyle.Fill, .Image = _Image, .SizeMode = Windows.Forms.PictureBoxSizeMode.Zoom})
-				 AddHandler _SimpleImageForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleImageForm.Close()
-
-				 'MenuStrip, with Copy-Button and SaveAs-Button
-				 Dim _MainMenuStrip As New Windows.Forms.MenuStrip() With {.BackColor = System.Drawing.SystemColors.GradientInactiveCaption}
-				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Copy", image:=Nothing, onClick:= _
-				   Sub()
-					   My.Computer.Clipboard.SetImage(_Image) : MsgBox("The Bitmap was copied to the Clipboard", MsgBoxStyle.Information)
-				   End Sub
-				  ))
-				 _MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:= _
-				   Sub()
-					   Try
-						   Dim _SelectedFile As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {New Tuple(Of [String], [String])("Portable Network Graphics", "PNG")})
-						   If _SelectedFile IsNot Nothing Then _Image.Save(_SelectedFile.FullName, Drawing.Imaging.ImageFormat.Png)
-					   Catch _Ex As Exception : MsgBox("The File could not be saved" & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : End Try
-				   End Sub
-				   ))
-
-				 _SimpleImageForm.Controls.Add(_MainMenuStrip) : _SimpleImageForm.MainMenuStrip = _MainMenuStrip
-				 Call (_SimpleImageForm).ShowDialog()
-
-			 End Sub)
-
+			Dim _STAThread As New Threading.Thread(AddressOf UsefulMethods.ConstructImageWindow(_WindowTitle, _Image).ShowDialog)
 			_STAThread.SetApartmentState(Threading.ApartmentState.STA) : _STAThread.Start()
 
 		End Sub
+
+		''' <summary>(MullNet UsefulMethod) Constructs a Window for the _Image, with a Copy and SaveAs button at the top.</summary>
+		<Global.System.Runtime.CompilerServices.Extension()>
+		Public Function ConstructImageWindow(ByVal _WindowTitle$, ByVal _Image As Drawing.Bitmap) As Windows.Forms.Form
+
+			'Form
+			Dim _SimpleImageForm As New Windows.Forms.Form() With {.Text = _WindowTitle, .Width = 850, .Height = 650, .Icon = Nothing, .ShowIcon = False, .ShowInTaskbar = False, .KeyPreview = True}
+			_SimpleImageForm.Controls.Add(New Windows.Forms.PictureBox() With {.Dock = System.Windows.Forms.DockStyle.Fill, .Image = _Image, .SizeMode = Windows.Forms.PictureBoxSizeMode.Zoom})
+			AddHandler _SimpleImageForm.KeyDown, Sub(_Sender As [Object], _KeyEventArgs As Windows.Forms.KeyEventArgs) If _KeyEventArgs.KeyCode = Windows.Forms.Keys.Escape Then _SimpleImageForm.Close()
+
+			'MenuStrip, with Copy-Button and SaveAs-Button
+			Dim _MainMenuStrip As New Windows.Forms.MenuStrip() With {.BackColor = System.Drawing.SystemColors.GradientInactiveCaption}
+			_MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Copy", image:=Nothing, onClick:= _
+			  Sub()
+				  My.Computer.Clipboard.SetImage(_Image) : MsgBox("The Bitmap was copied to the Clipboard", MsgBoxStyle.Information)
+			  End Sub
+			 ))
+			_MainMenuStrip.Items.Add(New Windows.Forms.ToolStripMenuItem("&Save As...", image:=Nothing, onClick:= _
+			  Sub()
+				  Try
+					  Dim _SelectedFile As IO.FileInfo = UsefulMethods.RequestFilePath_WithSaveFileDialog("Save Text As...", {New Tuple(Of [String], [String])("Portable Network Graphics", "PNG")})
+					  If _SelectedFile IsNot Nothing Then _Image.Save(_SelectedFile.FullName, Drawing.Imaging.ImageFormat.Png)
+				  Catch _Ex As Exception : MsgBox("The File could not be saved" & vbCrLf & _Ex.Message, MsgBoxStyle.Critical, _Ex.GetType().Name) : End Try
+			  End Sub
+			  ))
+
+			_SimpleImageForm.Controls.Add(_MainMenuStrip) : _SimpleImageForm.MainMenuStrip = _MainMenuStrip
+			Return _SimpleImageForm
+
+		End Function
 
 		''' <summary>(MullNet UsefulMethod) Shows the Contents of the URL (a Web address, local HTML file, or file directory) in a Form. This is all done in a NEW STA Thread.</summary>
 		<Global.System.Runtime.CompilerServices.Extension()>

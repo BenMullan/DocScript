@@ -1,0 +1,11 @@
+﻿#DSLive.DS - Useful for hosting a remote DSLive session.
+#Use with the "Shell" DSR Mode.
+
+Function <Void> Main ()
+	
+	<String> _DSCLI_Path : System_GetCurrentInterpreterDirectory() & "DSCLI.exe"
+	
+	Output("Starting DSLive..." & Const_CrLf() & _DSCLI_Path)
+	System_RunInlineWithArguments(_DSCLI_Path, "/Live")
+		
+EndFunction

@@ -6,7 +6,13 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="T:DocScript.Language.Expressions.IExpression">
+<member name="M:DocScript.Utilities.Screenshotting.GetScreenshot">
+	<summary>WARNING: Tends to cause an Exception after ~40+ calls, because of a bug in GDI+.</summary>
+</member><member name="M:DocScript.Utilities.Screenshotting.TakeAndSaveScreenshotAsPNG(System.IO.FileInfo)">
+	<summary>Does not cause a bug after some time, because the objects are properly disposed-of in each call.</summary>
+</member><member name="T:DocScript.Utilities.Screenshotting">
+	<summary>As used by some of the Graphics_ BIFs</summary>
+</member><member name="T:DocScript.Language.Expressions.IExpression">
 	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
 </member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
 	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>

@@ -161,6 +161,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utilities\DS.Utilities.MicroHTTPServer.VB" />
+    <Compile Include="Utilities\DS.Utilities.Screenshotting.VB" />
     <Compile Include="Utilities\DS.Utilities.SQLQueryRunner.VB" />
     <Compile Include="_DebugResources.VB" />
   </ItemGroup>
