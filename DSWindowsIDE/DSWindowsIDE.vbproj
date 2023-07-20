@@ -6,7 +6,7 @@
     <ProjectGuid>{C006B85E-5269-4137-8979-8AC99F19158A}</ProjectGuid>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DocScript</RootNamespace>
+    <RootNamespace>DocScript.WindowsIDE</RootNamespace>
     <AssemblyName>DSIDE</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -98,13 +98,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Application.xaml">
+    <ApplicationDefinition Include="MiscSource\Application.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CLAManagment.VB" />
-    <Compile Include="DSIntelliSenseEntry.VB" />
-    <Compile Include="PredefinedSnippets.VB" />
+    <Compile Include="IDEWindowContent.xaml.vb">
+      <DependentUpon>IDEWindowContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MiscSource\CLAManagment.VB" />
+    <Compile Include="MiscSource\DSIntelliSenseEntry.VB" />
+    <Compile Include="MiscSource\PredefinedSnippets.VB" />
     <Compile Include="UtilityForms\ActionInProgressDialog.Designer.VB">
       <DependentUpon>ActionInProgressDialog.VB</DependentUpon>
     </Compile>
@@ -171,11 +174,15 @@
     <Compile Include="UtilityForms\TokenTableViewerWindow.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="IDEWindowContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MiscSource\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Application.xaml.vb">
+    <Compile Include="MiscSource\Application.xaml.vb">
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -185,7 +192,7 @@
     <Compile Include="UtilityForms\DSAboutBox.VB">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.vb">
+    <Compile Include="MiscSource\MainWindow.xaml.vb">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

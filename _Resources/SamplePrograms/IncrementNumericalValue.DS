@@ -1,8 +1,10 @@
 ﻿#IncrementNumericalValue.DS - Calculates the next permutation for a value in ANY BASE!
+#Ben Mullan (c) 2023
+
 Function <Number> Main (<String@> _CLAs)
 	
 	If ( ¬ [DS_StringArray_Length(_CLAs) = 2] )
-		Output("Invalid Command-line Input: The <Value> and <Tokens> must be specified as CLAs" & Const_CrLf() & "Example: IncrementNumericalValue.exe 12884 0123456789")
+		OutputError("Invalid Command-line Input: The <Value> and <Tokens> must be specified as CLAs" & Const_CrLf() & "Example: IncrementNumericalValue.exe 12884 0123456789")
 		Return 1
 	EndIf
 	

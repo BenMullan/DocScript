@@ -1,20 +1,20 @@
 ﻿Public Class BIFExplorerWindow
 
 	Protected NumberOfBIFs_InsertedOntoIDEWindow As UInt16 = 0
-	Public ReadOnly Target_IDEWindow As Global.DocScript.MainWindow
+	Public ReadOnly Target_IDEWindowContent As Global.DocScript.WindowsIDE.IDEWindowContent
 	Public ReadOnly Property AllBuiltInFunctions_FromMainWindow As DocScript.Runtime.BuiltInFunction()
 		Get
-			Return Me.Target_IDEWindow.CurrentExecutionContext.BuiltInFunctions.ToArray()
+			Return Me.Target_IDEWindowContent.CurrentExecutionContext.BuiltInFunctions.ToArray()
 		End Get
 	End Property
 
-	Public Sub New(ByRef _Target_IDEWindow As MainWindow)
+	Public Sub New(ByRef _Target_IDEWindowContent As IDEWindowContent)
 
 		' This call is required by the designer.
 		InitializeComponent()
 
 		' Add any initialization after the InitializeComponent() call.
-		Me.Target_IDEWindow = _Target_IDEWindow
+		Me.Target_IDEWindowContent = _Target_IDEWindowContent
 		Me.PopulateListView_ForTheseBIFs_(Me.AllBuiltInFunctions_FromMainWindow)
 		Me.Text = "BuiltInFunction Explorer (" & Me.AllBuiltInFunctions_FromMainWindow.Length.ToString() & " BIFs)"
 
@@ -78,7 +78,7 @@
 		Try
 
 			REM Join()-ing by CrLf puts each Call on a new Line
-			Me.Target_IDEWindow.InsertTextAtCursor([String].Join(vbCrLf, Me.BIFsListView.SelectedItems.Cast(Of Forms.ListViewItem)().Select(Of [String])(Function(_SelectedBIFListViewRow As Forms.ListViewItem) Me.AllBuiltInFunctions_FromMainWindow.First(Function(_BIF As Runtime.BuiltInFunction) _BIF.Identifier.ToUpper() = _SelectedBIFListViewRow.SubItems.Item(index:=0).Text.ToUpper()).TemplateCall)) & [vbCrLf])
+			Me.Target_IDEWindowContent.InsertTextAtCursor([String].Join(vbCrLf, Me.BIFsListView.SelectedItems.Cast(Of Forms.ListViewItem)().Select(Of [String])(Function(_SelectedBIFListViewRow As Forms.ListViewItem) Me.AllBuiltInFunctions_FromMainWindow.First(Function(_BIF As Runtime.BuiltInFunction) _BIF.Identifier.ToUpper() = _SelectedBIFListViewRow.SubItems.Item(index:=0).Text.ToUpper()).TemplateCall)) & [vbCrLf])
 			Me.NumberOfBIFs_InsertedOntoIDEWindow += Convert.ToUInt16(Me.BIFsListView.SelectedItems.Count)
 			Me.Text = "BuiltInFunction Explorer (" & Me.NumberOfBIFs_InsertedOntoIDEWindow.ToString() & " BIF(s) Inserted)"
 

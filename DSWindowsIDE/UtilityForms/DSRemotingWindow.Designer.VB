@@ -163,12 +163,12 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Utility_LaunchNewRFE_LinkLabel.TabStop = True
 		Me.Utility_LaunchNewRFE_LinkLabel.Text = "Launch remote file explorer..."
 		Me.TheToolTipProvider.SetToolTip(Me.Utility_LaunchNewRFE_LinkLabel, "Launches an new DocScript Remote File Explorer, targeting the specified" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Computer" & _
-			  "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
-			  "w Thread.")
+		   "'s C$\ share, using the specified Username and Password." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This is done on a ne" & _
+		   "w Thread.")
 		'
 		'InteractiveIcon_PictureBox
 		'
-		Me.InteractiveIcon_PictureBox.Image = Global.DocScript.My.Resources.Resources.DSR_InteractiveMode
+		Me.InteractiveIcon_PictureBox.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.DSR_InteractiveMode
 		Me.InteractiveIcon_PictureBox.Location = New System.Drawing.Point(52, 189)
 		Me.InteractiveIcon_PictureBox.Name = "InteractiveIcon_PictureBox"
 		Me.InteractiveIcon_PictureBox.Size = New System.Drawing.Size(32, 31)
@@ -188,11 +188,11 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.Utility_StartRemoteShellSession_LinkLabel.TabStop = True
 		Me.Utility_StartRemoteShellSession_LinkLabel.Text = "Start PsExec cmd session..."
 		Me.TheToolTipProvider.SetToolTip(Me.Utility_StartRemoteShellSession_LinkLabel, "Launches a PsExec cmd.exe Session, using the currently-entered Computer, Username" & _
-			  ", Password, and PsExec path.")
+		   ", Password, and PsExec path.")
 		'
 		'ShellIcon_PictureBox
 		'
-		Me.ShellIcon_PictureBox.Image = Global.DocScript.My.Resources.Resources.DSR_ShellMode
+		Me.ShellIcon_PictureBox.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.DSR_ShellMode
 		Me.ShellIcon_PictureBox.Location = New System.Drawing.Point(52, 120)
 		Me.ShellIcon_PictureBox.Name = "ShellIcon_PictureBox"
 		Me.ShellIcon_PictureBox.Size = New System.Drawing.Size(32, 31)
@@ -202,7 +202,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'HeadlessIcon_PictureBox
 		'
-		Me.HeadlessIcon_PictureBox.Image = Global.DocScript.My.Resources.Resources.DSR_HeadlessMode
+		Me.HeadlessIcon_PictureBox.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.DSR_HeadlessMode
 		Me.HeadlessIcon_PictureBox.Location = New System.Drawing.Point(52, 48)
 		Me.HeadlessIcon_PictureBox.Name = "HeadlessIcon_PictureBox"
 		Me.HeadlessIcon_PictureBox.Size = New System.Drawing.Size(32, 31)
@@ -322,7 +322,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox5
 		'
-		Me.PictureBox5.Image = Global.DocScript.My.Resources.Resources.TargetOptions
+		Me.PictureBox5.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.TargetOptions
 		Me.PictureBox5.Location = New System.Drawing.Point(8, 13)
 		Me.PictureBox5.Name = "PictureBox5"
 		Me.PictureBox5.Size = New System.Drawing.Size(40, 35)
@@ -381,7 +381,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox4
 		'
-		Me.PictureBox4.Image = Global.DocScript.My.Resources.Resources.Computer
+		Me.PictureBox4.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.Computer
 		Me.PictureBox4.Location = New System.Drawing.Point(8, 13)
 		Me.PictureBox4.Name = "PictureBox4"
 		Me.PictureBox4.Size = New System.Drawing.Size(40, 35)
@@ -475,7 +475,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox2
 		'
-		Me.PictureBox2.Image = Global.DocScript.My.Resources.Resources.Open
+		Me.PictureBox2.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.Open
 		Me.PictureBox2.Location = New System.Drawing.Point(11, 20)
 		Me.PictureBox2.Name = "PictureBox2"
 		Me.PictureBox2.Size = New System.Drawing.Size(28, 37)
@@ -517,7 +517,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox1
 		'
-		Me.PictureBox1.Image = Global.DocScript.My.Resources.Resources.Save
+		Me.PictureBox1.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.Save
 		Me.PictureBox1.Location = New System.Drawing.Point(11, 19)
 		Me.PictureBox1.Name = "PictureBox1"
 		Me.PictureBox1.Size = New System.Drawing.Size(28, 38)
@@ -587,7 +587,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox8
 		'
-		Me.PictureBox8.Image = Global.DocScript.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill
+		Me.PictureBox8.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill
 		Me.PictureBox8.Location = New System.Drawing.Point(10, 19)
 		Me.PictureBox8.Name = "PictureBox8"
 		Me.PictureBox8.Size = New System.Drawing.Size(40, 35)
@@ -664,7 +664,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox6
 		'
-		Me.PictureBox6.Image = Global.DocScript.My.Resources.Resources.Desktop
+		Me.PictureBox6.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.Desktop
 		Me.PictureBox6.Location = New System.Drawing.Point(10, 19)
 		Me.PictureBox6.Name = "PictureBox6"
 		Me.PictureBox6.Size = New System.Drawing.Size(40, 35)
@@ -737,7 +737,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'PictureBox7
 		'
-		Me.PictureBox7.Image = Global.DocScript.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill
+		Me.PictureBox7.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.PsExec_NotActuallyTheLogoForItButStill
 		Me.PictureBox7.Location = New System.Drawing.Point(10, 19)
 		Me.PictureBox7.Name = "PictureBox7"
 		Me.PictureBox7.Size = New System.Drawing.Size(40, 35)
@@ -753,7 +753,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ConnectButton.TabIndex = 4
 		Me.ConnectButton.Text = "&Connect && Execute"
 		Me.TheToolTipProvider.SetToolTip(Me.ConnectButton, "Copies the DocScript Runtime files to the target," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and starts the DSCLI.exe inter" & _
-			  "preter process.")
+		   "preter process.")
 		Me.ConnectButton.UseVisualStyleBackColor = True
 		'
 		'ShowHideOptionsButton
@@ -764,8 +764,8 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		Me.ShowHideOptionsButton.TabIndex = 5
 		Me.ShowHideOptionsButton.Text = "Hide &Options"
 		Me.TheToolTipProvider.SetToolTip(Me.ShowHideOptionsButton, "By default, the Interactive mode will be used with GUI Execution," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and you will b" & _
-			  "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
-			  "")
+		   "e prompted for credentials." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "To access the other DSR modes, click this button." & _
+		   "")
 		Me.ShowHideOptionsButton.UseVisualStyleBackColor = True
 		'
 		'TheToolTipProvider
@@ -806,7 +806,7 @@ Partial Class DSRemotingWindow : Inherits System.Windows.Forms.Form
 		'
 		'DSRemotingBanner_PictureBox
 		'
-		Me.DSRemotingBanner_PictureBox.Image = Global.DocScript.My.Resources.Resources.DSRemotingBanner
+		Me.DSRemotingBanner_PictureBox.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.DSRemotingBanner
 		Me.DSRemotingBanner_PictureBox.Location = New System.Drawing.Point(-2, -2)
 		Me.DSRemotingBanner_PictureBox.Name = "DSRemotingBanner_PictureBox"
 		Me.DSRemotingBanner_PictureBox.Size = New System.Drawing.Size(408, 85)

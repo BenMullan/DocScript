@@ -20,6 +20,7 @@ Function <Number> Main (<String@> _CLAs)
 	System_RegisterUNCCredentials( ScreenshotsDirectory, Username, Password )
 	
 	#Get PNGs
+	#They look like: 1.PNG, 2.PNG, 3.PNG, etc...
 	While (True)
 		
 		<String@> _AllFiles   : File_GetDirectoryContents( ScreenshotsDirectory )

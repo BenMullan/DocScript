@@ -32,12 +32,12 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.DocScript.InputExprForm
+            Me.MainForm = Global.DocScript.ExprResolutionUtility.InputExprForm
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateSplashScreen()
-            Me.SplashScreen = Global.DocScript.SplashScreen
+            Me.SplashScreen = Global.DocScript.ExprResolutionUtility.SplashScreen
         End Sub
     End Class
 End Namespace

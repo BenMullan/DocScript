@@ -42,7 +42,7 @@ Partial Class RemoteFileExplorerWindow
 		'
 		'PictureBox1
 		'
-		Me.PictureBox1.Image = Global.DocScript.My.Resources.Resources.NetFolder
+		Me.PictureBox1.Image = Global.DocScript.WindowsIDE.My.Resources.Resources.NetFolder
 		Me.PictureBox1.Location = New System.Drawing.Point(13, 18)
 		Me.PictureBox1.Name = "PictureBox1"
 		Me.PictureBox1.Size = New System.Drawing.Size(60, 49)
@@ -53,7 +53,7 @@ Partial Class RemoteFileExplorerWindow
 		'TargetGroupBox
 		'
 		Me.TargetGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.TargetGroupBox.Controls.Add(Me.UpADir_LinkLabel)
 		Me.TargetGroupBox.Controls.Add(Me.ConnectButton)
 		Me.TargetGroupBox.Controls.Add(Me.Password_TextBox)
@@ -110,7 +110,7 @@ Partial Class RemoteFileExplorerWindow
 		'RemoteUNCPath_TextBox
 		'
 		Me.RemoteUNCPath_TextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.RemoteUNCPath_TextBox.Location = New System.Drawing.Point(146, 23)
 		Me.RemoteUNCPath_TextBox.Name = "RemoteUNCPath_TextBox"
 		Me.RemoteUNCPath_TextBox.Size = New System.Drawing.Size(519, 20)
@@ -147,8 +147,8 @@ Partial Class RemoteFileExplorerWindow
 		'RemoteFilesGroupBox
 		'
 		Me.RemoteFilesGroupBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-				  Or System.Windows.Forms.AnchorStyles.Left) _
-				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+			Or System.Windows.Forms.AnchorStyles.Left) _
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.RemoteFilesGroupBox.Controls.Add(Me.RemoteFilesWebBrowser)
 		Me.RemoteFilesGroupBox.Enabled = False
 		Me.RemoteFilesGroupBox.Location = New System.Drawing.Point(12, 98)

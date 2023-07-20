@@ -6,13 +6,7 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="M:DocScript.Utilities.Screenshotting.GetScreenshot">
-	<summary>WARNING: Tends to cause an Exception after ~40+ calls, because of a bug in GDI+.</summary>
-</member><member name="M:DocScript.Utilities.Screenshotting.TakeAndSaveScreenshotAsPNG(System.IO.FileInfo)">
-	<summary>Does not cause a bug after some time, because the objects are properly disposed-of in each call.</summary>
-</member><member name="T:DocScript.Utilities.Screenshotting">
-	<summary>As used by some of the Graphics_ BIFs</summary>
-</member><member name="T:DocScript.Language.Expressions.IExpression">
+<member name="T:DocScript.Language.Expressions.IExpression">
 	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
 </member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
 	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
@@ -270,6 +264,12 @@ DSCore
 	<summary>Maths-related Functions such as Rounding, getting Pi, or finding the maximum of two numbers</summary>
 </member><member name="T:DocScript.Runtime.StandardBuiltInFunctions">
 	<summary>Provides useful Logic built-in to DocScript</summary>
+</member><member name="M:DocScript.Utilities.Screenshotting.GetScreenshot">
+	<summary>WARNING: Tends to cause an Exception after ~40+ calls, because of a bug in GDI+.</summary>
+</member><member name="M:DocScript.Utilities.Screenshotting.TakeAndSaveScreenshotAsPNG(System.IO.FileInfo)">
+	<summary>Does not cause a bug after some time, because the objects are properly disposed-of in each call.</summary>
+</member><member name="T:DocScript.Utilities.Screenshotting">
+	<summary>As used by some of the Graphics_ BIFs</summary>
 </member><member name="P:DocScript.Utilities.SQLQueryRunner.QueryOutputDataTable">
 	<summary>The Table filled with the resultant output of the previous SQL Query. If no queries have been made yet, then it is Nothing/null.</summary>
 </member><member name="M:DocScript.Utilities.SQLQueryRunner.#ctor(System.String,System.String,System.String)">

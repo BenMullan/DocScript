@@ -515,7 +515,7 @@
 
 				REM Prompt for Credentials first. Copy these into the main Username and Password Textboxes
 				Me.TheActionInProgressDialog.Dismiss() 'Hide this, so that it dosen't block the EnterCredentialsDialog
-				Dim _SpecifiedCredentials As Tuple(Of [String], [String]) = DocScript.EnterCredentialsDialog.Show_AndGetCredentials()
+				Dim _SpecifiedCredentials As Tuple(Of [String], [String]) = DocScript.WindowsIDE.EnterCredentialsDialog.Show_AndGetCredentials()
 				Me.TargetUsername_TextBox.Text = _SpecifiedCredentials.[Item1] : Me.TargetPassword_TextBox.Text = _SpecifiedCredentials.[Item2]
 
 				REM Use Interactive Mode, with the Console Session. DSR Files will not be deleted at the end.

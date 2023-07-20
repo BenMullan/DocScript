@@ -1,0 +1,17 @@
+﻿<!--
+	NOTE:
+	The actual content for the DSIDE MainWindow lies in the [IDEWindowContent.*] files.
+-->
+	
+<Window
+	x:Class="MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:dside="clr-namespace:DocScript.WindowsIDE"
+	Width="800" Height="600" Background="LightGray"
+	WindowState="Normal" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
+	x:Name="RibbonWindow" Title="DocScript IDE" Icon="/DSIDE;component/DSIDE.ico"
+>
+	
+	<dside:IDEWindowContent x:Name="HostedIDEWindowContent" />
+
+</Window>

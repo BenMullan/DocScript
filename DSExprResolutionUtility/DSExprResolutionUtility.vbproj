@@ -8,8 +8,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DB86A4F8-E66B-42ED-B4E0-2BA6020CB1E8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>DocScript.My.MyApplication</StartupObject>
-    <RootNamespace>DocScript</RootNamespace>
+    <StartupObject>DocScript.ExprResolutionUtility.My.MyApplication</StartupObject>
+    <RootNamespace>DocScript.ExprResolutionUtility</RootNamespace>
     <AssemblyName>DSExpr</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
@@ -52,13 +52,13 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>DSExpr.ICO</ApplicationIcon>
+    <ApplicationIcon>Resources\DSExpr.ICO</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>DocScript.Signing.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Resources\DocScript.Signing.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -87,10 +87,10 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SplashScreen.Designer.VB">
+    <Compile Include="UtilityForms\SplashScreen.Designer.VB">
       <DependentUpon>SplashScreen.VB</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen.VB">
+    <Compile Include="UtilityForms\SplashScreen.VB">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UtilityForms\GenerateExprTreeForm.Designer.VB">
@@ -129,7 +129,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SplashScreen.resx">
+    <EmbeddedResource Include="UtilityForms\SplashScreen.resx">
       <DependentUpon>SplashScreen.VB</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\GenerateExprTreeForm.resx">
@@ -150,7 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DocScript.Signing.snk" />
+    <None Include="Resources\DocScript.Signing.snk" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -168,8 +168,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DSExpr.ICO" />
-    <Content Include="HereArror.ico" />
+    <Content Include="Resources\DSExpr.ICO" />
+    <Content Include="Resources\HereArror.ico" />
     <None Include="Resources\DSExpr.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
