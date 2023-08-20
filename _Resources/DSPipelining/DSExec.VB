@@ -2,7 +2,7 @@ Public Module DSExec
 
 	REM DSPipelining\DSExec
 	REM Expected StdIn:		<Program ... />
-	REM Provided StdOut:	{Program Output}
+	REM Provided StdOut:	{DocScript Program's Output}
 
 	Public Function Main%(ByVal _CLAs$())
 		Try

@@ -2,7 +2,7 @@ Public Module DSCompile
 
 	REM DSPipelining\DSCompile
 	REM Expected StdIn:		<Program ... />
-	REM Provided StdOut:	{An EXE File}
+	REM Provided StdOut:	{None; An EXE File is saved to disk}
 
 	Public Function Main%(ByVal _CLAs$())
 		Try
@@ -14,13 +14,13 @@ Public Module DSCompile
 			Dim _Program As DocScript.Runtime.Program = DocScript.Runtime.Program.FromProgramTreeXML(_ProgTreeXML, _ExeCxt:=DocScript.Runtime.ExecutionContext.CLIDefault)
 
 			_Program.CompileToEXE(
-			 _OutputDirectory:=(New IO.FileInfo(_CLAs.ElementAt(0))).Directory,
-			 _FinalExeFile_NameOnly:=(New IO.FileInfo(_CLAs.ElementAt(0))).Name,
-			 _VBCExe:=DocScript.Runtime.Program.DefaultVbcExe_ForCurrentSystem,
-			 _ILMergeExe:=New IO.FileInfo(IO.Path.Combine(DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
-			 _DSCoreDll:=New IO.FileInfo(IO.Path.Combine(DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
-			 _IcoFile_ForExe:=Nothing,
-			 _DeleteIntermediateFiles:=True
+				_OutputDirectory:=			(New IO.FileInfo(_CLAs.ElementAt(0))).Directory,
+				_FinalExeFile_NameOnly:=	(New IO.FileInfo(_CLAs.ElementAt(0))).Name,
+				_VBCExe:=					DocScript.Runtime.Program.DefaultVbcExe_ForCurrentSystem,
+				_ILMergeExe:=				New IO.FileInfo(IO.Path.Combine(DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory().FullName, "ILMerge.exe")),
+				_DSCoreDll:=				New IO.FileInfo(IO.Path.Combine(DocScript.CompilerExtentions.UsefulMethods.GetExecutingAssemblyDirectory().FullName, "DSCore.dll")),
+				_IcoFile_ForExe:=			Nothing,
+				_DeleteIntermediateFiles:=	True
 			)
 
 			DocScript.CompilerExtentions.UsefulMethods.ConsoleErrorWriteLineInColour("DSCompile: Successfully compiled " & (New IO.FileInfo(_CLAs.ElementAt(0))).FullName, ConsoleColor.Green)

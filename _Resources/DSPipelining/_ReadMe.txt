@@ -1,6 +1,7 @@
 DocScript Pipelining
 --------------------
-	A set of modules allowing the user to see each stage in the interpretation process.
+	A set of modules allowing each interpretation stage to be performed separately, and linked to other stages in a pipeline.
+	
 	Example usage: GetText Hello.DS | DSParse | DSLex | DSExec
 	Example usage: GetText Hello.DS | DSParse | DSLex | DSCompile Hello.exe
 	Example usage: GetText ITakeCLAs.DS | DSParse | DSLex | DSExec CLA0 CLA1
@@ -27,13 +28,15 @@ DS-Pipelining Notes:
 	-
 	- E.g. To see the Lexer Output, just run: GetText Hello.DS | DSParse | DSLex
 	-
-	- You could use "GetText Hello.DS | DSParse | DSLex > LexOut.XML"...
+	- E.g. You could use "GetText Hello.DS | DSParse | DSLex > LexOut.XML"...
 		...to save the Lexer Output to a File, change it, and then execute it using...
 		..."DSExec < LexOut.XML"
 	-
 	- Press [Ctrl + Z], [Enter] on the Console, to indicate the end of StdIn
 	-
 	- DSExec's Command-line Arguments become the CLAs of the DocScript Program
+	-
+	- See the DS*.VB file for each Pipelining Module, for more module-specific details
 
 
 

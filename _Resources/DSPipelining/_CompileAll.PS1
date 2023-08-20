@@ -12,4 +12,5 @@ ForEach ($DSPipelineBinary In $DSPipelineBinaries) {
 	& "$($VBCPath)" "$($DSPipelineBinary).VB" /out:".\Binaries\$($DSPipelineBinary).exe" /target:exe /reference:".\Binaries\DSCore.dll" /nologo
 }
 
+Write-Host "All Pipelining Modules compiled";
 #Read-Host "Press Enter to continue...";

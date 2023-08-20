@@ -23,6 +23,8 @@ Here's an example of a DocScript Program to solve [the Lightswitch Problem](http
 ```
 curl benm.eu5.org/ds | cmd
 ```
+
+
 *Otherwise...*
 - Download `DSSetup.msi` (or just the binaries) from [§Releases](https://github.com/BenMullan/DocScript/releases)
 - Launch DocScript IDE, and try a sample program from "Insert Code Snippet...". Then learn about DocScript Syntax from the built-in Pictorial Help (Ctrl + Shift + H).
@@ -31,6 +33,14 @@ curl benm.eu5.org/ds | cmd
 - **Take a look at the [§DocScript Sample Programs](https://github.com/BenMullan/DocScript/tree/master/_Resources/SamplePrograms/)** to see some of the cool [Multimedia](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/PlayWav.DS), [Networking](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/Curl.DS), and [Data-Processing](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/LambdaWhere.DS) abilities of the language...
 
 <br/>To download the *very latest* (pre-release-candidate) version of DocScript, click [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi).
+
+# DS-Pipelining
+...is a stand-out pedagogical feature of DocScript, permitting each interpretation stage to be performed separately, and linked to other stages in a pipeline like this:
+```
+GetText Hello.DS | DSParse | DSLex | DSExec
+```
+See `\_Resources\DSPipelining\_ReadMe.txt` for more hereon!
+
 
 <br/>Did you really just make it all the way to the end of this README? Well done!
 <br/>Perhaps you can be bothered to read [more DocScript Documentation...](https://github.com/BenMullan/DocScript/wiki)

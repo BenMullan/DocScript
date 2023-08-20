@@ -1,0 +1,32 @@
+﻿#GetCLAValueFromKey.DS - Get the Value for an Input()'ed Key (case-sensitive!)
+#Ben Mullan (c) 2023
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#E.g. CLA Input looks like:		/Name Ben /Age 13
+	#E.g. Input to this program:	Name
+		
+	<String> _Key : Input("Sought Argument's Key:")
+	<String> _Value : GetCLAValueFromKey(_CLAs, _Key)
+	
+	Output("Value: " & _Value)
+	
+	Return 0
+EndFunction
+
+Function <String> GetCLAValueFromKey(<String@> _CLAs, <String> _Key)
+
+	<Number> _CurrentCLAIndex : 0
+	
+	While ( Maths_LessThan(_CurrentCLAIndex, DS_StringArray_Length(_CLAs)) )
+		
+		If ( DS_StringArray_At(_CLAs, _CurrentCLAIndex) = ["/" & _Key] )
+			Return DS_StringArray_At(_CLAs, _CurrentCLAIndex + 1)
+		EndIf
+		
+		_CurrentCLAIndex : [_CurrentCLAIndex + 1]
+	EndWhile
+	
+	Return "No Value found for Key [" & _Key & "]"
+	
+EndFunction
