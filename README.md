@@ -42,7 +42,7 @@ GetText Hello.DS | DSParse | DSLex | DSExec
 The 7 Pipelining Modules include `GetText.exe`, `DSParse.exe`, `DSLex.exe`, `DSOptimise.exe`, `DSProgXMLToSource.exe`, `DSExec.exe`, and `DSCompile.exe`. Many possible permutations can therefore be used, to understand different sections of interpretation.
 
 For instance, to view the Tokens produced from the source code in `Hello.DS`, you could use...
-<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSPipelining_Tokens.png?raw=true" height="100%" width="100%" /><br/>
+<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSPipelining_Tokens.png?raw=true" height="90%" width="90%" /><br/>
 
 Alternatively, to optimise [the `HighlyOptimisable.DS` sample program](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/HighlyOptimisable.DS) and save it as `HighlyOptimised.DS`, you could use...
 ```
