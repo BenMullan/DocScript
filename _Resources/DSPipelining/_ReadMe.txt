@@ -7,22 +7,24 @@ DocScript Pipelining
 	Example usage: GetText ITakeCLAs.DS | DSParse | DSLex | DSExec CLA0 CLA1
 	Example usage: GetText Unoptimised.DSProgramXML | DSOptimise | DSCompile Optimised.exe
 
-╒════════════════╤═══════════════════════════════════════════════════════════════╕ 
-│ Module         │ Description                                                   │▒
-╞════════════════╪═══════════════════════════════════════════════════════════════╡▒
-│ GetText.exe    │ Outputs CLA[0] as Text; more reliable than the "TYPE" command │▒
-├────────────────┼───────────────────────────────────────────────────────────────┤▒
-│ DSParse.exe    │ Parses the piped source, outputting XML Tokens                │▒
-├────────────────┼───────────────────────────────────────────────────────────────┤▒
-│ DSLex.exe      │ Constructs a Program from piped Tokens, output in XML         │▒
-├────────────────┼───────────────────────────────────────────────────────────────┤▒
-│ DSOptimise.exe │ Performs DS Runtime Optimisation on the Program               │▒
-├────────────────┼───────────────────────────────────────────────────────────────┤▒
-│ DSExec.exe     │ Executes the Program from piped Program Tree XML              │▒
-├────────────────┼───────────────────────────────────────────────────────────────┤▒
-│ DSCompile.exe  │ Compiles the Program from piped Program Tree XML, to an EXE   │▒
-└────────────────┴───────────────────────────────────────────────────────────────┘▒
- ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+╒═════════════════════════╤═══════════════════════════════════════════════════════════════╕ 
+│ Module                  │ Description                                                   │▒
+╞═════════════════════════╪═══════════════════════════════════════════════════════════════╡▒
+│ GetText.exe             │ Outputs CLA[0] as Text; more reliable than the "TYPE" command │▒
+├─────────────────────────┼───────────────────────────────────────────────────────────────┤▒
+│ DSParse.exe             │ Parses the piped source, outputting XML Tokens                │▒
+├─────────────────────────┼───────────────────────────────────────────────────────────────┤▒
+│ DSLex.exe               │ Constructs a Program from piped Tokens, output in XML         │▒
+├─────────────────────────┼───────────────────────────────────────────────────────────────┤▒
+│ DSOptimise.exe          │ Performs DS Runtime Optimisation on the Program               │▒
+├─────────────────────────┼───────────────────────────────────────────────────────────────┤▒
+│ DSProgXMLToSource.exe   │ Reconstructs DocScript source from piped Program Tree XML     │▒
+├─────────────────────────┼───────────────────────────────────────────────────────────────┤▒
+│ DSExec.exe              │ Executes the Program from piped Program Tree XML              │▒
+├─────────────────────────┼───────────────────────────────────────────────────────────────┤▒
+│ DSCompile.exe           │ Compiles the Program from piped Program Tree XML, to an EXE   │▒
+└─────────────────────────┴───────────────────────────────────────────────────────────────┘▒
+ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 DS-Pipelining Notes:
 	-

@@ -1,0 +1,21 @@
+﻿#HighlyOptimisable.DS - Demonstrates DocScript Runtime Optimisation
+#Ben Mullan (c) 2023
+
+Function <Number> Main (<String@> _CLAs)
+	
+	<Number> _Age : 14 * 5 + 6
+	
+	Loop (3 + 2 - 1)
+		<Number> _Twenty : 5 * 2 * 2
+		_Age : _Twenty + _Age * 8
+	EndLoop
+	
+	Output(_Age)
+	
+	Return 0
+	Output("Unreachable")
+	If (System_GetUsername() = "BEN")
+		Output("HIBEN!")
+	EndIf
+	
+EndFunction

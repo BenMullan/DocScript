@@ -39,7 +39,15 @@ curl benm.eu5.org/ds | cmd
 ```
 GetText Hello.DS | DSParse | DSLex | DSExec
 ```
-See `\_Resources\DSPipelining\_ReadMe.txt` for more hereon!
+The 7 Pipelining Modules include `GetText.exe`, `DSParse.exe`, `DSLex.exe`, `DSOptimise.exe`, `DSProgXMLToSource.exe`, `DSExec.exe`, and `DSCompile.exe`. Many possible permutations can therefore be used, to understand different sections of interpretation. For instance, to view the Tokens produced from the source code in `Hello.DS`, you could use...
+<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSPipelining_Tokens.png?raw=true" height="50%" width="50%" /><br/>
+
+Alternatively, to optimise [the `HighlyOptimisable.DS` sample program](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/HighlyOptimisable.DS) and save it as `HighlyOptimised.DS`, you could use...
+```
+GetText HighlyOptimisable.DS | DSParse | DSLex | DSOptimise | DSProgXMLToSource > HighlyOptimised.DS
+```
+
+See `\_Resources\DSPipelining\`!
 
 
 <br/>Did you really just make it all the way to the end of this README? Well done!
