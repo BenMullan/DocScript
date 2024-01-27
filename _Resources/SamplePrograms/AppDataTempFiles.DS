@@ -1,0 +1,71 @@
+﻿#AppDataTempFiles.DS - Finds empty .tmp files
+
+Function <Number> Main (<String@> _CLAs)
+	
+	#Output differently depending on if this is running in the CLI (not completely robust)
+	<Boolean> _IsCLIProcess : DS_String_Contains(System_RunAndGetOutput("C:\Windows\System32\TaskList.exe", ""), "DSCLI.exe")
+	
+	<String>	_SearchDir	: "C:\Users\Ben.MNDell\AppData\Local\Temp\"
+	<String@>	_AllFiles	: File_GetDirectoryContents(_SearchDir)
+	<String@>	_EmptyTMPFiles
+	<String@>	_UnreadableTMPFiles
+	
+	<Number> _CurrentIndex : 0
+	While ( Maths_LessThan(_CurrentIndex, DS_StringArray_Length(_AllFiles)) )
+		
+		<String> _CurrentFile : _SearchDir & DS_StringArray_At(_AllFiles, _CurrentIndex)
+		
+		#If it's a .tmp file, and that file is empty, then add it to _EmptyTMPFiles
+		If ( DS_String_EndsWith(_CurrentFile, ".tmp") )
+			
+			#Attempt to get the file's Text
+			<String> _FileContents : "UNSET"
+			DS_InterpretTry("_FileContents : File_ReadText(_CurrentFile)")	
+			
+			If ( _FileContents = "UNSET" )
+				_UnreadableTMPFiles : DS_StringArray_Append(_UnreadableTMPFiles, _CurrentFile)
+				If ( _IsCLIProcess )
+					OutputError("Couldn't read: " & _CurrentFile)
+				EndIf
+			EndIf
+			
+			#Add to list if empty
+			If ( _FileContents = "" )
+				_EmptyTMPFiles : DS_StringArray_Append(_EmptyTMPFiles, _CurrentFile)
+				If ( _IsCLIProcess )
+					Output("Read: " & _CurrentFile)
+				EndIf
+			EndIf
+			
+		EndIf
+						
+		_CurrentIndex : _CurrentIndex + 1
+	EndWhile
+	
+	#GUI output (all at end, instead of as-you-go)
+	If ( ¬ _IsCLIProcess )
+		Output("Empty Temp Files: " & _EmptyTMPFiles)
+		Output("Unreadable Files: " & _UnreadableTMPFiles)
+	EndIf
+	
+	#Delete files if instructed
+	If ( Input("Delete all empty *.tmp files? [y/n]") = "y" )
+		
+		<Number> _CurrentDelIndex : 0
+		While ( Maths_LessThan(_CurrentDelIndex, DS_StringArray_Length(_EmptyTMPFiles)) )
+			
+			If ( _IsCLIProcess )
+				Output("Deleting: " & DS_StringArray_At(_EmptyTMPFiles, _CurrentDelIndex))
+			EndIf
+			
+			If ( ¬ DS_InterpretTry("File_Delete(DS_StringArray_At(_EmptyTMPFiles, _CurrentDelIndex))") )
+				OutputError("Could not delete: " & DS_StringArray_At(_EmptyTMPFiles, _CurrentDelIndex))
+			EndIf
+						
+			_CurrentDelIndex : _CurrentDelIndex + 1
+		EndWhile
+		
+	EndIf
+	
+	Return 0
+EndFunction

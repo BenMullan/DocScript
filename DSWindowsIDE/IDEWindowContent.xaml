@@ -223,8 +223,11 @@
 		</Ribbon>
 
 		<!-- The Source TextBox -->
-		<avalonEdit:TextEditor xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" Grid.Row="1"
-			Name="SourceTextEditor" FontFamily="Consolas" FontSize="10pt" ShowLineNumbers="True" SnapsToDevicePixels="True">
+		<avalonEdit:TextEditor
+			xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" Grid.Row="1"
+			Name="SourceTextEditor" FontFamily="Consolas" FontSize="10pt" ShowLineNumbers="True"
+			SnapsToDevicePixels="True"
+		>
 
 			<avalonEdit:TextEditor.LayoutTransform>
 				<TransformGroup>

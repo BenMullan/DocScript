@@ -62,7 +62,7 @@ Public Module DSIBuiltInFunctions
 
 #End Region
 
-	''' <summary>DocScript Interactive BIFs - accessible via calling DSI_Name()</summary>
+	''' <summary>DocScript Interactive BIFs - accessible via calling DSI_{BIFName}() in the DocScript DSI Program Source.</summary>
 	Public ReadOnly Property [All_DSI_BuiltInFunctions](ByVal _ESID$) As DocScript.Runtime.BuiltInFunction()
 		Get
 			Return {

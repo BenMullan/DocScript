@@ -5,8 +5,10 @@ Function <Number> Main (<String@> _CLAs)
 	<Number> _CurrentIteration : 1
 	
 	While ( Maths_LessThan(_CurrentIteration, _IterationsToPerform + 1) )
+		
 		Output("This is Iteration " & _CurrentIteration & " of " & _IterationsToPerform)
 		DS_Sleep(1000)
+		
 		_CurrentIteration : _CurrentIteration + 1
 	EndWhile
 	

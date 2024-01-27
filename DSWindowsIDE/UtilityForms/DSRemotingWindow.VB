@@ -209,7 +209,7 @@
 			 Then Throw New Exception("The Computer, Username, and Password data must all be specified, under [Target].")
 
 			REM Show the RFE
-			Dim _NewRFEWindowThread As New System.Threading.Thread(Sub() Call (New RemoteFileExplorerWindow("\\" & Me.TargetComputer_TextBox.Text & "\C$\", Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text)).ShowDialog())
+			Dim _NewRFEWindowThread As New System.Threading.Thread(Sub() Call (New RemoteFileExplorerWindow("\\" & Me.TargetComputer_TextBox.Text & "\C$\", Me.TargetUsername_TextBox.Text, Me.TargetPassword_TextBox.Text)).ShowDialog()) '!Cannot be AddressOf! This causes cross-thread access violation errors!
 			_NewRFEWindowThread.SetApartmentState(System.Threading.ApartmentState.STA)
 			_NewRFEWindowThread.Start()
 
@@ -308,6 +308,7 @@
 			Dim _TargetFile As IO.FileInfo = UsefulMethods.RequestFilePath_WithOpenFileDialog("Open Connection Settings...", {New Tuple(Of [String], [String])("DSRemoting Connection Settings", DSRemotingSession_FileExtention)})
 			If _TargetFile IsNot Nothing Then Me.LoadConnectionSettingsFromSerialisationThereof(XElement.Parse(_TargetFile.FullName.ReadTextFromThisFile()))
 			Me.Text = _TargetFile.Name
+			Me.TheTabControl.SelectTab(index:=0)
 
 		Catch _Ex As Exception
 			MsgBox("The Connection Settings could not be opened because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.MsgBoxSetForeground)
@@ -333,6 +334,7 @@
 				Me.ChangeLayoutTo_AdvancedMode()
 				Me.LoadConnectionSettingsFromSerialisationThereof(XElement.Parse(_Files.First().ReadTextFromThisFile()))
 				Me.Text = (New IO.FileInfo(_Files.First())).Name
+				Me.TheTabControl.SelectTab(index:=0)
 			End If
 
 		Catch _Ex As Exception : MsgBox("The Connection Settings could not be opened via Drag-and-Drop because " & _Ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.MsgBoxSetForeground)

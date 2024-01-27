@@ -1,4 +1,6 @@
-﻿Namespace Utilities
+﻿REM The MullNetUtilities version of SQLQueryRunner has now superceeded this.
+
+Namespace Utilities
 
 	''' <summary>Runs a Query on an SQL Server, returning the DataTable resulting from the Query</summary>
 	Public Class SQLQueryRunner

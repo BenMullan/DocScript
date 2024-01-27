@@ -46,7 +46,7 @@
 			WebParts.DatabaseInteraction.SetExecutionSessionState_Finished(
 			 _ESID:=_ESID,
 			 _ExitReason:=String.Join(" "c, WebParts.DBContent.ES_ExitReasonFlag_ExitedNormally, WebParts.DBContent.ES_ExitReasonFlag_DSExitCodeEquals & _Program_ExitCode.ToString())
-			 )
+			)
 
 			UsefulMethods.ConsoleWriteLineInColour("...Finished Execution for " & _ESID & "; exiting with ExitCode 0.", ConsoleColor.Green)
 			Environment.Exit(exitCode:=0)

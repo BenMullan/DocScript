@@ -1,6 +1,7 @@
 ﻿<!--
 	NOTE:
 	The actual content for the DSIDE MainWindow lies in the [IDEWindowContent.*] files.
+	This enables the IDE Window to be embedded onto other frames.
 -->
 	
 <Window
