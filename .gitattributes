@@ -1,7 +1,0 @@
-# .gitattributes
-# The moronic creater of this file format perpended the name with a dot (.), so it isn't seen correctly by Visual Studio.
-
-###############################################################################
-# Never touch my CrLf line endings, git. NEVER!
-###############################################################################
-#* text=false

@@ -45,10 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc.", "Misc.", "{349A1308
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocumentationFiles", "DocumentationFiles", "{B627F71C-6AEF-493B-BA2C-862743D9E316}"
 	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		_Resources\Documentation\ConventionsAndNotes.txt = _Resources\Documentation\ConventionsAndNotes.txt
-		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
