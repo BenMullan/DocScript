@@ -53,7 +53,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>DocScript.ICO</ApplicationIcon>
+    <ApplicationIcon>Resources\DocScript.ICO</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -106,10 +106,10 @@
     </Compile>
     <Compile Include="MiscSource\DSE.OOPExperiments.VB" />
     <Compile Include="MiscSource\DSECompilerExtentions.VB" />
-    <Compile Include="DSEFormChooser.Designer.VB">
+    <Compile Include="Forms\DSEFormChooser.Designer.VB">
       <DependentUpon>DSEFormChooser.VB</DependentUpon>
     </Compile>
-    <Compile Include="DSEFormChooser.VB">
+    <Compile Include="Forms\DSEFormChooser.VB">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MiscSource\DSEUtilities.VB" />
@@ -171,7 +171,7 @@
     <EmbeddedResource Include="Forms\BIFExperiments.resx">
       <DependentUpon>BIFExperiments.VB</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DSEFormChooser.resx">
+    <EmbeddedResource Include="Forms\DSEFormChooser.resx">
       <DependentUpon>DSEFormChooser.VB</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ExpressionExperiments.resx">
@@ -215,8 +215,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Control.ICO" />
-    <Content Include="DocScript.ICO" />
+    <Content Include="Resources\Control.ICO" />
+    <Content Include="Resources\DocScript.ICO" />
     <Content Include="MiscSource\DSSamplePrograms.XML" />
     <Content Include="_ReadMe.txt" />
     <None Include="Resources\31082022_Example_ExprTree.png" />

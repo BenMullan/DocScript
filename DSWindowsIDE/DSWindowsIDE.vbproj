@@ -67,7 +67,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>DSIDE.ICO</ApplicationIcon>
+    <ApplicationIcon>Images\DSIDE.ICO</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -296,7 +296,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="DSIDESplashScreen.png" />
+    <SplashScreen Include="Images\DSIDESplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Run.PNG" />
@@ -363,7 +363,7 @@
     <Resource Include="Images\UndoFullScreen.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DSIDE.ICO" />
+    <Resource Include="Images\DSIDE.ICO" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Write.PNG" />

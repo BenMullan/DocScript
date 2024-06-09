@@ -18,6 +18,10 @@ Application Entry Point.
 	<summary>
 Application
 </summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
 </member><member name="M:DocScript.WindowsIDE.MainWindow.InitializeComponent">
 	<summary>
 InitializeComponent
@@ -26,50 +30,38 @@ InitializeComponent
 	<summary>
 MainWindow
 </summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.InitializeComponent">
+</member><member name="M:DocScript.WindowsIDE.EnterCredentialsDialog.Show_AndGetCredentials">
+	<summary>Item1 = Username; Item2 = Password</summary>
+</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Application">
 	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:DocScript.WindowsIDE.IDEWindowContent">
-	<summary>
-IDEWindowContent
-</summary>
-</member><member name="F:DocScript.WindowsIDE.IDEWindowContent.ParentWPFWindow">
-	<summary>A possibly-Nothing pointer the MainWindow that this current IDEWindowContent is being hosted in. This is not taken-in as a Constructor Argument, because WPF components seem to need zero-parameter Constructors, in order to be usable in XAML.</summary>
-</member><member name="P:DocScript.WindowsIDE.IDEWindowContent.CurrentExecutionContext">
-	<summary>Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised).</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.#ctor">
-	<summary>Initialises the IDE-Content-Pane. DON'T FORGET TO ASSIGN TO [ParentWPFWindow] IF POSSIBLE.</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.ConfigureInstance_FromCLAs_">
-	<summary>WPF substitute for a "Me.Shown" Handler...</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.HandleShortcutKey_(System.Object,System.Windows.Input.KeyEventArgs)">
-	<summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.StartBackgroundWorker(System.String,System.Action)">
-	<summary>
- Starts the Task, then Returns. When finished, the UI is reset to the Idle state.
- Exceptions hence ↓ are MsgBoxed out
+ Returns the application object for the running application
  </summary>
-	<param name="_TaskStatusDescription">A present-progressive-tense verb, e.g. "Compiling". Appears in the Status Strip</param>
-	<param name="_Action">This MUST NOT Access UI Components without Me.InvokeIfRequired()</param>
-	<remarks>v3</remarks>
-</member><member name="P:DocScript.WindowsIDE.IDEWindowContent.CurrentSource_IsSaved">
-	<summary>Automatically adjusts the Window Title</summary>
-</member><member name="F:DocScript.WindowsIDE.IDEWindowContent.OnClosingAction_Passthrough">
-	<summary>Enables pressing Alt + F4 on the ParentWPFWindow to display a do-you-want-to-save-before-closing MsgBox.</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.RunCurrentSource">
-	<summary>Calls the ParseCurrentSource(), LexCachedTokens(), and ExecuteCachedProgram() Methods</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.ParseCurrentSource">
-	<summary>Sets the Me.Cached_Tokens Member, and Applies SyntaxHighlighting</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.LexCachedTokens">
-	<summary>Sets the Me.Cached_Program Member</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.ExecuteCachedProgram">
-	<summary>Sets the Me.Cached_ProgramExeRes Member</summary>
-</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.UpdateInterpretationButtonsState_(DocScript.WindowsIDE.IDEWindowContent.InterpretationStage_)">
+</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Computer">
 	<summary>
- Enables the buttons up-to-and-including _FurthestDownInterpretationButtonToBeEnabled, and sets all buttons BEFORE _FurthestDownInterpretationButtonToBeEnabled to the GREEN Gradient Background Colour.
- Handles the Program Analysis Buttons corrosponding too.
- DOES NOT Manage which Interpretation-Cache-Objects should be set to [Nothing]. (This functionality was removed as it was causing major bugs.)
+ Returns information about the host computer.
  </summary>
+</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.User">
+	<summary>
+ Returns information for the current user.  If you wish to run the application with the current 
+ Windows user credentials, call My.User.InitializeWithWindowsUser().
+ </summary>
+</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Log">
+	<summary>
+ Returns the application log. The listeners can be configured by the application's configuration file.
+ </summary>
+</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Windows">
+	<summary>
+ Returns the collection of Windows defined in the project.
+ </summary>
+</member><member name="T:DocScript.WindowsIDE.My.MyWpfExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for WPF
+ </summary>
+	<remarks></remarks>
+</member><member name="M:DocScript.WindowsIDE.DSRemotingWindow.ExecuteDSRemotingOperation">
+	<summary>The main DS-Remoting [junction-box]-type Method.</summary>
+</member><member name="M:DocScript.WindowsIDE.DSIntelliSenseEntry.Complete(ICSharpCode.AvalonEdit.Editing.TextArea,ICSharpCode.AvalonEdit.Document.ISegment,System.EventArgs)">
+	<summary>Inserts the AutoComplete text into the Source-Code-Editor</summary>
 </member><member name="P:DocScript.WindowsIDE.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
@@ -195,42 +187,49 @@ IDEWindowContent
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
-</member><member name="M:DocScript.WindowsIDE.DSIntelliSenseEntry.Complete(ICSharpCode.AvalonEdit.Editing.TextArea,ICSharpCode.AvalonEdit.Document.ISegment,System.EventArgs)">
-	<summary>Inserts the AutoComplete text into the Source-Code-Editor</summary>
-</member><member name="M:DocScript.WindowsIDE.DSRemotingWindow.ExecuteDSRemotingOperation">
-	<summary>The main DS-Remoting [junction-box]-type Method.</summary>
-</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Application">
-	<summary>
- Returns the application object for the running application
- </summary>
-</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Computer">
-	<summary>
- Returns information about the host computer.
- </summary>
-</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.User">
-	<summary>
- Returns information for the current user.  If you wish to run the application with the current 
- Windows user credentials, call My.User.InitializeWithWindowsUser().
- </summary>
-</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Log">
-	<summary>
- Returns the application log. The listeners can be configured by the application's configuration file.
- </summary>
-</member><member name="P:DocScript.WindowsIDE.My.MyWpfExtension.Windows">
-	<summary>
- Returns the collection of Windows defined in the project.
- </summary>
-</member><member name="T:DocScript.WindowsIDE.My.MyWpfExtension">
-	<summary>
- Module used to define the properties that are available in the My Namespace for WPF
- </summary>
-	<remarks></remarks>
 </member><member name="M:DocScript.WindowsIDE.MainWindow.#ctor">
 	<summary>Initialises the Window, making the hosted IDE-Content-Pane point back to this MainWindow</summary>
 </member><member name="M:DocScript.WindowsIDE.MainWindow.OnClosing(System.ComponentModel.CancelEventArgs)">
 	<summary>Passthrough for Alt + F4 or the [x] button</summary>
-</member><member name="M:DocScript.WindowsIDE.EnterCredentialsDialog.Show_AndGetCredentials">
-	<summary>Item1 = Username; Item2 = Password</summary>
+</member><member name="F:DocScript.WindowsIDE.IDEWindowContent.ParentWPFWindow">
+	<summary>A possibly-Nothing pointer the MainWindow that this current IDEWindowContent is being hosted in. This is not taken-in as a Constructor Argument, because WPF components seem to need zero-parameter Constructors, in order to be usable in XAML.</summary>
+</member><member name="P:DocScript.WindowsIDE.IDEWindowContent.CurrentExecutionContext">
+	<summary>Initialised in the Constructor, because with an inline initialisation, ExeCxt.GUIDefault attempt to Log a message, and can't (because the CurrentLogEventHandler isn't yet initialised).</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.#ctor">
+	<summary>Initialises the IDE-Content-Pane. DON'T FORGET TO ASSIGN TO [ParentWPFWindow] IF POSSIBLE.</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.ConfigureInstance_FromCLAs_">
+	<summary>WPF substitute for a "Me.Shown" Handler...</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.HandleShortcutKey_(System.Object,System.Windows.Input.KeyEventArgs)">
+	<summary>The centralised mapping of Shortcut-Keys to Handlers-thereof</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.StartBackgroundWorker(System.String,System.Action)">
+	<summary>
+ Starts the Task, then Returns. When finished, the UI is reset to the Idle state.
+ Exceptions hence ↓ are MsgBoxed out
+ </summary>
+	<param name="_TaskStatusDescription">A present-progressive-tense verb, e.g. "Compiling". Appears in the Status Strip</param>
+	<param name="_Action">This MUST NOT Access UI Components without Me.InvokeIfRequired()</param>
+	<remarks>v3</remarks>
+</member><member name="P:DocScript.WindowsIDE.IDEWindowContent.CurrentSource_IsSaved">
+	<summary>Automatically adjusts the Window Title</summary>
+</member><member name="F:DocScript.WindowsIDE.IDEWindowContent.OnClosingAction_Passthrough">
+	<summary>Enables pressing Alt + F4 on the ParentWPFWindow to display a do-you-want-to-save-before-closing MsgBox.</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.RunCurrentSource">
+	<summary>Calls the ParseCurrentSource(), LexCachedTokens(), and ExecuteCachedProgram() Methods</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.ParseCurrentSource">
+	<summary>Sets the Me.Cached_Tokens Member, and Applies SyntaxHighlighting</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.LexCachedTokens">
+	<summary>Sets the Me.Cached_Program Member</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.ExecuteCachedProgram">
+	<summary>Sets the Me.Cached_ProgramExeRes Member</summary>
+</member><member name="M:DocScript.WindowsIDE.IDEWindowContent.UpdateInterpretationButtonsState_(DocScript.WindowsIDE.IDEWindowContent.InterpretationStage_)">
+	<summary>
+ Enables the buttons up-to-and-including _FurthestDownInterpretationButtonToBeEnabled, and sets all buttons BEFORE _FurthestDownInterpretationButtonToBeEnabled to the GREEN Gradient Background Colour.
+ Handles the Program Analysis Buttons corrosponding too.
+ DOES NOT Manage which Interpretation-Cache-Objects should be set to [Nothing]. (This functionality was removed as it was causing major bugs.)
+ </summary>
+</member><member name="T:DocScript.WindowsIDE.IDEWindowContent">
+	<summary>The actual DSIDE controls (Ribbon, TextEditor, etc), hosted in MainWindow, and also used in the DS-File-Explorer-Preview-Handler</summary>
+	<remarks>The Properties and Feilds are not declared at the top of this Class File. Rather, they are close to where they are used, inside [#Region]s.</remarks>
 </member>
 </members>
 </doc>

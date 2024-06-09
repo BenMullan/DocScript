@@ -6,13 +6,111 @@ DocScript.WebParts
 </name>
 </assembly>
 <members>
-<member name="M:DocScript.WebParts.ExecutionSessionMethods.AwaitSessionInitiation(System.Web.HttpRequest@,System.Web.HttpResponse@)">
+<member name="P:DocScript.My.MyWebExtension.Application">
+	<summary>
+ Returns information about the current application.
+ </summary>
+</member><member name="P:DocScript.My.MyWebExtension.Computer">
+	<summary>
+ Returns information about the host computer.
+ </summary>
+</member><member name="P:DocScript.My.MyWebExtension.User">
+	<summary>
+ Returns information for the current Web user.
+ </summary>
+</member><member name="P:DocScript.My.MyWebExtension.Request">
+	<summary>
+ Returns Request object.
+ </summary>
+</member><member name="P:DocScript.My.MyWebExtension.Response">
+	<summary>
+ Returns Response object.
+ </summary>
+</member><member name="P:DocScript.My.MyWebExtension.Log">
+	<summary>
+ Returns the Asp log object.
+ </summary>
+</member><member name="P:DocScript.My.MyWebExtension.WebServices">
+	<summary>
+ Provides access to WebServices added to this project.
+ </summary>
+</member><member name="T:DocScript.My.MyWebExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for Web projects.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:DocScript.WebParts.APIResponse.FromInternalServerError(System.String)">
+	<summary>
+ Constructs an APIResponse Object to indicate that an unhandled Exception occured on the Server.
+ HTTP Status Code: 500
+ </summary>
+	<param name="_ErrorMsg">The DAR Error Message explaining why the Internal Server Error may have occured</param>
+</member><member name="M:DocScript.WebParts.APIResponse.FromInvalidRequest(System.String)">
+	<summary>
+ Constructs an APIResponse Object to indicate that the Client's Request was syntactically-invalid, or did not include all nessecary QueryStrings or PostData.
+ HTTP Status Code: 400
+ </summary>
+	<param name="_ErrorMsg">The DAR Error Message explaining why the Client's Request is invalid</param>
+</member><member name="M:DocScript.WebParts.APIResponse.FromValidRequest">
+	<summary>
+ Constructs an APIResponse Object with no ResponseContent, indicating that the request was processed successfully.
+ HTTP Status Code: 200
+ </summary>
+</member><member name="M:DocScript.WebParts.APIResponse.FromValidRequest(System.String[][])">
+	<summary>
+ Constructs an APIResponse Object with the specified KeyValuePairs.
+ HTTP Status Code: 200
+ </summary>
+	<param name="_ResponseContent_KVPs">The XML Attributes of the ResponseContent Node</param>
+</member><member name="M:DocScript.WebParts.APIResponse.FromValidRequest(System.String[][],System.Xml.Linq.XElement[])">
+	<summary>
+ Constructs an APIResponse Object with the specified KeyValuePairs and XMLChildren.
+ HTTP Status Code: 200
+ </summary>
+	<param name="_ResponseContent_KVPs">The XML Attributes of the ResponseContent Node</param>
+	<param name="_ResponseContent_XMLChildren">The XML Children of the ResponseContent Node</param>
+</member><member name="M:DocScript.WebParts.APIResponse.FromLongPollingTimeout">
+	<summary>
+ Constructs an APIResponse Object to indicate that the response is only being sent because an AJAX-LongPolling Request Timed out.
+ HTTP Status Code: 200
+ </summary>
+</member><member name="M:DocScript.WebParts.APIResponse.Send(System.Web.HttpResponse@)">
+	<summary>Clears the Response, then writes the APIResponse to the _HTTPResponseStream after setting the HTTP Status Code and MIME Type. The Response is then Ended.</summary>
+</member><member name="M:DocScript.WebParts.APIResponse.ToString">
+	<summary>
+ Returns the XML for this APIResponse as a String, E.g. ready for it to be written to a HTTP Response Stream.
+ Do not use this method to send the APIResponse; use .Send() instead!
+ </summary>
+</member><member name="T:DocScript.WebParts.APIResponse">
+	<summary>Respresents a DocScript API Response. Can be serialised to XML to be sent off to the Client.</summary>
+</member><member name="M:DocScript.WebParts.ExecutionSessionMethods.AwaitSessionInitiation(System.Web.HttpRequest@,System.Web.HttpResponse@)">
 	<summary>Waits for a maximum of 120 seconds for the ExeSes to start, otherwise Responds with a LongPollingTimeout.
  Response when the ExeSes's "State" is [Running] OR [Finished].</summary>
 </member><member name="M:DocScript.WebParts.ExecutionSessionMethods.ListenForESEvents(System.Web.HttpRequest@,System.Web.HttpResponse@)">
 	<summary>Waits for a maximum of 120 seconds for an ES-Event to befall, otherwise Responds with a LongPollingTimeout</summary>
 </member><member name="M:DocScript.WebParts.ExecutionSessionMethods.ListenForInputInterrupts(System.Web.HttpRequest@,System.Web.HttpResponse@)">
 	<summary>Waits for a maximum of 120 seconds for an InputResponse to be provided, otherwise Responds with a LongPollingTimeout</summary>
+</member><member name="M:DocScript.CompilerExtentions.HTTPObjectExtentions.GetScriptAndCSSImports(System.Web.HttpResponse@)">
+	<summary>
+ (MullNet CompilerExtention) Writes the opening html, head (etc...) elements, importing the required scripts too.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:DocScript.CompilerExtentions.HTTPObjectExtentions.EnsureTheseQueryStringsAreSpecified(System.Web.HttpRequest@,System.Web.HttpResponse@,System.String[])">
+	<summary>
+ (MullNet CompilerExtention) Checks that the Specified Required QueryString Keys are contained in the current Request Object, AND that they each HAVE VALUES.
+ </summary>
+	<param name="_RequestObject">(Filled in by the CompilerExtention)</param>
+	<param name="_ResponseObject">This is needed in case a QueryString is missing, in which case an APIResponse is sent back, informing the user of the missing Parameter</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.CompilerExtentions.HTTPObjectExtentions.EnsureThesePostDataKeysAreSpecified(System.Web.HttpRequest@,System.Web.HttpResponse@,System.String[])">
+	<summary>
+ (MullNet CompilerExtention) Checks that the Specified Required Post Data Keys are contained in the current Request Object, and that they HAVE VALUES.
+ </summary>
+	<param name="_RequestObject"></param>
+	<param name="_ResponseObject">This is needed in case a PostData Key is missing, in which case an APIResponse is sent back, informing the user of the missing Parameter</param>
+	<remarks></remarks>
+</member><member name="M:DocScript.WebParts.Resources.InitialiseWebExecutionEnvironment(System.String)">
+	<summary>Prepares the LogEventHandler</summary>
 </member><member name="P:DocScript.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
@@ -122,104 +220,6 @@ DocScript.WebParts
 	<summary>SQLParameters needed: @TheESID, @TheExitReason</summary>
 </member><member name="F:DocScript.WebParts.DatabaseInteraction.SQLQueries_.Update_ExecutionSessionState_Ready">
 	<summary>SQLParameters needed: @TheESID</summary>
-</member><member name="M:DocScript.WebParts.Resources.InitialiseWebExecutionEnvironment(System.String)">
-	<summary>Prepares the LogEventHandler</summary>
-</member><member name="M:DocScript.WebParts.APIResponse.FromInternalServerError(System.String)">
-	<summary>
- Constructs an APIResponse Object to indicate that an unhandled Exception occured on the Server.
- HTTP Status Code: 500
- </summary>
-	<param name="_ErrorMsg">The DAR Error Message explaining why the Internal Server Error may have occured</param>
-</member><member name="M:DocScript.WebParts.APIResponse.FromInvalidRequest(System.String)">
-	<summary>
- Constructs an APIResponse Object to indicate that the Client's Request was syntactically-invalid, or did not include all nessecary QueryStrings or PostData.
- HTTP Status Code: 400
- </summary>
-	<param name="_ErrorMsg">The DAR Error Message explaining why the Client's Request is invalid</param>
-</member><member name="M:DocScript.WebParts.APIResponse.FromValidRequest">
-	<summary>
- Constructs an APIResponse Object with no ResponseContent, indicating that the request was processed successfully.
- HTTP Status Code: 200
- </summary>
-</member><member name="M:DocScript.WebParts.APIResponse.FromValidRequest(System.String[][])">
-	<summary>
- Constructs an APIResponse Object with the specified KeyValuePairs.
- HTTP Status Code: 200
- </summary>
-	<param name="_ResponseContent_KVPs">The XML Attributes of the ResponseContent Node</param>
-</member><member name="M:DocScript.WebParts.APIResponse.FromValidRequest(System.String[][],System.Xml.Linq.XElement[])">
-	<summary>
- Constructs an APIResponse Object with the specified KeyValuePairs and XMLChildren.
- HTTP Status Code: 200
- </summary>
-	<param name="_ResponseContent_KVPs">The XML Attributes of the ResponseContent Node</param>
-	<param name="_ResponseContent_XMLChildren">The XML Children of the ResponseContent Node</param>
-</member><member name="M:DocScript.WebParts.APIResponse.FromLongPollingTimeout">
-	<summary>
- Constructs an APIResponse Object to indicate that the response is only being sent because an AJAX-LongPolling Request Timed out.
- HTTP Status Code: 200
- </summary>
-</member><member name="M:DocScript.WebParts.APIResponse.Send(System.Web.HttpResponse@)">
-	<summary>Clears the Response, then writes the APIResponse to the _HTTPResponseStream after setting the HTTP Status Code and MIME Type. The Response is then Ended.</summary>
-</member><member name="M:DocScript.WebParts.APIResponse.ToString">
-	<summary>
- Returns the XML for this APIResponse as a String, E.g. ready for it to be written to a HTTP Response Stream.
- Do not use this method to send the APIResponse; use .Send() instead!
- </summary>
-</member><member name="T:DocScript.WebParts.APIResponse">
-	<summary>Respresents a DocScript API Response. Can be serialised to XML to be sent off to the Client.</summary>
-</member><member name="P:DocScript.My.MyWebExtension.Application">
-	<summary>
- Returns information about the current application.
- </summary>
-</member><member name="P:DocScript.My.MyWebExtension.Computer">
-	<summary>
- Returns information about the host computer.
- </summary>
-</member><member name="P:DocScript.My.MyWebExtension.User">
-	<summary>
- Returns information for the current Web user.
- </summary>
-</member><member name="P:DocScript.My.MyWebExtension.Request">
-	<summary>
- Returns Request object.
- </summary>
-</member><member name="P:DocScript.My.MyWebExtension.Response">
-	<summary>
- Returns Response object.
- </summary>
-</member><member name="P:DocScript.My.MyWebExtension.Log">
-	<summary>
- Returns the Asp log object.
- </summary>
-</member><member name="P:DocScript.My.MyWebExtension.WebServices">
-	<summary>
- Provides access to WebServices added to this project.
- </summary>
-</member><member name="T:DocScript.My.MyWebExtension">
-	<summary>
- Module used to define the properties that are available in the My Namespace for Web projects.
- </summary>
-	<remarks></remarks>
-</member><member name="M:DocScript.CompilerExtentions.HTTPObjectExtentions.GetScriptAndCSSImports(System.Web.HttpResponse@)">
-	<summary>
- (MullNet CompilerExtention) Writes the opening html, head (etc...) elements, importing the required scripts too.
- </summary>
-	<remarks></remarks>
-</member><member name="M:DocScript.CompilerExtentions.HTTPObjectExtentions.EnsureTheseQueryStringsAreSpecified(System.Web.HttpRequest@,System.Web.HttpResponse@,System.String[])">
-	<summary>
- (MullNet CompilerExtention) Checks that the Specified Required QueryString Keys are contained in the current Request Object, AND that they each HAVE VALUES.
- </summary>
-	<param name="_RequestObject">(Filled in by the CompilerExtention)</param>
-	<param name="_ResponseObject">This is needed in case a QueryString is missing, in which case an APIResponse is sent back, informing the user of the missing Parameter</param>
-	<remarks></remarks>
-</member><member name="M:DocScript.CompilerExtentions.HTTPObjectExtentions.EnsureThesePostDataKeysAreSpecified(System.Web.HttpRequest@,System.Web.HttpResponse@,System.String[])">
-	<summary>
- (MullNet CompilerExtention) Checks that the Specified Required Post Data Keys are contained in the current Request Object, and that they HAVE VALUES.
- </summary>
-	<param name="_RequestObject"></param>
-	<param name="_ResponseObject">This is needed in case a PostData Key is missing, in which case an APIResponse is sent back, informing the user of the missing Parameter</param>
-	<remarks></remarks>
 </member>
 </members>
 </doc>

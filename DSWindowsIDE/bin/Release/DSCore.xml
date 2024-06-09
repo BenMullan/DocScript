@@ -6,50 +6,93 @@ DSCore
 </name>
 </assembly>
 <members>
-<member name="T:DocScript.Language.Expressions.IExpression">
-	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
-</member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
-	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
-</member><member name="T:DocScript.Language.Expressions.LBLOperatorPlaceholder">
-	<summary>The LBL Placeholder for an Operator Literal E.g. +</summary>
-</member><member name="T:DocScript.Language.Expressions.LBLBracketedExprPlaceholder">
-	<summary>The LBL Placeholder for the ChildExprs of a []-Bracketed Expr</summary>
-</member><member name="T:DocScript.Language.Expressions.LBLFunctionCallPlaceholder">
-	<summary>The LBL Placeholder for the ChildExpr of a FunctionCall</summary>
-</member><member name="T:DocScript.Language.Expressions.LBLArgumentSeperatorPlaceholder">
-	<summary>Represents a Comma (,) in a Linear Bracketed Level</summary>
-</member><member name="T:DocScript.Language.Expressions.ScannedComponentIndicator">
-	<summary>An object of this type is substituted into the LBL in CollapseToIOT_()</summary>
-</member><member name="M:DocScript.Language.Expressions.LiteralExpr`1.ToString">
-	<summary>Returns what the Expression would have looked like in the Source</summary>
-</member><member name="M:DocScript.Language.Expressions.LiteralExpr`1.GetExprTreeNodeXML">
-	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
-</member><member name="T:DocScript.Language.Expressions.LiteralExpr`1">
-	<summary>Represents a DSString, DSNumber, or DSBoolean Literal</summary>
-</member><member name="M:DocScript.Language.Expressions.VariableExpr.ToString">
-	<summary>Returns what the Expression would have looked like in the Source</summary>
-</member><member name="M:DocScript.Language.Expressions.VariableExpr.GetExprTreeNodeXML">
-	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
-</member><member name="T:DocScript.Language.Expressions.VariableExpr">
-	<summary>Represents an Expr which is the result of reading a Variable's value from a SymbolTable</summary>
-</member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.TargetFunction_Identifier">
-	<summary>The Identifier of the target DSFunction or BIF</summary>
-</member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.Arguments_">
-	<summary>The UNRESOLVED Arguments to apply to the Target Function at CallTime. SymbolTables are required to Resolve() these IExprs.</summary>
-</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.#ctor(System.String,DocScript.Language.Expressions.IExpression[])">
-	<summary>_Identifier is the Identifier of the target DSFunction or BIF</summary>
-</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.ToString">
-	<summary>Returns what the Expression would have looked like in the Source</summary>
-</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.GetExprTreeNodeXML">
-	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
-</member><member name="T:DocScript.Language.Expressions.FunctionCallExpr">
-	<summary>Holds the Arguments and Identifier of a Function, ready for this to be called during Resolve()</summary>
-</member><member name="M:DocScript.Language.Expressions.OperatorExpr.ToString">
-	<summary>Returns what the Expression would have looked like in the Source</summary>
-</member><member name="M:DocScript.Language.Expressions.OperatorExpr.GetExprTreeNodeXML">
-	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
-</member><member name="T:DocScript.Language.Expressions.OperatorExpr">
-	<summary>Holds the Operands and OperatorLiteral of a DSOperator</summary>
+<member name="F:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.NullGrapheme">
+	<summary>Used when there is no Grapheme avaliable for a specified GraphemeIndex</summary>
+</member><member name="P:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.GraphemeSet">
+	<summary>The characters used to represent the Base Number. Starting 0123456789 and then ABCDEF...</summary>
+</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.#ctor(System.String,System.Byte)">
+	<summary>The _Value must use Graphemes from the BasedNumber.Graphemes Property</summary>
+</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.ToBase(System.Byte)">
+	<summary>Returns the current BasedNumber as a New BasedNumber, converting it to the _TargetBase</summary>
+	<param name="_TargetBase">The Base for the New BasedNumber</param>
+</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.ProduceBasedNumberRepresentation_FromGraphemeCodes_(System.Int32[])">
+	<summary>E.g. takes in {0, 10, 8, 1666} and returns "A80#"</summary>
+</member><member name="P:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.AsBase10">
+	<summary>Computes the Base-10 Representation of the Number, then Parses this as an Int64, and Reutrns it.</summary>
+</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.ToString">
+	<summary>Returns a KVP-Serialised representation of the BasedNumber</summary>
+</member><member name="T:DocScript.Language.Variables.BasedNumberSupport.BasedNumber">
+	<summary>Represents a numerical magnitude with a Base and a Value, providing easy support for converting between bases (in the PlaceValue (Positional-Notation) System)</summary>
+</member><member name="T:DocScript.Language.Variables.BasedNumberSupport">
+	<summary>Implements support for Based Numbers in DocScript</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseProgram(DocScript.Runtime.Program)">
+	<summary>Returns an optimised version of _Program</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseStatementContents(DocScript.Language.Instructions.IInstruction[])">
+	<summary>
+ Applies the following optimisations:
+ 	- Removal of unreachable instructions
+ 	- (Expression-based optimisation on any Expressions contained within the _IInstructions)
+ </summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.ApplyExpressionOptimisationToStatementContents_(DocScript.Language.Instructions.IInstruction[])">
+	<summary>Recursively puts any IExpressions contained in the Instructions through OptimiseExpression()</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.RemoveUnreachableIInstructions_(DocScript.Language.Instructions.IInstruction[])">
+	<summary>Recursively optimises the Contents of an IStatement. This is not an OptimisationAction itself, but passes the IInstructions through other OptimisationActions.</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseExpression(DocScript.Language.Expressions.IExpression)">
+	<summary>
+ Applies the following optimisations:
+ 	- Constant Expression Evaluation (e.g. [5 + 4] → [9])
+ 	- Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])
+ </summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.SubstitutePowerOfTwoMultiplication_WithBitshift_(DocScript.Language.Expressions.IExpression)">
+	<summary>Converts Multiplications by powers of two into BitShifts where possible</summary>
+</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.SubstituteConstantExpr_WithEvaluationThereof_(DocScript.Language.Expressions.IExpression)">
+	<summary>Performs Compile-time Evaluation where possible</summary>
+</member><member name="T:DocScript.Runtime.Optimisation.ComponentOptimiser">
+	<summary>
+ The reason this is a Class, and not just methods in a Module, is because the PerformedOptimisationsTally is specific to the optimisation of a given Component (Expression, IInstruction, or Program).
+ If the PerformedOptimisations dictionary was just floating in the Module, then the tracking of which optimisations have occured would break in a multi-threaded scenario.
+ </summary>
+</member><member name="T:DocScript.Runtime.Optimisation">
+	<summary>Contains resources for optimising a DocScript Program to make it run more efficiently</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.DS">
+	<summary>DocScript Language Utilities</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(System.String,DocScript.Language.Expressions.IExpression[])">
+	<summary>Constructs the IInstruction from an existing instance</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(DocScript.Runtime.Token[]@)">
+	<summary>Constructs the IInstruction from its Tokens</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.CallFunctionByName(DocScript.Runtime.SymbolTablesSnapshot,System.String,DocScript.Language.Expressions.IExpression[],System.Boolean)">
+	<summary>Used by FunctionCall and FunctionCallExpr to call a BIF or DSFunction contained in the _InputSymbolTables. Arguments are passed in as UNRESOLVED Expressions.</summary>
+	<remarks>Sounds rather Win32-y, dosen't it?</remarks>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.GetProgramTreeNodeXML">
+	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+</member><member name="M:DocScript.Language.Instructions.FunctionCall.ToString">
+	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
+</member><member name="T:DocScript.Language.Instructions.FunctionCall">
+	<summary>Represents E.g. [GetAge("Ben", 2)]</summary>
+</member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.ElseContents">
+	<summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is [Nothing] (null)</summary>
+</member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.Contents">
+	<summary>The Instructions which are executed if the ConditionExpr resolves to True</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction},System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+	<summary>Constructs the IInstruction from an existing instance</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Runtime.Token[]@)">
+	<summary>Constructs the IInstruction from its Tokens</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetContentsAndElseContents_(DocScript.Runtime.Token[])">
+	<summary>If there isn't an Else Clause in the Tokens, then [Item2] of the Tuple is Nothing (null)</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetProgramTreeNodeXML">
+	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.ToString">
+	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
+</member><member name="T:DocScript.Language.Instructions.Statements.IfStatement">
+	<summary>Represents E.g. [If (True) ... EndIf]</summary>
 </member><member name="T:DocScript.Logging.LogEvent.DSEventSeverity">
 	<summary>Error = The program could not continue. Warning = The program can continue partially. Infomation = Just an FYI. Verbose = Lots of data regarding the program's component-level processes. Debug = Annoyingly-frequent messages concerning each iteration of even the most insignificant loops. Debug messages are only processed when the Boolean Flag [ProcessDebugEvents] is True</summary>
 </member><member name="T:DocScript.Logging.LogEvent.DSEventCatagory">
@@ -94,248 +137,168 @@ DSCore
 	<summary>Contains a series of pre-defined ways of handling a LogEvent</summary>
 </member><member name="T:DocScript.Logging.LogUtilities.LogEventSubmissionResult">
 	<summary>Holds Data concerning the success of submitting a LogEvent</summary>
-</member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.ElseContents">
-	<summary>The Instructions which are executed if the ConditionExpr resolves to False. If there isn't an Else clause, this is [Nothing] (null)</summary>
-</member><member name="P:DocScript.Language.Instructions.Statements.IfStatement.Contents">
-	<summary>The Instructions which are executed if the ConditionExpr resolves to True</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction},System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
-	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.#ctor(DocScript.Runtime.Token[]@)">
-	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetContentsAndElseContents_(DocScript.Runtime.Token[])">
-	<summary>If there isn't an Else Clause in the Tokens, then [Item2] of the Tuple is Nothing (null)</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.GetProgramTreeNodeXML">
-	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.FromXML(System.Xml.Linq.XElement)">
-	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.IfStatement.ToString">
-	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.Statements.IfStatement">
-	<summary>Represents E.g. [If (True) ... EndIf]</summary>
-</member><member name="T:DocScript.Runtime.Constants">
-	<summary>An Uninheritable, Uninstanciatable Class holding Runtime (Execution) Constants for DocScript</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.#ctor(DocScript.Runtime.SymbolTablesSnapshot,DocScript.Runtime.SymbolTable)">
-	<summary>
- PUBLIC CONSTRUCTOR: Constructs the Snapshot with the specified SymTbls.
- The _BottomStack can contain 0 elements, but a _Topmost must be specified, which - in the case of the Program - will be the Global Symbol Table.
- Also ensures that no Identifier appears in multiple Symbol Tables.
- ----------------------------------------------------------------------------------------------------------
- If there are no downstairs SymbolTables, then use [SymbolTablesSnapshot].[Empty] for the _BottomStack Argument.
- This is the case in for the GlobalSymbolTable, as Generated by a [Program] Object.
- ----------------------------------------------------------------------------------------------------------
- </summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.#ctor(DocScript.Runtime.SymbolTable[])">
-	<summary>PROTECTED CONSTRUCTOR: FromSymbolTablesArray</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.BottomStack">
-	<summary>Returns all but the Topmost SymbolTable in the current SymTbls' Snapshot</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Topmost">
-	<summary>Returns only the Topmost SymbolTable in the current SymTbls' Snapshot</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Bottommost">
-	<summary>Returns or Sets the Bottommost SymbolTable in the current SymTbls' Snapshot</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.InnerSymbolTables_Count">
-	<summary>Used by Execution Components, to report how many SymbolTables they have received</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.SymbolTables_ReadOnlyCopy">
-	<summary>Used for external components who want to e.g. see which entries are visible in the current execution branch</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.AllEntriesInAllSymbolTables_ReadOnlyCopy">
-	<summary>Used for external components who want to e.g. see which entries are visible in the current execution branch</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.AddEntryToToTopmost(System.String,DocScript.Runtime.SymbolTable.ISymbolTableEntry)">
-	<summary>Mutates the state of the current Snapshot, to include an Entry for _Entry in the Topmost SymbolTable</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.GetEntryFromAny(System.String)">
-	<summary>Returns the first Entry whose Identifier is _Identifier, from any of the SymbolTables in the Snapshot</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.UpdateEntryInAny(System.String,DocScript.Runtime.SymbolTable.ISymbolTableValue)">
-	<summary>Updates the first entry whose Identifier is _Identifier, to have the value _NewValue. This method mutates the state of the current Snapshot.</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.IsContainedInAny(System.String)">
-	<summary>Evaluates weather or not an Entry with _Identifier is contained in any of the SymbolTables in the current Snapshot</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.AlignsWith(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Evaluates weather or not each SymbolTable in _OtherSymTbls contains the same number of entries, and has the same identifiers and value types, as the SymbolTables in the current instance</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.EnsureObjectIsInValidState_">
-	<summary>Ensures that no Identifier appears in multiple SymTbls</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.SnapshotFrom_ThisAndTopmost(DocScript.Runtime.SymbolTable)">
-	<summary>Creates and Returns a New Snapshot with [Me] and [_NewTopMost]</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.ToString">
-	<summary>Produces a DS-KVP Human-readable String for the SymTblSnpSht</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.ToXML">
-	<summary>Produces an XML representation of all the SymbolTables in the Snapshot, with all their values and identifiers</summary>
-</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.FromXML(System.Xml.Linq.XElement)">
-	<summary>Constructs an instance of the class from its XML representation</summary>
-</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Empty">
-	<summary>Generates a New Empty SymTblsSnpSht</summary>
-</member><member name="T:DocScript.Runtime.SymbolTablesSnapshot">
-	<summary>Represents the State of one or more SymbolTables at a given point during the execution of a DocScript program</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.Port">
-	<summary>The logical port on which the Web Server listens. E.g. "900" in the URL "http://localhost:900/Help/".</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.VirtualPath">
-	<summary>The URL sub-path on which the Web Server listens. E.g. "Help" in the URL "http://localhost:900/Help/".</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.SuccessfullyHandledRequestsCount">
-	<summary>The Number of requests responded-to by the Web Server instance so-far. This is NOT readonly, so that it can be externally reset.</summary>
-</member><member name="E:DocScript.Utilities.MicroHTTPServer.RequestHandledSuccessfully">
-	<summary>Occurs directly after a HTTP Request is responded-to. The Argument is the Request, whose full URL is avaliable via the Property .Url.ToString(). Also note the Properties of .UserAgent, .UserHostName, and .HttpMethod.</summary>
-</member><member name="F:DocScript.Utilities.MicroHTTPServer.MIMETypesDictionary">
-	<summary>A mapping of FILE-EXTENTIONS to MIME-TYPES. E.g. {"HTM", "text/html"}, {"BMP", "image/bmp"}. If a request's File Extension dosen't appear in the Dictionary's Keys, then the default of "text/plain" is used.</summary>
-</member><member name="P:DocScript.Utilities.MicroHTTPServer.URL">
-	<summary>E.g. Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.String,System.String,System.String)">
-	<summary>Mode 1: Constructs the MicroHTTPServer to serve a STRING. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.FileInfo,System.String)">
-	<summary>Mode 2: Constructs the MicroHTTPServer to serve a SINGLE FILE. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the _FileToServe's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.DirectoryInfo,System.String)">
-	<summary>Mode 3: Constructs the MicroHTTPServer to serve FILES FROM A DIRECTORY. If the root URL / is requested, an Exception is Thrown. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the File-to-serve's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
-</member><member name="M:DocScript.Utilities.MicroHTTPServer.Run">
-	<summary>Initialises the HTTPListener and begins the request-handling loop. Each time a request is handled, the [RequestHandled] Event is raised.</summary>
-</member><member name="T:DocScript.Utilities.MicroHTTPServer">
-	<summary>
- A lightweight HTTP Server, which can serve either a constant String, single File, or a file from a specified Directory.
- 
- 	<example>
- 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _ResponseContentString:="Same for all URLs!", _ResponseMIMEType:="text/plain")
-  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
-		 	_MicroServer.Run()
- 	</example>
-		<example>
- 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _DirectoryToServeFilesFrom:=New IO.DirectoryInfo("F:\"))
-  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
-		 	_MicroServer.Run()
- 	</example>
-	</summary>
+</member><member name="M:DocScript.Runtime.BuiltInFunction.#ctor(System.String,DocScript.Language.Instructions.Statements.DSFunction.Parameter[],System.Type,DocScript.Runtime.BuiltInFunction.BuiltInFunctionDelegate)">
+	<summary>Remember to Initilise the Descrtiption by means of an Inline With Statement {.Description = "..."}</summary>
+</member><member name="M:DocScript.Runtime.BuiltInFunction.Run(DocScript.Runtime.SymbolTablesSnapshot,DocScript.Language.Variables.IDataValue[])">
+	<summary>Automatically ensures that the correct number of _Arguments have been provided, in accordance with the .ExpectedParameters Property.</summary>
+</member><member name="P:DocScript.Runtime.BuiltInFunction.EffectiveSignature">
+	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
+</member><member name="P:DocScript.Runtime.BuiltInFunction.TemplateCall">
+	<summary>Returns E.g. Output(_Text)</summary>
+</member><member name="M:DocScript.Runtime.BuiltInFunction.ToString">
+	<summary>Produces a DS-KVP Human-readable String for the Object</summary>
+</member><member name="M:DocScript.Runtime.BuiltInFunction.ToXML">
+	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+</member><member name="T:DocScript.Runtime.BuiltInFunction">
+	<summary>Represents a Function accessible from, but not defined within, a DocScript Program</summary>
 </member><member name="T:DocScript._DebugResources">
 	<summary>Used for internal debugging purposes. No calls to members hereof should exist within ReleaseCandidate* builds.</summary>
-</member><member name="T:DocScript.Language.Instructions.IInstruction">
-	<summary>The Base Interface for all DocScript Instructions (E.g. Implemented by VariableDeclaration and ReturnToCaller)</summary>
-</member><member name="M:DocScript.Language.Instructions.ExecutionResult.ReturnStatusData.ToString">
-	<summary>
- Returns a (Non-Standard) KVP-Serialisation of the Object
- </summary>
-</member><member name="T:DocScript.Language.Instructions.ExecutionResult.ReturnStatusData">
-	<summary>Represents data about weather or not to Return to the Caller of a DSFunction, and weather or not there is an associated value for the Return for a DSFunction or a BuiltInFunction.</summary>
-</member><member name="F:DocScript.Language.Instructions.ExecutionResult.ExecuteeDescription">
-	<summary>E.g. "IInstr\IfStatement" or "BIF\Input". A Description of the Object being Executed.</summary>
-</member><member name="F:DocScript.Language.Instructions.ExecutionResult.UpstairsExecutionResults">
-	<summary>
- Item1 = ExeRes Description relative to current Execution (E.g. "Operand" or "Child Instruction");
- Item2 = The actual ExeRes which occured upstairs of the current Execution StackFrame.
- Holds ExecutionResults which occured upstairs of the current Execution - E.g. the Contents Instructions of a Statement, or the OperandResolutions of a OperatorExpr.
- </summary>
-</member><member name="F:DocScript.Language.Instructions.ExecutionResult.Archived_SymbolTable">
-	<summary>Used by IStatements to store an archived copy of their ScopedVars</summary>
-</member><member name="M:DocScript.Language.Instructions.ExecutionResult.New_AndStartExecutionTimer(System.String)">
-	<summary>
- How to use ExecutionResult:
- ---------------------------
- Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\Output")
- (Do IInstruction processing...)
- Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_ModifiedSymTbls)
- </summary>
-</member><member name="M:DocScript.Language.Instructions.ExecutionResult.StopExecutionTimer_AndFinaliseObject(DocScript.Runtime.SymbolTablesSnapshot@)">
-	<summary>The .ReturnStatus is initialised to New ReturnStatusData(); use an Inline With to set its members</summary>
-	<param name="_ResultantSymbolTablesState">For IStatements, this should NOT contain the ScopedVariables member</param>
-</member><member name="T:DocScript.Language.Instructions.ExecutionResult">
-	<summary>Represents the result of a call to Execute() of an IInstruction, or Run() on a DSFunction. Contains data such as weather or not to Return.</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+</member><member name="F:DocScript.Language.Instructions.Statements.DSFunction.Parameter.Identifier">
+	<summary>The Unique Identifier for the Parameter</summary>
+</member><member name="F:DocScript.Language.Instructions.Statements.DSFunction.Parameter.DataType">
+	<summary>The DataType must be an IDataValue-based DocScript DataType e.g. DSBoolean</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.#ctor(System.String,System.Type)">
+	<summary>The DataType must be a DocScript DataType e.g. &lt;Number&gt;. Use the IDataValue Types herefor.</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.GetProgramTreeNodeXML">
+	<summary>Returns an XML Representation of the Parameter, with the Identifier and DataType</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the class from its XML serialasation</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.ToString">
+	<summary>Returns what the Argument would have looked like in the Source, without an extra LineBreak on the End</summary>
+</member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Parameter">
+	<summary>Represents a Placeholder for an Argument, used as a Local Variable within a DSFunction. (Parameter == Placeholder; Argument == A Datum applied to a Parameter at Runtime)</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Signature.#ctor(System.String,System.Type[],System.Type)">
+	<summary>The Identifier will be ToUpper()-ed</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Signature.ToString">
+	<summary>Returns a KVP-Serialised String to represent the current Object</summary>
+</member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Signature">
+	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(System.String,System.Type,DocScript.Language.Instructions.Statements.DSFunction.Parameter[],System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
 	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Runtime.Token[]@)">
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.GetProgramTreeNodeXML">
-	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.FromXML(System.Xml.Linq.XElement)">
-	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.ToString">
-	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.Statements.LoopStatement">
-	<summary>Represents E.g. [Loop (10) ... EndLoop]</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.DS">
-	<summary>DocScript Language Utilities</summary>
-</member><member name="M:DocScript.Runtime.BreakpointActionDialog.Show_AndReturnModifiedSymTbls(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Shows the Dialog, and returns only after one of the actions has been performed, or the dialog has been dismissed.</summary>
-</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_ViewSymTbls_">
-	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
-</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_CopyToDSLive_">
-	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
-</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_EditInDSLive_">
-	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
-</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_ContinueExec_">
-	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
-</member><member name="T:DocScript.Runtime.BreakpointActionDialog">
-	<summary>The Window shown when "Break()" is called from the DocScript Program.</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Maths">
-	<summary>Maths-related Functions such as Rounding, getting Pi, or finding the maximum of two numbers</summary>
-</member><member name="T:DocScript.Runtime.StandardBuiltInFunctions">
-	<summary>Provides useful Logic built-in to DocScript</summary>
-</member><member name="M:DocScript.Utilities.Screenshotting.GetScreenshot">
-	<summary>WARNING: Tends to cause an Exception after ~40+ calls, because of a bug in GDI+.</summary>
-</member><member name="M:DocScript.Utilities.Screenshotting.TakeAndSaveScreenshotAsPNG(System.IO.FileInfo)">
-	<summary>Does not cause a bug after some time, because the objects are properly disposed-of in each call.</summary>
-</member><member name="T:DocScript.Utilities.Screenshotting">
-	<summary>As used by some of the Graphics_ BIFs</summary>
-</member><member name="P:DocScript.Utilities.SQLQueryRunner.QueryOutputDataTable">
-	<summary>The Table filled with the resultant output of the previous SQL Query. If no queries have been made yet, then it is Nothing/null.</summary>
-</member><member name="M:DocScript.Utilities.SQLQueryRunner.#ctor(System.String,System.String,System.String)">
-	<summary>CONSTRUCTOR FOR SQL SERVER AUTHENTICATION. Readies the Object with the specified arguments, but does not initiate any form of connection with the SQL Server at this point.</summary>
-</member><member name="M:DocScript.Utilities.SQLQueryRunner.#ctor(System.String)">
-	<summary>CONSTRUCTOR FOR WINDOWS AUTHENTICATION. Readies the Object with the specified arguments, but does not initiate any form of connection with the SQL Server at this point.</summary>
-</member><member name="P:DocScript.Utilities.SQLQueryRunner.ConnectionString">
-	<summary>Constructs the ConnectionString based on the current values of Fields in the Class. E.g. there are different ConnectionString Formats for Windows Authentication vs SQL Server Authentication.</summary>
-</member><member name="M:DocScript.Utilities.SQLQueryRunner.ExecuteQuery(System.String,System.Data.SqlClient.SqlParameter[])">
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>DO NOT CALL; Use Run().</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Run(DocScript.Runtime.SymbolTablesSnapshot,DocScript.Language.Variables.IDataValue[])">
 	<summary>
- Connects to the SQL Server, executes the T-SQL _Query, and returns the resultant DataTable.
- Example Call:
- _SQLQueryRunner.ExecuteQuery("SELECT * FROM [TestingDB].[dbo].[People] WHERE ""Name"" = @TargetName;", New SqlClient.SqlParameter() With {.ParameterName = "TargetName", .Value = "Ben", .DbType = DbType.String})
+ The Arguments are IDataValues and not IExpressions, because if the Exprs referanced a variable Local to ANOTHER DSFUNCTION, then it wouldn't be accessible here!
+ DSFunction Symbol Table Rules:
+     - A DSFunction may take in several SymbolTables, but only pays attention to the Globals on the bottom
+     - A DSFunction only returns the Global Symbol Table
  </summary>
-	<param name="_Query">The T-SQL Query to execute, e.g. "SELECT * FROM [DatabaseName].[dbo].[TableName];"</param>
-	<param name="_SQLParameters">(Optional) An array of SQLParameters, which are added to the connection object prior to executing the SQLCommand. They can be referanced in the _Query in the form @ParameterName. Each Parameter ought to have a ParameterName, Value, and DbType</param>
-	<returns>The DataTable filled with the output from the Command.</returns>
-	<remarks>There is potential for a blank DataTable to be returned here.</remarks>
-</member><member name="M:DocScript.Utilities.SQLQueryRunner.BeginQueryWatch(System.String,System.String,System.Data.SqlClient.SqlParameter[])">
-	<summary>
- Begins listening for a change in the Output of the specified _Query. When a change occurs, the QueryWatch_QueryOutputChanged Event is Raised.
- 
- Example Call:
- Dim _SQLQueryRunner As New DocScript.Utilities.SQLQueryRunner(_SQLServerName:="MNLT01\SQLEXPRESS")
- _SQLQueryRunner.BeginQueryWatch(_DatabaseName:="QueryWatchTest", _Query:="SELECT ""Name"" FROM [dbo].[People];")
- AddHandler _SQLQueryRunner.QueryWatch_QueryOutputChanged, Sub(_EventArgs As SqlClient.SqlNotificationEventArgs) MsgBox("Type: " &amp; _EventArgs.Type.ToString())
- </summary>
-	<param name="_DatabaseName">Needed because a Queue will be registered with the ServiceBroker of this Database. The specified Database MUST have its Service Broker ENABLED. To enable the Service Broker: ALTER DATABASE [DBName] SET ENABLE_BROKER;</param>
-	<param name="_Query">E.g. SELECT "Name" FROM [dbo].[People];</param>
-	<param name="_SQLParameters">Any Parameters to be used in the SQL Command, accessible from the _Query in the format @ParameterName</param>
-	<remarks>
- Check Broker is enabled with "SELECT name, is_broker_enabled FROM sys.databases;"
- The database user must have the SUBSCRIBE QUERY NOTIFICATIONS permission
- 
- _Query cannot contain *, and must use fully-qualified Tablenames instead of just the Table Name on its own.
- INVALID:	SELECT * FROM Messages;
- VALID:		SELECT ID, Message FROM dbo.Messages;
- </remarks>
-</member><member name="T:DocScript.Utilities.SQLQueryRunner">
-	<summary>Runs a Query on an SQL Server, returning the DataTable resulting from the Query</summary>
-</member><member name="F:DocScript.Language.Expressions.Operators.OperatorUtilities.DSOperators">
-	<summary>Maps the OperatorChars (as defined in the Language-level Constants) to their Binary- and Unary-Operator(s)</summary>
-</member><member name="T:DocScript.Language.Expressions.Operators.OperatorUtilities">
-	<summary>Contains the DSOperators Declaration, and several Utility Methods</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(System.String,System.Type,DocScript.Language.Expressions.IExpression)">
-	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(DocScript.Runtime.Token[]@)">
-	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.GetProgramTreeNodeXML">
+</member><member name="P:DocScript.Language.Instructions.Statements.DSFunction.EffectiveSignature">
+	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.FromXML(System.Xml.Linq.XElement)">
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.FromXML(System.Xml.Linq.XElement)">
 	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.ToString">
-	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.VariableDeclaration">
-	<summary>Represents E.g. [&lt;String&gt; Name : "Ben"]</summary>
-</member><member name="M:DocScript.Logging.LogWindow.#ctor(System.String)">
-	<summary>The _SessionName$ appears in the Window Title, to distinguish it from other active LogWindows</summary>
-</member><member name="M:DocScript.Logging.LogWindow.AddLogEvent(DocScript.Logging.LogEvent)">
-	<summary>Adds the _LogEvent to the DataGridView of the Form</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Const">
-	<summary>DocScript Constants - accessible via calling Const_Name()</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.ToString">
+	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End.</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.ToXML">
+	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+</member><member name="T:DocScript.Language.Instructions.Statements.DSFunction">
+	<summary>Represents E.g. [Function &lt;DataType&gt; Identifier (Arguments...)]</summary>
 </member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.File">
 	<summary>File-related Functions for Reading from, and Writing to, Files on Disk.</summary>
+</member><member name="T:DocScript.Language.Expressions.IExpression">
+	<summary>The Base Interface for all Expression Types (E.g. Implemented by LiteralExpr and VariableExpr)</summary>
+</member><member name="T:DocScript.Language.Expressions.ICompoundExpression">
+	<summary>The Base Interface for all Exprs that contain some form of child Exprs (E.g. Implemented by FunctionCallExpr and OperatorExpr, for their Arguments and Operands respectivley)</summary>
+</member><member name="T:DocScript.Language.Expressions.LBLOperatorPlaceholder">
+	<summary>The LBL Placeholder for an Operator Literal E.g. +</summary>
+</member><member name="T:DocScript.Language.Expressions.LBLBracketedExprPlaceholder">
+	<summary>The LBL Placeholder for the ChildExprs of a []-Bracketed Expr</summary>
+</member><member name="T:DocScript.Language.Expressions.LBLFunctionCallPlaceholder">
+	<summary>The LBL Placeholder for the ChildExpr of a FunctionCall</summary>
+</member><member name="T:DocScript.Language.Expressions.LBLArgumentSeperatorPlaceholder">
+	<summary>Represents a Comma (,) in a Linear Bracketed Level</summary>
+</member><member name="T:DocScript.Language.Expressions.ScannedComponentIndicator">
+	<summary>An object of this type is substituted into the LBL in CollapseToIOT_()</summary>
+</member><member name="M:DocScript.Language.Expressions.LiteralExpr`1.ToString">
+	<summary>Returns what the Expression would have looked like in the Source</summary>
+</member><member name="M:DocScript.Language.Expressions.LiteralExpr`1.GetExprTreeNodeXML">
+	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
+</member><member name="T:DocScript.Language.Expressions.LiteralExpr`1">
+	<summary>Represents a DSString, DSNumber, or DSBoolean Literal</summary>
+</member><member name="M:DocScript.Language.Expressions.VariableExpr.ToString">
+	<summary>Returns what the Expression would have looked like in the Source</summary>
+</member><member name="M:DocScript.Language.Expressions.VariableExpr.GetExprTreeNodeXML">
+	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
+</member><member name="T:DocScript.Language.Expressions.VariableExpr">
+	<summary>Represents an Expr which is the result of reading a Variable's value from a SymbolTable</summary>
+</member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.TargetFunction_Identifier">
+	<summary>The Identifier of the target DSFunction or BIF</summary>
+</member><member name="F:DocScript.Language.Expressions.FunctionCallExpr.Arguments_">
+	<summary>The UNRESOLVED Arguments to apply to the Target Function at CallTime. SymbolTables are required to Resolve() these IExprs.</summary>
+</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.#ctor(System.String,DocScript.Language.Expressions.IExpression[])">
+	<summary>_Identifier is the Identifier of the target DSFunction or BIF</summary>
+</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.ToString">
+	<summary>Returns what the Expression would have looked like in the Source</summary>
+</member><member name="M:DocScript.Language.Expressions.FunctionCallExpr.GetExprTreeNodeXML">
+	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
+</member><member name="T:DocScript.Language.Expressions.FunctionCallExpr">
+	<summary>Holds the Arguments and Identifier of a Function, ready for this to be called during Resolve()</summary>
+</member><member name="M:DocScript.Language.Expressions.OperatorExpr.ToString">
+	<summary>Returns what the Expression would have looked like in the Source</summary>
+</member><member name="M:DocScript.Language.Expressions.OperatorExpr.GetExprTreeNodeXML">
+	<summary>Returns a serialised form of all the Data for the Expression, as needed to form a graphical Expression Tree</summary>
+</member><member name="T:DocScript.Language.Expressions.OperatorExpr">
+	<summary>Holds the Operands and OperatorLiteral of a DSOperator</summary>
+</member><member name="T:DocScript.Language.Variables.IDataValue">
+	<summary>The Non-Generic Interface for all actual Values of an Expr or Variable</summary>
+</member><member name="T:DocScript.Language.Variables.IDataValue`1">
+	<summary>The Generic Interface for values of an Expr or Variable. Takes in the DotNetType for which the interface is a wrapper</summary>
+</member><member name="M:DocScript.Language.Variables.DSBoolean.ToString">
+	<summary>Returns a string to represent the Literal for the IDataValue</summary>
+</member><member name="M:DocScript.Language.Variables.DSBoolean.ToXML">
+	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+</member><member name="T:DocScript.Language.Variables.DSBoolean">
+	<summary>Represents a True or False value</summary>
+</member><member name="P:DocScript.Language.Variables.DSNumber.Value">
+	<summary>The Base-10 Value of the Number</summary>
+</member><member name="P:DocScript.Language.Variables.DSNumber.IsValidNumericLiteralString(System.String)">
+	<summary>
+ Used in DS-TC for String→Number Conversion
+ NOTE: This function will automatically strip the Input String of Quotes on either side, if it has them.
+ </summary>
+</member><member name="M:DocScript.Language.Variables.DSNumber.FromNumericLiteralString(System.String)">
+	<summary>
+ Used in DS-TC for String→Number Conversion
+ NOTE: This function will automatically strip the Input String of Quotes on either side, if it has them.
+ </summary>
+</member><member name="M:DocScript.Language.Variables.DSNumber.StripQuotesIfPresent(System.String)">
+	<summary>
+ Automatically strips the Input String of Quotes on either side if it has them both, and if the Input String is *at-least* 3 chars long.
+ </summary>
+</member><member name="M:DocScript.Language.Variables.DSNumber.ToString">
+	<summary>Returns a string to represent the Literal for the IDataValue</summary>
+</member><member name="M:DocScript.Language.Variables.DSNumber.ToXML">
+	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+</member><member name="T:DocScript.Language.Variables.DSNumber">
+	<summary>Represents a Number with a Value and a Base. Can be from three different forms of Literal</summary>
+</member><member name="M:DocScript.Language.Variables.DSString.#ctor(System.String)">
+	<summary>If the _Value contains the StringLIteralStartEndChar, then instances of this Char will be replaced with the Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar</summary>
+</member><member name="M:DocScript.Language.Variables.DSString.ToString">
+	<summary>Returns a string to represent the Literal for the IDataValue</summary>
+</member><member name="M:DocScript.Language.Variables.DSString.ToXML">
+	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+</member><member name="T:DocScript.Language.Variables.DSString">
+	<summary>Represents a String of Chars</summary>
+</member><member name="M:DocScript.Language.Variables.DSArray`1.ToString">
+	<summary>Returns a string to represent the DSArray in the format {Item1, Item2, Item3}</summary>
+</member><member name="M:DocScript.Language.Variables.DSArray`1.ToXML">
+	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
+</member><member name="T:DocScript.Language.Variables.DSArray`1">
+	<summary>
+ Represents a List of DSString, DSNumber, or DSBoolean Objects
+ NOTE: This Class does not Implement IDV(Of TElement) because that would create a member [Value As TElement], and out Value needs to be As List(Of TElement)
+ </summary>
+</member><member name="M:DocScript.Language.Variables.Void.#ctor">
+	<summary>Throws an Exception</summary>
+</member><member name="M:DocScript.Language.Variables.Void.ToXML">
+	<summary>Throws an Exception</summary>
+</member><member name="T:DocScript.Language.Variables.Void">
+	<summary>Represents the absence of Data (Only valid as a Return Type for Functions)</summary>
 </member><member name="T:DocScript.Runtime.SymbolTable.ISymbolTableValue">
 	<summary>Implemented by: DSString, DSNumber, DSBoolean, DSArray(Of *), DSFunction, BuiltInFunction</summary>
 </member><member name="T:DocScript.Runtime.SymbolTable.ISymbolTableEntry">
@@ -387,287 +350,62 @@ DSCore
  </summary>
 </member><member name="T:DocScript.Runtime.SymbolTable">
 	<summary>Holds a dictionary of Identifiers to [SymbolTableEntry]s. All Identifiers are ToUpper()-ed.</summary>
-</member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
-	<summary>If there wasn't an associated Expr in the source, then this is Nothing (null)</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Language.Expressions.IExpression)">
-	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Runtime.Token[]@)">
-	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.GetProgramTreeNodeXML">
-	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.FromXML(System.Xml.Linq.XElement)">
-	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.ToString">
-	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.ReturnToCaller">
-	<summary>Represents E.g. [Return "Ben"]</summary>
-</member><member name="M:DocScript.Exceptions.DSException.#ctor(System.String)">
-	<summary>Attempts to Log the Exception Message, indicating weather this occoured successfully or not in the Message Property</summary>
-</member><member name="M:DocScript.Exceptions.DSException.#ctor(System.String,System.Exception)">
-	<summary>Attempts to Log the Exception Message, indicating weather this occoured successfully or not in the Message Property</summary>
-</member><member name="M:DocScript.Exceptions.DSException.FormatMessage(System.String)">
-	<summary>Inserts a LineBreak after each Colon (:), if this hasn't already been done.</summary>
-</member><member name="T:DocScript.Exceptions.DSException">
-	<summary>The Base Execption Class whence all other DocScript Exceptions derive.</summary>
-</member><member name="M:DocScript.Exceptions.DSValidationException.#ctor(System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSValidationException">
-	<summary>Used for Input and Argument Validation</summary>
-</member><member name="M:DocScript.Exceptions.DSTokenValidationException.#ctor(System.String,DocScript.Runtime.Token[])">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSTokenValidationException">
-	<summary>Used for Token Validation</summary>
-</member><member name="M:DocScript.Exceptions.DSNullException.#ctor(System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSNullException">
-	<summary>Used for Null Referances and other Objects with should be set to a non-null value (but aren't)</summary>
-</member><member name="M:DocScript.Exceptions.DSInvalidCallException.#ctor(System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSInvalidCallException">
-	<summary>Used when an call is made to a method that should never be called (e.g. one implemented from an interface that isn't needed on the implementer object)</summary>
-</member><member name="M:DocScript.Exceptions.DSLBLValidationException.#ctor(System.String,System.String,DocScript.Language.Expressions.IExpression[])">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSLBLValidationException">
-	<summary>Used when the order of the LBL is invalid in an Expression</summary>
-</member><member name="M:DocScript.Exceptions.DSOperatorExecutionException.#ctor(System.String,System.String[],System.Exception)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSOperatorExecutionException">
-	<summary>Used when an OperatorExpr.Resolve() call Throws an Exception</summary>
-</member><member name="M:DocScript.Exceptions.DSBuiltInFunctionException.#ctor(System.String,System.Exception)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSBuiltInFunctionException">
-	<summary>Used when the [Action] of a BuiltInFunction Throws an Exception</summary>
-</member><member name="M:DocScript.Exceptions.DSUnexpectedTokenException.#ctor(System.String,DocScript.Runtime.Token)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="M:DocScript.Exceptions.DSUnexpectedTokenException.#ctor(System.String,DocScript.Runtime.Token[])">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSUnexpectedTokenException">
-	<summary>Used when a Token (or several Tokens) appears in an unexpected place in the source</summary>
-</member><member name="M:DocScript.Exceptions.DSMissingTokenException.#ctor(System.String,DocScript.Runtime.Token)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSMissingTokenException">
-	<summary>Used when a Token appears in an unexpected place in the source</summary>
-</member><member name="M:DocScript.Exceptions.DSTokenPatternValidationException.#ctor(System.String,DocScript.Runtime.TokenPatternValidation.TokensToPatternsValidator,DocScript.Runtime.Token[])">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSTokenPatternValidationException">
-	<summary>Used when a Token Array does not satisfy an Array of [TokenPattern]s</summary>
-</member><member name="M:DocScript.Exceptions.DSNonexistentSymbolException.#ctor(System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSNonexistentSymbolException">
-	<summary>Used when an Entry with the specified Identifier does not exist in a SymbolTable</summary>
-</member><member name="M:DocScript.Exceptions.DSDuplicateSymbolException.#ctor(System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSDuplicateSymbolException">
-	<summary>Used when an Entry with the specified Identifier already exists in a SymbolTable</summary>
-</member><member name="M:DocScript.Exceptions.DSIncorrectSymbolTableEntryTypeException.#ctor(System.String,System.String,System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSIncorrectSymbolTableEntryTypeException">
-	<summary>Used when an Entry with the specified Identifier does not exist in a SymbolTable</summary>
-</member><member name="M:DocScript.Exceptions.DSRefusedToCoerceToTypeException.#ctor(DocScript.Language.Variables.IDataValue,System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSRefusedToCoerceToTypeException">
-	<summary>Used for DS-TC, when an Input IDV cannot reasonably produce an Output IDV of a given IDV-Type</summary>
-</member><member name="M:DocScript.Exceptions.DSNoReturnValueException.#ctor(System.String,System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSNoReturnValueException">
-	<summary>Used when a Function declares itself to return a value, but dosen't.</summary>
-</member><member name="M:DocScript.Exceptions.DSSourceGeneratedException.#ctor(System.String)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSSourceGeneratedException">
-	<summary>Used when the DS_ThrowError(_Msg) BuiltInFunction is called from within DocScript Source</summary>
-</member><member name="M:DocScript.Exceptions.DSWebException.#ctor(System.String,System.Exception)">
-	<summary>Constructs a New DocScript WebException Object, attempting to Log the Message</summary>
-	<param name="_SourceLocationMessage">E.g. @ExprTreeFromSourceExpr</param>
-</member><member name="T:DocScript.Exceptions.DSWebException">
-	<summary>Used when an API Logical Branch encounters an Exception which must be caught by an unstream Catch Statement. DOES NOT INHERIT FROM DSException.</summary>
-</member><member name="M:DocScript.Exceptions.DSInputRequestTimedOutException.#ctor(System.TimeSpan)">
-	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
-</member><member name="T:DocScript.Exceptions.DSInputRequestTimedOutException">
-	<summary>Used when an Input-Response is not provided within 8 Mins of it being requested by the ESWorker</summary>
-</member><member name="T:DocScript.Exceptions.DSCLANotSpecifiedException">
-	<summary>Thrown when a Command-Line Argument is mandatory, but not specified. Does NOT Inherit DSException.</summary>
-</member><member name="T:DocScript.Exceptions.DSCLAValueNotSpecifiedException">
-	<summary>Thrown when a Command-Line Argument is specified, but without a mandatory associated Value in the form /Key:Value or /Key:"Value". Does NOT Inherit DSException.</summary>
-</member><member name="F:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.NullGrapheme">
-	<summary>Used when there is no Grapheme avaliable for a specified GraphemeIndex</summary>
-</member><member name="P:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.GraphemeSet">
-	<summary>The characters used to represent the Base Number. Starting 0123456789 and then ABCDEF...</summary>
-</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.#ctor(System.String,System.Byte)">
-	<summary>The _Value must use Graphemes from the BasedNumber.Graphemes Property</summary>
-</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.ToBase(System.Byte)">
-	<summary>Returns the current BasedNumber as a New BasedNumber, converting it to the _TargetBase</summary>
-	<param name="_TargetBase">The Base for the New BasedNumber</param>
-</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.ProduceBasedNumberRepresentation_FromGraphemeCodes_(System.Int32[])">
-	<summary>E.g. takes in {0, 10, 8, 1666} and returns "A80#"</summary>
-</member><member name="P:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.AsBase10">
-	<summary>Computes the Base-10 Representation of the Number, then Parses this as an Int64, and Reutrns it.</summary>
-</member><member name="M:DocScript.Language.Variables.BasedNumberSupport.BasedNumber.ToString">
-	<summary>Returns a KVP-Serialised representation of the BasedNumber</summary>
-</member><member name="T:DocScript.Language.Variables.BasedNumberSupport.BasedNumber">
-	<summary>Represents a numerical magnitude with a Base and a Value, providing easy support for converting between bases (in the PlaceValue (Positional-Notation) System)</summary>
-</member><member name="T:DocScript.Language.Variables.BasedNumberSupport">
-	<summary>Implements support for Based Numbers in DocScript</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.System">
-	<summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
-</member><member name="M:DocScript.Utilities.CLAManager.CLADatum.#ctor(System.String,System.String,System.Boolean,System.Boolean,System.Action{System.String})">
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Graphics">
+	<summary>DS-Graphics</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ConstructExpressionFromTokens(DocScript.Runtime.Token[]@)">
+	<summary>Constructs a Tree for an Expression, from the Tokens which make up that Expr.</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.GetTreeViewNodeFromExpr(DocScript.Language.Expressions.IExpression@)">
+	<summary>Constructs a WinForms TreeView Node from a constructed IExpression</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ConstructExpressionFromXML(System.Xml.Linq.XElement)">
 	<summary>
- Constructs a new Object to represent the desired configuration for a single CLA Key (Specified in the Syntax /Key or /Key:Value or /Key:"Value")
+ Constructs a Tree for an Expression, from an XML Expression Serialisation, as produced by IExpression.GetExprTreeNodeXML().
+ The XElement passed in should have one of these Tag Names: OperatorExpr, LiteralExpr, FunctionCallExpr, VariableExpr.
  </summary>
-	<param name="_Key">The CLA Key E.g. "ShowLog". The forward slash / is not to be included in this string. NOTE: CLA Keys are not case-sensitive; /Name is the same as /NAmE</param>
-	<param name="_Description">The Description used in the CLA Help Dictionary ( /? )</param>
-	<param name="_MustBeSpecified">Indicates that the Key must be specified in the Command-Line Arguments provided to the CLAManager, otherwise an Exception is Thrown.</param>
-	<param name="_MustHaveValue">Indicates that if the Key is specified, then a corrosponding Value must also be specified, otherwise an Exception is Thrown.</param>
-	<param name="_ActionIfSpecified">The Action to run if the Key is specified. The String Argument is the Value corrosponding to the Key, which could be [Nothing] (null) {nullptr} &lt;undefined&gt; if there is no Value corrosponding to the Key</param>
-	<remarks></remarks>
-</member><member name="T:DocScript.Utilities.CLAManager.CLADatum">
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.PerformInitialValidationOnRawTokens_(DocScript.Runtime.Token[]@)">
+	<summary>Ensures that the Tokens are of permitted TokenTypes, and that there are equal numbers of opening and closing Brackets.</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ProduceLBL_(DocScript.Runtime.Token[]@,System.Int32)">
+	<summary>Returns [the Index of the Last Token read by that call], and [the LBL generated from the Tokens read]</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.SimplifyLBL_(DocScript.Language.Expressions.IExpression[])">
+	<summary>Removes and one-child BracketedExprs, recursively inside BracketedExprs and FunctionCalls too</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ValidateLBL_(DocScript.Language.Expressions.IExpression[])">
+	<summary>Ensures there are no occourances of Illegal patterns in the LBL</summary>
+</member><member name="T:DocScript.Language.Expressions.ExprUtilities.OperatorTupleComparer_">
+	<summary>Used by the CollapseToIOT_() Method to order the OperatorTuples</summary>
+</member><member name="M:DocScript.Language.Expressions.ExprUtilities.CollapseToIOT_(DocScript.Language.Expressions.IExpression[])">
+	<summary>Removes LBL-Only IExprs and forms the Expr. Tree and adds in the [OperatorExpr]s and [FunctionCallExpr]s</summary>
+</member><member name="T:DocScript.Language.Expressions.ExprUtilities">
+	<summary>Contains Expression Construction Resources</summary>
+</member><member name="T:DocScript.Language.Instructions.IInstruction">
+	<summary>The Base Interface for all DocScript Instructions (E.g. Implemented by VariableDeclaration and ReturnToCaller)</summary>
+</member><member name="M:DocScript.Language.Instructions.ExecutionResult.ReturnStatusData.ToString">
 	<summary>
- Represents a configuration for a single CLA key, and what to do if it's specified.
- (Specified in the Syntax /Key or /Key:Value or /Key:"Value")
- NOTE: CLA Keys are not case-sensitive; /Name is the same as /NAmE
+ Returns a (Non-Standard) KVP-Serialisation of the Object
  </summary>
-	<remarks></remarks>
-</member><member name="F:DocScript.Utilities.CLAManager.UseCommandLineFormatting_ForHelpDictionary">
+</member><member name="T:DocScript.Language.Instructions.ExecutionResult.ReturnStatusData">
+	<summary>Represents data about weather or not to Return to the Caller of a DSFunction, and weather or not there is an associated value for the Return for a DSFunction or a BuiltInFunction.</summary>
+</member><member name="F:DocScript.Language.Instructions.ExecutionResult.ExecuteeDescription">
+	<summary>E.g. "IInstr\IfStatement" or "BIF\Input". A Description of the Object being Executed.</summary>
+</member><member name="F:DocScript.Language.Instructions.ExecutionResult.UpstairsExecutionResults">
 	<summary>
- Indicates that the Help Dictionary will have the Linebreaks and padding-whitespace automatically inserted.
- Use True, if this is a Console Application;
- If MsgBox()-ing out the /? Dictionary, then use False.
+ Item1 = ExeRes Description relative to current Execution (E.g. "Operand" or "Child Instruction");
+ Item2 = The actual ExeRes which occured upstairs of the current Execution StackFrame.
+ Holds ExecutionResults which occured upstairs of the current Execution - E.g. the Contents Instructions of a Statement, or the OperandResolutions of a OperatorExpr.
  </summary>
-</member><member name="F:DocScript.Utilities.CLAManager.HelpDictionaryWasDisplayed">
-	<summary>Indicates weather /? was handled instead of processing CLAData. If the Help Dictionary is displayed, then no other CLA Actions will be dealt with or run, and HelpDictionaryWasDisplayed will be set to True.</summary>
-</member><member name="M:DocScript.Utilities.CLAManager.#ctor(System.String[],System.String,System.String[],System.Action{System.String},System.Boolean,DocScript.Utilities.CLAManager.CLADatum[])">
+</member><member name="F:DocScript.Language.Instructions.ExecutionResult.Archived_SymbolTable">
+	<summary>Used by IStatements to store an archived copy of their ScopedVars</summary>
+</member><member name="M:DocScript.Language.Instructions.ExecutionResult.New_AndStartExecutionTimer(System.String)">
 	<summary>
-		<para>Constructs a Command-Line Argument Manager. All managment of the CLAs occours as soon as the object is constructed. No additional call is nessecary.</para>
-		<para>
- Exmaple Call:
-
- Dim _CLAManager As New DocScript.Utilities.CLAManager(
-     _CLAs,
-     "DocScript Command-Line Interpreter. Interprets DocScript Source Files.",
-     {"DSCLI.EXE /Live",
-     "DSCLI.EXE /Live /LogToFile:""DSLive.DSLog"" /ProcessDebugEvents /GUI",
-     "DSCLI.EXE /Run /SourceString:""Function &lt;Void&gt; Main ();Output(`Hello, World!`);EndFunction""",
-     "DSCLI.EXE /Run /SourceFile:""X:\Programming\DocScript\HelloWorld.DS"" /LogToConsole",
-     "DSCLI.EXE /GetProgramTree /SourceString:""Function &lt;Void&gt; Main ();Output(`Hello, World!`);EndFunction""",
-     "DSCLI.EXE /Run /SourceString:""Function&lt;Void&gt;Main();System_Beep();EndFunction""",
-     "DSCLI.EXE /Run /SourceFile:""BIO2017.DS"" /DocScriptCLAs:""GRBBRB"" /LogToFile:BIO.DSLog"},
-     AddressOf Console.WriteLine, True,
-     New Utilities.CLAManager.CLADatum("Live", "[Action] Enters a DocScript Live Session: a DS&gt; prompt appears and accepts Statement-level Instructions", False, False, Sub(_Value$) ActionWhenReady = WhenReadyAction.EnterDSLiveSession),
-     New Utilities.CLAManager.CLADatum("Run", "[Action] Interprets the DocScript Source (specified by either /SourceFile or /SourceString). This process then returns the ExitCode of the DocScript Program.", False, False, Sub(_Value$) ActionWhenReady = WhenReadyAction.Run),
-     New Utilities.CLAManager.CLADatum("GetProgramTree", "[Action] Parses and Lexes the DocScript Source (specified by either /SourceFile or /SourceString), and writes the resultant XML Program tree to the Console Output Stream", False, False, Sub(_Value$) ActionWhenReady = WhenReadyAction.GetProgramTree),
-     New Utilities.CLAManager.CLADatum("SourceFile", "[Datum] Specifies the Source via a DocScript Source File", False, True, Sub(_Value$) SourceToInterpret = My.Computer.FileSystem.ReadAllText(_Value)),
-     New Utilities.CLAManager.CLADatum("SourceString", "[Datum] Specifies the Source via a DocScript Source String. Use ; for NewLine and ` for StringLiteralStartEndChar.", False, True, Sub(_Value$) SourceToInterpret = _Value.Replace(";", vbCrLf).Replace("`"c, """"c)),
-     New Utilities.CLAManager.CLADatum("DocScriptCLAs", "[Datum] Specifies Command-Line Arguments for the DocScript Program", False, True, Sub(_Value$) DocScriptCLAs = _Value.Split(" "c))
- )
- 
- </para>
-		<para>If the Help Dictionary is displayed, then no other CLA Actions will be dealt with or run, and HelpDictionaryWasDisplayed will be set to True.</para>
-		<para>NOTE: CLA Keys are not case-sensitive; /Name is the same as /NAmE</para>
-	</summary>
-	<param name="_CLAs">The Command-Line Arguments to deal with E.g. My.Application.CommandLineArgs.ToArray() or an "args" Parameter</param>
-	<param name="_CLAData">A collection of CLADatum Instances (#KnowYourLatin)</param>
-	<param name="_CLAHelpDictionary_Description">The Text displayed at the start of the CLA Help Dictionary, when it is displayed via the presence of the /? CLA</param>
-	<param name="_CLAHelpDictionary_Examples">Example Calls to the Binary executable with CLAs. E.g. DSCLI.EXE /RunSourceFile:"X:\Programming\DocScript\HelloWorld.DS"</param>
-	<param name="_OutputDelegate">Used for E.g. outputting the CLA Help Dictionary if the /? CLA is specified</param>
-	<remarks></remarks>
-</member><member name="T:DocScript.Utilities.CLAManager">
-	<summary>
- Manages a set of CLAData to act on any specified Command-Line Arguments, and to display a CLA Help Dictionary if the argument /? is specified.
- Runs the relevant CLADatums' Actions-If-Specified, as soon as the CLAManager is constructed.
+ How to use ExecutionResult:
+ ---------------------------
+ Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\Output")
+ (Do IInstruction processing...)
+ Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_ModifiedSymTbls)
  </summary>
-</member><member name="M:DocScript.Language.Variables.TypeCoercion.CoerceIDV_IntoTargetIDVType``1(DocScript.Language.Variables.IDataValue)">
-	<summary>Use via the Coerce() Compiler Extention.</summary>
-	<typeparam name="_TSoughtIDV">The DataType that you want to coerce the _InputIDV into</typeparam>
-	<remarks>DO NOT RENAME THIS FUNCTION; ITS NAME IS HARD_CODED AS A STRING LITERAL IN THE REFLECTION CALL ABOVE</remarks>
-</member><member name="T:DocScript.Language.Variables.TypeCoercion">
-	<summary>DS-TC</summary>
-</member><member name="M:DocScript.Runtime.Parser.GetTokensFromSource(System.String)">
-	<summary>Performs the Segmentation and TokenTypeIdentification to generate Tokens from some raw DocScript Source</summary>
-</member><member name="P:DocScript.Runtime.Parser.AllLineBreaksAreValid_(System.String)">
-	<summary>This function attempts to proove that only Proper CrLf LineBreaks have been used</summary>
-</member><member name="M:DocScript.Runtime.Parser.BlankOutUnnecessarySourceLines_(System.String[]@)">
-	<summary>Replaces [#Comment Lines] and [Whitespace-only Lines] with [Empty Strings]</summary>
-</member><member name="M:DocScript.Runtime.Parser.ReplaceStringLiteralsWithSLITs_(System.String[]@)">
-	<summary>Replaces any StringLiterals with SLITs. The Origional String Literals are stored in the Array returned by this Method</summary>
-	<returns>Returns the SLITs Array</returns>
-</member><member name="M:DocScript.Runtime.Parser.SegmentCleanSourceIntoTokens_(System.String[],System.String[])">
-	<summary>Splits the _CleanSourceLines up into Tokens, each of which leave this Function with an "Unresolved" TokenType</summary>
-</member><member name="M:DocScript.Runtime.Parser.RemoveProblematicChars_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
-	<summary>
- Takes in Tokens which may contain Problematic chars in their values, and removes these chars.
- Then, removes any tokens which are part of newly-visable #Comment lines (which were previously undetected, because of a leading problematic-char).
- Then, ensures that all remaining characters in all Tokens' Values are valid.
- </summary>
-</member><member name="M:DocScript.Runtime.Parser.ReplaceSLITsWithStringLiterals_(System.Collections.Generic.List{DocScript.Runtime.Token}@,System.String[])">
-	<summary>Takes in some Tokens which may have SLITs in them, and returns a version of that List(Of Token) which has the origional StringLiterals again</summary>
-</member><member name="M:DocScript.Runtime.Parser.GetTypedTokensFromUnclassifiedOnes_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
-	<summary>Takes in the Tokens where [Type = Unresolved] and classifies the Tokens with the RegExpToTokenType_Table</summary>
-</member><member name="M:DocScript.Runtime.Parser.EnsurePairedComponentsAreWellBalenced_(DocScript.Runtime.Token[]@)">
-	<summary>Ensures that all brackets () [] and &lt;&gt;, and statements (Function, If, Etc...) and are well-balenced</summary>
-</member><member name="M:DocScript.Runtime.Parser.FlattenSource(System.String)">
-	<summary>
- Makes the source valid for within a single line or inside string literal; replaces [LineBreaks (CrLf)] with [;], and replaces ["] with [`].
- </summary>
-</member><member name="M:DocScript.Runtime.Parser.UnflattenSource(System.String)">
-	<summary>
- Takes in flattened source, and expands it; replaces [;] with [LineBreaks (CrLf)], and replaces [`] with ["].
- For example, DocScript-Live uses this method, so the line [Output("Ben");Output("Ryan")] becomes two seperate lines.
- </summary>
-</member><member name="M:DocScript.Runtime.Parser.GetTokensXML(DocScript.Runtime.Token[]@)">
-	<summary>Returns the standardised Tokens' XML for an array of Tokens output from the Parser. Used for DS-Pipelining.</summary>
-</member><member name="T:DocScript.Runtime.Parser">
-	<summary>Contains Constants and Methods for the first stage in the DocScript Interpretation Process</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(System.String,DocScript.Language.Expressions.IExpression[])">
-	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.#ctor(DocScript.Runtime.Token[]@)">
-	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.CallFunctionByName(DocScript.Runtime.SymbolTablesSnapshot,System.String,DocScript.Language.Expressions.IExpression[],System.Boolean)">
-	<summary>Used by FunctionCall and FunctionCallExpr to call a BIF or DSFunction contained in the _InputSymbolTables. Arguments are passed in as UNRESOLVED Expressions.</summary>
-	<remarks>Sounds rather Win32-y, dosen't it?</remarks>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.GetProgramTreeNodeXML">
-	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.FromXML(System.Xml.Linq.XElement)">
-	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.FunctionCall.ToString">
-	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.FunctionCall">
-	<summary>Represents E.g. [GetAge("Ben", 2)]</summary>
-</member><member name="P:DocScript.My.Resources.Resources.ResourceManager">
-	<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member><member name="P:DocScript.My.Resources.Resources.Culture">
-	<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member><member name="P:DocScript.My.Resources.Resources.BreakPoint">
-	<summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
-</summary>
-</member><member name="P:DocScript.My.Resources.Resources.ContinueExec">
-	<summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
-</summary>
-</member><member name="P:DocScript.My.Resources.Resources.Delete">
-	<summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
-</summary>
-</member><member name="P:DocScript.My.Resources.Resources.DSLive">
-	<summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
-</summary>
-</member><member name="P:DocScript.My.Resources.Resources.SymbolTables">
-	<summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
-</summary>
-</member><member name="T:DocScript.My.Resources.Resources">
-	<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
+</member><member name="M:DocScript.Language.Instructions.ExecutionResult.StopExecutionTimer_AndFinaliseObject(DocScript.Runtime.SymbolTablesSnapshot@)">
+	<summary>The .ReturnStatus is initialised to New ReturnStatusData(); use an Inline With to set its members</summary>
+	<param name="_ResultantSymbolTablesState">For IStatements, this should NOT contain the ScopedVariables member</param>
+</member><member name="T:DocScript.Language.Instructions.ExecutionResult">
+	<summary>Represents the result of a call to Execute() of an IInstruction, or Run() on a DSFunction. Contains data such as weather or not to Return.</summary>
 </member><member name="M:DocScript.Runtime.TokenPatternValidation.TokenPattern.ToString">
 	<summary>Returns in the form E.g. [Keyword, /Function/]</summary>
 </member><member name="T:DocScript.Runtime.TokenPatternValidation.TokenPattern">
@@ -748,30 +486,87 @@ DSCore
 	<summary>IInstruction Tokens to Patterns Validators (TPVs)</summary>
 </member><member name="T:DocScript.Runtime.TokenPatternValidation">
 	<summary>Contains logic for validating a list of Tokens against a Pattern</summary>
-</member><member name="M:DocScript.Utilities.KVPSerialisation.GetKVPString(System.String[][])">
-	<summary>Returns a Serialised String form of the Object's Key-Value Pairs specified</summary>
-</member><member name="M:DocScript.Utilities.KVPSerialisation.GetKVPXML(System.String,System.String[][])">
-	<summary>Returns a Serialised XML form of the Object's Key-Value Pairs specified</summary>
-</member><member name="M:DocScript.Utilities.KVPSerialisation.GetKVPXML``1(System.String[][])">
-	<summary>Returns a Serialised XML form of the Object's Key-Value Pairs specified</summary>
-</member><member name="T:DocScript.Utilities.KVPSerialisation">
+</member><member name="M:DocScript.Utilities.CLAManager.CLADatum.#ctor(System.String,System.String,System.Boolean,System.Boolean,System.Action{System.String})">
 	<summary>
- Provides methods for Key-Value Pair Serialisation
+ Constructs a new Object to represent the desired configuration for a single CLA Key (Specified in the Syntax /Key or /Key:Value or /Key:"Value")
  </summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(System.String,DocScript.Language.Expressions.IExpression)">
+	<param name="_Key">The CLA Key E.g. "ShowLog". The forward slash / is not to be included in this string. NOTE: CLA Keys are not case-sensitive; /Name is the same as /NAmE</param>
+	<param name="_Description">The Description used in the CLA Help Dictionary ( /? )</param>
+	<param name="_MustBeSpecified">Indicates that the Key must be specified in the Command-Line Arguments provided to the CLAManager, otherwise an Exception is Thrown.</param>
+	<param name="_MustHaveValue">Indicates that if the Key is specified, then a corrosponding Value must also be specified, otherwise an Exception is Thrown.</param>
+	<param name="_ActionIfSpecified">The Action to run if the Key is specified. The String Argument is the Value corrosponding to the Key, which could be [Nothing] (null) {nullptr} &lt;undefined&gt; if there is no Value corrosponding to the Key</param>
+	<remarks></remarks>
+</member><member name="T:DocScript.Utilities.CLAManager.CLADatum">
+	<summary>
+ Represents a configuration for a single CLA key, and what to do if it's specified.
+ (Specified in the Syntax /Key or /Key:Value or /Key:"Value")
+ NOTE: CLA Keys are not case-sensitive; /Name is the same as /NAmE
+ </summary>
+	<remarks></remarks>
+</member><member name="F:DocScript.Utilities.CLAManager.UseCommandLineFormatting_ForHelpDictionary">
+	<summary>
+ Indicates that the Help Dictionary will have the Linebreaks and padding-whitespace automatically inserted.
+ Use True, if this is a Console Application;
+ If MsgBox()-ing out the /? Dictionary, then use False.
+ </summary>
+</member><member name="F:DocScript.Utilities.CLAManager.HelpDictionaryWasDisplayed">
+	<summary>Indicates weather /? was handled instead of processing CLAData. If the Help Dictionary is displayed, then no other CLA Actions will be dealt with or run, and HelpDictionaryWasDisplayed will be set to True.</summary>
+</member><member name="M:DocScript.Utilities.CLAManager.#ctor(System.String[],System.String,System.String[],System.Action{System.String},System.Boolean,DocScript.Utilities.CLAManager.CLADatum[])">
+	<summary>
+		<para>Constructs a Command-Line Argument Manager. All managment of the CLAs occours as soon as the object is constructed. No additional call is nessecary.</para>
+		<para>
+ Exmaple Call:
+
+ Dim _CLAManager As New DocScript.Utilities.CLAManager(
+     _CLAs,
+     "DocScript Command-Line Interpreter. Interprets DocScript Source Files.",
+     {"DSCLI.EXE /Live",
+     "DSCLI.EXE /Live /LogToFile:""DSLive.DSLog"" /ProcessDebugEvents /GUI",
+     "DSCLI.EXE /Run /SourceString:""Function &lt;Void&gt; Main ();Output(`Hello, World!`);EndFunction""",
+     "DSCLI.EXE /Run /SourceFile:""X:\Programming\DocScript\HelloWorld.DS"" /LogToConsole",
+     "DSCLI.EXE /GetProgramTree /SourceString:""Function &lt;Void&gt; Main ();Output(`Hello, World!`);EndFunction""",
+     "DSCLI.EXE /Run /SourceString:""Function&lt;Void&gt;Main();System_Beep();EndFunction""",
+     "DSCLI.EXE /Run /SourceFile:""BIO2017.DS"" /DocScriptCLAs:""GRBBRB"" /LogToFile:BIO.DSLog"},
+     AddressOf Console.WriteLine, True,
+     New Utilities.CLAManager.CLADatum("Live", "[Action] Enters a DocScript Live Session: a DS&gt; prompt appears and accepts Statement-level Instructions", False, False, Sub(_Value$) ActionWhenReady = WhenReadyAction.EnterDSLiveSession),
+     New Utilities.CLAManager.CLADatum("Run", "[Action] Interprets the DocScript Source (specified by either /SourceFile or /SourceString). This process then returns the ExitCode of the DocScript Program.", False, False, Sub(_Value$) ActionWhenReady = WhenReadyAction.Run),
+     New Utilities.CLAManager.CLADatum("GetProgramTree", "[Action] Parses and Lexes the DocScript Source (specified by either /SourceFile or /SourceString), and writes the resultant XML Program tree to the Console Output Stream", False, False, Sub(_Value$) ActionWhenReady = WhenReadyAction.GetProgramTree),
+     New Utilities.CLAManager.CLADatum("SourceFile", "[Datum] Specifies the Source via a DocScript Source File", False, True, Sub(_Value$) SourceToInterpret = My.Computer.FileSystem.ReadAllText(_Value)),
+     New Utilities.CLAManager.CLADatum("SourceString", "[Datum] Specifies the Source via a DocScript Source String. Use ; for NewLine and ` for StringLiteralStartEndChar.", False, True, Sub(_Value$) SourceToInterpret = _Value.Replace(";", vbCrLf).Replace("`"c, """"c)),
+     New Utilities.CLAManager.CLADatum("DocScriptCLAs", "[Datum] Specifies Command-Line Arguments for the DocScript Program", False, True, Sub(_Value$) DocScriptCLAs = _Value.Split(" "c))
+ )
+ 
+ </para>
+		<para>If the Help Dictionary is displayed, then no other CLA Actions will be dealt with or run, and HelpDictionaryWasDisplayed will be set to True.</para>
+		<para>NOTE: CLA Keys are not case-sensitive; /Name is the same as /NAmE</para>
+	</summary>
+	<param name="_CLAs">The Command-Line Arguments to deal with E.g. My.Application.CommandLineArgs.ToArray() or an "args" Parameter</param>
+	<param name="_CLAData">A collection of CLADatum Instances (#KnowYourLatin)</param>
+	<param name="_CLAHelpDictionary_Description">The Text displayed at the start of the CLA Help Dictionary, when it is displayed via the presence of the /? CLA</param>
+	<param name="_CLAHelpDictionary_Examples">Example Calls to the Binary executable with CLAs. E.g. DSCLI.EXE /RunSourceFile:"X:\Programming\DocScript\HelloWorld.DS"</param>
+	<param name="_OutputDelegate">Used for E.g. outputting the CLA Help Dictionary if the /? CLA is specified</param>
+	<remarks></remarks>
+</member><member name="T:DocScript.Utilities.CLAManager">
+	<summary>
+ Manages a set of CLAData to act on any specified Command-Line Arguments, and to display a CLA Help Dictionary if the argument /? is specified.
+ Runs the relevant CLADatums' Actions-If-Specified, as soon as the CLAManager is constructed.
+ </summary>
+</member><member name="F:DocScript.Language.Instructions.ReturnToCaller.ReturnValueExpr">
+	<summary>If there wasn't an associated Expr in the source, then this is Nothing (null)</summary>
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Language.Expressions.IExpression)">
 	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(DocScript.Runtime.Token[]@)">
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
 	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.GetProgramTreeNodeXML">
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.FromXML(System.Xml.Linq.XElement)">
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.FromXML(System.Xml.Linq.XElement)">
 	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.VariableAssignment.ToString">
+</member><member name="M:DocScript.Language.Instructions.ReturnToCaller.ToString">
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.VariableAssignment">
-	<summary>Represents E.g. [Name : "Ben"]</summary>
+</member><member name="T:DocScript.Language.Instructions.ReturnToCaller">
+	<summary>Represents E.g. [Return "Ben"]</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
 	<summary>Constructs the IInstruction from an existing instance</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.WhileStatement.#ctor(DocScript.Runtime.Token[]@)">
@@ -786,63 +581,45 @@ DSCore
 	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.WhileStatement">
 	<summary>Represents E.g. [While (True) ... EndWhile]</summary>
-</member><member name="T:DocScript.Language.Variables.IDataValue">
-	<summary>The Non-Generic Interface for all actual Values of an Expr or Variable</summary>
-</member><member name="T:DocScript.Language.Variables.IDataValue`1">
-	<summary>The Generic Interface for values of an Expr or Variable. Takes in the DotNetType for which the interface is a wrapper</summary>
-</member><member name="M:DocScript.Language.Variables.DSBoolean.ToString">
-	<summary>Returns a string to represent the Literal for the IDataValue</summary>
-</member><member name="M:DocScript.Language.Variables.DSBoolean.ToXML">
-	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
-</member><member name="T:DocScript.Language.Variables.DSBoolean">
-	<summary>Represents a True or False value</summary>
-</member><member name="P:DocScript.Language.Variables.DSNumber.Value">
-	<summary>The Base-10 Value of the Number</summary>
-</member><member name="P:DocScript.Language.Variables.DSNumber.IsValidNumericLiteralString(System.String)">
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Maths">
+	<summary>Maths-related Functions such as Rounding, getting Pi, or finding the maximum of two numbers</summary>
+</member><member name="T:DocScript.Runtime.StandardBuiltInFunctions">
+	<summary>Provides useful Logic built-in to DocScript</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.Port">
+	<summary>The logical port on which the Web Server listens. E.g. "900" in the URL "http://localhost:900/Help/".</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.VirtualPath">
+	<summary>The URL sub-path on which the Web Server listens. E.g. "Help" in the URL "http://localhost:900/Help/".</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.SuccessfullyHandledRequestsCount">
+	<summary>The Number of requests responded-to by the Web Server instance so-far. This is NOT readonly, so that it can be externally reset.</summary>
+</member><member name="E:DocScript.Utilities.MicroHTTPServer.RequestHandledSuccessfully">
+	<summary>Occurs directly after a HTTP Request is responded-to. The Argument is the Request, whose full URL is avaliable via the Property .Url.ToString(). Also note the Properties of .UserAgent, .UserHostName, and .HttpMethod.</summary>
+</member><member name="F:DocScript.Utilities.MicroHTTPServer.MIMETypesDictionary">
+	<summary>A mapping of FILE-EXTENTIONS to MIME-TYPES. E.g. {"HTM", "text/html"}, {"BMP", "image/bmp"}. If a request's File Extension dosen't appear in the Dictionary's Keys, then the default of "text/plain" is used.</summary>
+</member><member name="P:DocScript.Utilities.MicroHTTPServer.URL">
+	<summary>E.g. Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.String,System.String,System.String)">
+	<summary>Mode 1: Constructs the MicroHTTPServer to serve a STRING. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.FileInfo,System.String)">
+	<summary>Mode 2: Constructs the MicroHTTPServer to serve a SINGLE FILE. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the _FileToServe's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.#ctor(System.UInt16,System.IO.DirectoryInfo,System.String)">
+	<summary>Mode 3: Constructs the MicroHTTPServer to serve FILES FROM A DIRECTORY. If the root URL / is requested, an Exception is Thrown. Uses the [MIMETypes] Dictionary to derive a MIME-Type from the File-to-serve's Extention. Example: Port=8090 and VirtualPath="Help" would make a URL of http://localhost:8090/Help/</summary>
+</member><member name="M:DocScript.Utilities.MicroHTTPServer.Run">
+	<summary>Initialises the HTTPListener and begins the request-handling loop. Each time a request is handled, the [RequestHandled] Event is raised.</summary>
+</member><member name="T:DocScript.Utilities.MicroHTTPServer">
 	<summary>
- Used in DS-TC for String→Number Conversion
- NOTE: This function will automatically strip the Input String of Quotes on either side, if it has them.
- </summary>
-</member><member name="M:DocScript.Language.Variables.DSNumber.FromNumericLiteralString(System.String)">
-	<summary>
- Used in DS-TC for String→Number Conversion
- NOTE: This function will automatically strip the Input String of Quotes on either side, if it has them.
- </summary>
-</member><member name="M:DocScript.Language.Variables.DSNumber.StripQuotesIfPresent(System.String)">
-	<summary>
- Automatically strips the Input String of Quotes on either side if it has them both, and if the Input String is *at-least* 3 chars long.
- </summary>
-</member><member name="M:DocScript.Language.Variables.DSNumber.ToString">
-	<summary>Returns a string to represent the Literal for the IDataValue</summary>
-</member><member name="M:DocScript.Language.Variables.DSNumber.ToXML">
-	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
-</member><member name="T:DocScript.Language.Variables.DSNumber">
-	<summary>Represents a Number with a Value and a Base. Can be from three different forms of Literal</summary>
-</member><member name="M:DocScript.Language.Variables.DSString.#ctor(System.String)">
-	<summary>If the _Value contains the StringLIteralStartEndChar, then instances of this Char will be replaced with the Language.Constants.StringLIteralStartEndChar_DSStringValueReplacementChar</summary>
-</member><member name="M:DocScript.Language.Variables.DSString.ToString">
-	<summary>Returns a string to represent the Literal for the IDataValue</summary>
-</member><member name="M:DocScript.Language.Variables.DSString.ToXML">
-	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
-</member><member name="T:DocScript.Language.Variables.DSString">
-	<summary>Represents a String of Chars</summary>
-</member><member name="M:DocScript.Language.Variables.DSArray`1.ToString">
-	<summary>Returns a string to represent the DSArray in the format {Item1, Item2, Item3}</summary>
-</member><member name="M:DocScript.Language.Variables.DSArray`1.ToXML">
-	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
-</member><member name="T:DocScript.Language.Variables.DSArray`1">
-	<summary>
- Represents a List of DSString, DSNumber, or DSBoolean Objects
- NOTE: This Class does not Implement IDV(Of TElement) because that would create a member [Value As TElement], and out Value needs to be As List(Of TElement)
- </summary>
-</member><member name="M:DocScript.Language.Variables.Void.#ctor">
-	<summary>Throws an Exception</summary>
-</member><member name="M:DocScript.Language.Variables.Void.ToXML">
-	<summary>Throws an Exception</summary>
-</member><member name="T:DocScript.Language.Variables.Void">
-	<summary>Represents the absence of Data (Only valid as a Return Type for Functions)</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Graphics">
-	<summary>DS-Graphics</summary>
+ A lightweight HTTP Server, which can serve either a constant String, single File, or a file from a specified Directory.
+ 
+ 	<example>
+ 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _ResponseContentString:="Same for all URLs!", _ResponseMIMEType:="text/plain")
+  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
+		 	_MicroServer.Run()
+ 	</example>
+		<example>
+ 		Dim _MicroServer As New MicroHTTPServer(_Port:=9020, _DirectoryToServeFilesFrom:=New IO.DirectoryInfo("F:\"))
+  	 	AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) Console.Out.WriteLine(_Request.Url.ToString())
+		 	_MicroServer.Run()
+ 	</example>
+	</summary>
 </member><member name="M:DocScript.CompilerExtentions.ObjectExtentions.MustBe``1(System.Object)">
 	<summary>
  (MullNet CompilerExtention) Ensures that the _Object is of Type _TSoughtType, returning it if it is, and Throwing a DSException if it isn't.
@@ -1184,47 +961,14 @@ DSCore
  Non-CompilerExtention Useful Methods which need to be accessible without Namespace qualification
  Some of these can't be CompilerExtentions E.g. because they take in a ParamArray as the first Argument
  </summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ConstructExpressionFromTokens(DocScript.Runtime.Token[]@)">
-	<summary>Constructs a Tree for an Expression, from the Tokens which make up that Expr.</summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.GetTreeViewNodeFromExpr(DocScript.Language.Expressions.IExpression@)">
-	<summary>Constructs a WinForms TreeView Node from a constructed IExpression</summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ConstructExpressionFromXML(System.Xml.Linq.XElement)">
-	<summary>
- Constructs a Tree for an Expression, from an XML Expression Serialisation, as produced by IExpression.GetExprTreeNodeXML().
- The XElement passed in should have one of these Tag Names: OperatorExpr, LiteralExpr, FunctionCallExpr, VariableExpr.
- </summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.PerformInitialValidationOnRawTokens_(DocScript.Runtime.Token[]@)">
-	<summary>Ensures that the Tokens are of permitted TokenTypes, and that there are equal numbers of opening and closing Brackets.</summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ProduceLBL_(DocScript.Runtime.Token[]@,System.Int32)">
-	<summary>Returns [the Index of the Last Token read by that call], and [the LBL generated from the Tokens read]</summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.SimplifyLBL_(DocScript.Language.Expressions.IExpression[])">
-	<summary>Removes and one-child BracketedExprs, recursively inside BracketedExprs and FunctionCalls too</summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.ValidateLBL_(DocScript.Language.Expressions.IExpression[])">
-	<summary>Ensures there are no occourances of Illegal patterns in the LBL</summary>
-</member><member name="T:DocScript.Language.Expressions.ExprUtilities.OperatorTupleComparer_">
-	<summary>Used by the CollapseToIOT_() Method to order the OperatorTuples</summary>
-</member><member name="M:DocScript.Language.Expressions.ExprUtilities.CollapseToIOT_(DocScript.Language.Expressions.IExpression[])">
-	<summary>Removes LBL-Only IExprs and forms the Expr. Tree and adds in the [OperatorExpr]s and [FunctionCallExpr]s</summary>
-</member><member name="T:DocScript.Language.Expressions.ExprUtilities">
-	<summary>Contains Expression Construction Resources</summary>
-</member><member name="T:DocScript.Runtime.Token.TokenType">
-	<summary>Represents the Catagorical Vareity of a Token</summary>
-</member><member name="M:DocScript.Runtime.Token.TokenLocation.ToString">
-	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
-</member><member name="M:DocScript.Runtime.Token.TokenLocation.ToShortString">
-	<summary>Returns a Shortened String, in the Form (E.g.) [14,7]</summary>
-</member><member name="T:DocScript.Runtime.Token.TokenLocation">
-	<summary>Represents the original location of a Token in the Source</summary>
-</member><member name="M:DocScript.Runtime.Token.#ctor(System.String,DocScript.Runtime.Token.TokenType,System.UInt16,System.UInt16)">
-	<summary>Constructs a new Token from a Value string, TokenType, and Location-in-source</summary>
-</member><member name="M:DocScript.Runtime.Token.FromXML(System.Xml.Linq.XElement)">
-	<summary>SideLoading Constructor: </summary>
-</member><member name="M:DocScript.Runtime.Token.ToString">
-	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
-</member><member name="M:DocScript.Runtime.Token.ToXML">
-	<summary>Returns a KVPSerialised XML Object with the members of the current object</summary>
-</member><member name="T:DocScript.Runtime.Token">
-	<summary>Represents a Segmented String with a TokenType, from the Source of a DocScript Program</summary>
+</member><member name="M:DocScript.Language.Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(System.String)">
+	<summary>E.g. Takes in "STRING@" and Returns [DSArray(Of DSString)]. The Case of the Input does not matter; it is ToUpper()'d anyway.</summary>
+</member><member name="M:DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(System.Type)">
+	<summary>E.g. Takes in [DSArray(Of DSString)] and Returns "STRING@". The Output comes from the Language-level Constants, so it UPPERCASE.</summary>
+</member><member name="P:DocScript.Language.Variables.VariableUtilities.IsNonVoidFunctionReturnType(System.Type)">
+	<summary>Determines if _FunctionReturnType is for a valid IDV, which isn't Void etc. (It must be a String, Number, Boolean, or Array(Of *←)). This is done by an assume-false method.</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Const">
+	<summary>DocScript Constants - accessible via calling Const_Name()</summary>
 </member><member name="M:DocScript.Runtime.Remoting.WMI_CreateRemoteProcess(System.String,System.String,System.String,System.String)">
 	<summary>
  Uses WMI to run the specified command line on the remote Windows(TM) computer.
@@ -1272,72 +1016,20 @@ DSCore
 	<summary>Un-registars all association between the share and any credentials which were mapped to it</summary>
 </member><member name="T:DocScript.Runtime.Remoting">
 	<summary>Contains resources for executing DocScript programs on remote computers</summary>
-</member><member name="P:DocScript.Runtime.StandardBuiltInFunctions.IgnoreBreakpoints">
-	<summary>Indicates that the "Break()" BIF should silently be skipped, instead of showing the Breakpoint-Action-Dialog.</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_">
-	<summary>Needs to be publicly visible for DSIDE's [Insert Breakpoint] Button</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_">
-	<summary>The DSIDE BIF to pause execution and e.g. inspect the current variables. In the DebugBIF's File, but not a member of the Debug Namespace</summary>
-	<remarks>Does NOT start with "Debug_"</remarks>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Debug_ShowSymbolTables_Identifier_">
-	<summary>Needs to be publically visible for the BreakpointActionDialog</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_">
-	<summary>Needs to be publically visible for the BreakpointActionDialog</summary>
-</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Debug">
-	<summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
-</member><member name="T:DocScript.Language.Constants">
-	<summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript. See Also: DocScript.Runtime.Constants</summary>
-</member><member name="T:DocScript.Language.Expressions.Operators.DSOperator">
-	<summary>The Base Class for UnaryOperator and BinaryOperator</summary>
-</member><member name="T:DocScript.Language.Expressions.Operators.UnaryOperator">
-	<summary>Represents an Operator with one Operand</summary>
-</member><member name="T:DocScript.Language.Expressions.Operators.BinaryOperator">
-	<summary>Represents an Operator with two Operands</summary>
-</member><member name="F:DocScript.Language.Instructions.Statements.DSFunction.Parameter.Identifier">
-	<summary>The Unique Identifier for the Parameter</summary>
-</member><member name="F:DocScript.Language.Instructions.Statements.DSFunction.Parameter.DataType">
-	<summary>The DataType must be an IDataValue-based DocScript DataType e.g. DSBoolean</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.#ctor(System.String,System.Type)">
-	<summary>The DataType must be a DocScript DataType e.g. &lt;Number&gt;. Use the IDataValue Types herefor.</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.GetProgramTreeNodeXML">
-	<summary>Returns an XML Representation of the Parameter, with the Identifier and DataType</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.FromXML(System.Xml.Linq.XElement)">
-	<summary>Constructs an instance of the class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Parameter.ToString">
-	<summary>Returns what the Argument would have looked like in the Source, without an extra LineBreak on the End</summary>
-</member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Parameter">
-	<summary>Represents a Placeholder for an Argument, used as a Local Variable within a DSFunction. (Parameter == Placeholder; Argument == A Datum applied to a Parameter at Runtime)</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Signature.#ctor(System.String,System.Type[],System.Type)">
-	<summary>The Identifier will be ToUpper()-ed</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Signature.ToString">
-	<summary>Returns a KVP-Serialised String to represent the current Object</summary>
-</member><member name="T:DocScript.Language.Instructions.Statements.DSFunction.Signature">
-	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(System.String,System.Type,DocScript.Language.Instructions.Statements.DSFunction.Parameter[],System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Language.Expressions.IExpression,System.Collections.Generic.List{DocScript.Language.Instructions.IInstruction})">
 	<summary>Constructs the IInstruction from an existing instance</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.#ctor(DocScript.Runtime.Token[]@)">
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.#ctor(DocScript.Runtime.Token[]@)">
 	<summary>Constructs the IInstruction from its Tokens</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
-	<summary>DO NOT CALL; Use Run().</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.Run(DocScript.Runtime.SymbolTablesSnapshot,DocScript.Language.Variables.IDataValue[])">
-	<summary>
- The Arguments are IDataValues and not IExpressions, because if the Exprs referanced a variable Local to ANOTHER DSFUNCTION, then it wouldn't be accessible here!
- DSFunction Symbol Table Rules:
-     - A DSFunction may take in several SymbolTables, but only pays attention to the Globals on the bottom
-     - A DSFunction only returns the Global Symbol Table
- </summary>
-</member><member name="P:DocScript.Language.Instructions.Statements.DSFunction.EffectiveSignature">
-	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.GetProgramTreeNodeXML">
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.GetProgramTreeNodeXML">
 	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.FromXML(System.Xml.Linq.XElement)">
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.FromXML(System.Xml.Linq.XElement)">
 	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.ToString">
-	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End.</summary>
-</member><member name="M:DocScript.Language.Instructions.Statements.DSFunction.ToXML">
-	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
-</member><member name="T:DocScript.Language.Instructions.Statements.DSFunction">
-	<summary>Represents E.g. [Function &lt;DataType&gt; Identifier (Arguments...)]</summary>
+</member><member name="M:DocScript.Language.Instructions.Statements.LoopStatement.ToString">
+	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
+</member><member name="T:DocScript.Language.Instructions.Statements.LoopStatement">
+	<summary>Represents E.g. [Loop (10) ... EndLoop]</summary>
 </member><member name="T:DocScript.Language.Instructions.Statements.IStatement">
 	<summary>The Base Interface for all Statement Instructions in DocScript (E.g. Implemented by DSFunction and IfStatement)</summary>
 </member><member name="M:DocScript.Language.Instructions.Statements.StatementUtilities.GetStatementContentsFromTokens(DocScript.Runtime.Token[])">
@@ -1362,35 +1054,339 @@ DSCore
  ((((...In the form of a {LineBreak} betwixt each IInstruciton.ToString().))))
  </para>
 	</summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseProgram(DocScript.Runtime.Program)">
-	<summary>Returns an optimised version of _Program</summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseStatementContents(DocScript.Language.Instructions.IInstruction[])">
+</member><member name="M:DocScript.Logging.LogWindow.#ctor(System.String)">
+	<summary>The _SessionName$ appears in the Window Title, to distinguish it from other active LogWindows</summary>
+</member><member name="M:DocScript.Logging.LogWindow.AddLogEvent(DocScript.Logging.LogEvent)">
+	<summary>Adds the _LogEvent to the DataGridView of the Form</summary>
+</member><member name="M:DocScript.Utilities.Screenshotting.GetScreenshot">
+	<summary>WARNING: Tends to cause an Exception after ~40+ calls, because of a bug in GDI+.</summary>
+</member><member name="M:DocScript.Utilities.Screenshotting.TakeAndSaveScreenshotAsPNG(System.IO.FileInfo)">
+	<summary>Does not cause a bug after some time, because the objects are properly disposed-of in each call.</summary>
+</member><member name="T:DocScript.Utilities.Screenshotting">
+	<summary>As used by some of the Graphics_ BIFs</summary>
+</member><member name="P:DocScript.Utilities.SQLQueryRunner.QueryOutputDataTable">
+	<summary>The Table filled with the resultant output of the previous SQL Query. If no queries have been made yet, then it is Nothing/null.</summary>
+</member><member name="M:DocScript.Utilities.SQLQueryRunner.#ctor(System.String,System.String,System.String)">
+	<summary>CONSTRUCTOR FOR SQL SERVER AUTHENTICATION. Readies the Object with the specified arguments, but does not initiate any form of connection with the SQL Server at this point.</summary>
+</member><member name="M:DocScript.Utilities.SQLQueryRunner.#ctor(System.String)">
+	<summary>CONSTRUCTOR FOR WINDOWS AUTHENTICATION. Readies the Object with the specified arguments, but does not initiate any form of connection with the SQL Server at this point.</summary>
+</member><member name="P:DocScript.Utilities.SQLQueryRunner.ConnectionString">
+	<summary>Constructs the ConnectionString based on the current values of Fields in the Class. E.g. there are different ConnectionString Formats for Windows Authentication vs SQL Server Authentication.</summary>
+</member><member name="M:DocScript.Utilities.SQLQueryRunner.ExecuteQuery(System.String,System.Data.SqlClient.SqlParameter[])">
 	<summary>
- Applies the following optimisations:
- 	- Removal of unreachable instructions
- 	- (Expression-based optimisation on any Expressions contained within the _IInstructions)
+ Connects to the SQL Server, executes the T-SQL _Query, and returns the resultant DataTable.
+ Example Call:
+ _SQLQueryRunner.ExecuteQuery("SELECT * FROM [TestingDB].[dbo].[People] WHERE ""Name"" = @TargetName;", New SqlClient.SqlParameter() With {.ParameterName = "TargetName", .Value = "Ben", .DbType = DbType.String})
  </summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.ApplyExpressionOptimisationToStatementContents_(DocScript.Language.Instructions.IInstruction[])">
-	<summary>Recursively puts any IExpressions contained in the Instructions through OptimiseExpression()</summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.RemoveUnreachableIInstructions_(DocScript.Language.Instructions.IInstruction[])">
-	<summary>Recursively optimises the Contents of an IStatement. This is not an OptimisationAction itself, but passes the IInstructions through other OptimisationActions.</summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.OptimiseExpression(DocScript.Language.Expressions.IExpression)">
+	<param name="_Query">The T-SQL Query to execute, e.g. "SELECT * FROM [DatabaseName].[dbo].[TableName];"</param>
+	<param name="_SQLParameters">(Optional) An array of SQLParameters, which are added to the connection object prior to executing the SQLCommand. They can be referanced in the _Query in the form @ParameterName. Each Parameter ought to have a ParameterName, Value, and DbType</param>
+	<returns>The DataTable filled with the output from the Command.</returns>
+	<remarks>There is potential for a blank DataTable to be returned here.</remarks>
+</member><member name="M:DocScript.Utilities.SQLQueryRunner.BeginQueryWatch(System.String,System.String,System.Data.SqlClient.SqlParameter[])">
 	<summary>
- Applies the following optimisations:
- 	- Constant Expression Evaluation (e.g. [5 + 4] → [9])
- 	- Bitwise-shift instead of power-of-two multiplications (e.g. [Age * 8] → [Maths_Bitshift_Left(Age, 3)])
+ Begins listening for a change in the Output of the specified _Query. When a change occurs, the QueryWatch_QueryOutputChanged Event is Raised.
+ 
+ Example Call:
+ Dim _SQLQueryRunner As New DocScript.Utilities.SQLQueryRunner(_SQLServerName:="MNLT01\SQLEXPRESS")
+ _SQLQueryRunner.BeginQueryWatch(_DatabaseName:="QueryWatchTest", _Query:="SELECT ""Name"" FROM [dbo].[People];")
+ AddHandler _SQLQueryRunner.QueryWatch_QueryOutputChanged, Sub(_EventArgs As SqlClient.SqlNotificationEventArgs) MsgBox("Type: " &amp; _EventArgs.Type.ToString())
  </summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.SubstitutePowerOfTwoMultiplication_WithBitshift_(DocScript.Language.Expressions.IExpression)">
-	<summary>Converts Multiplications by powers of two into BitShifts where possible</summary>
-</member><member name="M:DocScript.Runtime.Optimisation.ComponentOptimiser.SubstituteConstantExpr_WithEvaluationThereof_(DocScript.Language.Expressions.IExpression)">
-	<summary>Performs Compile-time Evaluation where possible</summary>
-</member><member name="T:DocScript.Runtime.Optimisation.ComponentOptimiser">
+	<param name="_DatabaseName">Needed because a Queue will be registered with the ServiceBroker of this Database. The specified Database MUST have its Service Broker ENABLED. To enable the Service Broker: ALTER DATABASE [DBName] SET ENABLE_BROKER;</param>
+	<param name="_Query">E.g. SELECT "Name" FROM [dbo].[People];</param>
+	<param name="_SQLParameters">Any Parameters to be used in the SQL Command, accessible from the _Query in the format @ParameterName</param>
+	<remarks>
+ Check Broker is enabled with "SELECT name, is_broker_enabled FROM sys.databases;"
+ The database user must have the SUBSCRIBE QUERY NOTIFICATIONS permission
+ 
+ _Query cannot contain *, and must use fully-qualified Tablenames instead of just the Table Name on its own.
+ INVALID:	SELECT * FROM Messages;
+ VALID:		SELECT ID, Message FROM dbo.Messages;
+ </remarks>
+</member><member name="T:DocScript.Utilities.SQLQueryRunner">
+	<summary>Runs a Query on an SQL Server, returning the DataTable resulting from the Query</summary>
+</member><member name="M:DocScript.Exceptions.DSException.#ctor(System.String)">
+	<summary>Attempts to Log the Exception Message, indicating weather this occoured successfully or not in the Message Property</summary>
+</member><member name="M:DocScript.Exceptions.DSException.#ctor(System.String,System.Exception)">
+	<summary>Attempts to Log the Exception Message, indicating weather this occoured successfully or not in the Message Property</summary>
+</member><member name="M:DocScript.Exceptions.DSException.FormatMessage(System.String)">
+	<summary>Inserts a LineBreak after each Colon (:), if this hasn't already been done.</summary>
+</member><member name="T:DocScript.Exceptions.DSException">
+	<summary>The Base Execption Class whence all other DocScript Exceptions derive.</summary>
+</member><member name="M:DocScript.Exceptions.DSValidationException.#ctor(System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSValidationException">
+	<summary>Used for Input and Argument Validation</summary>
+</member><member name="M:DocScript.Exceptions.DSTokenValidationException.#ctor(System.String,DocScript.Runtime.Token[])">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSTokenValidationException">
+	<summary>Used for Token Validation</summary>
+</member><member name="M:DocScript.Exceptions.DSNullException.#ctor(System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSNullException">
+	<summary>Used for Null Referances and other Objects with should be set to a non-null value (but aren't)</summary>
+</member><member name="M:DocScript.Exceptions.DSInvalidCallException.#ctor(System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSInvalidCallException">
+	<summary>Used when an call is made to a method that should never be called (e.g. one implemented from an interface that isn't needed on the implementer object)</summary>
+</member><member name="M:DocScript.Exceptions.DSLBLValidationException.#ctor(System.String,System.String,DocScript.Language.Expressions.IExpression[])">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSLBLValidationException">
+	<summary>Used when the order of the LBL is invalid in an Expression</summary>
+</member><member name="M:DocScript.Exceptions.DSOperatorExecutionException.#ctor(System.String,System.String[],System.Exception)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSOperatorExecutionException">
+	<summary>Used when an OperatorExpr.Resolve() call Throws an Exception</summary>
+</member><member name="M:DocScript.Exceptions.DSBuiltInFunctionException.#ctor(System.String,System.Exception)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSBuiltInFunctionException">
+	<summary>Used when the [Action] of a BuiltInFunction Throws an Exception</summary>
+</member><member name="M:DocScript.Exceptions.DSUnexpectedTokenException.#ctor(System.String,DocScript.Runtime.Token)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="M:DocScript.Exceptions.DSUnexpectedTokenException.#ctor(System.String,DocScript.Runtime.Token[])">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSUnexpectedTokenException">
+	<summary>Used when a Token (or several Tokens) appears in an unexpected place in the source</summary>
+</member><member name="M:DocScript.Exceptions.DSMissingTokenException.#ctor(System.String,DocScript.Runtime.Token)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSMissingTokenException">
+	<summary>Used when a Token appears in an unexpected place in the source</summary>
+</member><member name="M:DocScript.Exceptions.DSTokenPatternValidationException.#ctor(System.String,DocScript.Runtime.TokenPatternValidation.TokensToPatternsValidator,DocScript.Runtime.Token[])">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSTokenPatternValidationException">
+	<summary>Used when a Token Array does not satisfy an Array of [TokenPattern]s</summary>
+</member><member name="M:DocScript.Exceptions.DSNonexistentSymbolException.#ctor(System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSNonexistentSymbolException">
+	<summary>Used when an Entry with the specified Identifier does not exist in a SymbolTable</summary>
+</member><member name="M:DocScript.Exceptions.DSDuplicateSymbolException.#ctor(System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSDuplicateSymbolException">
+	<summary>Used when an Entry with the specified Identifier already exists in a SymbolTable</summary>
+</member><member name="M:DocScript.Exceptions.DSIncorrectSymbolTableEntryTypeException.#ctor(System.String,System.String,System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSIncorrectSymbolTableEntryTypeException">
+	<summary>Used when an Entry with the specified Identifier does not exist in a SymbolTable</summary>
+</member><member name="M:DocScript.Exceptions.DSRefusedToCoerceToTypeException.#ctor(DocScript.Language.Variables.IDataValue,System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSRefusedToCoerceToTypeException">
+	<summary>Used for DS-TC, when an Input IDV cannot reasonably produce an Output IDV of a given IDV-Type</summary>
+</member><member name="M:DocScript.Exceptions.DSNoReturnValueException.#ctor(System.String,System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSNoReturnValueException">
+	<summary>Used when a Function declares itself to return a value, but dosen't.</summary>
+</member><member name="M:DocScript.Exceptions.DSSourceGeneratedException.#ctor(System.String)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSSourceGeneratedException">
+	<summary>Used when the DS_ThrowError(_Msg) BuiltInFunction is called from within DocScript Source</summary>
+</member><member name="M:DocScript.Exceptions.DSWebException.#ctor(System.String,System.Exception)">
+	<summary>Constructs a New DocScript WebException Object, attempting to Log the Message</summary>
+	<param name="_SourceLocationMessage">E.g. @ExprTreeFromSourceExpr</param>
+</member><member name="T:DocScript.Exceptions.DSWebException">
+	<summary>Used when an API Logical Branch encounters an Exception which must be caught by an unstream Catch Statement. DOES NOT INHERIT FROM DSException.</summary>
+</member><member name="M:DocScript.Exceptions.DSInputRequestTimedOutException.#ctor(System.TimeSpan)">
+	<summary>Calls the Constructor for DSException which attempts to Log the Message</summary>
+</member><member name="T:DocScript.Exceptions.DSInputRequestTimedOutException">
+	<summary>Used when an Input-Response is not provided within 8 Mins of it being requested by the ESWorker</summary>
+</member><member name="T:DocScript.Exceptions.DSCLANotSpecifiedException">
+	<summary>Thrown when a Command-Line Argument is mandatory, but not specified. Does NOT Inherit DSException.</summary>
+</member><member name="T:DocScript.Exceptions.DSCLAValueNotSpecifiedException">
+	<summary>Thrown when a Command-Line Argument is specified, but without a mandatory associated Value in the form /Key:Value or /Key:"Value". Does NOT Inherit DSException.</summary>
+</member><member name="F:DocScript.Language.Expressions.Operators.OperatorUtilities.DSOperators">
+	<summary>Maps the OperatorChars (as defined in the Language-level Constants) to their Binary- and Unary-Operator(s)</summary>
+</member><member name="T:DocScript.Language.Expressions.Operators.OperatorUtilities">
+	<summary>Contains the DSOperators Declaration, and several Utility Methods</summary>
+</member><member name="M:DocScript.Language.Variables.TypeCoercion.CoerceIDV_IntoTargetIDVType``1(DocScript.Language.Variables.IDataValue)">
+	<summary>Use via the Coerce() Compiler Extention.</summary>
+	<typeparam name="_TSoughtIDV">The DataType that you want to coerce the _InputIDV into</typeparam>
+	<remarks>DO NOT RENAME THIS FUNCTION; ITS NAME IS HARD_CODED AS A STRING LITERAL IN THE REFLECTION CALL ABOVE</remarks>
+</member><member name="T:DocScript.Language.Variables.TypeCoercion">
+	<summary>DS-TC</summary>
+</member><member name="P:DocScript.My.Resources.Resources.ResourceManager">
 	<summary>
- The reason this is a Class, and not just methods in a Module, is because the PerformedOptimisationsTally is specific to the optimisation of a given Component (Expression, IInstruction, or Program).
- If the PerformedOptimisations dictionary was just floating in the Module, then the tracking of which optimisations have occured would break in a multi-threaded scenario.
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.BreakPoint">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.ContinueExec">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.Delete">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.DSLive">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DocScript.My.Resources.Resources.SymbolTables">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:DocScript.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="T:DocScript.Runtime.Constants">
+	<summary>An Uninheritable, Uninstanciatable Class holding Runtime (Execution) Constants for DocScript</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.#ctor(DocScript.Runtime.SymbolTablesSnapshot,DocScript.Runtime.SymbolTable)">
+	<summary>
+ PUBLIC CONSTRUCTOR: Constructs the Snapshot with the specified SymTbls.
+ The _BottomStack can contain 0 elements, but a _Topmost must be specified, which - in the case of the Program - will be the Global Symbol Table.
+ Also ensures that no Identifier appears in multiple Symbol Tables.
+ ----------------------------------------------------------------------------------------------------------
+ If there are no downstairs SymbolTables, then use [SymbolTablesSnapshot].[Empty] for the _BottomStack Argument.
+ This is the case in for the GlobalSymbolTable, as Generated by a [Program] Object.
+ ----------------------------------------------------------------------------------------------------------
  </summary>
-</member><member name="T:DocScript.Runtime.Optimisation">
-	<summary>Contains resources for optimising a DocScript Program to make it run more efficiently</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.#ctor(DocScript.Runtime.SymbolTable[])">
+	<summary>PROTECTED CONSTRUCTOR: FromSymbolTablesArray</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.BottomStack">
+	<summary>Returns all but the Topmost SymbolTable in the current SymTbls' Snapshot</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Topmost">
+	<summary>Returns only the Topmost SymbolTable in the current SymTbls' Snapshot</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Bottommost">
+	<summary>Returns or Sets the Bottommost SymbolTable in the current SymTbls' Snapshot</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.InnerSymbolTables_Count">
+	<summary>Used by Execution Components, to report how many SymbolTables they have received</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.SymbolTables_ReadOnlyCopy">
+	<summary>Used for external components who want to e.g. see which entries are visible in the current execution branch</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.AllEntriesInAllSymbolTables_ReadOnlyCopy">
+	<summary>Used for external components who want to e.g. see which entries are visible in the current execution branch</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.AddEntryToToTopmost(System.String,DocScript.Runtime.SymbolTable.ISymbolTableEntry)">
+	<summary>Mutates the state of the current Snapshot, to include an Entry for _Entry in the Topmost SymbolTable</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.GetEntryFromAny(System.String)">
+	<summary>Returns the first Entry whose Identifier is _Identifier, from any of the SymbolTables in the Snapshot</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.UpdateEntryInAny(System.String,DocScript.Runtime.SymbolTable.ISymbolTableValue)">
+	<summary>Updates the first entry whose Identifier is _Identifier, to have the value _NewValue. This method mutates the state of the current Snapshot.</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.IsContainedInAny(System.String)">
+	<summary>Evaluates weather or not an Entry with _Identifier is contained in any of the SymbolTables in the current Snapshot</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.AlignsWith(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Evaluates weather or not each SymbolTable in _OtherSymTbls contains the same number of entries, and has the same identifiers and value types, as the SymbolTables in the current instance</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.EnsureObjectIsInValidState_">
+	<summary>Ensures that no Identifier appears in multiple SymTbls</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.SnapshotFrom_ThisAndTopmost(DocScript.Runtime.SymbolTable)">
+	<summary>Creates and Returns a New Snapshot with [Me] and [_NewTopMost]</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.ToString">
+	<summary>Produces a DS-KVP Human-readable String for the SymTblSnpSht</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.ToXML">
+	<summary>Produces an XML representation of all the SymbolTables in the Snapshot, with all their values and identifiers</summary>
+</member><member name="M:DocScript.Runtime.SymbolTablesSnapshot.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the class from its XML representation</summary>
+</member><member name="P:DocScript.Runtime.SymbolTablesSnapshot.Empty">
+	<summary>Generates a New Empty SymTblsSnpSht</summary>
+</member><member name="T:DocScript.Runtime.SymbolTablesSnapshot">
+	<summary>Represents the State of one or more SymbolTables at a given point during the execution of a DocScript program</summary>
+</member><member name="T:DocScript.Language.Expressions.Operators.DSOperator">
+	<summary>The Base Class for UnaryOperator and BinaryOperator</summary>
+</member><member name="T:DocScript.Language.Expressions.Operators.UnaryOperator">
+	<summary>Represents an Operator with one Operand</summary>
+</member><member name="T:DocScript.Language.Expressions.Operators.BinaryOperator">
+	<summary>Represents an Operator with two Operands</summary>
+</member><member name="M:DocScript.Runtime.Parser.GetTokensFromSource(System.String)">
+	<summary>Performs the Segmentation and TokenTypeIdentification to generate Tokens from some raw DocScript Source</summary>
+</member><member name="P:DocScript.Runtime.Parser.AllLineBreaksAreValid_(System.String)">
+	<summary>This function attempts to proove that only Proper CrLf LineBreaks have been used</summary>
+</member><member name="M:DocScript.Runtime.Parser.BlankOutUnnecessarySourceLines_(System.String[]@)">
+	<summary>Replaces [#Comment Lines] and [Whitespace-only Lines] with [Empty Strings]</summary>
+</member><member name="M:DocScript.Runtime.Parser.ReplaceStringLiteralsWithSLITs_(System.String[]@)">
+	<summary>Replaces any StringLiterals with SLITs. The Origional String Literals are stored in the Array returned by this Method</summary>
+	<returns>Returns the SLITs Array</returns>
+</member><member name="M:DocScript.Runtime.Parser.SegmentCleanSourceIntoTokens_(System.String[],System.String[])">
+	<summary>Splits the _CleanSourceLines up into Tokens, each of which leave this Function with an "Unresolved" TokenType</summary>
+</member><member name="M:DocScript.Runtime.Parser.RemoveProblematicChars_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
+	<summary>
+ Takes in Tokens which may contain Problematic chars in their values, and removes these chars.
+ Then, removes any tokens which are part of newly-visable #Comment lines (which were previously undetected, because of a leading problematic-char).
+ Then, ensures that all remaining characters in all Tokens' Values are valid.
+ </summary>
+</member><member name="M:DocScript.Runtime.Parser.ReplaceSLITsWithStringLiterals_(System.Collections.Generic.List{DocScript.Runtime.Token}@,System.String[])">
+	<summary>Takes in some Tokens which may have SLITs in them, and returns a version of that List(Of Token) which has the origional StringLiterals again</summary>
+</member><member name="M:DocScript.Runtime.Parser.GetTypedTokensFromUnclassifiedOnes_(System.Collections.Generic.List{DocScript.Runtime.Token}@)">
+	<summary>Takes in the Tokens where [Type = Unresolved] and classifies the Tokens with the RegExpToTokenType_Table</summary>
+</member><member name="M:DocScript.Runtime.Parser.EnsurePairedComponentsAreWellBalenced_(DocScript.Runtime.Token[]@)">
+	<summary>Ensures that all brackets () [] and &lt;&gt;, and statements (Function, If, Etc...) and are well-balenced</summary>
+</member><member name="M:DocScript.Runtime.Parser.FlattenSource(System.String)">
+	<summary>
+ Makes the source valid for within a single line or inside string literal; replaces [LineBreaks (CrLf)] with [;], and replaces ["] with [`].
+ </summary>
+</member><member name="M:DocScript.Runtime.Parser.UnflattenSource(System.String)">
+	<summary>
+ Takes in flattened source, and expands it; replaces [;] with [LineBreaks (CrLf)], and replaces [`] with ["].
+ For example, DocScript-Live uses this method, so the line [Output("Ben");Output("Ryan")] becomes two seperate lines.
+ </summary>
+</member><member name="M:DocScript.Runtime.Parser.GetTokensXML(DocScript.Runtime.Token[]@)">
+	<summary>Returns the standardised Tokens' XML for an array of Tokens output from the Parser. Used for DS-Pipelining.</summary>
+</member><member name="T:DocScript.Runtime.Parser">
+	<summary>Contains Constants and Methods for the first stage in the DocScript Interpretation Process</summary>
+</member><member name="T:DocScript.Language.Constants">
+	<summary>An Uninheritable, Uninstanciatable Class holding Language-Level Constants for DocScript. See Also: DocScript.Runtime.Constants</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.System">
+	<summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(System.String,DocScript.Language.Expressions.IExpression)">
+	<summary>Constructs the IInstruction from an existing instance</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.#ctor(DocScript.Runtime.Token[]@)">
+	<summary>Constructs the IInstruction from its Tokens</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.GetProgramTreeNodeXML">
+	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableAssignment.ToString">
+	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
+</member><member name="T:DocScript.Language.Instructions.VariableAssignment">
+	<summary>Represents E.g. [Name : "Ben"]</summary>
+</member><member name="F:DocScript.Runtime.ExecutionContext.ID">
+	<summary>Should be unique for each type of ExecutionContext (e.g. a GUI one vs a CLI one). Used when comparing several delegates.</summary>
+</member><member name="F:DocScript.Runtime.ExecutionContext.RootFolder">
+	<summary>Can be set automatically via System.IO.Path.GetDirectoryName(Application.ExecutablePath)</summary>
+</member><member name="F:DocScript.Runtime.ExecutionContext.InputDelegate">
+	<summary>
+ This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings.
+ The InputDelegate will be wrapped-up into the Input() Function which actually appears on the SymTbl.
+ This is to say: InputDelegate IS DIFFERENT FROM the Input() BuiltInFunction
+ </summary>
+</member><member name="F:DocScript.Runtime.ExecutionContext.OutputDelegate">
+	<summary>
+ This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings.
+ The OutputDelegate will be wrapped-up into the Output() Function which actually appears on the SymTbl.
+ This is to say: OutputDelegate IS DIFFERENT FROM the Outut() BuiltInFunction
+ </summary>
+</member><member name="F:DocScript.Runtime.ExecutionContext.OutputErrorDelegate">
+	<summary>
+ By default, this is set to Nothing, and the ExeCxt will use the OutputDelegate as the OutputErrorDelegate.
+ For the CLIDefault, this writes to STDERR in Red.
+ For the GUIDefault, this shows a MsgBox with the Error Icon.
+ </summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.BuiltInFunctions">
+	<summary>When retreived, this Property Concatenates the IO BIFs in.</summary>
+</member><member name="M:DocScript.Runtime.ExecutionContext.#ctor(System.String,System.IO.DirectoryInfo,System.Func{System.String,System.String},System.Action{System.String},DocScript.Runtime.BuiltInFunction[])">
+	<summary>Note that the OutputError() Delegate should be set with an inline With Statement, as it is not taken in as a Constructor Argument</summary>
+	<param name="_ID">Example: "DS_BuiltInExeCxt_CLIDefault"</param>
+</member><member name="P:DocScript.Runtime.ExecutionContext.InputBIF_(System.Func{System.String,System.String})">
+	<summary>Wraps the InputDelegate in a DocScript BIF</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.OutputBIF_(System.Action{System.String})">
+	<summary>Wraps the OutputDelegate in a DocScript BIF</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.OutputErrorBIF_">
+	<summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used, but with a different Identifier.</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.CLIDefault">
+	<summary>Uses Console.Write()&amp;Console.ReadLine() and Console.WriteLine()</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.GUIDefault">
+	<summary>Uses InputBox(), and MessageBox.Show() with the ServiceNotification flag. This means that even if the DocScript Interpreter process is running on a different session to that of the GUI Console session, a MessageBox will still be shown on the console.</summary>
+</member><member name="P:DocScript.Runtime.ExecutionContext.AllStandardBuiltInFunctions">
+	<summary>Concatenates together all the Standard BuiltInFunctions into a single Array</summary>
+</member><member name="M:DocScript.Runtime.ExecutionContext.ToString">
+	<summary>Produces a DS-KVP Human-readable String for the Object</summary>
+</member><member name="T:DocScript.Runtime.ExecutionContext">
+	<summary>Contains contextual parameters for a DocScript Program</summary>
 </member><member name="F:DocScript.Runtime.Program.ValidEntryPointFunction_Signature_Unadorned">
 	<summary>The plain EntryPoint with no Input or Output. Used by Program.IsEntryPointFunctionSignature()</summary>
 </member><member name="F:DocScript.Runtime.Program.ValidEntryPointFunction_Signature_OSInterop">
@@ -1450,69 +1446,73 @@ DSCore
 	<summary>Reconstructs a DocScript-Source version of the Program, by recursively serialising each Instruction</summary>
 </member><member name="T:DocScript.Runtime.Program">
 	<summary>Represents a collection of Functions (imperatively including an EntryPoint Main()) and any Global Variable Declarations, from a source file</summary>
-</member><member name="M:DocScript.Language.Variables.VariableUtilities.GetDSVariableType_FromDataTypeString(System.String)">
-	<summary>E.g. Takes in "STRING@" and Returns [DSArray(Of DSString)]. The Case of the Input does not matter; it is ToUpper()'d anyway.</summary>
-</member><member name="M:DocScript.Language.Variables.VariableUtilities.GetDataTypeString_FromDSVariableType(System.Type)">
-	<summary>E.g. Takes in [DSArray(Of DSString)] and Returns "STRING@". The Output comes from the Language-level Constants, so it UPPERCASE.</summary>
-</member><member name="P:DocScript.Language.Variables.VariableUtilities.IsNonVoidFunctionReturnType(System.Type)">
-	<summary>Determines if _FunctionReturnType is for a valid IDV, which isn't Void etc. (It must be a String, Number, Boolean, or Array(Of *←)). This is done by an assume-false method.</summary>
-</member><member name="M:DocScript.Runtime.BuiltInFunction.#ctor(System.String,DocScript.Language.Instructions.Statements.DSFunction.Parameter[],System.Type,DocScript.Runtime.BuiltInFunction.BuiltInFunctionDelegate)">
-	<summary>Remember to Initilise the Descrtiption by means of an Inline With Statement {.Description = "..."}</summary>
-</member><member name="M:DocScript.Runtime.BuiltInFunction.Run(DocScript.Runtime.SymbolTablesSnapshot,DocScript.Language.Variables.IDataValue[])">
-	<summary>Automatically ensures that the correct number of _Arguments have been provided, in accordance with the .ExpectedParameters Property.</summary>
-</member><member name="P:DocScript.Runtime.BuiltInFunction.EffectiveSignature">
-	<summary>Contains an UPPERCASE Identifier, ParameterTypes Array, and ReturnType Property</summary>
-</member><member name="P:DocScript.Runtime.BuiltInFunction.TemplateCall">
-	<summary>Returns E.g. Output(_Text)</summary>
-</member><member name="M:DocScript.Runtime.BuiltInFunction.ToString">
-	<summary>Produces a DS-KVP Human-readable String for the Object</summary>
-</member><member name="M:DocScript.Runtime.BuiltInFunction.ToXML">
-	<summary>Returns the Value of the current ISymbolTableValue inside a TagName of the Type</summary>
-</member><member name="T:DocScript.Runtime.BuiltInFunction">
-	<summary>Represents a Function accessible from, but not defined within, a DocScript Program</summary>
-</member><member name="F:DocScript.Runtime.ExecutionContext.ID">
-	<summary>Should be unique for each type of ExecutionContext (e.g. a GUI one vs a CLI one). Used when comparing several delegates.</summary>
-</member><member name="F:DocScript.Runtime.ExecutionContext.RootFolder">
-	<summary>Can be set automatically via System.IO.Path.GetDirectoryName(Application.ExecutablePath)</summary>
-</member><member name="F:DocScript.Runtime.ExecutionContext.InputDelegate">
+</member><member name="M:DocScript.Utilities.KVPSerialisation.GetKVPString(System.String[][])">
+	<summary>Returns a Serialised String form of the Object's Key-Value Pairs specified</summary>
+</member><member name="M:DocScript.Utilities.KVPSerialisation.GetKVPXML(System.String,System.String[][])">
+	<summary>Returns a Serialised XML form of the Object's Key-Value Pairs specified</summary>
+</member><member name="M:DocScript.Utilities.KVPSerialisation.GetKVPXML``1(System.String[][])">
+	<summary>Returns a Serialised XML form of the Object's Key-Value Pairs specified</summary>
+</member><member name="T:DocScript.Utilities.KVPSerialisation">
 	<summary>
- This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings.
- The InputDelegate will be wrapped-up into the Input() Function which actually appears on the SymTbl.
- This is to say: InputDelegate IS DIFFERENT FROM the Input() BuiltInFunction
+ Provides methods for Key-Value Pair Serialisation
  </summary>
-</member><member name="F:DocScript.Runtime.ExecutionContext.OutputDelegate">
-	<summary>
- This is a conveinient layer of abstraction for the creater of the ExecutionContext, who'll want to deal in Strings.
- The OutputDelegate will be wrapped-up into the Output() Function which actually appears on the SymTbl.
- This is to say: OutputDelegate IS DIFFERENT FROM the Outut() BuiltInFunction
- </summary>
-</member><member name="F:DocScript.Runtime.ExecutionContext.OutputErrorDelegate">
-	<summary>
- By default, this is set to Nothing, and the ExeCxt will use the OutputDelegate as the OutputErrorDelegate.
- For the CLIDefault, this writes to STDERR in Red.
- For the GUIDefault, this shows a MsgBox with the Error Icon.
- </summary>
-</member><member name="P:DocScript.Runtime.ExecutionContext.BuiltInFunctions">
-	<summary>When retreived, this Property Concatenates the IO BIFs in.</summary>
-</member><member name="M:DocScript.Runtime.ExecutionContext.#ctor(System.String,System.IO.DirectoryInfo,System.Func{System.String,System.String},System.Action{System.String},DocScript.Runtime.BuiltInFunction[])">
-	<summary>Note that the OutputError() Delegate should be set with an inline With Statement, as it is not taken in as a Constructor Argument</summary>
-	<param name="_ID">Example: "DS_BuiltInExeCxt_CLIDefault"</param>
-</member><member name="P:DocScript.Runtime.ExecutionContext.InputBIF_(System.Func{System.String,System.String})">
-	<summary>Wraps the InputDelegate in a DocScript BIF</summary>
-</member><member name="P:DocScript.Runtime.ExecutionContext.OutputBIF_(System.Action{System.String})">
-	<summary>Wraps the OutputDelegate in a DocScript BIF</summary>
-</member><member name="P:DocScript.Runtime.ExecutionContext.OutputErrorBIF_">
-	<summary>Wraps the OutputErrorDelegate in a DocScript BIF if is ISNOT NOTHING. If it IS NOTHING, then the OutputDelegate is used, but with a different Identifier.</summary>
-</member><member name="P:DocScript.Runtime.ExecutionContext.CLIDefault">
-	<summary>Uses Console.Write()&amp;Console.ReadLine() and Console.WriteLine()</summary>
-</member><member name="P:DocScript.Runtime.ExecutionContext.GUIDefault">
-	<summary>Uses InputBox(), and MessageBox.Show() with the ServiceNotification flag. This means that even if the DocScript Interpreter process is running on a different session to that of the GUI Console session, a MessageBox will still be shown on the console.</summary>
-</member><member name="P:DocScript.Runtime.ExecutionContext.AllStandardBuiltInFunctions">
-	<summary>Concatenates together all the Standard BuiltInFunctions into a single Array</summary>
-</member><member name="M:DocScript.Runtime.ExecutionContext.ToString">
-	<summary>Produces a DS-KVP Human-readable String for the Object</summary>
-</member><member name="T:DocScript.Runtime.ExecutionContext">
-	<summary>Contains contextual parameters for a DocScript Program</summary>
+</member><member name="P:DocScript.Runtime.StandardBuiltInFunctions.IgnoreBreakpoints">
+	<summary>Indicates that the "Break()" BIF should silently be skipped, instead of showing the Breakpoint-Action-Dialog.</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_Identifier_">
+	<summary>Needs to be publicly visible for DSIDE's [Insert Breakpoint] Button</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Break_">
+	<summary>The DSIDE BIF to pause execution and e.g. inspect the current variables. In the DebugBIF's File, but not a member of the Debug Namespace</summary>
+	<remarks>Does NOT start with "Debug_"</remarks>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Debug_ShowSymbolTables_Identifier_">
+	<summary>Needs to be publically visible for the BreakpointActionDialog</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.BIF_Debug_StartDSLiveSessionFromCurrentExecutionState_Identifier_">
+	<summary>Needs to be publically visible for the BreakpointActionDialog</summary>
+</member><member name="F:DocScript.Runtime.StandardBuiltInFunctions.Debug">
+	<summary>DocScript Debugging Utilities for SymbolTables, BIFs, and more.</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(System.String,System.Type,DocScript.Language.Expressions.IExpression)">
+	<summary>Constructs the IInstruction from an existing instance</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.#ctor(DocScript.Runtime.Token[]@)">
+	<summary>Constructs the IInstruction from its Tokens</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.Execute(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Any Expressions or Child Instructions executed hereby, are returned in the ExeRes's UpstairsExecutionResults member.</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.GetProgramTreeNodeXML">
+	<summary>Returns an XML Representation of the Instruction, with all Propities and Child Structres included</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.FromXML(System.Xml.Linq.XElement)">
+	<summary>Constructs an instance of the IInstruction class from its XML serialasation</summary>
+</member><member name="M:DocScript.Language.Instructions.VariableDeclaration.ToString">
+	<summary>Returns what the Instruction would have looked like in the Source, without an extra LineBreak on the End</summary>
+</member><member name="T:DocScript.Language.Instructions.VariableDeclaration">
+	<summary>Represents E.g. [&lt;String&gt; Name : "Ben"]</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.Show_AndReturnModifiedSymTbls(DocScript.Runtime.SymbolTablesSnapshot)">
+	<summary>Shows the Dialog, and returns only after one of the actions has been performed, or the dialog has been dismissed.</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_ViewSymTbls_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_CopyToDSLive_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_EditInDSLive_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="M:DocScript.Runtime.BreakpointActionDialog.BPAction_ContinueExec_">
+	<summary>Sets the [SymbolTables_StateToReturn] member</summary>
+</member><member name="T:DocScript.Runtime.BreakpointActionDialog">
+	<summary>The Window shown when "Break()" is called from the DocScript Program.</summary>
+</member><member name="T:DocScript.Runtime.Token.TokenType">
+	<summary>Represents the Catagorical Vareity of a Token</summary>
+</member><member name="M:DocScript.Runtime.Token.TokenLocation.ToString">
+	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
+</member><member name="M:DocScript.Runtime.Token.TokenLocation.ToShortString">
+	<summary>Returns a Shortened String, in the Form (E.g.) [14,7]</summary>
+</member><member name="T:DocScript.Runtime.Token.TokenLocation">
+	<summary>Represents the original location of a Token in the Source</summary>
+</member><member name="M:DocScript.Runtime.Token.#ctor(System.String,DocScript.Runtime.Token.TokenType,System.UInt16,System.UInt16)">
+	<summary>Constructs a new Token from a Value string, TokenType, and Location-in-source</summary>
+</member><member name="M:DocScript.Runtime.Token.FromXML(System.Xml.Linq.XElement)">
+	<summary>SideLoading Constructor: </summary>
+</member><member name="M:DocScript.Runtime.Token.ToString">
+	<summary>Returns a KVPSerialised String to represent the Data of the current Object</summary>
+</member><member name="M:DocScript.Runtime.Token.ToXML">
+	<summary>Returns a KVPSerialised XML Object with the members of the current object</summary>
+</member><member name="T:DocScript.Runtime.Token">
+	<summary>Represents a Segmented String with a TokenType, from the Source of a DocScript Program</summary>
 </member>
 </members>
 </doc>
