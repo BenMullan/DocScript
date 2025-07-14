@@ -1,12 +1,18 @@
 # DocScript
-A simple procedural programming language - supporting real-time multi-client distributed "execution sessions", and numeric literals in any base. Built-in capabilities for **remote code-execution** (DS-Remoting) and **compilation** to standalone .NET `exe`s (DS-Compilation). Enables [pipelining](https://github.com/BenMullan/DocScript/tree/master/_Resources/DSPipelining/Binaries) of the seperate interpretation stages, into one another.
-  
+...is a simple procedural programming language, with...
+- real-time multi-client distributed "execution sessions"
+- numeric literals in any base
+- built-in **remote code-execution** (DS-Remoting)
+- **compilation** to standalone .NET `exe`s (DS-Compilation)
+- [piping](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) seperate interpretation stages into one another
+
+<br/><br/>
 > Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
 
 <br/><br/>
 
 ### Source Example
-Here's an example DocScript Program, to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)...
+An example DocScript Program, to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)...
 <br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" width="100%" />
 <br/><br/><br/>
 
