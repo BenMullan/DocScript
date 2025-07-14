@@ -5,15 +5,15 @@ A simple, procedural programming language, supporting real-time, multi-client Ex
 
 ### Source Example
 Here's an example of a DocScript Program to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
-<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" height="100%" width="100%" /><br/>
+<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" width="100%" /><br/>
 
 ### There are 3 DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
-	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSIDE_Demo.png?raw=true" height="50%" width="50%" /><br/>
+	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSIDE_Demo.png?raw=true" width="50%" /><br/>
 2. **A Command-line Interpreter**, `DSCLI.exe`:
-	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSCLI_Demo.png?raw=true" height="50%" width="50%" /><br/>
+	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSCLI_Demo.png?raw=true" width="50%" /><br/>
 3. **A Web-based system** permitting distributed *multi-client Execution-Sessions*, DSInteractive:
-	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" height="50%" width="50%" /><br/>
+	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" width="50%" /><br/>
 
 **Note:** All 3 implementations rely on the Core Interpretation Logic within `DSCore.dll` (which was previously called `DocScript.Library.dll`)
 
