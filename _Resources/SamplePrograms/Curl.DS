@@ -2,8 +2,7 @@
 
 Function <Void> Main ()
 	
-	<String> _HTML : System_Curl("http://BenM.eu5.org/")
-	
+	<String> _HTML : System_Curl("http://theoldnet.com/")
 	Output("Webpage Source:" & Const_CrLf() & _HTML)
 	
 EndFunction

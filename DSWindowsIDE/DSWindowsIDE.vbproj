@@ -241,6 +241,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\BIFExplorerWindow.resx">
       <DependentUpon>BIFExplorerWindow.VB</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityForms\DSAboutBox.resx">
       <DependentUpon>DSAboutBox.VB</DependentUpon>

@@ -379,7 +379,7 @@ Public Class IDEWindowContent
             If Me.ParentWPFWindow IsNot Nothing Then
                 If Me.CurrentlyOpenFile Is Nothing Then : Me.ParentWPFWindow.Title = "(Unsaved) DocScript IDE (" & Environment.UserName & " on \\" & My.Computer.Name & ")"c
                 ElseIf Me.CurrentSource_IsSaved_ Then : Me.ParentWPFWindow.Title = Me.CurrentlyOpenFile.Name
-                Else : Me.ParentWPFWindow.Title = "(Unsaved) " & Me.CurrentlyOpenFile.Name
+                Else : Me.ParentWPFWindow.Title = "*" & Me.CurrentlyOpenFile.Name
                 End If
             End If
 

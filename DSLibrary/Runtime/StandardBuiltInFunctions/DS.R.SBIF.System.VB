@@ -58,27 +58,42 @@ Namespace Runtime
 #End Region
 
 		Private Const BIF_System_Beep_Identifier_$ = SystemBIFs_IdentifierStart_ & "Beep"
-		Private Shared ReadOnly BIF_System_Beep_ As New BuiltInFunction(BIF_System_Beep_Identifier_$, {}, GetType(Void), New BuiltInFunctionDelegate(
-		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+        Private Shared ReadOnly BIF_System_Beep_ As New BuiltInFunction(BIF_System_Beep_Identifier_$, {}, GetType(Void), New BuiltInFunctionDelegate(
+         Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_Beep_Identifier_$)
-			 Global.System.Console.Beep(frequency:=440, duration:=600)
-			 'Global.Microsoft.VisualBasic.Interaction.Beep()
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+             Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_Beep_Identifier_$)
 
-		 End Function)
-		) With {.[Description] = "Sounds a tone through the computer's speaker"}
+             'Call (New System.Speech.Synthesis.SpeechSynthesizer()).Speak("beep")
+             : Call (New System.Speech.Synthesis.SpeechSynthesizer()).Speak(New System.Speech.Synthesis.Prompt("<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'><prosody pitch='high' rate='slow' volume='loud'>beep</prosody></speak>", Speech.Synthesis.SynthesisTextFormat.Ssml))
+             'Global.System.Console.Beep(frequency:=440, duration:=600)
+             'Global.Microsoft.VisualBasic.Interaction.Beep()
+
+             Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+         End Function)
+        ) With {.[Description] = "Sounds a tone through the computer's speaker"}
 
 		Private Const BIF_System_PlayWav_Identifier_$ = SystemBIFs_IdentifierStart_ & "PlayWav"
-		Private Shared ReadOnly BIF_System_PlayWav_ As New BuiltInFunction(BIF_System_PlayWav_Identifier_$, {New DSFunction.Parameter("_WavFilePath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
-		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+        Private Shared ReadOnly BIF_System_PlayWav_ As New BuiltInFunction(BIF_System_PlayWav_Identifier_$, {New DSFunction.Parameter("_WavFilePath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+         Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_PlayWav_Identifier_$)
-			 My.Computer.Audio.Play(_Arguments.First().Coerce(Of DSString)().Value, AudioPlayMode.WaitToComplete)
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+             Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_PlayWav_Identifier_$)
+             My.Computer.Audio.Play(_Arguments.First().Coerce(Of DSString)().Value, AudioPlayMode.WaitToComplete)
+             Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
-		 End Function)
-		) With {.[Description] = "Plays the _WavFilePath as a Wav File"}
+         End Function)
+        ) With {.[Description] = "Plays the _WavFilePath as a Wav File"}
+
+        Private Const BIF_System_SayString_Identifier_$ = SystemBIFs_IdentifierStart_ & "SayString"
+        Private Shared ReadOnly BIF_System_SayString_ As New BuiltInFunction(BIF_System_SayString_Identifier_$, {New DSFunction.Parameter("_StringToSpeak", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+         Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+
+             Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_SayString_Identifier_$)
+             Call (New Global.System.Speech.Synthesis.SpeechSynthesizer()).Speak(textToSpeak:=_Arguments.First().Coerce(Of DSString)().Value)
+             Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+
+         End Function)
+        ) With {.[Description] = "Speaks the _StringToSpeak using Windows (R) text-to-speech APIs"}
 
 #Region "ShellExecute() and CreateProcess() BIFs"
 
@@ -170,17 +185,17 @@ Namespace Runtime
 		) With {.[Description] = "Downloads and returns the plain-text content at _URL"}
 
 		Private Const BIF_System_Ping_Identifier_$ = SystemBIFs_IdentifierStart_ & "Ping"
-		Private Shared ReadOnly BIF_System_Ping_ As New BuiltInFunction(BIF_System_Ping_Identifier_$, {New DSFunction.Parameter("_HostnameOrIP", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
-		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+        Private Shared ReadOnly BIF_System_Ping_ As New BuiltInFunction(BIF_System_Ping_Identifier_$, {New DSFunction.Parameter("_HostnameOrIP", GetType(DSString))}, GetType(DSBoolean), New BuiltInFunctionDelegate(
+         Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_Ping_Identifier_$)
-			 _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(
-			 My.Computer.Network.Ping(_Arguments.First().Coerce(Of DSString)().Value)
-			 )
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+             Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_Ping_Identifier_$)
+             _ExeRes.ReturnStatus.BuiltInFunction_ReturnValue = New DSBoolean(
+                My.Computer.Network.Ping(_Arguments.First().Coerce(Of DSString)().Value)
+             )
+             Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
-		 End Function)
-		) With {.[Description] = "Attempts to ping the _HostnameOrIP. Returns True if this was successful, and otherwise, False."}
+         End Function)
+        ) With {.[Description] = "Attempts to ping the _HostnameOrIP. Returns True if this was successful, and otherwise, False."}
 
 		Private Const BIF_System_RegisterUNCCredentials_Identifier_$ = SystemBIFs_IdentifierStart_ & "RegisterUNCCredentials"
 		Private Shared ReadOnly BIF_System_RegisterUNCCredentials_ As New BuiltInFunction(BIF_System_RegisterUNCCredentials_Identifier_$, {New DSFunction.Parameter("_UNCPath", GetType(DSString)), New DSFunction.Parameter("_Username", GetType(DSString)), New DSFunction.Parameter("_Password", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
@@ -221,22 +236,22 @@ Namespace Runtime
 		) With {.[Description] = "Runs a lightweight Web Server, serving the given _ResponseString for all requests, listening on the URL http://localhost:{_Port}/"}
 
 		Private Const BIF_System_HostWebServerForDirectory_Identifier_$ = SystemBIFs_IdentifierStart_ & "HostWebServerForDirectory"
-		Private Shared ReadOnly BIF_System_HostWebServerForDirectory_ As New BuiltInFunction(BIF_System_HostWebServerForDirectory_Identifier_$, {New DSFunction.Parameter("_Port", GetType(DSNumber)), New DSFunction.Parameter("_DirectoryPath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
-		 Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
+        Private Shared ReadOnly BIF_System_HostWebServerForDirectory_ As New BuiltInFunction(BIF_System_HostWebServerForDirectory_Identifier_$, {New DSFunction.Parameter("_Port", GetType(DSNumber)), New DSFunction.Parameter("_DirectoryPath", GetType(DSString))}, GetType(Void), New BuiltInFunctionDelegate(
+         Function(_SymTbls As SymbolTablesSnapshot, _Arguments As Language.Variables.IDataValue()) As ExecutionResult
 
-			 Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_HostWebServerForDirectory_Identifier_$)
+             Dim _ExeRes As ExecutionResult = ExecutionResult.New_AndStartExecutionTimer("BIF\" & BIF_System_HostWebServerForDirectory_Identifier_$)
 
-			 Dim _MicroServer As New DocScript.Utilities.MicroHTTPServer(
-			 _Port:=Convert.ToUInt16(_Arguments.ElementAt(0).Coerce(Of DSNumber)().Value),
-			 _DirectoryToServeFilesFrom:=New IO.DirectoryInfo(_Arguments.ElementAt(1).Coerce(Of DSString)().Value)
-			 )
-			 AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) LogSystemMessage("Handled a DS-WebServer Request for URL: " & _Request.Url.ToString(), LogEvent.DSEventSeverity.Infomation)
-			 _MicroServer.Run()
+             Dim _MicroServer As New DocScript.Utilities.MicroHTTPServer(
+                _Port:=Convert.ToUInt16(_Arguments.ElementAt(0).Coerce(Of DSNumber)().Value),
+                _DirectoryToServeFilesFrom:=New IO.DirectoryInfo(_Arguments.ElementAt(1).Coerce(Of DSString)().Value)
+             )
+             AddHandler _MicroServer.RequestHandledSuccessfully, Sub(_Request As System.Net.HttpListenerRequest) LogSystemMessage("Handled a DS-WebServer Request for URL: " & _Request.Url.ToString(), LogEvent.DSEventSeverity.Infomation)
+             _MicroServer.Run()
 
-			 Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
+             Return _ExeRes.StopExecutionTimer_AndFinaliseObject(_SymTbls)
 
-		 End Function)
-		) With {.[Description] = "Runs a lightweight Web Server, serving files in the _DirectoryPath, depending on the URL, listening on the URL http://localhost:{_Port}/"}
+         End Function)
+        ) With {.[Description] = "Runs a lightweight Web Server, serving files in the _DirectoryPath, depending on the URL, listening on the URL http://localhost:{_Port}/"}
 
 #End Region
 
@@ -245,24 +260,25 @@ Namespace Runtime
 #End Region
 
 		''' <summary>System-related Functions such as getting the current Time or executing a Shell Command</summary>
-		Public Shared ReadOnly System As DocScript.Runtime.BuiltInFunction() = {
-		 StandardBuiltInFunctions.BIF_System_GetTime_,
-		 StandardBuiltInFunctions.BIF_System_GetHostname_,
-		 StandardBuiltInFunctions.BIF_System_GetUsername_,
-		 StandardBuiltInFunctions.BIF_System_GetCurrentInterpreterDirectory_,
-		 StandardBuiltInFunctions.BIF_System_Beep_,
-		 StandardBuiltInFunctions.BIF_System_PlayWav_,
-		 StandardBuiltInFunctions.BIF_System_Run_,
-		 StandardBuiltInFunctions.BIF_System_RunInline_,
-		 StandardBuiltInFunctions.BIF_System_RunInlineWithArguments_,
-		 StandardBuiltInFunctions.BIF_System_RunAndGetOutput_,
-		 StandardBuiltInFunctions.BIF_System_OpenFile_,
-		 StandardBuiltInFunctions.BIF_System_Curl_,
-		 StandardBuiltInFunctions.BIF_System_Ping_,
-		 StandardBuiltInFunctions.BIF_System_HostWebServerForString_,
-		 StandardBuiltInFunctions.BIF_System_HostWebServerForDirectory_,
-		 StandardBuiltInFunctions.BIF_System_RegisterUNCCredentials_
-		}
+        Public Shared ReadOnly System As DocScript.Runtime.BuiltInFunction() = {
+         StandardBuiltInFunctions.BIF_System_GetTime_,
+         StandardBuiltInFunctions.BIF_System_GetHostname_,
+         StandardBuiltInFunctions.BIF_System_GetUsername_,
+         StandardBuiltInFunctions.BIF_System_GetCurrentInterpreterDirectory_,
+         StandardBuiltInFunctions.BIF_System_Beep_,
+         StandardBuiltInFunctions.BIF_System_PlayWav_,
+         StandardBuiltInFunctions.BIF_System_SayString_,
+         StandardBuiltInFunctions.BIF_System_Run_,
+         StandardBuiltInFunctions.BIF_System_RunInline_,
+         StandardBuiltInFunctions.BIF_System_RunInlineWithArguments_,
+         StandardBuiltInFunctions.BIF_System_RunAndGetOutput_,
+         StandardBuiltInFunctions.BIF_System_OpenFile_,
+         StandardBuiltInFunctions.BIF_System_Curl_,
+         StandardBuiltInFunctions.BIF_System_Ping_,
+         StandardBuiltInFunctions.BIF_System_HostWebServerForString_,
+         StandardBuiltInFunctions.BIF_System_HostWebServerForDirectory_,
+         StandardBuiltInFunctions.BIF_System_RegisterUNCCredentials_
+        }
 
 	End Class
 

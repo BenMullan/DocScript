@@ -5,8 +5,8 @@
 - Built-in **remote code-execution** (DS-Remoting)
 - **Compilation** to standalone .NET `exe`s (DS-Compilation)
 - A capability to [pipe](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) seperate interpretation stages into one another.
+<br/><br/>
 
-<br/>
 > Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
 
 <br/><br/>
@@ -31,7 +31,7 @@ An example DocScript Program, to solve [the Lightswitch Problem](https://www.you
 # ▶️ Get Started
 **Start using DocScript in the next few seconds: open `cmd`, and run...**
 ```
-curl https://github.com/BenMullan/DocScript/raw/master/_Resources/DS-QuickSetup.cmd | cmd
+curl https://raw.githubusercontent.com/BenMullan/DocScript/master/_Resources/DS-QuickSetup.cmd | cmd
 ```
 
 *Alternatively...*

@@ -6,13 +6,13 @@
 	  vbTab & "Output(""Hello, World!"")" & vbCrLf & _
 	  "EndFunction"
 
-	Public ReadOnly SampleProgram_BeepSleepRepeat$ = _
-	 "#BeepSleepRepeat.DS" & vbCrLf & _
-	 "Function <Void> Main ()" & vbCrLf & _
-	 vbTab & "System_Beep()" & vbCrLf & _
-	 vbTab & "DS_Sleep(1000)" & vbCrLf & _
-	 vbTab & "Main()" & vbCrLf & _
-	 "EndFunction"
+    Public ReadOnly SampleProgram_BeepSleepRepeat$ = _
+     "#BeepSleepRepeat.DS" & vbCrLf & _
+     "Function <Void> Main ()" & vbCrLf & _
+     vbTab & "System_Beep()" & vbCrLf & _
+     vbTab & "DS_Sleep(500)" & vbCrLf & _
+     vbTab & "Main()" & vbCrLf & _
+     "EndFunction"
 
 	Public ReadOnly SampleProgram_DebuggingExample$ = _
 	  <S>#DebuggingExample.DS

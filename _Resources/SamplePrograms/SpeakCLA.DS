@@ -1,0 +1,18 @@
+﻿# File:		SpeakCLA.DS - uses text-to-speech to say the string provided in the command-line args
+# Exec:		DSCLI.exe SpeakCLA.DS "This is some text"
+# Author:	Ben Mullan 2025
+
+Function <Number> Main (<String@> _CLAs)
+	
+	<String> _TextToSpeak : ""
+	
+	If (DS_StringArray_Length(_CLAs) = 1)
+		_TextToSpeak : DS_StringArray_At(_CLAs, 0)
+	Else
+		_TextToSpeak : Input("Input a string to speak...")
+	EndIf
+	
+	System_SayString(_TextToSpeak)
+	
+	Return 0
+EndFunction

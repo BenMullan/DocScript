@@ -15,44 +15,38 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_17E6EC3C02FAEE51CEC482F04E654FC7"
+        "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_17E6EC3C02FAEE51CEC482F04E654FC7"
+        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_17E6EC3C02FAEE51CEC482F04E654FC7"
+        "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
+        "MsmKey" = "8:_2D3A626E138286E0B4DF0580501D4B65"
         "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
-        "OwnerKey" = "8:_BB8A82CAFED843588D464DBB1E40E2A9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
-        "OwnerKey" = "8:_810849982C7846FD8829BCD18E62A99F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4AED3246881445E1B8F546385E34266D"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_4D50BED714354A10938969D438FA6482"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6779BBF64B26AD86C8379EA7505EFC60"
-        "OwnerKey" = "8:_2351DCD170EE4C788E505F216D8FAFB8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,6 +58,12 @@
         "Entry"
         {
         "MsmKey" = "8:_810849982C7846FD8829BCD18E62A99F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A20C103654EA421395D37228F27D2A70"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -142,13 +142,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6779BBF64B26AD86C8379EA7505EFC60"
+        "OwnerKey" = "8:_2D3A626E138286E0B4DF0580501D4B65"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_447CBFCA3A4FADD8B04F48474427CFA8"
+        "OwnerKey" = "8:_17E6EC3C02FAEE51CEC482F04E654FC7"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -211,7 +211,7 @@
             "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
             "PrerequisitesLocation" = "2:1"
-            "Url" = "8:"
+            "Url" = "8:https://raw.githubusercontent.com/BenMullan/DocScript/master/_Resources/DS-QuickSetup.cmd"
             "ComponentsUrl" = "8:"
                 "Items"
                 {
@@ -256,14 +256,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_447CBFCA3A4FADD8B04F48474427CFA8"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_17E6EC3C02FAEE51CEC482F04E654FC7"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DSCore, Version=5.5.5.0, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DSCore, Version=6.1.0.0, Culture=neutral, PublicKeyToken=9843ccb86ebc3126, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_447CBFCA3A4FADD8B04F48474427CFA8"
+                    "_17E6EC3C02FAEE51CEC482F04E654FC7"
                     {
                     "Name" = "8:DSCore.dll"
                     "Attributes" = "3:512"
@@ -287,54 +287,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4AED3246881445E1B8F546385E34266D"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\..\\Pictures\\Times and Projects\\Icons\\DSRemoting.ICO"
-            "TargetName" = "8:DSRemoting.ICO"
-            "Tag" = "8:"
-            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D50BED714354A10938969D438FA6482"
-            {
-            "SourcePath" = "8:_AddDSAppPathsToRegistry.VBS"
-            "TargetName" = "8:_AddDSAppPathsToRegistry.VBS"
-            "Tag" = "8:"
-            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6779BBF64B26AD86C8379EA7505EFC60"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2D3A626E138286E0B4DF0580501D4B65"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:ICSharpCode.AvalonEdit, Version=4.3.1.9429, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6779BBF64B26AD86C8379EA7505EFC60"
+                    "_2D3A626E138286E0B4DF0580501D4B65"
                     {
                     "Name" = "8:ICSharpCode.AvalonEdit.dll"
                     "Attributes" = "3:512"
@@ -358,6 +318,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D50BED714354A10938969D438FA6482"
+            {
+            "SourcePath" = "8:_AddDSAppPathsToRegistry.VBS"
+            "TargetName" = "8:_AddDSAppPathsToRegistry.VBS"
+            "Tag" = "8:"
+            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_764A664958FC42AE866B5FA25D1F57C1"
             {
             "AssemblyRegister" = "3:1"
@@ -373,6 +353,26 @@
                 }
             "SourcePath" = "8:ILMerge.exe"
             "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A20C103654EA421395D37228F27D2A70"
+            {
+            "SourcePath" = "8:DSRemoting.ICO"
+            "TargetName" = "8:DSRemoting.ICO"
             "Tag" = "8:"
             "Folder" = "8:_498EB9A520F74B3C9721CBC2A4E3437D"
             "Condition" = "8:"
@@ -520,7 +520,7 @@
             "Description" = "8:DocScript Remoting Session File"
             "Extensions" = "8:DSRemotingSession"
             "MIME" = "8:application/xml"
-            "Icon" = "8:_4AED3246881445E1B8F546385E34266D"
+            "Icon" = "8:_A20C103654EA421395D37228F27D2A70"
             "IconIndex" = "3:0"
                 "Command"
                 {
@@ -618,7 +618,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DocScript (Desktop Components)"
         "ProductCode" = "8:{182F731A-3B20-40F9-B921-12D4FFF97485}"
-        "PackageCode" = "8:{9817F41A-F9B8-4FDB-9C40-3CF6B3C45D28}"
+        "PackageCode" = "8:{2A4E11F4-7303-4EFB-AE42-5C154CAB7178}"
         "UpgradeCode" = "8:{38DD944A-CBA2-4B8B-B9FB-7CD32B9B7DE7}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -630,7 +630,7 @@
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/BenMullan/DocScript/wiki"
         "Title" = "8:DocScript Desktop Components (Setup)"
-        "Subject" = "8:RC5"
+        "Subject" = "8:RC5.1"
         "ARPCONTACT" = "8:Ben Mullan"
         "Keywords" = "8:DocScript"
         "ARPCOMMENTS" = "8:DocScript - Desktop Components Installation"
