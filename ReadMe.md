@@ -8,7 +8,7 @@ A simple procedural programming language - supporting real-time multi-client dis
 ### Source Example
 Here's an example DocScript Program, to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)...
 <br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" width="100%" />
-<br/><br/>
+<br/><br/><br/>
 
 ### There are 3 DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
@@ -19,20 +19,20 @@ Here's an example DocScript Program, to solve [the Lightswitch Problem](https://
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" width="50%" /><br/>
 
 **Note:** All 3 implementations rely on the Core Interpretation Logic within `DSCore.dll` (which was previously called `DocScript.Library.dll`)
-<br/><br/><br/>
+<br/><br/><br/><br/>
 
 
 # ▶️ Get Started
-**To start using DocScript in the next few seconds, open `cmd` & run...**
+**Start using DocScript in the next few seconds: open `cmd`, and run...**
 ```
-curl https://github.com/BenMullan/DocScript/raw/master/_Resources/DS-QuickSetup.vbs | cmd
+curl https://github.com/BenMullan/DocScript/raw/master/_Resources/DS-QuickSetup.cmd | cmd
 ```
 
-*Otherwise...*
+*Alternatively...*
 - Download `DSSetup.msi` (or just the binaries) from [§Releases](https://github.com/BenMullan/DocScript/releases)
-- Launch DocScript IDE, and try a sample program from "Insert Code Snippet...". Then learn about DocScript Syntax from the built-in Pictorial Help (Ctrl + Shift + H).
-- ...Or, run `DSCLI.exe /?`
-- ...Or, read `\DSWebParts\(Source)\DatabaseResources\_CreateEntireDB.SQL` for DSInteractive Setup guidance
+- Launch DocScript IDE, and try a sample program from "_Insert Code Snippet..._". Use built-in Pictorial Help (Ctrl + Shift + H) to discover DocScript syntax.
+    - ...Or, run `DSCLI.exe /?`
+    - ...Or, read `\DSWebParts\(Source)\DatabaseResources\_CreateEntireDB.SQL` for DSInteractive Setup guidance
 - **Take a look at the [§DocScript Sample Programs](https://github.com/BenMullan/DocScript/tree/master/_Resources/SamplePrograms/)** to see some of the cool [Multimedia](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/PlayWav.DS), [Networking](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/Curl.DS), and [Data-Processing](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/LambdaWhere.DS) abilities of the language...
 
 <br/>To download the *very latest* (pre-release-candidate) version of DocScript, click [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi).
@@ -67,4 +67,4 @@ echo [77+23]*9 | DSParse | DSLexExpr | DSResolveExpr
 See [`\_Resources\DSPipelining\`](https://github.com/BenMullan/DocScript/tree/master/_Resources/DSPipelining)!
 
 <br/><br/><br/>
-<i>Perhaps you can be bothered to read [even more DocScript documentation...](https://github.com/BenMullan/DocScript/wiki)</i>
+<i>Perhaps you can be bothered to read [even more DocScript documentation...](https://github.com/BenMullan/DocScript/wiki)?</i>
