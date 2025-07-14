@@ -1,11 +1,14 @@
 # DocScript
-A simple, procedural programming language, supporting real-time, multi-client Execution Sessions, and numeric literals in different bases. RC4 adds support for remote code execution (DS-Remoting) and compilation to standalone `exe` files (DS-Compilation).
+A simple procedural programming language - supporting real-time multi-client distributed "execution sessions", and numeric literals in any base. Built-in capabilities for **remote code-execution** (DS-Remoting) and **compilation** to standalone .NET `exe`s (DS-Compilation). Enables [pipelining](https://github.com/BenMullan/DocScript/tree/master/_Resources/DSPipelining/Binaries) of the seperate interpretation stages, into one another.
   
-> Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!<br/>
+> Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
+
+<br/><br/>
 
 ### Source Example
-Here's an example of a DocScript Program to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)
-<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" width="100%" /><br/>
+Here's an example DocScript Program, to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)...
+<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" width="100%" />
+<br/><br/>
 
 ### There are 3 DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
@@ -16,14 +19,14 @@ Here's an example of a DocScript Program to solve [the Lightswitch Problem](http
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" width="50%" /><br/>
 
 **Note:** All 3 implementations rely on the Core Interpretation Logic within `DSCore.dll` (which was previously called `DocScript.Library.dll`)
+<br/><br/><br/>
 
 
-# Getting Started...
-**To start using DocScript within the next few seconds, run this in command prompt:**
+# ▶️ Get Started
+**To start using DocScript in the next few seconds, open `cmd` & run...**
 ```
-curl benm.eu5.org/ds | cmd
+curl https://github.com/BenMullan/DocScript/raw/master/_Resources/DS-QuickSetup.vbs | cmd
 ```
-
 
 *Otherwise...*
 - Download `DSSetup.msi` (or just the binaries) from [§Releases](https://github.com/BenMullan/DocScript/releases)
@@ -33,9 +36,11 @@ curl benm.eu5.org/ds | cmd
 - **Take a look at the [§DocScript Sample Programs](https://github.com/BenMullan/DocScript/tree/master/_Resources/SamplePrograms/)** to see some of the cool [Multimedia](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/PlayWav.DS), [Networking](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/Curl.DS), and [Data-Processing](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/LambdaWhere.DS) abilities of the language...
 
 <br/>To download the *very latest* (pre-release-candidate) version of DocScript, click [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi).
+<br/><br/><br/>
+
 
 # DS-Pipelining
-...is a stand-out pedagogical feature of DocScript, permitting each interpretation stage to be performed separately, and linked to other stages in a pipeline like this:
+...allows each interpretation stage to be performed separately, and linked to other stages in a pipeline - like this:
 ```
 GetText Hello.DS | DSParse | DSLex | DSExec
 ```
@@ -61,6 +66,5 @@ echo [77+23]*9 | DSParse | DSLexExpr | DSResolveExpr
 
 See [`\_Resources\DSPipelining\`](https://github.com/BenMullan/DocScript/tree/master/_Resources/DSPipelining)!
 
-
-<br/>Did you really just make it all the way to the end of this README? Well done!
-<br/>Perhaps you can be bothered to read [more DocScript Documentation...](https://github.com/BenMullan/DocScript/wiki)
+<br/><br/><br/>
+<i>Perhaps you can be bothered to read [even more DocScript documentation...](https://github.com/BenMullan/DocScript/wiki)</i>
