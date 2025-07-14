@@ -5,29 +5,38 @@
 	DocScript-Interactive Setup Instructions:
 	-----------------------------------------
 		1) Install MS-SQL-Server (ideally as the Default-Instance)
-		2) Run _CreateEntireDB.SQL, [Ctrl+H]-ing {DocScript_DatabaseName_Placeholder} with the chosen name e.g. "DSInteractive"
+		2) Run _CreateEntireDB.SQL (this file) to create a DB called "DSInteractive"
 		3) Specify the Database-Name and SQL-Server in \DSWebParts\API\DSInteractive.config
-		4) Either: Ctrl+F5 the WebParts Project in VS,
-		5) ...Or host the DSWebParts\ directory with IIS, and give the IIS AppPool Database Permissions (https://stackoverflow.com/questions/7698286/login-failed-for-user-iis-apppool-asp-net-v4-0)
-			These are the permissions:
-				- (db_datareader, db_datawriter, and db_owner needed for CREATE TABLE ability)
-				- SQL Server on same machine: "IIS APPPOOL\ASP .NET v4.0"
-				- SQL Server on different server: "DOMAIN\COMPUTER$"
+		4) Either:
+				Ctrl+F5 the WebParts Project in VS,
+		   Or...
+				Host the DSWebParts\ directory with IIS, and give the IIS AppPool Database Permissions
+				(see [Allow IIS to access the Database] below...)
+				
+	
+	-----------------------------------------
+	Misc Notes for DSI Setup:
+	-----------------------------------------
+		This Script creates the Entire DocScript-Interactive DataBase, with all its Tables.
+		This is affectively the same as running each of the individual .SQL Files.
+		Note: The tables for each ExecutionSession are created by DSI automatically.
+		-
+		Unfortunatly, Variables can't be used for the DataBase Name, so to call
+		the Database something other than "DSInteractive", Ctrl + H to replace.
+	
 
-	This Script creates the Entire DocScript-Interactive DataBase, with all its Tables.
-	This is essentially the same as running each of the individual .SQL Files.
-	Note: The tables for each ExecutionSession are created by DSI automatically.
-	-
-	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Unfortunatly, Variables can't be used for the DataBase Name:
-	So - before running this file - Ctrl + H {DocScript_DatabaseName_Placeholder} with the actual name.
-	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	-
-	IIS: Remember to grant the IIS AppPool User permission to access the DB:
-	https://stackoverflow.com/questions/7698286/login-failed-for-user-iis-apppool-asp-net-v4-0
-	-
-	...And remember to grant the just-created-Login permissions to CREATE TABLEs:
-	Go into the database, security, users, right-click on the user, properties, Membership, check db_owner.
+	-----------------------------------------
+	Allow IIS to access the Database:
+	-----------------------------------------
+		If using IIS: Grant the IIS AppPool User permission to access the DB...
+		https://stackoverflow.com/questions/7698286/login-failed-for-user-iis-apppool-asp-net-v4-0
+		-
+		...Then grant the just-created Login these permissions to CREATE TABLEs:
+		Go into the database, security, users, right-click on the user, properties, Membership, check db_owner.
+		These are the permissions:
+			- (db_datareader, db_datawriter, and db_owner needed for CREATE TABLE ability)
+			- SQL Server on same machine: "IIS APPPOOL\ASP .NET v4.0"
+			- SQL Server on different server: "DOMAIN\COMPUTER$"
 */
 
 
@@ -46,108 +55,108 @@
 USE [master]
 GO
 
-/****** Object:  Database [{DocScript_DatabaseName_Placeholder}]    Script Date: 09/17/2022 20:41:15 ******/
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'{DocScript_DatabaseName_Placeholder}')
-DROP DATABASE [{DocScript_DatabaseName_Placeholder}]
+/****** Object:  Database [DSInteractive]    Script Date: 09/17/2022 20:41:15 ******/
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'DSInteractive')
+DROP DATABASE [DSInteractive]
 GO
 
 USE [master]
 GO
 
-CREATE DATABASE [{DocScript_DatabaseName_Placeholder}]
+CREATE DATABASE [DSInteractive]
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET COMPATIBILITY_LEVEL = 100
+ALTER DATABASE [DSInteractive] SET COMPATIBILITY_LEVEL = 100
 GO
 
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
-EXEC [{DocScript_DatabaseName_Placeholder}].[dbo].[sp_fulltext_database] @action = 'enable'
+EXEC [DSInteractive].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET ANSI_NULL_DEFAULT OFF 
+ALTER DATABASE [DSInteractive] SET ANSI_NULL_DEFAULT OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET ANSI_NULLS OFF 
+ALTER DATABASE [DSInteractive] SET ANSI_NULLS OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET ANSI_PADDING OFF 
+ALTER DATABASE [DSInteractive] SET ANSI_PADDING OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET ANSI_WARNINGS OFF 
+ALTER DATABASE [DSInteractive] SET ANSI_WARNINGS OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET ARITHABORT OFF 
+ALTER DATABASE [DSInteractive] SET ARITHABORT OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET AUTO_CLOSE OFF 
+ALTER DATABASE [DSInteractive] SET AUTO_CLOSE OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET AUTO_CREATE_STATISTICS ON 
+ALTER DATABASE [DSInteractive] SET AUTO_CREATE_STATISTICS ON 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET AUTO_SHRINK OFF 
+ALTER DATABASE [DSInteractive] SET AUTO_SHRINK OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE [DSInteractive] SET AUTO_UPDATE_STATISTICS ON 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET CURSOR_CLOSE_ON_COMMIT OFF 
+ALTER DATABASE [DSInteractive] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE [DSInteractive] SET CURSOR_DEFAULT  GLOBAL 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET CONCAT_NULL_YIELDS_NULL OFF 
+ALTER DATABASE [DSInteractive] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE [DSInteractive] SET NUMERIC_ROUNDABORT OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET QUOTED_IDENTIFIER OFF 
+ALTER DATABASE [DSInteractive] SET QUOTED_IDENTIFIER OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET RECURSIVE_TRIGGERS OFF 
+ALTER DATABASE [DSInteractive] SET RECURSIVE_TRIGGERS OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET  ENABLE_BROKER 
+ALTER DATABASE [DSInteractive] SET  ENABLE_BROKER 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE [DSInteractive] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE [DSInteractive] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET TRUSTWORTHY OFF
+ALTER DATABASE [DSInteractive] SET TRUSTWORTHY OFF
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+ALTER DATABASE [DSInteractive] SET ALLOW_SNAPSHOT_ISOLATION OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET PARAMETERIZATION SIMPLE 
+ALTER DATABASE [DSInteractive] SET PARAMETERIZATION SIMPLE 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET READ_COMMITTED_SNAPSHOT OFF 
+ALTER DATABASE [DSInteractive] SET READ_COMMITTED_SNAPSHOT OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET HONOR_BROKER_PRIORITY OFF 
+ALTER DATABASE [DSInteractive] SET HONOR_BROKER_PRIORITY OFF 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET  READ_WRITE 
+ALTER DATABASE [DSInteractive] SET  READ_WRITE 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET RECOVERY SIMPLE 
+ALTER DATABASE [DSInteractive] SET RECOVERY SIMPLE 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET  MULTI_USER 
+ALTER DATABASE [DSInteractive] SET  MULTI_USER 
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET PAGE_VERIFY CHECKSUM
+ALTER DATABASE [DSInteractive] SET PAGE_VERIFY CHECKSUM
 GO
 
-ALTER DATABASE [{DocScript_DatabaseName_Placeholder}] SET DB_CHAINING OFF 
+ALTER DATABASE [DSInteractive] SET DB_CHAINING OFF 
 GO
 
 
@@ -162,7 +171,7 @@ GO
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 */
 
-USE [{DocScript_DatabaseName_Placeholder}]
+USE [DSInteractive]
 GO
 
 /****** Object:  Table [dbo].[UploadedPrograms]    Script Date: 09/17/2022 20:43:13 ******/
@@ -170,7 +179,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Uploa
 DROP TABLE [dbo].[UploadedPrograms]
 GO
 
-USE [{DocScript_DatabaseName_Placeholder}]
+USE [DSInteractive]
 GO
 
 /****** Object:  Table [dbo].[UploadedPrograms]    Script Date: 09/17/2022 20:43:13 ******/
@@ -219,7 +228,7 @@ GO
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 */
 
-USE [{DocScript_DatabaseName_Placeholder}]
+USE [DSInteractive]
 GO
 
 /****** Object:  Table [dbo].[ExecutionSessions]    Script Date: 09/17/2022 20:42:31 ******/
@@ -227,7 +236,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Execu
 DROP TABLE [dbo].[ExecutionSessions]
 GO
 
-USE [{DocScript_DatabaseName_Placeholder}]
+USE [DSInteractive]
 GO
 
 /****** Object:  Table [dbo].[ExecutionSessions]    Script Date: 09/17/2022 20:42:31 ******/

@@ -154,9 +154,9 @@
     <Content Include="DSExecutionSessionWorker.ICO" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DSLibrary\DSLibrary.vbproj">
+    <ProjectReference Include="..\DSLibrary\DSCore.vbproj">
       <Project>{E33A3AB7-446E-4B3D-BC56-DADC5EE97A99}</Project>
-      <Name>DSLibrary</Name>
+      <Name>DSCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\DSWebParts\DSWebParts.vbproj">
       <Project>{3CBBBCA7-DFC4-4826-9990-7DF7D50FB8BD}</Project>

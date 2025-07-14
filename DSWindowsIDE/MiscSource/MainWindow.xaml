@@ -10,7 +10,7 @@
 	xmlns:dside="clr-namespace:DocScript.WindowsIDE"
 	Width="800" Height="600" Background="LightGray"
 	WindowState="Normal" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
-	x:Name="RibbonWindow" Title="DocScript IDE" Icon="/DSIDE;component/DSIDE.ico"
+	x:Name="RibbonWindow" Title="DocScript IDE" Icon="/DSIDE;component/Images/DSIDE.ICO"
 >
 	
 	<dside:IDEWindowContent x:Name="HostedIDEWindowContent" />
