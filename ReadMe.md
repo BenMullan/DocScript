@@ -62,7 +62,7 @@ GetText HighlyOptimisable.DS | DSParse | DSLex | DSOptimise | DSProgXMLToSource 
 
 You could make an entertainingly long chain of interpretation/compilation operations, like...
 ```
-GetText Hello.DS | DSParse | DSLex | DSOptimise | DSProgXMLToSource | DSParse | DSLex | DSCompile Hello && Hello
+GetText Hello.DS | DSParse | DSLex | DSOptimise | DSProgXMLToSource | DSParse | DSLex | DSCompile Hello.exe && Hello.exe
 ```
 
 ...or resolve a standalone DocScript expression, like...
