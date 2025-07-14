@@ -1,12 +1,12 @@
 # DocScript
 ...is a simple procedural programming language, with...
-- real-time multi-client distributed "execution sessions"
-- numeric literals in any base
-- built-in **remote code-execution** (DS-Remoting)
-- **compilation** to standalone .NET `exe`s (DS-Compilation)
-- [piping](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) seperate interpretation stages into one another
+- Real-time multi-client distributed "execution sessions"
+- Numeric literals in any base
+- Built-in **remote code-execution** (DS-Remoting)
+- **Compilation** to standalone .NET `exe`s (DS-Compilation)
+- A capability to [pipe](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) seperate interpretation stages into one another.
 
-<br/><br/>
+<br/>
 > Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
 
 <br/><br/>
@@ -14,7 +14,7 @@
 ### Source Example
 An example DocScript Program, to solve [the Lightswitch Problem](https://www.youtube.com/watch?v=-UBDRX6bk-A)...
 <br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/TheLightswitchProblem_Sample.png?raw=true" width="100%" />
-<br/><br/><br/>
+<br/><br/>
 
 ### There are 3 DocScript *Implementations*...
 1. **A Graphical IDE**, `DSIDE.exe`:
@@ -41,7 +41,7 @@ curl https://github.com/BenMullan/DocScript/raw/master/_Resources/DS-QuickSetup.
     - ...Or, read `\DSWebParts\(Source)\DatabaseResources\_CreateEntireDB.SQL` for DSInteractive Setup guidance
 - **Take a look at the [§DocScript Sample Programs](https://github.com/BenMullan/DocScript/tree/master/_Resources/SamplePrograms/)** to see some of the cool [Multimedia](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/PlayWav.DS), [Networking](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/Curl.DS), and [Data-Processing](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/LambdaWhere.DS) abilities of the language...
 
-<br/>To download the *very latest* (pre-release-candidate) version of DocScript, click [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi).
+<br/>(Download the *very latest* (pre-release-candidate) version of DocScript [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi))
 <br/><br/><br/>
 
 
@@ -50,7 +50,7 @@ curl https://github.com/BenMullan/DocScript/raw/master/_Resources/DS-QuickSetup.
 ```
 GetText Hello.DS | DSParse | DSLex | DSExec
 ```
-The 7 Pipelining Modules include `GetText.exe`, `DSParse.exe`, `DSLex.exe`, `DSOptimise.exe`, `DSProgXMLToSource.exe`, `DSExec.exe`, and `DSCompile.exe` (compiled copies [here](https://github.com/BenMullan/DocScript/tree/master/_Resources/DSPipelining/Binaries)). Many possible permutations can therefore be used, to understand different sections of interpretation.
+With 7 Pipelining modules (`GetText.exe`, `DSParse.exe`, `DSLex.exe`, `DSOptimise.exe`, `DSProgXMLToSource.exe`, `DSExec.exe`, and `DSCompile.exe`; compiled copies [here](https://github.com/BenMullan/DocScript/tree/master/_Resources/DSPipelining/Binaries)), there exist many possible permutations of interpretation-logic chain, with which to understand each stage of interpretation.
 
 For instance, to view the Tokens produced from the source code in `Hello.DS`, you could use...<br/>
 <br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSPipelining_Tokens.png?raw=true" width="100%" /><br/>
