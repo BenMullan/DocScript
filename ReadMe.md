@@ -8,6 +8,7 @@
 <br/><br/>
 
 > Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
+
 <br/><br/>
 
 
@@ -25,7 +26,8 @@ An example DocScript Program, to solve [the Lightswitch Problem](https://www.you
 3. **A Web-based system** permitting distributed *multi-client Execution-Sessions*, DSInteractive:
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" width="50%" /><br/>
 
-All 3 implementations rely on core interpretation logic in `DSCore.dll` (previously called `DocScript.Library.dll`)
+All 3 implementations rely on core interpretation logic in `DSCore.dll`
+<br/>(previously called `DocScript.Library.dll`)
 <br/><br/><br/>
 
 
@@ -76,13 +78,12 @@ See [`\_Resources\DSPipelining\`](https://github.com/BenMullan/DocScript/tree/ma
 
 
 # Embedding DocScript
-→ Use DocScript as a scripting-language, to call custom functions & sequence events, in your own system.
+> Use DocScript as a scripting-language, to call custom functions & sequence events, in your own system.
 <br/>
 
-1. In any .NET project, using any .NET language, reference [`DSCore.dll`](https://github.com/BenMullan/DocScript/tree/master/DSLibrary/bin/Release).
-<br/>(Has no dependencies of its own. Grab the neighboring `DSCore.xml` & `DSCore.pdb` too, for intellisense & debugging.)
-2. Inject custom functions into the DocScript runtime, with an `ExecutionContext` like [this](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/(DS-Embedding-Example)/DSEmbeddingExample/MainWindow.cs#L38).
-3. Instantiate and `Run()` a [`Program`](https://github.com/BenMullan/DocScript/blob/master/DSLibrary/Runtime/DS.R.Program.VB), like...
+1. In any .NET project, using any .NET language, reference [DSCore.dll](https://github.com/BenMullan/DocScript/tree/master/DSLibrary/bin/Release).
+2. Inject custom functions into an `ExecutionContext` like [this](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/(DS-Embedding-Example)/DSEmbeddingExample/MainWindow.cs#L38).
+3. Instantiate and `Run()` a [Program](https://github.com/BenMullan/DocScript/blob/master/DSLibrary/Runtime/DS.R.Program.VB), like...
 ```C#
 DocScript.Runtime.Program _Program = Program.FromSource(
     _Source: "...some docscript source...",
