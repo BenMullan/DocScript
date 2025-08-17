@@ -87,10 +87,10 @@ See [`\_Resources\DSPipelining\`](https://github.com/BenMullan/DocScript/tree/ma
 ```C#
 DocScript.Runtime.Program _Program = Program.FromSource(
     _Source: "...some docscript source...",
-    _ExeCxt: ref MyExecutionContext.TheExeCxt
+    _ExeCxt: ref MyExecutionContext
 );
 
-_Program.Run(_CommandLineArguments: new System.String[] {})
+_Program.Run(_CommandLineArguments: new System.String[] {});
 ```
 
 **Complete working example: [here!](https://github.com/BenMullan/DocScript/raw/refs/heads/master/_Resources/SamplePrograms/(DS-Embedding-Example)/DSEmbeddingExample.zip)**
