@@ -13,7 +13,6 @@ Microsoft.VisualStudio.HostingProcess.Utilities.Sync.dll
 *.vshost.exe.config
 *.vshost.exe.manifest
 *.obj
-*.pdb
 *.user
 *.suo
 .vs/
