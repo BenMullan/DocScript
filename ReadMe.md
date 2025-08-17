@@ -1,14 +1,13 @@
 # DocScript
-...is a simple, procedural, [modular](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining), embeddable programming language, with...
+...is a simple, procedural, [modular](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining), [embeddable](https://github.com/BenMullan/DocScript?tab=readme-ov-file#embedding-docscript) programming language, with...
 - Real-time multi-client distributed "execution sessions"
 - Numeric literals in any base
 - Built-in **remote code-execution** (DS-Remoting)
 - **Compilation** to standalone .NET `exe`s (DS-Compilation)
-- A capability to [pipe](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) seperate interpretation stages into one another.
+- A capability to [pipe](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) separate interpretation stages into one another.
 <br/><br/>
 
 > Watch the [**"DocScript in 3 Minutes" YouTube Video**](https://www.youtube.com/watch?v=ybl5pVSJOOk)!
-
 <br/><br/>
 
 
@@ -26,7 +25,7 @@ An example DocScript Program, to solve [the Lightswitch Problem](https://www.you
 3. **A Web-based system** permitting distributed *multi-client Execution-Sessions*, DSInteractive:
 	<br/><img src="https://github.com/BenMullan/DocScript/blob/master/_Resources/Documentation/DSInteractive_Demo.png?raw=true" width="50%" /><br/>
 
-**Note:** All 3 implementations rely on the Core Interpretation Logic within `DSCore.dll` (previously called `DocScript.Library.dll`)
+All 3 implementations rely on core interpretation logic in `DSCore.dll` (previously called `DocScript.Library.dll`)
 <br/><br/><br/>
 
 
@@ -77,8 +76,11 @@ See [`\_Resources\DSPipelining\`](https://github.com/BenMullan/DocScript/tree/ma
 
 
 # Embedding DocScript
+→ Use DocScript as a scripting-language, to call custom functions & sequence events, in your own system.
+<br/>
+
 1. In any .NET project, using any .NET language, reference [`DSCore.dll`](https://github.com/BenMullan/DocScript/tree/master/DSLibrary/bin/Release).
-<br/>(No dependencies of its own. Grab the neighboring `DSCore.xml` & `DSCore.pdb` too, for intellisense & debugging.)
+<br/>(Has no dependencies of its own. Grab the neighboring `DSCore.xml` & `DSCore.pdb` too, for intellisense & debugging.)
 2. Inject custom functions into the DocScript runtime, with an `ExecutionContext` like [this](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/(DS-Embedding-Example)/DSEmbeddingExample/MainWindow.cs#L38).
 3. Instantiate and `Run()` a [`Program`](https://github.com/BenMullan/DocScript/blob/master/DSLibrary/Runtime/DS.R.Program.VB), like...
 ```C#
@@ -89,8 +91,9 @@ DocScript.Runtime.Program _Program = Program.FromSource(
 
 _Program.Run(_CommandLineArguments: new System.String[] {})
 ```
-4. Complete working example [here](...)!
-<br/><br/><br/>
+
+**Complete working example: [here!](https://github.com/BenMullan/DocScript/raw/refs/heads/master/_Resources/SamplePrograms/(DS-Embedding-Example)/DSEmbeddingExample.zip)**
+<br/><br/><br/><br/>
 
 
-<i>Perhaps you can be bothered to read [even more DocScript documentation...](https://github.com/BenMullan/DocScript/wiki)?</i>
+<i>Perhaps you can be bothered to read [even more DocScript documentation...](https://github.com/BenMullan/DocScript/wiki)</i>
