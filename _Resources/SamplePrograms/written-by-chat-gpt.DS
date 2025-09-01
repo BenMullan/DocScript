@@ -1,0 +1,34 @@
+﻿# File:		written-by-chat-gpt.DS - generates a table of base conversions, for a given number
+# Exec:		[eg] dscli written-by-chat-gpt.DS 64
+# Author:	GPT4, 2025
+
+Function <Number> Main (<String@> _CLAs)
+
+    #Extract the input number from command-line arguments
+    <Number> _InputNumber : DS_Number_FromExprString(DS_StringArray_At(_CLAs, 0))
+    
+    #Declare the output table as a StringArray
+    <String@> _ConversionTable
+    
+    #Add a header
+    _ConversionTable : DS_StringArray_Append(_ConversionTable, "Base Conversion Table for " & _InputNumber)
+    _ConversionTable : DS_StringArray_Append(_ConversionTable, DS_StringArray_Serialise(DS_String_Repeat("-", 40), ""))
+    
+    #Loop through bases 2 to 16
+    <Number> _CurrentBase : 2
+    
+    While ( Maths_LessThan(_CurrentBase, 17) )
+        
+        <String> _Converted : DS_Number_ToBase(_InputNumber, _CurrentBase)
+        <String> _Row : "Base " & _CurrentBase & ": " & _Converted
+        
+        _ConversionTable : DS_StringArray_Append(_ConversionTable, _Row)
+        
+        _CurrentBase : _CurrentBase + 1
+    EndWhile
+    
+    #Output the final table
+    Output(Const_CrLf() & DS_StringArray_Serialise(_ConversionTable, Const_CrLf()))
+    
+    Return 0
+EndFunction

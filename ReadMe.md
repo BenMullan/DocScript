@@ -1,7 +1,7 @@
 # DocScript
 ...is a simple, procedural, [modular](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining), [embeddable](https://github.com/BenMullan/DocScript?tab=readme-ov-file#embedding-docscript) programming language, with...
 - Real-time multi-client distributed "execution sessions"
-- Numeric literals in any base
+- Numeric literals in any base (from [base-2 to base-62](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/BasedNumericLiterals.DS))
 - Built-in **remote code-execution** (DS-Remoting)
 - **Compilation** to standalone .NET `exe`s (DS-Compilation)
 - A capability to [pipe](https://github.com/BenMullan/DocScript?tab=readme-ov-file#ds-pipelining) separate interpretation stages into one another.
@@ -42,9 +42,9 @@ curl -L bit.ly/ds-quick-setup | cmd
 - Launch DocScript IDE, and try a sample program from "_Insert Code Snippet..._". Use built-in Pictorial Help (Ctrl + Shift + H) to discover DocScript syntax.
     - ...Or, run `DSCLI.exe /?`
     - ...Or, read `\DSWebParts\(Source)\DatabaseResources\_CreateEntireDB.SQL` for DSInteractive Setup guidance
-- **Take a look at the [§DocScript Sample Programs](https://github.com/BenMullan/DocScript/tree/master/_Resources/SamplePrograms/)** to see some of the cool [Multimedia](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/PlayWav.DS), [Networking](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/Curl.DS), and [Data-Processing](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/LambdaWhere.DS) abilities of the language...
+- **Take a look at the [§DocScript Sample Programs](https://github.com/BenMullan/DocScript/tree/master/_Resources/SamplePrograms/)** to see some cool [Multimedia](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/PlayWav.DS), [Networking](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/WebServer.DS), and [Data-Processing](https://github.com/BenMullan/DocScript/blob/master/_Resources/SamplePrograms/LambdaWhere.DS) abilities of the language...
 
-<br/>(Download the *very latest* (pre-release-candidate) version of DocScript [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi))
+(Download the *very latest* (pre-release-candidate) version of DocScript [here](https://github.com/BenMullan/DocScript/raw/master/DSSetup/Release/DSSetup.msi))
 <br/><br/><br/>
 
 

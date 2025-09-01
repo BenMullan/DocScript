@@ -1,0 +1,27 @@
+﻿# File:		BasedNumericLiterals.DS - demo of place-value bases
+# Exec:		DSCLI.exe BasedNumericLiterals.DS
+# Author:	Ben Mullan 2025
+
+Function <Void> Main ()
+	
+	# Literals' Syntax: {value}_{base}
+	# From: base 2, to 62
+	# Tokens: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+	# See: https://github.com/BenMullan/DocScript/blob/fc4d669d475073bf3e04661791fac51fa1502fad/DSLibrary/Language/DS.L.Constants.VB#L71
+	
+	<Number> _Two		: 2
+	<Number> _AlsoTwo	: 2_3
+	<Number> _StillTwo	: 2_62
+	
+	If ( [_Two = _AlsoTwo] ' [_Two = _StillTwo] )
+		Output("All the same... " & _AlsoTwo)
+	EndIf
+	
+	###
+	
+	<Number> _Ten		: A_16
+	<Number> _Twenty	: 14_16
+	
+	System_SayString(_Twenty - _Ten)
+	
+EndFunction
